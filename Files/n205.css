@@ -1,0 +1,28 @@
+
+.labelWhite{
+    -fx-background-color: #ffffff;
+}
+
+.labelWhite:hover {
+    -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+	-fx-background-radius: 3,2,1;
+}
+
+.labelScore {
+	 -fx-background-color: #00008B;
+	 
+}
+
+.labelScore:hover {
+ /*   -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+	-fx-background-radius: 3,2,1;*/
+}
+
+.labelCarom {
+	  -fx-background-color: fx.Colors.From32Bit(0x00FFFFFF) /*#00008B;*/
+}
+
+.labelCarom:hover {
+    -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+	-fx-background-radius: 3,2,1;
+}

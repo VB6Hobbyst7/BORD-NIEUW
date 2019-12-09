@@ -1,0 +1,78 @@
+﻿AppType=JavaFX
+Build1=Default,b4j.example
+File1=3bv_logo.png
+File10=players.bjl
+File11=scorebord.bjl
+File2=biljarter.png
+File3=cnf.44
+File4=digital-7 (mono).ttf
+File5=logo.png
+File6=main.bjl
+File7=mouse.png
+File8=n205.css
+File9=nieuwe_partij.bjl
+FileGroup1=Default Group
+FileGroup10=Default Group
+FileGroup11=Default Group
+FileGroup2=Default Group
+FileGroup3=Default Group
+FileGroup4=Default Group
+FileGroup5=Default Group
+FileGroup6=Default Group
+FileGroup7=Default Group
+FileGroup8=Default Group
+FileGroup9=Default Group
+Group=Default Group
+Library1=jcore
+Library2=jfx
+Library3=jokhttputils2
+Library4=jxui
+Library5=xui views
+Library6=javaobject
+Library7=jrandomaccessfile
+Library8=jnetwork
+Library9=json
+Module1=B4XProgressBar
+Module2=classCheckConfig
+Module3=clXToastMessage
+Module4=func
+Module5=funcInet
+Module6=inactiveClass
+Module7=parseConfig
+Module8=scorebord
+Module9=timerClass
+NumberOfFiles=11
+NumberOfLibraries=9
+NumberOfModules=9
+Version=8
+@EndOfDesignText@
+#Region Project Attributes 
+	#MainFormWidth: 1920
+	#MainFormHeight: 1080 
+#End Region
+
+Sub Process_Globals
+	Private fx As JFX
+	Private MainForm As Form
+End Sub
+
+Sub AppStart (Form1 As Form, Args() As String)
+	
+	Dim appPath As String = parseConfig.getAppPath
+	
+	If File.Exists(appPath, "") = False Then
+		File.Copy(File.DirAssets, "cnf.44", appPath, "")
+	End If
+	
+	MainForm = Form1
+'	MainForm.RootPane.LoadLayout("main") 'Load the layout file.
+'	MainForm.Show
+'	Sleep(2000)
+	scorebord.Show
+	MainForm.Close
+End Sub
+
+'Return true to allow the default exceptions handler to handle the uncaught exception.
+Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
+	Return True
+End Sub
