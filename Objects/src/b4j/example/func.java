@@ -59,8 +59,8 @@ public static b4j.example.cssutils _cssutils = null;
 public static b4j.example.dateutils _dateutils = null;
 public static b4j.example.main _main = null;
 public static b4j.example.scorebord _scorebord = null;
-public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.parseconfig _parseconfig = null;
+public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.httputils2service _httputils2service = null;
 public static void  _animacao_rotacao(anywheresoftware.b4a.objects.B4XViewWrapper _v,int _duration,int _degrees) throws Exception{
 ResumableSub_Animacao_Rotacao rsub = new ResumableSub_Animacao_Rotacao(null,_v,_duration,_degrees);
@@ -89,9 +89,9 @@ return;
 case 0:
 //C
 this.state = -1;
- //BA.debugLineNum = 303;BA.debugLine="v.SetRotationAnimated(duration, degrees)";
+ //BA.debugLineNum = 316;BA.debugLine="v.SetRotationAnimated(duration, degrees)";
 _v.SetRotationAnimated(_duration,_degrees);
- //BA.debugLineNum = 304;BA.debugLine="Sleep(duration + 20) '+20 to make sure that the n";
+ //BA.debugLineNum = 317;BA.debugLine="Sleep(duration + 20) '+20 to make sure that the n";
 anywheresoftware.b4a.keywords.Common.Sleep(ba,this,(int) (_duration+20));
 this.state = 1;
 return;
@@ -99,9 +99,9 @@ case 1:
 //C
 this.state = -1;
 ;
- //BA.debugLineNum = 305;BA.debugLine="v.Rotation = 0";
+ //BA.debugLineNum = 318;BA.debugLine="v.Rotation = 0";
 _v.setRotation(0);
- //BA.debugLineNum = 306;BA.debugLine="End Sub";
+ //BA.debugLineNum = 319;BA.debugLine="End Sub";
 if (true) break;
 
             }
@@ -242,10 +242,10 @@ _checkmatchwon("p2");
 return "";
 }
 public static String  _caromlabelcss(anywheresoftware.b4j.objects.LabelWrapper _lbl,String _style) throws Exception{
- //BA.debugLineNum = 325;BA.debugLine="Sub caromLabelCss(lbl As Label, style As String)";
- //BA.debugLineNum = 326;BA.debugLine="lbl.StyleClasses.Add(style)";
+ //BA.debugLineNum = 338;BA.debugLine="Sub caromLabelCss(lbl As Label, style As String)";
+ //BA.debugLineNum = 339;BA.debugLine="lbl.StyleClasses.Add(style)";
 _lbl.getStyleClasses().Add((Object)(_style));
- //BA.debugLineNum = 327;BA.debugLine="End Sub";
+ //BA.debugLineNum = 340;BA.debugLine="End Sub";
 return "";
 }
 public static String  _checkmatchwon(String _player) throws Exception{
@@ -485,6 +485,27 @@ _lbl_player_two_hs.setText(_padstring(BA.NumberToString(_playertwohs),"0",(int) 
  //BA.debugLineNum = 278;BA.debugLine="End Sub";
 return "";
 }
+public static String  _setcustomcursor1(String _dir,String _filename,double _hotspotx,double _hotspoty,anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper _targetnode) throws Exception{
+anywheresoftware.b4j.objects.ImageViewWrapper.ImageWrapper _img = null;
+anywheresoftware.b4j.object.JavaObject _cursor = null;
+anywheresoftware.b4j.object.JavaObject _joscene = null;
+ //BA.debugLineNum = 305;BA.debugLine="Sub SetCustomCursor1(Dir As String, Filename As St";
+ //BA.debugLineNum = 306;BA.debugLine="Dim img As Image";
+_img = new anywheresoftware.b4j.objects.ImageViewWrapper.ImageWrapper();
+ //BA.debugLineNum = 307;BA.debugLine="img.Initialize(Dir, Filename)";
+_img.Initialize(_dir,_filename);
+ //BA.debugLineNum = 308;BA.debugLine="Dim cursor As JavaObject";
+_cursor = new anywheresoftware.b4j.object.JavaObject();
+ //BA.debugLineNum = 309;BA.debugLine="cursor.InitializeNewInstance(\"javafx.scene.ImageC";
+_cursor.InitializeNewInstance("javafx.scene.ImageCursor",new Object[]{(Object)(_img.getObject()),(Object)(_hotspotx),(Object)(_hotspoty)});
+ //BA.debugLineNum = 310;BA.debugLine="Dim joScene As JavaObject = TargetNode";
+_joscene = new anywheresoftware.b4j.object.JavaObject();
+_joscene.setObject((java.lang.Object)(_targetnode.getObject()));
+ //BA.debugLineNum = 311;BA.debugLine="joScene.RunMethod(\"setCursor\", Array(cursor))";
+_joscene.RunMethod("setCursor",new Object[]{(Object)(_cursor.getObject())});
+ //BA.debugLineNum = 312;BA.debugLine="End Sub";
+return "";
+}
 public static String  _setfont(anywheresoftware.b4j.objects.LabelWrapper _lbl,int _size,boolean _digital) throws Exception{
 anywheresoftware.b4j.object.JavaObject _jo = null;
  //BA.debugLineNum = 60;BA.debugLine="Public Sub setFont(lbl As Label, size As Int, digi";
@@ -524,12 +545,12 @@ _jocursor.RunMethod("setCursor",new Object[]{(Object)(_joimagecursor.getObject()
 return "";
 }
 public static String  _setnumbercss(anywheresoftware.b4j.objects.LabelWrapper _lbl) throws Exception{
- //BA.debugLineNum = 329;BA.debugLine="Sub setNumberCss(lbl As Label)";
- //BA.debugLineNum = 330;BA.debugLine="CSSUtils.SetStyleProperty(lbl, \"-fx-background-co";
+ //BA.debugLineNum = 342;BA.debugLine="Sub setNumberCss(lbl As Label)";
+ //BA.debugLineNum = 343;BA.debugLine="CSSUtils.SetStyleProperty(lbl, \"-fx-background-co";
 _cssutils._setstyleproperty((anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper) anywheresoftware.b4a.AbsObjectWrapper.ConvertToWrapper(new anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper(), (javafx.scene.Node)(_lbl.getObject())),"-fx-background-color","linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%)");
- //BA.debugLineNum = 331;BA.debugLine="CSSUtils.SetStyleProperty(lbl, \"-fx-background-ra";
+ //BA.debugLineNum = 344;BA.debugLine="CSSUtils.SetStyleProperty(lbl, \"-fx-background-ra";
 _cssutils._setstyleproperty((anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper) anywheresoftware.b4a.AbsObjectWrapper.ConvertToWrapper(new anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper(), (javafx.scene.Node)(_lbl.getObject())),"-fx-background-radius","3,2,1");
- //BA.debugLineNum = 332;BA.debugLine="End Sub";
+ //BA.debugLineNum = 345;BA.debugLine="End Sub";
 return "";
 }
 public static String  _setp1caromlables(anywheresoftware.b4a.objects.collections.List _lst) throws Exception{
@@ -563,10 +584,10 @@ _p2_progressbar = (b4j.example.b4xprogressbar)(_lst.Get((int) (4)));
 return "";
 }
 public static String  _setprogress(b4j.example.b4xprogressbar _v,float _progress) throws Exception{
- //BA.debugLineNum = 318;BA.debugLine="Sub setProgress(v As B4XProgressBar, progress As F";
- //BA.debugLineNum = 320;BA.debugLine="v.Progress = progress";
+ //BA.debugLineNum = 331;BA.debugLine="Sub setProgress(v As B4XProgressBar, progress As F";
+ //BA.debugLineNum = 333;BA.debugLine="v.Progress = progress";
 _v._setprogress /*float*/ (_progress);
- //BA.debugLineNum = 323;BA.debugLine="End Sub";
+ //BA.debugLineNum = 336;BA.debugLine="End Sub";
 return "";
 }
 public static String  _testnumber(String _oldstringtotest,String _newstringtotest) throws Exception{

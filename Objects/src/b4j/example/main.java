@@ -47,8 +47,8 @@ public static b4j.example.cssutils _cssutils = null;
 public static b4j.example.dateutils _dateutils = null;
 public static b4j.example.scorebord _scorebord = null;
 public static b4j.example.func _func = null;
-public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.parseconfig _parseconfig = null;
+public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.httputils2service _httputils2service = null;
 public static boolean  _application_error(anywheresoftware.b4a.objects.B4AException _error,String _stacktrace) throws Exception{
  //BA.debugLineNum = 28;BA.debugLine="Sub Application_Error (Error As Exception, StackTr";
@@ -88,8 +88,8 @@ b4j.example.dateutils._process_globals();
 main._process_globals();
 scorebord._process_globals();
 func._process_globals();
-funcinet._process_globals();
 parseconfig._process_globals();
+funcinet._process_globals();
 httputils2service._process_globals();
 		
         } catch (Exception e) {

@@ -43,8 +43,8 @@ public b4j.example.dateutils _dateutils = null;
 public b4j.example.main _main = null;
 public b4j.example.scorebord _scorebord = null;
 public b4j.example.func _func = null;
-public b4j.example.funcinet _funcinet = null;
 public b4j.example.parseconfig _parseconfig = null;
+public b4j.example.funcinet _funcinet = null;
 public b4j.example.httputils2service _httputils2service = null;
 public String  _class_globals() throws Exception{
  //BA.debugLineNum = 1;BA.debugLine="Sub Class_Globals";
@@ -149,8 +149,6 @@ if (_timediff>_timeoutperiode) {
 _enabletime(__c.False);
  //BA.debugLineNum = 31;BA.debugLine="CallSubDelayed(scorebord, \"showPromote\")";
 __c.CallSubDelayed(ba,(Object)(_scorebord.getObject()),"showPromote");
- //BA.debugLineNum = 32;BA.debugLine="Log($\"TIMEOUT DETECTED\"$)";
-__c.Log(("TIMEOUT DETECTED"));
  //BA.debugLineNum = 33;BA.debugLine="vx = 50";
 _vx = 50;
  //BA.debugLineNum = 34;BA.debugLine="vy = 50";
@@ -175,8 +173,6 @@ _tmr.setInterval((long) (_timeoutperiode));
 _tmr.setEnabled(__c.True);
  //BA.debugLineNum = 86;BA.debugLine="If parseConfig.useDigitalFont Then";
 if (_parseconfig._usedigitalfont /*boolean*/ ) { 
- //BA.debugLineNum = 87;BA.debugLine="Log($\"useDigitalFont ${parseConfig.useDigitalFon";
-__c.Log(("useDigitalFont "+__c.SmartStringFormatter("",(Object)(_parseconfig._usedigitalfont /*boolean*/ ))+""));
  //BA.debugLineNum = 88;BA.debugLine="CallSub2(scorebord, \"useDigitalFont\", parseConfi";
 __c.CallSubNew2(ba,(Object)(_scorebord.getObject()),"useDigitalFont",(Object)(_parseconfig._usedigitalfont /*boolean*/ ));
  };

@@ -35,7 +35,7 @@ Sub timeOut_Tick()
 	If timeDiff > timeOutPeriode Then
 		enableTime(False)
 		CallSubDelayed(scorebord, "showPromote")
-		Log($"TIMEOUT DETECTED"$)
+'		Log($"TIMEOUT DETECTED"$)
 		vx = 50
 		vy = 50
 		enablePromote(True)
@@ -90,7 +90,7 @@ Sub updatePromote
 	tmr.Interval = timeOutPeriode
 	tmr.Enabled = True
 	If parseConfig.useDigitalFont Then
-		Log($"useDigitalFont ${parseConfig.useDigitalFont}"$)
+'		Log($"useDigitalFont ${parseConfig.useDigitalFont}"$)
 		CallSub2(scorebord, "useDigitalFont", parseConfig.useDigitalFont)	
 	End If
 End Sub

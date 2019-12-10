@@ -30,8 +30,8 @@ public static b4j.example.dateutils _dateutils = null;
 public static b4j.example.main _main = null;
 public static b4j.example.scorebord _scorebord = null;
 public static b4j.example.func _func = null;
-public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.parseconfig _parseconfig = null;
+public static b4j.example.funcinet _funcinet = null;
 public static String  _completejob(int _taskid,boolean _success,String _errormessage) throws Exception{
 b4j.example.httpjob _job = null;
  //BA.debugLineNum = 107;BA.debugLine="Sub CompleteJob(TaskId As Int, success As Boolean,";

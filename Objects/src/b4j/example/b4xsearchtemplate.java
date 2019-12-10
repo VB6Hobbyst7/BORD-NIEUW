@@ -43,8 +43,8 @@ public b4j.example.dateutils _dateutils = null;
 public b4j.example.main _main = null;
 public b4j.example.scorebord _scorebord = null;
 public b4j.example.func _func = null;
-public b4j.example.funcinet _funcinet = null;
 public b4j.example.parseconfig _parseconfig = null;
+public b4j.example.funcinet _funcinet = null;
 public b4j.example.httputils2service _httputils2service = null;
 public String  _additemstolist(anywheresoftware.b4a.objects.collections.List _li,String _full) throws Exception{
 b4j.example.b4jtextflow _tf = null;

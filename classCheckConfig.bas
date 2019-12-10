@@ -16,7 +16,7 @@ Public Sub Initialize
 	appPath = parseConfig.getAppPath
 	cfgTimeStamp = File.LastModified(appPath, "")
 	
-	Log($"${DateTime.Date(cfgTimeStamp)}"$)
+'	Log($"${DateTime.Date(cfgTimeStamp)}"$)
 	
 	tmr.Initialize("chkConfig", 5000)
 	tmr.Enabled = True
@@ -28,10 +28,10 @@ Sub chkConfig_Tick
 	
 	If cfgCurrTimeStamp <> cfgTimeStamp Then
 		parseConfig.pullConfig
-		Log("CHANGE")
+'		Log("CHANGE")
 		cfgTimeStamp = cfgCurrTimeStamp
 		CallSub(scorebord, "updateCfg")
-		Log("USE DIGITAL " & parseConfig.useDigitalFont)
+'		Log("USE DIGITAL " & parseConfig.useDigitalFont)
 		CallSub2(scorebord, "useDigitalFont", parseConfig.useDigitalFont)
 		
 	End If

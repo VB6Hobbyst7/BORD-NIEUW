@@ -119,7 +119,9 @@ Public Sub show
 	Base = frm.RootPane
 	Dialog.Initialize (Base)
 	
-	func.SetFormCursor(frm, "mouse.png")
+	'func.SetFormCursor(frm, "mouse.png")
+	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
+	
 	parseConfig.pullConfig
 	
 	clsTmr.Initialize(lbl_clock)
@@ -140,7 +142,7 @@ Public Sub show
 	func.setP2CaromLables(lstPlayerTwoScoreLbl)
 	Wait For (funcInet.testInet) Complete (result As Boolean)
 
-	Log($"Has internet access is ${result}"$)
+	'Log($"Has internet access is ${result}"$)
 	
 	If result Then
 		func.hasInternetAccess = True
@@ -661,7 +663,7 @@ Sub checkMatchWonP1
 	make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
 	
 	If caroms >= make Then
-		Log($"Speler 1 wint, nabeurt voor speler 2"$)
+'		Log($"Speler 1 wint, nabeurt voor speler 2"$)
 	End If
 End Sub
 
@@ -672,7 +674,7 @@ Sub checkMatchWonP2
 	make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
 	
 	If caroms >= make Then
-		Log($"Speler 2 wint, geen nabeurt voor speler 1"$)
+'		Log($"Speler 2 wint, geen nabeurt voor speler 1"$)
 	End If
 End Sub
 
@@ -799,7 +801,7 @@ End Sub
 
 Sub setPromoteRunning(running As Boolean)
 	promoteRunning = running
-	Log("Promote Running " & promoteRunning)
+	'Log("Promote Running " & promoteRunning)
 End Sub
 
 private Sub mouseIn_Event(m As String,args() As Object)
@@ -852,8 +854,8 @@ Sub useDigitalFont(useDigital As Boolean)
 	
 	If useDigital Then
 		fsCarom = 350
-		fsMake = 250
-		fsInnings = 200
+		fsMake = 225
+		fsInnings = 300
 	Else 
 		fsCarom = 225
 		fsMake = 150

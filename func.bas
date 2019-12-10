@@ -305,6 +305,19 @@ Sub SetFormCursor(frm As Form, imagefile As String)
 	joCursor.RunMethod("setCursor", Array(joImageCursor))
 End Sub
 
+'Dir, 'Filename: Directory and filename of the cursor image.
+'hotspotX, hotspotY: X and Y Position of the hotspot of the cursor (where the click happens).
+'TargetNode: The node on which the cursor will be changed.
+Sub SetCustomCursor1(Dir As String, Filename As String, hotspotX  As Double, hotspotY  As Double, TargetNode As Node)
+	Dim img As Image
+	img.Initialize(Dir, Filename)
+	Dim cursor As JavaObject
+	cursor.InitializeNewInstance("javafx.scene.ImageCursor", Array(img, hotspotX, hotspotY))
+	Dim joScene As JavaObject = TargetNode
+	joScene.RunMethod("setCursor", Array(cursor))
+End Sub
+
+
 Sub Animacao_Rotacao (v As B4XView, duration As Int, degrees As Int)
 	v.SetRotationAnimated(duration, degrees)
 	Sleep(duration + 20) '+20 to make sure that the new value is set after animation completes.
