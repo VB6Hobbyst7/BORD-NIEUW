@@ -24,6 +24,7 @@ FileGroup8=Default Group
 FileGroup9=Default Group
 Group=Default Group
 Library1=jcore
+Library10=cssutils
 Library2=jfx
 Library3=jokhttputils2
 Library4=jxui
@@ -42,7 +43,7 @@ Module7=parseConfig
 Module8=scorebord
 Module9=timerClass
 NumberOfFiles=11
-NumberOfLibraries=9
+NumberOfLibraries=10
 NumberOfModules=9
 Version=8
 @EndOfDesignText@

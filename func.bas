@@ -323,3 +323,8 @@ End Sub
 Sub caromLabelCss(lbl As Label, style As String)
 	lbl.StyleClasses.Add(style)
 End Sub
+
+Sub setNumberCss(lbl As Label)
+	CSSUtils.SetStyleProperty(lbl, "-fx-background-color",  "linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%)")
+	CSSUtils.SetStyleProperty(lbl, "-fx-background-radius", "3,2,1")
+End Sub

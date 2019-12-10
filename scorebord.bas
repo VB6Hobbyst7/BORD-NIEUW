@@ -9,6 +9,7 @@ Sub Process_Globals
 	
 	
 	Private fx As JFX
+	
 	Private Dialog As B4XDialog
 	Private Base As B4XView
 '	Dim nh As NativeHook
@@ -269,6 +270,7 @@ End Sub
 Sub lbl_player_two_MouseReleased (EventData As MouseEvent)
 '	CSSUtils.SetBorder(lbl_player_one, 0, fx.Colors.From32Bit(0xFFFFFFFF), 4)
 '	CSSUtils.SetBorder(lbl_player_two, 1, fx.Colors.From32Bit(0xFFFFFFFF), 4)
+
 End Sub
 
 Sub lstPlayerOneScoreLbl As List
@@ -420,9 +422,10 @@ End Sub
 '	lbl_player_one_10.Color = 0x00FFFFFF
 'End Sub
 
-'Sub lbl_player_one_1_MouseEntered (EventData As MouseEvent)
+Sub lbl_player_one_1_MouseEntered (EventData As MouseEvent)
 '	lbl_player_one_1.Color = 0xFF69D79A
-'End Sub
+	'func.setNumberCss(lbl_player_one_1)
+End Sub
 '
 'Sub lbl_player_one_1_MouseExited (EventData As MouseEvent)
 '	lbl_player_one_1.Color = 0xFF00008B
@@ -452,13 +455,18 @@ End Sub
 '	lbl_player_two_10.Color = 0xFF00008B
 'End Sub
 '
-'Sub lbl_player_two_1_MouseEntered (EventData As MouseEvent)
+Sub lbl_player_two_1_MouseEntered (EventData As MouseEvent)
 '	lbl_player_two_1.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_two_1_MouseExited (EventData As MouseEvent)
-'	lbl_player_two_1.Color = 0xFF00008B
-'End Sub
+	'CSSUtils.SetStyleProperty(lbl_player_two_1, "-fx-background-color",  "linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%)")
+	'CSSUtils.SetStyleProperty(lbl_player_two_1, "-fx-background-radius", "3,2,1")
+'	func.setNumberCss(lbl_player_two_1)
+End Sub
+
+Sub lbl_player_two_1_MouseExited (EventData As MouseEvent)
+	'lbl_player_two_1.Color = 0xFF00008B
+'	CSSUtils.SetStyleProperty(lbl_player_two_1, "-fx-background-color",  "#00008B;")
+	
+End Sub
 
 'Sub lbl_innings_MouseEntered (EventData As MouseEvent)
 '	lbl_innings.Color = 0xFF69D79A

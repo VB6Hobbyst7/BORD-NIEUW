@@ -19,7 +19,7 @@
 }
 
 .labelCarom {
-	  -fx-background-color: fx.Colors.From32Bit(0x00FFFFFF) /*#00008B;*/
+	  -fx-background-color: #00008B;
 }
 
 .labelCarom:hover {
