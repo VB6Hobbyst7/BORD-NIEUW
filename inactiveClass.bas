@@ -62,7 +62,7 @@ End Sub
 
 Sub getBounds
 	
-	Log(currentY)	
+	'Log(currentY)	
 	
 	If (currentX+20) + pnlWidth+20 > frm.Width Then
 		vx = -Abs(vx)
@@ -85,10 +85,12 @@ End Sub
 
 Sub updatePromote
 	timeOutPeriode = (parseConfig.timeOut*(60*1000))
-	Log($"INTERVAL =  ${timeOutPeriode}"$)
+	
 	tmr.Enabled = False
 	tmr.Interval = timeOutPeriode
 	tmr.Enabled = True
-	Log($"INTERVAL =  ${tmr.Interval}"$)
-	
+	If parseConfig.useDigitalFont Then
+		Log($"useDigitalFont ${parseConfig.useDigitalFont}"$)
+		CallSub2(scorebord, "useDigitalFont", parseConfig.useDigitalFont)	
+	End If
 End Sub

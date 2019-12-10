@@ -1,0 +1,9 @@
+showPromote
+  active = 1
+  timeOut = 1
+digitalFont
+  active = 0
+fontColor
+  colorYellow = 0
+sentBy
+  ipnumber =

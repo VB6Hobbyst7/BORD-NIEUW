@@ -10,6 +10,7 @@ Sub Process_Globals
 	
 	Public timeOut As Int
 	Public timeOutActive As Boolean
+	Public useDigitalFont As Boolean
 	Private appPath As String
 	Private cnf As String
 	Private parser As JSONParser
@@ -30,13 +31,14 @@ Sub getAppPath As String
 End Sub
 
 
-Sub parseConfig
-	
+Sub pullConfig
+	useDigitalFont = False
 	cnf = File.ReadString(appPath, "")
 	
 	parser.Initialize(cnf)
 
 	Dim root As Map = parser.NextObject
+		
 	Dim showPromote As Map = root.Get("showPromote")
 	If showPromote.Get("active") = "1" Then
 		timeOutActive = True
@@ -45,8 +47,15 @@ Sub parseConfig
 	End If
 	timeOut = showPromote.Get("timeOut")
 	
+	Dim digitalFont As Map = root.Get("digitalFont")
+	Dim digitalActive As String = digitalFont.Get("active")
 	
-	
+	If digitalActive  = "1" Then
+		useDigitalFont = True
+		CallSub2(scorebord, "useDigitalFont", True)
+	Else
+		CallSub2(scorebord, "useDigitalFont", False)
+	End If
 End Sub
 
 Sub DetectOS As String

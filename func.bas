@@ -63,9 +63,17 @@ Public Sub setP2CaromLables(lst As List)
 	p2_progressBar	= lst.Get(4)
 End Sub
 
-Public Sub setFont(lbl As Label, size As Int)
-	Dim jo As JavaObject=lbl
-	jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"digital-7 (mono).ttf", size)))
+Public Sub setFont(lbl As Label, size As Int, digital As Boolean)
+		Dim jo As JavaObject=lbl
+	If digital Then
+		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"digital-7 (mono).ttf", size)))
+	Else
+		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Arial.ttf", size)))
+	End If
+	
+	'lbl.Style = "-fx-text-fill: #FFFF00;"
+	
+	
 End Sub
 
 'padText e.g. "9", padChar e.g. "0", padSide 0=left 1=right, padCount e.g. 2

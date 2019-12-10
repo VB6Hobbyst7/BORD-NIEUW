@@ -27,10 +27,12 @@ Sub chkConfig_Tick
 	cfgCurrTimeStamp = File.LastModified(appPath, "")
 	
 	If cfgCurrTimeStamp <> cfgTimeStamp Then
-		parseConfig.parseConfig
+		parseConfig.pullConfig
 		Log("CHANGE")
 		cfgTimeStamp = cfgCurrTimeStamp
 		CallSub(scorebord, "updateCfg")
+		Log("USE DIGITAL " & parseConfig.useDigitalFont)
+		CallSub2(scorebord, "useDigitalFont", parseConfig.useDigitalFont)
 		
 	End If
 	

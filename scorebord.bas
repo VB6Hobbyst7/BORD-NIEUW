@@ -30,9 +30,7 @@ Sub Process_Globals
 '	Private lbl_player_one As B4XView
 '	Private lbl_player_two As B4XView
 	Private lbl_innings As Label
-	Private lbl_player_one_10 As Label
-	Private lbl_player_one_1 As Label
-	Private lbl_player_one_100 As Label
+	
 '	Private lbl_player_one_1000 As B4XView
 '	Private lbl_player_one_active As B4XView
 	Private lbl_player_one_moyenne As Label
@@ -92,6 +90,13 @@ Sub Process_Globals
 '	Private Label2 As Label
 	Private pn_promote As Pane
 	Private lbl_config_update As Label
+	
+	
+	Private lbl_player_one_1 As Label
+	Private lbl_player_one_10 As Label
+	Private lbl_player_one_100 As Label
+	
+	
 End Sub
 
 
@@ -115,7 +120,7 @@ Public Sub show
 	Dialog.Initialize (Base)
 	
 	func.SetFormCursor(frm, "mouse.png")
-	parseConfig.parseConfig
+	parseConfig.pullConfig
 	
 	clsTmr.Initialize(lbl_clock)
 	inactivecls.Initialize
@@ -204,58 +209,35 @@ Sub setFontSize
 	'lbl_player_one_hs.StyleClasses.Add("label")
 	
 
-'	For i = 0 To frm.RootPane.NumberOfNodes - 1
-'		If frm.RootPane.GetNode(i) Is Pane  Then
-'			Log(frm.RootPane.GetNode(i).Tag)
-'			If frm.RootPane.GetNode(i).Tag = "innings" Then
-'				frm.RootPane.GetNode(i).StyleClasses.Add("labelScore")
-'			End If
-'			If frm.RootPane.GetNode(i).Tag = "p1_moyenne" Then
-'				Dim p As Pane = frm.RootPane.GetNode(i)
-'				For j = 0 To p.NumberOfNodes - 1
-'					'Log(p.GetNode(j).Tag)
-'					If p.GetNode(j).Tag = "pn_p1_carom_ph" Then
-'						
-'						For Each n As Node In p.GetAllViewsRecursive
-'							If n.Tag = "lbl_player_one_100" Then
-'								'n.StyleClasses.Clear
-'								'n.StyleClasses.Add("labelCarom")
-'							End If
-'							If n.Tag = "lbl_player_one_10" Then
-'								'n.StyleClasses.Clear
-'								'n.StyleClasses.Add("labelCarom")
-'							End If
-'							If n.Tag = "lbl_player_one_1" Then
-'								n.StyleClasses.Clear
-'								n.StyleClasses.Add("labelCarom")
-'							End If
-'						Next
-'					End If
-'				Next
-'			End If
-'		End If
-'	Next
 
+	func.caromLabelCss(lbl_innings, "labelCarom")
 
 	func.caromLabelCss(lbl_player_one_hs, "labelWhite")
 	func.caromLabelCss(lbl_player_one_moyenne, "labelWhite")
 	func.caromLabelCss(lbl_player_one_perc, "labelWhite")
-	func.caromLabelCss(lbl_player_two_hs, "labelWhite")
-	func.caromLabelCss(lbl_player_two_moyenne, "labelWhite")
-	func.caromLabelCss(lbl_player_two_perc, "labelWhite")
-	func.caromLabelCss(lbl_innings, "labelCarom")
+	
+	
 	func.caromLabelCss(lbl_player_one_100, "labelCarom")
 	func.caromLabelCss(lbl_player_one_10, "labelCarom")
 	func.caromLabelCss(lbl_player_one_1, "labelCarom")
-	func.caromLabelCss(lbl_player_two_100, "labelCarom")
-	func.caromLabelCss(lbl_player_two_10, "labelCarom")
-	func.caromLabelCss(lbl_player_two_1, "labelCarom")
+
+	
 	func.caromLabelCss(lbl_player_one_make_100, "labelCarom")
 	func.caromLabelCss(lbl_player_one_make_10, "labelCarom")
 	func.caromLabelCss(lbl_player_one_make_1, "labelCarom")
+	
+	func.caromLabelCss(lbl_player_two_hs, "labelWhite")
+	func.caromLabelCss(lbl_player_two_moyenne, "labelWhite")
+	func.caromLabelCss(lbl_player_two_perc, "labelWhite")
+		
+	func.caromLabelCss(lbl_player_two_100, "labelCarom")
+	func.caromLabelCss(lbl_player_two_10, "labelCarom")
+	func.caromLabelCss(lbl_player_two_1, "labelCarom")
+	
 	func.caromLabelCss(lbl_player_two_make_100, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_10, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_1, "labelCarom")
+	
 	
 	resetBoard(False)
 	
@@ -863,4 +845,35 @@ Sub updateCfg
 	lbl_config_update.Visible = True
 	Sleep(5000)
 	lbl_config_update.Visible = False
+End Sub
+
+Sub useDigitalFont(useDigital As Boolean)
+	Dim fsCarom, fsMake, fsInnings As Int
+	
+	If useDigital Then
+		fsCarom = 350
+		fsMake = 250
+		fsInnings = 200
+	Else 
+		fsCarom = 225
+		fsMake = 150
+		fsInnings = 200	
+	End If
+	
+	
+	
+	func.setFont(lbl_player_one_1, fsCarom, useDigital)
+	func.setFont(lbl_player_one_10, fsCarom, useDigital)
+	func.setFont(lbl_player_one_100, fsCarom, useDigital)
+	func.setFont(lbl_player_two_1, fsCarom, useDigital)
+	func.setFont(lbl_player_two_10, fsCarom, useDigital)
+	func.setFont(lbl_player_two_100, fsCarom, useDigital)
+	func.setFont(lbl_innings, fsInnings, useDigital)
+	func.setFont(lbl_player_one_make_100, fsMake, useDigital)
+	func.setFont(lbl_player_one_make_10, fsMake, useDigital)
+	func.setFont(lbl_player_one_make_1, fsMake, useDigital)
+	func.setFont(lbl_player_two_make_100,fsMake, useDigital)
+	func.setFont(lbl_player_two_make_10,fsMake, useDigital)
+	func.setFont(lbl_player_two_make_1,fsMake, useDigital)
+	
 End Sub
