@@ -23,25 +23,25 @@ public class httpjob extends B4AClass.ImplB4AClass implements BA.SubDelegator{
     }
 
  public anywheresoftware.b4a.keywords.Common __c = null;
-public String _jobname = "";
-public boolean _success = false;
-public String _username = "";
-public String _password = "";
-public String _errormessage = "";
-public Object _target = null;
-public String _taskid = "";
-public anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpRequest _req = null;
-public anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpResponse _response = null;
-public Object _tag = null;
-public anywheresoftware.b4j.objects.JFX _fx = null;
-public b4j.example.cssutils _cssutils = null;
-public b4j.example.dateutils _dateutils = null;
+public String _vvvvvvvvvvvvvvvvvvvvv1 = "";
+public boolean _vvvvvvvvvvvvvvvvvvvvv2 = false;
+public String _vvvvvvvvvvvvvvvvvvvvv3 = "";
+public String _vvvvvvvvvvvvvvvvvvvvv4 = "";
+public String _vvvvvvvvvvvvvvvvvvvvv5 = "";
+public Object _vvvvvvvvvvvvvvvvvvvvv6 = null;
+public String _vvvvvvvvvvvvvvvvvvvvv7 = "";
+public anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpRequest _vvvvvvvvvvvvvvvvvvvvv0 = null;
+public anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpResponse _vvvvvvvvvvvvvvvvvvvvvv1 = null;
+public Object _vvvvvvvvvvvvvvvvvvvvvv2 = null;
+public anywheresoftware.b4j.objects.JFX _vvvvvvvv3 = null;
+public b4j.example.cssutils _vvvvvvvv0 = null;
+public b4j.example.dateutils _vvvvvvvvv1 = null;
 public b4j.example.main _main = null;
-public b4j.example.scorebord _scorebord = null;
-public b4j.example.func _func = null;
-public b4j.example.parseconfig _parseconfig = null;
-public b4j.example.funcinet _funcinet = null;
-public b4j.example.httputils2service _httputils2service = null;
+public b4j.example.scorebord _vvvvvvvvv2 = null;
+public b4j.example.func _vvvvvvvvv3 = null;
+public b4j.example.parseconfig _vvvvvvvvv4 = null;
+public b4j.example.funcinet _vvvvvvvvv5 = null;
+public b4j.example.httputils2service _vvvvvvvvv6 = null;
 public static class _multipartfiledata{
 public boolean IsInitialized;
 public String Dir;
@@ -62,77 +62,77 @@ ContentType = "";
 public String  _class_globals() throws Exception{
  //BA.debugLineNum = 2;BA.debugLine="Sub Class_Globals";
  //BA.debugLineNum = 3;BA.debugLine="Public JobName As String";
-_jobname = "";
+_vvvvvvvvvvvvvvvvvvvvv1 = "";
  //BA.debugLineNum = 4;BA.debugLine="Public Success As Boolean";
-_success = false;
+_vvvvvvvvvvvvvvvvvvvvv2 = false;
  //BA.debugLineNum = 5;BA.debugLine="Public Username, Password As String";
-_username = "";
-_password = "";
+_vvvvvvvvvvvvvvvvvvvvv3 = "";
+_vvvvvvvvvvvvvvvvvvvvv4 = "";
  //BA.debugLineNum = 6;BA.debugLine="Public ErrorMessage As String";
-_errormessage = "";
+_vvvvvvvvvvvvvvvvvvvvv5 = "";
  //BA.debugLineNum = 7;BA.debugLine="Private target As Object";
-_target = new Object();
+_vvvvvvvvvvvvvvvvvvvvv6 = new Object();
  //BA.debugLineNum = 9;BA.debugLine="Private taskId As String";
-_taskid = "";
+_vvvvvvvvvvvvvvvvvvvvv7 = "";
  //BA.debugLineNum = 10;BA.debugLine="Private req As OkHttpRequest";
-_req = new anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpRequest();
+_vvvvvvvvvvvvvvvvvvvvv0 = new anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpRequest();
  //BA.debugLineNum = 11;BA.debugLine="Public Response As OkHttpResponse";
-_response = new anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpResponse();
+_vvvvvvvvvvvvvvvvvvvvvv1 = new anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpResponse();
  //BA.debugLineNum = 16;BA.debugLine="Public Tag As Object";
-_tag = new Object();
+_vvvvvvvvvvvvvvvvvvvvvv2 = new Object();
  //BA.debugLineNum = 17;BA.debugLine="Type MultipartFileData (Dir As String, FileName A";
 ;
  //BA.debugLineNum = 19;BA.debugLine="Private fx As JFX";
-_fx = new anywheresoftware.b4j.objects.JFX();
+_vvvvvvvv3 = new anywheresoftware.b4j.objects.JFX();
  //BA.debugLineNum = 21;BA.debugLine="End Sub";
 return "";
 }
 public String  _complete(int _id) throws Exception{
  //BA.debugLineNum = 239;BA.debugLine="Public Sub Complete (id As Int)";
  //BA.debugLineNum = 240;BA.debugLine="taskId = id";
-_taskid = BA.NumberToString(_id);
+_vvvvvvvvvvvvvvvvvvvvv7 = BA.NumberToString(_id);
  //BA.debugLineNum = 241;BA.debugLine="CallSubDelayed2(target, \"JobDone\", Me)";
-__c.CallSubDelayed2(ba,_target,"JobDone",this);
+__c.CallSubDelayed2(ba,_vvvvvvvvvvvvvvvvvvvvv6,"JobDone",this);
  //BA.debugLineNum = 242;BA.debugLine="End Sub";
 return "";
 }
-public String  _delete(String _link) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvv4(String _link) throws Exception{
  //BA.debugLineNum = 197;BA.debugLine="Public Sub Delete(Link As String)";
  //BA.debugLineNum = 198;BA.debugLine="req.InitializeDelete(Link)";
-_req.InitializeDelete(_link);
+_vvvvvvvvvvvvvvvvvvvvv0.InitializeDelete(_link);
  //BA.debugLineNum = 199;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 200;BA.debugLine="End Sub";
 return "";
 }
-public String  _delete2(String _link,String[] _parameters) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvv5(String _link,String[] _parameters) throws Exception{
  //BA.debugLineNum = 202;BA.debugLine="Public Sub Delete2(Link As String, Parameters() As";
  //BA.debugLineNum = 203;BA.debugLine="req.InitializeDelete(escapeLink(Link, Parameters)";
-_req.InitializeDelete(_escapelink(_link,_parameters));
+_vvvvvvvvvvvvvvvvvvvvv0.InitializeDelete(_vvvvvvvvvvvvvvvvvv0(_link,_parameters));
  //BA.debugLineNum = 204;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 205;BA.debugLine="End Sub";
 return "";
 }
-public String  _download(String _link) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvv6(String _link) throws Exception{
  //BA.debugLineNum = 167;BA.debugLine="Public Sub Download(Link As String)";
  //BA.debugLineNum = 168;BA.debugLine="req.InitializeGet(Link)";
-_req.InitializeGet(_link);
+_vvvvvvvvvvvvvvvvvvvvv0.InitializeGet(_link);
  //BA.debugLineNum = 169;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 170;BA.debugLine="End Sub";
 return "";
 }
-public String  _download2(String _link,String[] _parameters) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvv7(String _link,String[] _parameters) throws Exception{
  //BA.debugLineNum = 177;BA.debugLine="Public Sub Download2(Link As String, Parameters()";
  //BA.debugLineNum = 178;BA.debugLine="req.InitializeGet(escapeLink(Link, Parameters))";
-_req.InitializeGet(_escapelink(_link,_parameters));
+_vvvvvvvvvvvvvvvvvvvvv0.InitializeGet(_vvvvvvvvvvvvvvvvvv0(_link,_parameters));
  //BA.debugLineNum = 179;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 180;BA.debugLine="End Sub";
 return "";
 }
-public String  _escapelink(String _link,String[] _parameters) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvv0(String _link,String[] _parameters) throws Exception{
 anywheresoftware.b4a.keywords.StringBuilderWrapper _sb = null;
 anywheresoftware.b4a.objects.StringUtils _su = null;
 int _i = 0;
@@ -168,52 +168,52 @@ if (true) return _sb.ToString();
  //BA.debugLineNum = 194;BA.debugLine="End Sub";
 return "";
 }
-public anywheresoftware.b4j.objects.ImageViewWrapper.ImageWrapper  _getbitmap() throws Exception{
+public anywheresoftware.b4j.objects.ImageViewWrapper.ImageWrapper  _vvvvvvvvvvvvvvvvvvv1() throws Exception{
 anywheresoftware.b4j.objects.ImageViewWrapper.ImageWrapper _b = null;
  //BA.debugLineNum = 246;BA.debugLine="Public Sub GetBitmap As Image";
  //BA.debugLineNum = 247;BA.debugLine="Dim b As Image";
 _b = new anywheresoftware.b4j.objects.ImageViewWrapper.ImageWrapper();
  //BA.debugLineNum = 248;BA.debugLine="b = fx.LoadImage(HttpUtils2Service.TempFolder, ta";
-_b = _fx.LoadImage(_httputils2service._tempfolder /*String*/ ,_taskid);
+_b = _vvvvvvvv3.LoadImage(_vvvvvvvvv6._vvvvvvvv1 /*String*/ ,_vvvvvvvvvvvvvvvvvvvvv7);
  //BA.debugLineNum = 249;BA.debugLine="Return b";
 if (true) return _b;
  //BA.debugLineNum = 250;BA.debugLine="End Sub";
 return null;
 }
-public anywheresoftware.b4a.objects.streams.File.InputStreamWrapper  _getinputstream() throws Exception{
+public anywheresoftware.b4a.objects.streams.File.InputStreamWrapper  _vvvvvvvvvvvvvvvvvvv2() throws Exception{
 anywheresoftware.b4a.objects.streams.File.InputStreamWrapper _in = null;
  //BA.debugLineNum = 271;BA.debugLine="Public Sub GetInputStream As InputStream";
  //BA.debugLineNum = 272;BA.debugLine="Dim In As InputStream";
 _in = new anywheresoftware.b4a.objects.streams.File.InputStreamWrapper();
  //BA.debugLineNum = 273;BA.debugLine="In = File.OpenInput(HttpUtils2Service.TempFolder,";
-_in = __c.File.OpenInput(_httputils2service._tempfolder /*String*/ ,_taskid);
+_in = __c.File.OpenInput(_vvvvvvvvv6._vvvvvvvv1 /*String*/ ,_vvvvvvvvvvvvvvvvvvvvv7);
  //BA.debugLineNum = 274;BA.debugLine="Return In";
 if (true) return _in;
  //BA.debugLineNum = 275;BA.debugLine="End Sub";
 return null;
 }
-public anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpRequest  _getrequest() throws Exception{
+public anywheresoftware.b4h.okhttp.OkHttpClientWrapper.OkHttpRequest  _vvvvvvvvvvvvvvvvvvv3() throws Exception{
  //BA.debugLineNum = 234;BA.debugLine="Public Sub GetRequest As OkHttpRequest";
  //BA.debugLineNum = 235;BA.debugLine="Return req";
-if (true) return _req;
+if (true) return _vvvvvvvvvvvvvvvvvvvvv0;
  //BA.debugLineNum = 236;BA.debugLine="End Sub";
 return null;
 }
-public String  _getstring() throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvv4() throws Exception{
  //BA.debugLineNum = 215;BA.debugLine="Public Sub GetString As String";
  //BA.debugLineNum = 216;BA.debugLine="Return GetString2(\"UTF8\")";
-if (true) return _getstring2("UTF8");
+if (true) return _vvvvvvvvvvvvvvvvvvv5("UTF8");
  //BA.debugLineNum = 217;BA.debugLine="End Sub";
 return "";
 }
-public String  _getstring2(String _encoding) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvv5(String _encoding) throws Exception{
 anywheresoftware.b4a.objects.streams.File.TextReaderWrapper _tr = null;
 String _res = "";
  //BA.debugLineNum = 220;BA.debugLine="Public Sub GetString2(Encoding As String) As Strin";
  //BA.debugLineNum = 224;BA.debugLine="Dim tr As TextReader";
 _tr = new anywheresoftware.b4a.objects.streams.File.TextReaderWrapper();
  //BA.debugLineNum = 225;BA.debugLine="tr.Initialize2(File.OpenInput(HttpUtils2Service.T";
-_tr.Initialize2((java.io.InputStream)(__c.File.OpenInput(_httputils2service._tempfolder /*String*/ ,_taskid).getObject()),_encoding);
+_tr.Initialize2((java.io.InputStream)(__c.File.OpenInput(_vvvvvvvvv6._vvvvvvvv1 /*String*/ ,_vvvvvvvvvvvvvvvvvvvvv7).getObject()),_encoding);
  //BA.debugLineNum = 226;BA.debugLine="Dim res As String = tr.ReadAll";
 _res = _tr.ReadAll();
  //BA.debugLineNum = 227;BA.debugLine="tr.Close";
@@ -223,12 +223,12 @@ if (true) return _res;
  //BA.debugLineNum = 230;BA.debugLine="End Sub";
 return "";
 }
-public String  _head(String _link) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvv6(String _link) throws Exception{
  //BA.debugLineNum = 74;BA.debugLine="Public Sub Head(Link As String)";
  //BA.debugLineNum = 75;BA.debugLine="req.InitializeHead(Link)";
-_req.InitializeHead(_link);
+_vvvvvvvvvvvvvvvvvvvvv0.InitializeHead(_link);
  //BA.debugLineNum = 76;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 77;BA.debugLine="End Sub";
 return "";
 }
@@ -236,13 +236,13 @@ public String  _initialize(anywheresoftware.b4a.BA _ba,String _name,Object _targ
 innerInitialize(_ba);
  //BA.debugLineNum = 26;BA.debugLine="Public Sub Initialize (Name As String, TargetModul";
  //BA.debugLineNum = 27;BA.debugLine="JobName = Name";
-_jobname = _name;
+_vvvvvvvvvvvvvvvvvvvvv1 = _name;
  //BA.debugLineNum = 28;BA.debugLine="target = TargetModule";
-_target = _targetmodule;
+_vvvvvvvvvvvvvvvvvvvvv6 = _targetmodule;
  //BA.debugLineNum = 29;BA.debugLine="End Sub";
 return "";
 }
-public boolean  _multipartstartsection(anywheresoftware.b4a.objects.streams.File.OutputStreamWrapper _stream,boolean _empty) throws Exception{
+public boolean  _vvvvvvvvvvvvvvvvvvv7(anywheresoftware.b4a.objects.streams.File.OutputStreamWrapper _stream,boolean _empty) throws Exception{
  //BA.debugLineNum = 128;BA.debugLine="Private Sub MultipartStartSection (stream As Outpu";
  //BA.debugLineNum = 129;BA.debugLine="If empty = False Then";
 if (_empty==__c.False) { 
@@ -257,32 +257,32 @@ if (true) return _empty;
  //BA.debugLineNum = 135;BA.debugLine="End Sub";
 return false;
 }
-public String  _patchbytes(String _link,byte[] _data) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvv0(String _link,byte[] _data) throws Exception{
  //BA.debugLineNum = 58;BA.debugLine="Public Sub PatchBytes(Link As String, Data() As By";
  //BA.debugLineNum = 66;BA.debugLine="req.InitializePatch2(Link, Data)";
-_req.InitializePatch2(_link,_data);
+_vvvvvvvvvvvvvvvvvvvvv0.InitializePatch2(_link,_data);
  //BA.debugLineNum = 69;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 70;BA.debugLine="End Sub";
 return "";
 }
-public String  _patchstring(String _link,String _text) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv1(String _link,String _text) throws Exception{
  //BA.debugLineNum = 53;BA.debugLine="Public Sub PatchString(Link As String, Text As Str";
  //BA.debugLineNum = 54;BA.debugLine="PatchBytes(Link, Text.GetBytes(\"UTF8\"))";
-_patchbytes(_link,_text.getBytes("UTF8"));
+_vvvvvvvvvvvvvvvvvvv0(_link,_text.getBytes("UTF8"));
  //BA.debugLineNum = 55;BA.debugLine="End Sub";
 return "";
 }
-public String  _postbytes(String _link,byte[] _data) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv2(String _link,byte[] _data) throws Exception{
  //BA.debugLineNum = 36;BA.debugLine="Public Sub PostBytes(Link As String, Data() As Byt";
  //BA.debugLineNum = 37;BA.debugLine="req.InitializePost2(Link, Data)";
-_req.InitializePost2(_link,_data);
+_vvvvvvvvvvvvvvvvvvvvv0.InitializePost2(_link,_data);
  //BA.debugLineNum = 38;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 39;BA.debugLine="End Sub";
 return "";
 }
-public String  _postfile(String _link,String _dir,String _filename) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv3(String _link,String _dir,String _filename) throws Exception{
 int _length = 0;
 anywheresoftware.b4a.objects.streams.File.InputStreamWrapper _in = null;
 anywheresoftware.b4a.objects.streams.File.OutputStreamWrapper _out = null;
@@ -311,17 +311,17 @@ _out.InitializeToBytesArray(_length);
  //BA.debugLineNum = 157;BA.debugLine="File.Copy2(In, out)";
 __c.File.Copy2((java.io.InputStream)(_in.getObject()),(java.io.OutputStream)(_out.getObject()));
  //BA.debugLineNum = 158;BA.debugLine="PostBytes(Link, out.ToBytesArray)";
-_postbytes(_link,_out.ToBytesArray());
+_vvvvvvvvvvvvvvvvvvvv2(_link,_out.ToBytesArray());
  }else {
  //BA.debugLineNum = 160;BA.debugLine="req.InitializePost(Link, In, length)";
-_req.InitializePost(_link,(java.io.InputStream)(_in.getObject()),_length);
+_vvvvvvvvvvvvvvvvvvvvv0.InitializePost(_link,(java.io.InputStream)(_in.getObject()),_length);
  //BA.debugLineNum = 161;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\",";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  };
  //BA.debugLineNum = 164;BA.debugLine="End Sub";
 return "";
 }
-public String  _postmultipart(String _link,anywheresoftware.b4a.objects.collections.Map _namevalues,anywheresoftware.b4a.objects.collections.List _files) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv4(String _link,anywheresoftware.b4a.objects.collections.Map _namevalues,anywheresoftware.b4a.objects.collections.List _files) throws Exception{
 String _boundary = "";
 anywheresoftware.b4a.objects.streams.File.OutputStreamWrapper _stream = null;
 byte[] _b = null;
@@ -359,7 +359,7 @@ _key = BA.ObjectToString(group8.Get(index8));
  //BA.debugLineNum = 91;BA.debugLine="Dim value As String = NameValues.Get(key)";
 _value = BA.ObjectToString(_namevalues.Get((Object)(_key)));
  //BA.debugLineNum = 92;BA.debugLine="empty = MultipartStartSection (stream, empty)";
-_empty = _multipartstartsection(_stream,_empty);
+_empty = _vvvvvvvvvvvvvvvvvvv7(_stream,_empty);
  //BA.debugLineNum = 93;BA.debugLine="Dim s As String = _ $\"--${boundary} Content-Dis";
 _s = ("--"+__c.SmartStringFormatter("",(Object)(_boundary))+"\n"+"Content-Disposition: form-data; name=\""+__c.SmartStringFormatter("",(Object)(_key))+"\"\n"+"\n"+""+__c.SmartStringFormatter("",(Object)(_value))+"");
  //BA.debugLineNum = 98;BA.debugLine="b = s.Replace(CRLF, eol).GetBytes(\"UTF8\")";
@@ -380,7 +380,7 @@ final int groupLen17 = group17.getSize()
 for (; index17 < groupLen17;index17++){
 _fd = (b4j.example.httpjob._multipartfiledata)(group17.Get(index17));
  //BA.debugLineNum = 104;BA.debugLine="empty = MultipartStartSection (stream, empty)";
-_empty = _multipartstartsection(_stream,_empty);
+_empty = _vvvvvvvvvvvvvvvvvvv7(_stream,_empty);
  //BA.debugLineNum = 105;BA.debugLine="Dim s As String = _ $\"--${boundary} Content-Dis";
 _s = ("--"+__c.SmartStringFormatter("",(Object)(_boundary))+"\n"+"Content-Disposition: form-data; name=\""+__c.SmartStringFormatter("",(Object)(_fd.KeyName /*String*/ ))+"\"; filename=\""+__c.SmartStringFormatter("",(Object)(_fd.FileName /*String*/ ))+"\"\n"+"Content-Type: "+__c.SmartStringFormatter("",(Object)(_fd.ContentType /*String*/ ))+"\n"+"\n"+"");
  //BA.debugLineNum = 111;BA.debugLine="b = s.Replace(CRLF, eol).GetBytes(\"UTF8\")";
@@ -396,7 +396,7 @@ __c.File.Copy2((java.io.InputStream)(_in.getObject()),(java.io.OutputStream)(_st
 };
  };
  //BA.debugLineNum = 117;BA.debugLine="empty = MultipartStartSection (stream, empty)";
-_empty = _multipartstartsection(_stream,_empty);
+_empty = _vvvvvvvvvvvvvvvvvvv7(_stream,_empty);
  //BA.debugLineNum = 118;BA.debugLine="s = _ $\"--${boundary}-- \"$";
 _s = ("--"+__c.SmartStringFormatter("",(Object)(_boundary))+"--\n"+"");
  //BA.debugLineNum = 121;BA.debugLine="b = s.Replace(CRLF, eol).GetBytes(\"UTF8\")";
@@ -404,41 +404,41 @@ _b = _s.replace(__c.CRLF,_eol).getBytes("UTF8");
  //BA.debugLineNum = 122;BA.debugLine="stream.WriteBytes(b, 0, b.Length)";
 _stream.WriteBytes(_b,(int) (0),_b.length);
  //BA.debugLineNum = 123;BA.debugLine="PostBytes(Link, stream.ToBytesArray)";
-_postbytes(_link,_stream.ToBytesArray());
+_vvvvvvvvvvvvvvvvvvvv2(_link,_stream.ToBytesArray());
  //BA.debugLineNum = 124;BA.debugLine="req.SetContentType(\"multipart/form-data; boundary";
-_req.SetContentType("multipart/form-data; boundary="+_boundary);
+_vvvvvvvvvvvvvvvvvvvvv0.SetContentType("multipart/form-data; boundary="+_boundary);
  //BA.debugLineNum = 125;BA.debugLine="req.SetContentEncoding(\"UTF8\")";
-_req.SetContentEncoding("UTF8");
+_vvvvvvvvvvvvvvvvvvvvv0.SetContentEncoding("UTF8");
  //BA.debugLineNum = 126;BA.debugLine="End Sub";
 return "";
 }
-public String  _poststring(String _link,String _text) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv5(String _link,String _text) throws Exception{
  //BA.debugLineNum = 31;BA.debugLine="Public Sub PostString(Link As String, Text As Stri";
  //BA.debugLineNum = 32;BA.debugLine="PostBytes(Link, Text.GetBytes(\"UTF8\"))";
-_postbytes(_link,_text.getBytes("UTF8"));
+_vvvvvvvvvvvvvvvvvvvv2(_link,_text.getBytes("UTF8"));
  //BA.debugLineNum = 33;BA.debugLine="End Sub";
 return "";
 }
-public String  _putbytes(String _link,byte[] _data) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv6(String _link,byte[] _data) throws Exception{
  //BA.debugLineNum = 47;BA.debugLine="Public Sub PutBytes(Link As String, Data() As Byte";
  //BA.debugLineNum = 48;BA.debugLine="req.InitializePut2(Link, Data)";
-_req.InitializePut2(_link,_data);
+_vvvvvvvvvvvvvvvvvvvvv0.InitializePut2(_link,_data);
  //BA.debugLineNum = 49;BA.debugLine="CallSubDelayed2(HttpUtils2Service, \"SubmitJob\", M";
-__c.CallSubDelayed2(ba,(Object)(_httputils2service.getObject()),"SubmitJob",this);
+__c.CallSubDelayed2(ba,(Object)(_vvvvvvvvv6.getObject()),"SubmitJob",this);
  //BA.debugLineNum = 50;BA.debugLine="End Sub";
 return "";
 }
-public String  _putstring(String _link,String _text) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv7(String _link,String _text) throws Exception{
  //BA.debugLineNum = 42;BA.debugLine="Public Sub PutString(Link As String, Text As Strin";
  //BA.debugLineNum = 43;BA.debugLine="PutBytes(Link, Text.GetBytes(\"UTF8\"))";
-_putbytes(_link,_text.getBytes("UTF8"));
+_vvvvvvvvvvvvvvvvvvvv6(_link,_text.getBytes("UTF8"));
  //BA.debugLineNum = 44;BA.debugLine="End Sub";
 return "";
 }
-public String  _release() throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvv0() throws Exception{
  //BA.debugLineNum = 208;BA.debugLine="Public Sub Release";
  //BA.debugLineNum = 210;BA.debugLine="File.Delete(HttpUtils2Service.TempFolder, taskId)";
-__c.File.Delete(_httputils2service._tempfolder /*String*/ ,_taskid);
+__c.File.Delete(_vvvvvvvvv6._vvvvvvvv1 /*String*/ ,_vvvvvvvvvvvvvvvvvvvvv7);
  //BA.debugLineNum = 212;BA.debugLine="End Sub";
 return "";
 }

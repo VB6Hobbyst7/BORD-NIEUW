@@ -32,13 +32,27 @@ End Sub
 
 
 Sub pullConfig
+	Dim msgList As List
+	
 	useDigitalFont = False
 	cnf = File.ReadString(appPath, "")
-	
 	parser.Initialize(cnf)
+	msgList.Initialize
+
 
 	Dim root As Map = parser.NextObject
-		
+	Dim fontColor As Map = root.Get("fontColor")
+	Dim colorYellow As String = fontColor.Get("colorYellow")
+	'Dim lightSchema As Map = root.Get("lightSchema")
+	'Dim useLightSchema As String = lightSchema.Get("useLightSchema")
+	Dim message As Map = root.Get("message")
+	Dim line_1 As String = message.Get("line_1")
+	Dim line_2 As String = message.Get("line_2")
+	Dim line_5 As String = message.Get("line_5")
+	Dim line_3 As String = message.Get("line_3")
+	Dim line_4 As String = message.Get("line_4")
+	Dim fontColor As Map = root.Get("fontColor")
+	
 	Dim showPromote As Map = root.Get("showPromote")
 	If showPromote.Get("active") = "1" Then
 		timeOutActive = True
@@ -56,6 +70,16 @@ Sub pullConfig
 	Else
 		CallSub2(scorebord, "useDigitalFont", False)
 	End If
+	
+	If colorYellow = "1"  Then
+		CallSub2(scorebord, "useFontYellow", True)
+	Else
+		CallSub2(scorebord, "useFontYellow", False)
+	End If
+	
+	msgList.AddAll(Array As String(line_1, line_2, line_3, line_4, line_5))
+	CallSub2(scorebord, "setMessage", msgList)
+	
 End Sub
 
 Sub DetectOS As String

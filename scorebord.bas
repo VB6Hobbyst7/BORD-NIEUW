@@ -18,6 +18,7 @@ Sub Process_Globals
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
+	Private clsUpdate as classUpdate
 	
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
@@ -97,6 +98,11 @@ Sub Process_Globals
 	Private lbl_player_one_100 As Label
 	
 	
+	Private lbl_message_1 As Label
+	Private lbl_message_2 As Label
+	Private lbl_message_3 As Label
+	Private lbl_message_4 As Label
+	Private lbl_message_5 As Label
 End Sub
 
 
@@ -104,8 +110,9 @@ Public Sub show
 	
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("scorebord")
-	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	setFontSize
+	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
+	parseConfig.pullConfig
 	#if debug
 		frm.SetFormStyle("UTILITY")
 	#Else
@@ -122,31 +129,26 @@ Public Sub show
 	'func.SetFormCursor(frm, "mouse.png")
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 	
-	parseConfig.pullConfig
 	
 	clsTmr.Initialize(lbl_clock)
 	inactivecls.Initialize
 	clsCheckCfg.Initialize
 	clsToast.Initialize(frm.RootPane)
+	clsUpdate.Initialize
+	
+	clsUpdate.checkUpdate
 	
 
 	func.lblInnings = lbl_innings
 	func.lbl_player_one_hs = lbl_player_one_hs
 	func.lbl_player_two_hs = lbl_player_two_hs
 	
-'	lbl_player_two_100.Enabled = False
-'	lbl_player_two_10.Enabled = False
-'	lbl_player_two_1.Enabled = False
-	
 	func.setP1CaromLables(lstPlayerOneScoreLbl)
 	func.setP2CaromLables(lstPlayerTwoScoreLbl)
-	Wait For (funcInet.testInet) Complete (result As Boolean)
 
-	'Log($"Has internet access is ${result}"$)
-	
+	Wait For (funcInet.testInet) Complete (result As Boolean)
 	If result Then
 		func.hasInternetAccess = True
-		
 	Else
 		func.hasInternetAccess = False
 	End If
@@ -169,14 +171,11 @@ Sub initPanels
 	pn_promote_top = 1130 'pn_promote.Top
 	pn_promote_left = 20 'pn_promote.Left
 	
-	'Log($"TOP : ${pn_promote_top} LEFT : ${pn_promote_left}"$)
 	
 	inactivecls.frm = frm
 	inactivecls.pn_promote = pn_promote
 	inactivecls.pnlWidth = pn_promote.Width
 	inactivecls.pnlHeight = pn_promote.Height
-	'inactivecls.vx = pn_promote.Width
-	'inactivecls.vy = pn_promote.Height
 End Sub
 
 
@@ -191,27 +190,6 @@ End Sub
 'End Sub
 
 Sub setFontSize
-	'func.setFont(lbl_player_one_1xx, 350)
-'	func.setFont(lbl_player_one_1, 350)
-'	func.setFont(lbl_player_one_10, 350)
-'	func.setFont(lbl_player_one_100, 350)
-'	func.setFont(lbl_player_one_1000,250)
-'	func.setFont(lbl_player_two_1, 350)
-'	func.setFont(lbl_player_two_10, 350)
-'	func.setFont(lbl_player_two_100, 350)
-'	func.setFont(lbl_player_two_1000, 250)
-'	func.setFont(lbl_innings, 250)
-'	func.setFont(lbl_player_one_make_100, 200)
-'	func.setFont(lbl_player_one_make_10, 200)
-'	func.setFont(lbl_player_one_make_1, 200)
-'	func.setFont(lbl_player_two_make_100,200)
-'	func.setFont(lbl_player_two_make_10,200)
-'	func.setFont(lbl_player_two_make_1,200)
-'	lbl_player_one_hs.StyleClasses.Clear
-	'lbl_player_one_hs.StyleClasses.Add("label")
-	
-
-
 	func.caromLabelCss(lbl_innings, "labelCarom")
 
 	func.caromLabelCss(lbl_player_one_hs, "labelWhite")
@@ -304,14 +282,6 @@ Sub lbl_player_one_100_MouseReleased (EventData As MouseEvent)
 		func.calcScorePlayerOne(-100)
 	End If
 End Sub
-'Sub lbl_player_one_1000_MouseReleased (EventData As MouseEvent)
-'	If EventData.PrimaryButtonPressed Then
-'		func.calcScorePlayerOne(1000)
-'	Else If EventData.SecondaryButtonPressed Then
-'		func.calcScorePlayerOne(-1000)
-'	End If
-'End Sub
-
 
 Sub lbl_player_two_1_MouseReleased (EventData As MouseEvent)
 	setP2Name
@@ -337,16 +307,6 @@ Sub lbl_player_two_100_MouseReleased (EventData As MouseEvent)
 		func.calcScorePlayertwo(-100)
 	End If
 End Sub
-'Sub lbl_player_two_1000_MouseReleased (EventData As MouseEvent)
-'	If EventData.PrimaryButtonPressed Then
-'		func.calcScorePlayertwo(1000)
-'	Else If EventData.SecondaryButtonPressed Then
-'		func.calcScorePlayertwo(-1000)
-'	End If
-'End Sub
-
-
-
 
 Sub lbl_player_one_active_MouseReleased (EventData As MouseEvent)
 '	lbl_player_one_active.Color = 0xFF33BB02
@@ -381,64 +341,11 @@ Sub btn_exit_MouseReleased (EventData As MouseEvent)
 End Sub
 
 
-
-'Sub lbl_player_one_1000_MouseEntered (EventData As MouseEvent)
-'	lbl_player_one_1000.Color = 0xFF69D79A
-'End Sub
-
-'Sub lbl_player_one_1000_MouseExited (EventData As MouseEvent)
-'	lbl_player_one_1000.Color = 0x00FFFFFF
-'End Sub
-
-'Sub lbl_player_one_100_MouseEntered (EventData As MouseEvent)
-'	lbl_player_one_100.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_one_100_MouseExited (EventData As MouseEvent)
-'	lbl_player_one_100.Color = 0x00FFFFFF
-'End Sub
-'
-'Sub lbl_player_one_10_MouseEntered (EventData As MouseEvent)
-'	lbl_player_one_10.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_one_10_MouseExited (EventData As MouseEvent)
-'	lbl_player_one_10.Color = 0x00FFFFFF
-'End Sub
-
 Sub lbl_player_one_1_MouseEntered (EventData As MouseEvent)
 '	lbl_player_one_1.Color = 0xFF69D79A
 	'func.setNumberCss(lbl_player_one_1)
 End Sub
-'
-'Sub lbl_player_one_1_MouseExited (EventData As MouseEvent)
-'	lbl_player_one_1.Color = 0xFF00008B
-'End Sub
 
-'Sub lbl_player_two_1000_MouseEntered (EventData As MouseEvent)
-'	lbl_player_two_1000.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_two_1000_MouseExited (EventData As MouseEvent)
-'	lbl_player_two_1000.Color = 0xFF00008B
-'End Sub
-
-'Sub lbl_player_two_100_MouseEntered (EventData As MouseEvent)
-'	lbl_player_two_100.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_two_100_MouseExited (EventData As MouseEvent)
-'	lbl_player_two_100.Color = 0xFF00008B
-'End Sub
-'
-'Sub lbl_player_two_10_MouseEntered (EventData As MouseEvent)
-'	lbl_player_two_10.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_two_10_MouseExited (EventData As MouseEvent)
-'	lbl_player_two_10.Color = 0xFF00008B
-'End Sub
-'
 Sub lbl_player_two_1_MouseEntered (EventData As MouseEvent)
 '	lbl_player_two_1.Color = 0xFF69D79A
 	'CSSUtils.SetStyleProperty(lbl_player_two_1, "-fx-background-color",  "linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%)")
@@ -452,14 +359,6 @@ Sub lbl_player_two_1_MouseExited (EventData As MouseEvent)
 	
 End Sub
 
-'Sub lbl_innings_MouseEntered (EventData As MouseEvent)
-'	lbl_innings.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_innings_MouseExited (EventData As MouseEvent)
-'	lbl_innings.Color = 0xFF00008B
-'End Sub
-
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	setP1Name
 	func.processHs("all")
@@ -471,30 +370,6 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	func.processHs("all")
 	func.inngSet = 0
 End Sub
-
-'Sub lbl_player_one_make_100_MouseEntered (EventData As MouseEvent)
-'	lbl_player_one_make_100.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_one_make_100_MouseExited (EventData As MouseEvent)
-'	lbl_player_one_make_100.Color = 0x00FFFFFF
-'End Sub
-'
-'Sub lbl_player_one_make_10_MouseEntered (EventData As MouseEvent)
-'	lbl_player_one_make_10.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_one_make_10_MouseExited (EventData As MouseEvent)
-'	lbl_player_one_make_10.Color = 0x00FFFFFF
-'End Sub
-'
-'Sub lbl_player_one_make_1_MouseEntered (EventData As MouseEvent)
-'	lbl_player_one_make_1.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_one_make_1_MouseExited (EventData As MouseEvent)
-'	lbl_player_one_make_1.Color = 0x00FFFFFF
-'End Sub
 
 Sub lbl_player_one_make_100_MouseReleased (EventData As MouseEvent)
 	setP1Name
@@ -525,40 +400,13 @@ Sub lbl_player_two_make_100_MouseReleased (EventData As MouseEvent)
 	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 100)
 End Sub
 
-'Sub lbl_player_two_make_100_MouseEntered (EventData As MouseEvent)
-'	lbl_player_two_make_100.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_two_make_100_MouseExited (EventData As MouseEvent)
-'	lbl_player_two_make_100.Color =  0x00FFFFFF
-'End Sub
-'
 Sub lbl_player_two_make_10_MouseReleased (EventData As MouseEvent)
 	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 10)
 End Sub
-'
-'Sub lbl_player_two_make_10_MouseEntered (EventData As MouseEvent)
-'	lbl_player_two_make_10.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_two_make_10_MouseExited (EventData As MouseEvent)
-'	lbl_player_two_make_10.Color =  0x00FFFFFF
-'End Sub
 
 Sub lbl_player_two_make_1_MouseReleased (EventData As MouseEvent)
 	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 1)
 End Sub
-
-'Sub lbl_player_two_make_1_MouseEntered (EventData As MouseEvent)
-'	lbl_player_two_make_1.Color = 0xFF69D79A
-'End Sub
-'
-'Sub lbl_player_two_make_1_MouseExited (EventData As MouseEvent)
-'	lbl_player_two_make_1.Color =  0x00FFFFFF
-'End Sub
-
-
-
 
 Sub setCaromNumber(v As B4XView, value As String)
 '	func.setVisibleAnimated(v, 200, False)
@@ -630,27 +478,11 @@ End Sub
 Sub setP1Name
 	lbl_player_one_name.Color = 0xff3455db'0xFF69D79A
 	lbl_player_two_name.Color = 0xFF001A01
-	
-'	lbl_player_one_100.Enabled = True
-'	lbl_player_one_10.Enabled = True
-'	lbl_player_one_1.Enabled = True
-'	
-'	lbl_player_two_100.Enabled = False
-'	lbl_player_two_10.Enabled = False
-'	lbl_player_two_1.Enabled = False
 End Sub
 
 Sub setP2Name
 	lbl_player_two_name.Color = 0xff3455db'0xFF69D79A
 	lbl_player_one_name.Color = 0xFF001A01
-	
-'	lbl_player_one_100.Enabled = True
-'	lbl_player_one_10.Enabled = True
-'	lbl_player_one_1.Enabled = True
-'	
-'	lbl_player_two_100.Enabled = False
-'	lbl_player_two_10.Enabled = False
-'	lbl_player_two_1.Enabled = False
 End Sub
 
 
@@ -697,13 +529,6 @@ End Sub
 
 
 Sub nieuwePartij
-'	Dim p As B4XView = XUI.CreatePanel("")
-'	p.SetLayoutAnimated(0, 100dip, 0, 1000dip, 800dip)
-'	p.LoadLayout("nieuwe_partij")
-'	Dialog.Title = "Nieuwe Partij"
-'	Dialog.PutAtTop = False 'put the dialog at the top of the screen
-	
-	'Wait For (Dialog.ShowCustom(p, "", "", "")) Complete (Result As Int)
 	Wait For (pNieuwePartijDialog.ShowCustom(pNieuwePartij, "", "", "")) Complete (Result As Int)
 	If Result = XUI.DialogResponse_Positive Then
 		'Dialog.Show("PETER" & " " & "PAN", "OK", "", "")
@@ -783,11 +608,6 @@ Sub drawPromote(x As Double, y As Double)
 	
 End Sub
 
-'Sub setHook
-'	nh.Initialize("nh", Me).startNativeMouseInputListener   '<-----DON'T FORGET TO UNREGISTER NH WHEN DONE!!!!
-'End Sub
-
-
 Sub pn_promote_MouseReleased (EventData As MouseEvent)
 	pn_promote.Top = pn_promote_top
 	pn_promote.left = pn_promote_left
@@ -797,11 +617,8 @@ Sub pn_promote_MouseReleased (EventData As MouseEvent)
 	inactivecls.enablePromote(False)
 End Sub
 
-
-
 Sub setPromoteRunning(running As Boolean)
 	promoteRunning = running
-	'Log("Promote Running " & promoteRunning)
 End Sub
 
 private Sub mouseIn_Event(m As String,args() As Object)
@@ -813,7 +630,6 @@ private Sub mouseIn_Event(m As String,args() As Object)
 		inactivecls.enableTime(True)
 		inactivecls.enablePromote(False)
 		promoteRunning = False
-		'Log(">>>>>>> "&inactivecls.tmr_draw_promote.Enabled)
 		Sleep(300)
 	End If
 End Sub
@@ -862,8 +678,6 @@ Sub useDigitalFont(useDigital As Boolean)
 		fsInnings = 200	
 	End If
 	
-	
-	
 	func.setFont(lbl_player_one_1, fsCarom, useDigital)
 	func.setFont(lbl_player_one_10, fsCarom, useDigital)
 	func.setFont(lbl_player_one_100, fsCarom, useDigital)
@@ -877,5 +691,38 @@ Sub useDigitalFont(useDigital As Boolean)
 	func.setFont(lbl_player_two_make_100,fsMake, useDigital)
 	func.setFont(lbl_player_two_make_10,fsMake, useDigital)
 	func.setFont(lbl_player_two_make_1,fsMake, useDigital)
+	
+End Sub
+
+Sub useFontYellow(useYellow As Boolean)
+	
+	func.setFontColor(lbl_innings, useYellow)
+		
+	func.setFontColor(lbl_player_one_1, useYellow)
+	func.setFontColor(lbl_player_one_10, useYellow)
+	func.setFontColor(lbl_player_one_100, useYellow)
+	
+	func.setFontColor(lbl_player_two_1, useYellow)
+	func.setFontColor(lbl_player_two_10, useYellow)
+	func.setFontColor(lbl_player_two_100, useYellow)
+	
+	func.setFontColor(lbl_player_one_make_100, useYellow)
+	func.setFontColor(lbl_player_one_make_10, useYellow)
+	func.setFontColor(lbl_player_one_make_1, useYellow)
+	
+	func.setFontColor(lbl_player_two_make_100, useYellow)
+	func.setFontColor(lbl_player_two_make_10, useYellow)
+	func.setFontColor(lbl_player_two_make_1, useYellow)
+	
+	
+End Sub
+
+
+Sub setMessage(msgList As List)
+	lbl_message_1.Text = msgList.get(0)
+	lbl_message_2.Text = msgList.get(1)
+	lbl_message_3.Text = msgList.get(2)
+	lbl_message_4.Text = msgList.get(3)
+	lbl_message_5.Text = msgList.Get(4)
 	
 End Sub

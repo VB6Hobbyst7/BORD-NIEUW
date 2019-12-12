@@ -23,28 +23,28 @@ public class b4xlongtexttemplate extends B4AClass.ImplB4AClass implements BA.Sub
     }
 
  public anywheresoftware.b4a.keywords.Common __c = null;
-public anywheresoftware.b4a.objects.B4XViewWrapper.XUI _xui = null;
-public anywheresoftware.b4a.objects.B4XViewWrapper _mbase = null;
+public anywheresoftware.b4a.objects.B4XViewWrapper.XUI _vvvvvvvvvvvv6 = null;
+public anywheresoftware.b4a.objects.B4XViewWrapper _vvvvvvvvvvvv5 = null;
 public b4j.example.customlistview _customlistview1 = null;
-public Object _text = null;
-public b4j.example.cssutils _cssutils = null;
-public b4j.example.dateutils _dateutils = null;
+public Object _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5 = null;
+public b4j.example.cssutils _vvvvvvvv0 = null;
+public b4j.example.dateutils _vvvvvvvvv1 = null;
 public b4j.example.main _main = null;
-public b4j.example.scorebord _scorebord = null;
-public b4j.example.func _func = null;
-public b4j.example.parseconfig _parseconfig = null;
-public b4j.example.funcinet _funcinet = null;
-public b4j.example.httputils2service _httputils2service = null;
+public b4j.example.scorebord _vvvvvvvvv2 = null;
+public b4j.example.func _vvvvvvvvv3 = null;
+public b4j.example.parseconfig _vvvvvvvvv4 = null;
+public b4j.example.funcinet _vvvvvvvvv5 = null;
+public b4j.example.httputils2service _vvvvvvvvv6 = null;
 public String  _class_globals() throws Exception{
  //BA.debugLineNum = 1;BA.debugLine="Sub Class_Globals";
  //BA.debugLineNum = 2;BA.debugLine="Private xui As XUI";
-_xui = new anywheresoftware.b4a.objects.B4XViewWrapper.XUI();
+_vvvvvvvvvvvv6 = new anywheresoftware.b4a.objects.B4XViewWrapper.XUI();
  //BA.debugLineNum = 3;BA.debugLine="Public mBase As B4XView";
-_mbase = new anywheresoftware.b4a.objects.B4XViewWrapper();
+_vvvvvvvvvvvv5 = new anywheresoftware.b4a.objects.B4XViewWrapper();
  //BA.debugLineNum = 4;BA.debugLine="Public CustomListView1 As CustomListView";
 _customlistview1 = new b4j.example.customlistview();
  //BA.debugLineNum = 5;BA.debugLine="Public Text As Object";
-_text = new Object();
+_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5 = new Object();
  //BA.debugLineNum = 6;BA.debugLine="End Sub";
 return "";
 }
@@ -56,7 +56,7 @@ return "";
 public anywheresoftware.b4a.objects.B4XViewWrapper  _getpanel(b4j.example.b4xdialog _dialog) throws Exception{
  //BA.debugLineNum = 30;BA.debugLine="Public Sub GetPanel (Dialog As B4XDialog) As B4XVi";
  //BA.debugLineNum = 31;BA.debugLine="Return mBase";
-if (true) return _mbase;
+if (true) return _vvvvvvvvvvvv5;
  //BA.debugLineNum = 32;BA.debugLine="End Sub";
 return null;
 }
@@ -65,19 +65,19 @@ innerInitialize(_ba);
 anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper _sv = null;
  //BA.debugLineNum = 8;BA.debugLine="Public Sub Initialize";
  //BA.debugLineNum = 9;BA.debugLine="mBase = xui.CreatePanel(\"mBase\")";
-_mbase = _xui.CreatePanel(ba,"mBase");
+_vvvvvvvvvvvv5 = _vvvvvvvvvvvv6.CreatePanel(ba,"mBase");
  //BA.debugLineNum = 10;BA.debugLine="mBase.SetLayoutAnimated(0, 0, 0, 300dip, 300dip)";
-_mbase.SetLayoutAnimated((int) (0),0,0,__c.DipToCurrent((int) (300)),__c.DipToCurrent((int) (300)));
+_vvvvvvvvvvvv5.SetLayoutAnimated((int) (0),0,0,__c.DipToCurrent((int) (300)),__c.DipToCurrent((int) (300)));
  //BA.debugLineNum = 11;BA.debugLine="mBase.LoadLayout(\"LongTextTemplate\")";
-_mbase.LoadLayout("LongTextTemplate",ba);
+_vvvvvvvvvvvv5.LoadLayout("LongTextTemplate",ba);
  //BA.debugLineNum = 12;BA.debugLine="mBase.SetColorAndBorder(xui.Color_Transparent, 0,";
-_mbase.SetColorAndBorder(_xui.Color_Transparent,0,(int) (0),0);
+_vvvvvvvvvvvv5.SetColorAndBorder(_vvvvvvvvvvvv6.Color_Transparent,0,(int) (0),0);
  //BA.debugLineNum = 13;BA.debugLine="CustomListView1.sv.SetColorAndBorder(xui.Color_Tr";
-_customlistview1._sv.SetColorAndBorder(_xui.Color_Transparent,0,(int) (0),0);
+_customlistview1._sv.SetColorAndBorder(_vvvvvvvvvvvv6.Color_Transparent,0,(int) (0),0);
  //BA.debugLineNum = 14;BA.debugLine="CustomListView1.DefaultTextBackgroundColor = 0xFF";
 _customlistview1._defaulttextbackgroundcolor = (int) (0xff555555);
  //BA.debugLineNum = 15;BA.debugLine="CustomListView1.DefaultTextColor = xui.Color_Whit";
-_customlistview1._defaulttextcolor = _xui.Color_White;
+_customlistview1._defaulttextcolor = _vvvvvvvvvvvv6.Color_White;
  //BA.debugLineNum = 16;BA.debugLine="CustomListView1.sv.Color = 0xFF464646";
 _customlistview1._sv.setColor((int) (0xff464646));
  //BA.debugLineNum = 18;BA.debugLine="Dim sv As Node = CustomListView1.sv";
@@ -88,10 +88,10 @@ _sv.getStyleClasses().Add((Object)("b4xdialog"));
  //BA.debugLineNum = 21;BA.debugLine="End Sub";
 return "";
 }
-public String  _resize(int _width,int _height) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7(int _width,int _height) throws Exception{
  //BA.debugLineNum = 23;BA.debugLine="Public Sub Resize(Width As Int, Height As Int)";
  //BA.debugLineNum = 24;BA.debugLine="mBase.SetLayoutAnimated(0, 0, 0, Width, Height)";
-_mbase.SetLayoutAnimated((int) (0),0,0,_width,_height);
+_vvvvvvvvvvvv5.SetLayoutAnimated((int) (0),0,0,_width,_height);
  //BA.debugLineNum = 25;BA.debugLine="CustomListView1.AsView.SetLayoutAnimated(0, 0, 0,";
 _customlistview1._asview().SetLayoutAnimated((int) (0),0,0,_width,_height);
  //BA.debugLineNum = 26;BA.debugLine="CustomListView1.Base_Resize(Width, Height)";
@@ -104,11 +104,11 @@ public String  _show(b4j.example.b4xdialog _dialog) throws Exception{
  //BA.debugLineNum = 35;BA.debugLine="CustomListView1.Clear";
 _customlistview1._clear();
  //BA.debugLineNum = 36;BA.debugLine="CustomListView1.AddTextItem(Text, \"\")";
-_customlistview1._addtextitem(_text,(Object)(""));
+_customlistview1._addtextitem(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5,(Object)(""));
  //BA.debugLineNum = 37;BA.debugLine="CustomListView1.GetPanel(0).GetView(0).SetTextAli";
 _customlistview1._getpanel((int) (0)).GetView((int) (0)).SetTextAlignment("TOP","LEFT");
  //BA.debugLineNum = 38;BA.debugLine="Dialog.InternalAddStubToCLVIfNeeded(CustomListVie";
-_dialog._internaladdstubtoclvifneeded /*String*/ (_customlistview1,_customlistview1._defaulttextbackgroundcolor);
+_dialog._vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5 /*String*/ (_customlistview1,_customlistview1._defaulttextbackgroundcolor);
  //BA.debugLineNum = 39;BA.debugLine="End Sub";
 return "";
 }

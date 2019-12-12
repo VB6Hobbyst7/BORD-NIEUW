@@ -1,0 +1,12 @@
+{
+  "showPromote": {
+    "active": "1",
+    "timeOut": "5"
+  },
+  "digitalFont": {
+    "active": "0"
+  },
+  "fontColor": {
+    "colorYellow": "0"
+  }
+}

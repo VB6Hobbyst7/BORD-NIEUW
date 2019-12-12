@@ -21,28 +21,28 @@ static {
 	}
 
  public static anywheresoftware.b4a.keywords.Common __c = null;
-public static anywheresoftware.b4j.objects.JFX _fx = null;
-public static String _url = "";
-public static anywheresoftware.b4j.objects.ImageViewWrapper _imgview = null;
-public static b4j.example.cssutils _cssutils = null;
-public static b4j.example.dateutils _dateutils = null;
+public static anywheresoftware.b4j.objects.JFX _vvvvvvvv3 = null;
+public static String _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv3 = "";
+public static anywheresoftware.b4j.objects.ImageViewWrapper _vvvvvvv7 = null;
+public static b4j.example.cssutils _vvvvvvvv0 = null;
+public static b4j.example.dateutils _vvvvvvvvv1 = null;
 public static b4j.example.main _main = null;
-public static b4j.example.scorebord _scorebord = null;
-public static b4j.example.func _func = null;
-public static b4j.example.parseconfig _parseconfig = null;
-public static b4j.example.httputils2service _httputils2service = null;
+public static b4j.example.scorebord _vvvvvvvvv2 = null;
+public static b4j.example.func _vvvvvvvvv3 = null;
+public static b4j.example.parseconfig _vvvvvvvvv4 = null;
+public static b4j.example.httputils2service _vvvvvvvvv6 = null;
 public static String  _process_globals() throws Exception{
  //BA.debugLineNum = 2;BA.debugLine="Sub Process_Globals";
  //BA.debugLineNum = 3;BA.debugLine="Private fx As JFX";
-_fx = new anywheresoftware.b4j.objects.JFX();
+_vvvvvvvv3 = new anywheresoftware.b4j.objects.JFX();
  //BA.debugLineNum = 6;BA.debugLine="Private url As String";
-_url = "";
+_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv3 = "";
  //BA.debugLineNum = 8;BA.debugLine="Public imgView As ImageView";
-_imgview = new anywheresoftware.b4j.objects.ImageViewWrapper();
+_vvvvvvv7 = new anywheresoftware.b4j.objects.ImageViewWrapper();
  //BA.debugLineNum = 9;BA.debugLine="End Sub";
 return "";
 }
-public static anywheresoftware.b4a.keywords.Common.ResumableSubWrapper  _testinet() throws Exception{
+public static anywheresoftware.b4a.keywords.Common.ResumableSubWrapper  _vvvvvvv0() throws Exception{
 ResumableSub_testInet rsub = new ResumableSub_testInet(null);
 rsub.resume(ba, null);
 return (anywheresoftware.b4a.keywords.Common.ResumableSubWrapper) anywheresoftware.b4a.AbsObjectWrapper.ConvertToWrapper(new anywheresoftware.b4a.keywords.Common.ResumableSubWrapper(), rsub);
@@ -68,11 +68,11 @@ this.state = 1;
  //BA.debugLineNum = 13;BA.debugLine="Dim j As HttpJob";
 _j = new b4j.example.httpjob();
  //BA.debugLineNum = 14;BA.debugLine="Dim url As String = \"https:\\\\www.google.com\"";
-parent._url = "https:\\\\www.google.com";
+parent._vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv3 = "https:\\\\www.google.com";
  //BA.debugLineNum = 16;BA.debugLine="j.Initialize(url, Me)";
-_j._initialize /*String*/ (ba,parent._url,funcinet.getObject());
+_j._initialize /*String*/ (ba,parent._vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv3,funcinet.getObject());
  //BA.debugLineNum = 17;BA.debugLine="j.Download(url)";
-_j._download /*String*/ (parent._url);
+_j._vvvvvvvvvvvvvvvvvv6 /*String*/ (parent._vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv3);
  //BA.debugLineNum = 19;BA.debugLine="Wait For (j) JobDone(j As HttpJob)";
 anywheresoftware.b4a.keywords.Common.WaitFor("jobdone", ba, this, (Object)(_j));
 this.state = 7;
@@ -88,7 +88,7 @@ if (true) break;
 case 1:
 //if
 this.state = 6;
-if (_j._success /*boolean*/ ) { 
+if (_j._vvvvvvvvvvvvvvvvvvvvv2 /*boolean*/ ) { 
 this.state = 3;
 }else {
 this.state = 5;

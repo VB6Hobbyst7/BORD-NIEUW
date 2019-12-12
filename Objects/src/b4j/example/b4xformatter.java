@@ -23,18 +23,18 @@ public class b4xformatter extends B4AClass.ImplB4AClass implements BA.SubDelegat
     }
 
  public anywheresoftware.b4a.keywords.Common __c = null;
-public anywheresoftware.b4a.objects.collections.List _formats = null;
+public anywheresoftware.b4a.objects.collections.List _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7 = null;
 public int _max_value = 0;
 public int _min_value = 0;
-public anywheresoftware.b4a.objects.B4XViewWrapper.XUI _xui = null;
-public b4j.example.cssutils _cssutils = null;
-public b4j.example.dateutils _dateutils = null;
+public anywheresoftware.b4a.objects.B4XViewWrapper.XUI _vvvvvvvvvvvv6 = null;
+public b4j.example.cssutils _vvvvvvvv0 = null;
+public b4j.example.dateutils _vvvvvvvvv1 = null;
 public b4j.example.main _main = null;
-public b4j.example.scorebord _scorebord = null;
-public b4j.example.func _func = null;
-public b4j.example.parseconfig _parseconfig = null;
-public b4j.example.funcinet _funcinet = null;
-public b4j.example.httputils2service _httputils2service = null;
+public b4j.example.scorebord _vvvvvvvvv2 = null;
+public b4j.example.func _vvvvvvvvv3 = null;
+public b4j.example.parseconfig _vvvvvvvvv4 = null;
+public b4j.example.funcinet _vvvvvvvvv5 = null;
+public b4j.example.httputils2service _vvvvvvvvv6 = null;
 public static class _b4xformatdata{
 public boolean IsInitialized;
 public String Prefix;
@@ -72,7 +72,7 @@ FractionPaddingChar = "";
 		public String toString() {
 			return BA.TypeToString(this, false);
 		}}
-public String  _addformatdata(b4j.example.b4xformatter._b4xformatdata _data,double _rangestart,double _rangeend,boolean _includeedges) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7(b4j.example.b4xformatter._b4xformatdata _data,double _rangestart,double _rangeend,boolean _includeedges) throws Exception{
 double _factor = 0;
  //BA.debugLineNum = 63;BA.debugLine="Public Sub AddFormatData (Data As B4XFormatData, R";
  //BA.debugLineNum = 64;BA.debugLine="Dim factor As Double = Power(10, -Data.MaximumFra";
@@ -93,7 +93,7 @@ _data.RangeStart /*double*/  = _rangestart;
  //BA.debugLineNum = 72;BA.debugLine="Data.RangeEnd = RangeEnd";
 _data.RangeEnd /*double*/  = _rangeend;
  //BA.debugLineNum = 73;BA.debugLine="formats.Add(Data)";
-_formats.Add((Object)(_data));
+_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7.Add((Object)(_data));
  //BA.debugLineNum = 74;BA.debugLine="End Sub";
 return "";
 }
@@ -102,16 +102,16 @@ public String  _class_globals() throws Exception{
  //BA.debugLineNum = 2;BA.debugLine="Type B4XFormatData (Prefix As String, Postfix As";
 ;
  //BA.debugLineNum = 6;BA.debugLine="Private formats As List";
-_formats = new anywheresoftware.b4a.objects.collections.List();
+_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7 = new anywheresoftware.b4a.objects.collections.List();
  //BA.debugLineNum = 7;BA.debugLine="Public Const MAX_VALUE = 0x7fffffff, MIN_VALUE =";
 _max_value = (int) (0x7fffffff);
 _min_value = (int) (0x80000000);
  //BA.debugLineNum = 8;BA.debugLine="Private xui As XUI";
-_xui = new anywheresoftware.b4a.objects.B4XViewWrapper.XUI();
+_vvvvvvvvvvvv6 = new anywheresoftware.b4a.objects.B4XViewWrapper.XUI();
  //BA.debugLineNum = 9;BA.debugLine="End Sub";
 return "";
 }
-public b4j.example.b4xformatter._b4xformatdata  _copyformatdata(b4j.example.b4xformatter._b4xformatdata _data) throws Exception{
+public b4j.example.b4xformatter._b4xformatdata  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv0(b4j.example.b4xformatter._b4xformatdata _data) throws Exception{
 b4j.example.b4xformatter._b4xformatdata _d = null;
  //BA.debugLineNum = 36;BA.debugLine="Public Sub CopyFormatData (Data As B4XFormatData)";
  //BA.debugLineNum = 37;BA.debugLine="Dim d As B4XFormatData";
@@ -123,7 +123,7 @@ _d.DecimalPoint /*String*/  = _data.DecimalPoint /*String*/ ;
  //BA.debugLineNum = 40;BA.debugLine="If Data.FormatFont.IsInitialized Then";
 if (_data.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XFont*/ .IsInitialized()) { 
  //BA.debugLineNum = 42;BA.debugLine="d.FormatFont = xui.CreateFont(Data.FormatFont.To";
-_d.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XFont*/  = _xui.CreateFont((javafx.scene.text.Font)(_data.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XFont*/ .ToNativeFont().getObject()),(float) (_data.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XFont*/ .getSize()));
+_d.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XFont*/  = _vvvvvvvvvvvv6.CreateFont((javafx.scene.text.Font)(_data.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XFont*/ .ToNativeFont().getObject()),(float) (_data.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XFont*/ .getSize()));
  };
  //BA.debugLineNum = 45;BA.debugLine="d.GroupingCharacter = Data.GroupingCharacter";
 _d.GroupingCharacter /*String*/  = _data.GroupingCharacter /*String*/ ;
@@ -154,7 +154,7 @@ if (true) return _d;
  //BA.debugLineNum = 58;BA.debugLine="End Sub";
 return null;
 }
-public b4j.example.b4xformatter._b4xformatdata  _createdefaultformat() throws Exception{
+public b4j.example.b4xformatter._b4xformatdata  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1() throws Exception{
 b4j.example.b4xformatter._b4xformatdata _d = null;
  //BA.debugLineNum = 17;BA.debugLine="Private Sub CreateDefaultFormat As B4XFormatData";
  //BA.debugLineNum = 18;BA.debugLine="Dim d As B4XFormatData";
@@ -178,7 +178,7 @@ if (true) return _d;
  //BA.debugLineNum = 27;BA.debugLine="End Sub";
 return null;
 }
-public String  _format(double _number) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2(double _number) throws Exception{
 b4j.example.b4xformatter._b4xformatdata _data = null;
 anywheresoftware.b4a.keywords.StringBuilderWrapper _sb = null;
 int _numberstartindex = 0;
@@ -195,7 +195,7 @@ int _w = 0;
 if (_number<_min_value || _number>_max_value) { 
 if (true) return "OVERFLOW";};
  //BA.debugLineNum = 92;BA.debugLine="Dim data As B4XFormatData = GetFormatData (Number";
-_data = _getformatdata(_number);
+_data = _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5(_number);
  //BA.debugLineNum = 93;BA.debugLine="Dim sb As StringBuilder";
 _sb = new anywheresoftware.b4a.keywords.StringBuilderWrapper();
  //BA.debugLineNum = 94;BA.debugLine="sb.Initialize";
@@ -300,13 +300,13 @@ if (true) return _sb.ToString();
  //BA.debugLineNum = 144;BA.debugLine="End Sub";
 return "";
 }
-public String  _formatlabel(double _number,anywheresoftware.b4a.objects.B4XViewWrapper _label) throws Exception{
+public String  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv3(double _number,anywheresoftware.b4a.objects.B4XViewWrapper _label) throws Exception{
 b4j.example.b4xformatter._b4xformatdata _data = null;
  //BA.debugLineNum = 148;BA.debugLine="Public Sub FormatLabel (Number As Double, Label As";
  //BA.debugLineNum = 149;BA.debugLine="Label.Text = Format(Number)";
-_label.setText(_format(_number));
+_label.setText(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2(_number));
  //BA.debugLineNum = 150;BA.debugLine="Dim data As B4XFormatData = GetFormatData(Number)";
-_data = _getformatdata(_number);
+_data = _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5(_number);
  //BA.debugLineNum = 151;BA.debugLine="If data.TextColor <> 0 Then Label.TextColor = dat";
 if (_data.TextColor /*int*/ !=0) { 
 _label.setTextColor(_data.TextColor /*int*/ );};
@@ -316,14 +316,14 @@ _label.setFont(_data.FormatFont /*anywheresoftware.b4a.objects.B4XViewWrapper.B4
  //BA.debugLineNum = 153;BA.debugLine="End Sub";
 return "";
 }
-public b4j.example.b4xformatter._b4xformatdata  _getdefaultformat() throws Exception{
+public b4j.example.b4xformatter._b4xformatdata  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv4() throws Exception{
  //BA.debugLineNum = 76;BA.debugLine="Public Sub GetDefaultFormat As B4XFormatData";
  //BA.debugLineNum = 77;BA.debugLine="Return formats.Get(0)";
-if (true) return (b4j.example.b4xformatter._b4xformatdata)(_formats.Get((int) (0)));
+if (true) return (b4j.example.b4xformatter._b4xformatdata)(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7.Get((int) (0)));
  //BA.debugLineNum = 78;BA.debugLine="End Sub";
 return null;
 }
-public b4j.example.b4xformatter._b4xformatdata  _getformatdata(double _number) throws Exception{
+public b4j.example.b4xformatter._b4xformatdata  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5(double _number) throws Exception{
 int _i = 0;
 b4j.example.b4xformatter._b4xformatdata _d = null;
  //BA.debugLineNum = 81;BA.debugLine="Public Sub GetFormatData (Number As Double) As B4X";
@@ -331,17 +331,17 @@ b4j.example.b4xformatter._b4xformatdata _d = null;
 {
 final int step1 = -1;
 final int limit1 = (int) (1);
-_i = (int) (_formats.getSize()-1) ;
+_i = (int) (_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7.getSize()-1) ;
 for (;_i >= limit1 ;_i = _i + step1 ) {
  //BA.debugLineNum = 83;BA.debugLine="Dim d As B4XFormatData = formats.Get(i)";
-_d = (b4j.example.b4xformatter._b4xformatdata)(_formats.Get(_i));
+_d = (b4j.example.b4xformatter._b4xformatdata)(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7.Get(_i));
  //BA.debugLineNum = 84;BA.debugLine="If Number <= d.RangeEnd And Number >= d.RangeSta";
 if (_number<=_d.RangeEnd /*double*/  && _number>=_d.RangeStart /*double*/ ) { 
 if (true) return _d;};
  }
 };
  //BA.debugLineNum = 86;BA.debugLine="Return formats.Get(0)";
-if (true) return (b4j.example.b4xformatter._b4xformatdata)(_formats.Get((int) (0)));
+if (true) return (b4j.example.b4xformatter._b4xformatdata)(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7.Get((int) (0)));
  //BA.debugLineNum = 87;BA.debugLine="End Sub";
 return null;
 }
@@ -350,18 +350,18 @@ innerInitialize(_ba);
 b4j.example.b4xformatter._b4xformatdata _d = null;
  //BA.debugLineNum = 11;BA.debugLine="Public Sub Initialize";
  //BA.debugLineNum = 12;BA.debugLine="formats.Initialize";
-_formats.Initialize();
+_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7.Initialize();
  //BA.debugLineNum = 13;BA.debugLine="Dim d As B4XFormatData = CreateDefaultFormat";
-_d = _createdefaultformat();
+_d = _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1();
  //BA.debugLineNum = 14;BA.debugLine="AddFormatData(d, MIN_VALUE, MAX_VALUE, True)";
-_addformatdata(_d,_min_value,_max_value,__c.True);
+_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7(_d,_min_value,_max_value,__c.True);
  //BA.debugLineNum = 15;BA.debugLine="End Sub";
 return "";
 }
-public b4j.example.b4xformatter._b4xformatdata  _newformatdata() throws Exception{
+public b4j.example.b4xformatter._b4xformatdata  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv6() throws Exception{
  //BA.debugLineNum = 30;BA.debugLine="Public Sub NewFormatData As B4XFormatData";
  //BA.debugLineNum = 31;BA.debugLine="Return CopyFormatData(GetDefaultFormat)";
-if (true) return _copyformatdata(_getdefaultformat());
+if (true) return _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv0(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv4());
  //BA.debugLineNum = 32;BA.debugLine="End Sub";
 return null;
 }

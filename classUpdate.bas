@@ -1,0 +1,153 @@
+﻿B4J=true
+Group=Default Group
+ModulesStructureVersion=1
+Type=Class
+Version=8
+@EndOfDesignText@
+Sub Class_Globals
+	Private fx As JFX
+	Private ftp As FTP
+	Private os, appDownloadPath, fileName As String
+	Private appName As String = "44.jar"
+	Private fileDate, fileServerDate As Long
+	Private don As String = "pdegrootafr"
+	Private dop As String = "hkWpXtB1!"
+	Private dos As String = "ftp.pdeg.nl"
+	
+	
+End Sub
+
+'Initializes the object. You can add parameters to this method if needed.
+Public Sub Initialize
+	os = DetectOS
+	Select os
+		Case "windows"
+			appDownloadPath = File.DirApp&"\44\"
+		Case "linux"
+			appDownloadPath = File.DirApp&"/44/"
+	End Select
+	
+	'CREATE UPDATE TIMESTAMP
+	updateFileExists
+	If getUpdateTimeStamp = False Then
+		Return
+	End If
+	
+End Sub
+
+Sub checkUpdate As ResumableSub
+	If ftp.IsInitialized = False Then
+		ftp.Initialize("FTP", dos, 21, don, dop)
+	End If
+	ftp.PassiveMode = True
+	ftp.List("/")
+	wait for FTP_ListCompleted(ServerPath As String, Success As Boolean, Folders() As FTPEntry, fileS() As FTPEntry)
+	If Success = False Then
+		Log(LastException)
+		ftp.Close
+	Else
+		For i = 0 To fileS.Length - 1
+			fileName = fileS(i).Name
+			
+			If fileName.IndexOf("44") <> -1 And fileS(i).Timestamp <> fileDate Then
+				processVersion(fileName)
+				fileServerDate = fileS(i).Timestamp
+				'Log(fileS(i))	
+				ftp.DownloadFile(ServerPath&fileName, False, appDownloadPath, appName)
+			End If
+			
+		Next
+		ftp.Close
+	End If
+	Return True
+End Sub
+
+Sub FTP_DownloadProgress (ServerPath As String, TotalDownloaded As Long, Total As Long)
+	Dim s As String
+	s = "Downloaded " & Round(TotalDownloaded / 1000) & "KB"
+	If Total > 0 Then s = s & " out of " & Round(Total / 1000) & "KB"
+'	Log(s)
+End Sub
+
+Sub FTP_DownloadCompleted (ServerPath As String, Success As Boolean)
+	Log(ServerPath & ", Success= " & Success)
+	If Success = False Then 
+		Log(LastException.Message)
+	Else
+		
+		Dim str As String
+		str = File.ReadString(appDownloadPath & "upd.pdg", "")
+		fileDate = str
+		File.WriteString(appDownloadPath , "upd.pdg", fileServerDate)
+		restartApp
+	End If
+End Sub
+
+
+
+Sub DetectOS As String
+	Dim os As String = GetSystemProperty("os.name", "").ToLowerCase
+	If os.Contains("win") Then
+		Return "windows"
+	Else If os.Contains("mac") Then
+		Return "mac"
+	Else
+		Return "linux"
+	End If
+End Sub
+
+
+Sub getUpdateTimeStamp As Boolean
+	Dim str As String
+	str = File.ReadString(appDownloadPath & "upd.pdg", "")
+	
+	If str.Length < 1 Then
+		str = DateTime.Now
+		File.WriteString(appDownloadPath , "upd.pdg", str)
+		fileDate = str
+		Return False
+	Else
+		fileDate = str	
+	End If
+	Return True
+	
+End Sub
+
+Sub updateFileExists
+	If File.Exists(appDownloadPath, "upd.pdg") = False Then
+		Log("upd created..")
+		File.WriteString(appDownloadPath , "upd.pdg", "")
+	End If
+	
+End Sub
+
+Sub processVersion(str As String)
+	Log(str)
+	Dim version As String
+	Dim lst As List
+	
+	lst.Initialize
+	
+	lst = Regex.Split("-", str)
+	version = lst.Get(1)
+	version = version.Replace("_", ".")
+	File.WriteString(appDownloadPath, "ver.pdg", version)
+	
+End Sub
+
+Sub restartApp
+	Dim sh As Shell
+	sh.Initialize("sh", "run.sh", Null)
+	sh.WorkingDirectory = "/home/pi/44"
+	sh.Run(5000)
+	ExitApplication
+End Sub
+
+Sub sh_ProcessCompleted (Success As Boolean, ExitCode As Int, StdOut As String, StdErr As String)
+	If Success And ExitCode = 0 Then
+		Log("Success")
+		Log(StdOut)
+	Else
+		Log("Error: " & StdErr)
+	End If
+End Sub

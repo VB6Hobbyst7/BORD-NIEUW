@@ -1,12 +1,22 @@
 {
   "showPromote": {
     "active": "1",
-    "timeOut": "5"
+    "timeOut": "1"
   },
   "digitalFont": {
-    "active": "0"
+    "active": "1"
   },
   "fontColor": {
     "colorYellow": "0"
+  },
+  "lightSchema": {
+    "useLightSchema": "0"
+  },
+  "message": {
+    "line_1": "Dit is een test bericht",
+    "line_2": "",
+    "line_3": "Blijf kalm",
+    "line_4": "",
+    "line_5": "Neem een versnapering van het huis"
   }
 }

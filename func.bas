@@ -70,11 +70,17 @@ Public Sub setFont(lbl As Label, size As Int, digital As Boolean)
 	Else
 		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Arial.ttf", size)))
 	End If
-	
-	'lbl.Style = "-fx-text-fill: #FFFF00;"
-	
-	
 End Sub
+
+Public Sub setFontColor(lbl As Label, yellow As Boolean)
+	If yellow Then
+		lbl.Style = "-fx-text-fill: #ffff00;" '= fx.Colors.From32Bit(0xFFFFFF00)
+	Else
+		lbl.Style = "-fx-text-fill: #ffffff;"
+		'lbl.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	End If
+End Sub
+
 
 'padText e.g. "9", padChar e.g. "0", padSide 0=left 1=right, padCount e.g. 2
 Public Sub padString(padText As String ,padChr As String, padSide As Int, padCount As Int) As String
