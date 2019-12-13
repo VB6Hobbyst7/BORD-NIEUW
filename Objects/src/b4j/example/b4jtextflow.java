@@ -23,25 +23,25 @@ public class b4jtextflow extends B4AClass.ImplB4AClass implements BA.SubDelegato
     }
 
  public anywheresoftware.b4a.keywords.Common __c = null;
-public anywheresoftware.b4j.objects.JFX _vvvvvvvv3 = null;
-public anywheresoftware.b4a.objects.collections.List _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv0 = null;
-public anywheresoftware.b4j.object.JavaObject _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1 = null;
-public b4j.example.cssutils _vvvvvvvv0 = null;
-public b4j.example.dateutils _vvvvvvvvv1 = null;
+public anywheresoftware.b4j.objects.JFX _fx = null;
+public anywheresoftware.b4a.objects.collections.List _texts = null;
+public anywheresoftware.b4j.object.JavaObject _lastitem = null;
+public b4j.example.cssutils _cssutils = null;
+public b4j.example.dateutils _dateutils = null;
 public b4j.example.main _main = null;
-public b4j.example.scorebord _vvvvvvvvv2 = null;
-public b4j.example.func _vvvvvvvvv3 = null;
-public b4j.example.parseconfig _vvvvvvvvv4 = null;
-public b4j.example.funcinet _vvvvvvvvv5 = null;
-public b4j.example.httputils2service _vvvvvvvvv6 = null;
-public b4j.example.b4jtextflow  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2(String _text) throws Exception{
+public b4j.example.scorebord _scorebord = null;
+public b4j.example.func _func = null;
+public b4j.example.parseconfig _parseconfig = null;
+public b4j.example.funcinet _funcinet = null;
+public b4j.example.httputils2service _httputils2service = null;
+public b4j.example.b4jtextflow  _append(String _text) throws Exception{
  //BA.debugLineNum = 16;BA.debugLine="Public Sub Append(text As String) As B4JTextFlow";
  //BA.debugLineNum = 17;BA.debugLine="Dim lastItem As JavaObject";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1 = new anywheresoftware.b4j.object.JavaObject();
+_lastitem = new anywheresoftware.b4j.object.JavaObject();
  //BA.debugLineNum = 18;BA.debugLine="lastItem.InitializeNewInstance(\"javafx.scene.text";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.InitializeNewInstance("javafx.scene.text.Text",new Object[]{(Object)(_text)});
+_lastitem.InitializeNewInstance("javafx.scene.text.Text",new Object[]{(Object)(_text)});
  //BA.debugLineNum = 19;BA.debugLine="texts.Add(lastItem)";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv0.Add((Object)(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.getObject()));
+_texts.Add((Object)(_lastitem.getObject()));
  //BA.debugLineNum = 20;BA.debugLine="Return Me";
 if (true) return (b4j.example.b4jtextflow)(this);
  //BA.debugLineNum = 21;BA.debugLine="End Sub";
@@ -50,15 +50,15 @@ return null;
 public String  _class_globals() throws Exception{
  //BA.debugLineNum = 1;BA.debugLine="Sub Class_Globals";
  //BA.debugLineNum = 2;BA.debugLine="Private fx As JFX";
-_vvvvvvvv3 = new anywheresoftware.b4j.objects.JFX();
+_fx = new anywheresoftware.b4j.objects.JFX();
  //BA.debugLineNum = 3;BA.debugLine="Private texts As List";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv0 = new anywheresoftware.b4a.objects.collections.List();
+_texts = new anywheresoftware.b4a.objects.collections.List();
  //BA.debugLineNum = 4;BA.debugLine="Private lastItem As JavaObject";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1 = new anywheresoftware.b4j.object.JavaObject();
+_lastitem = new anywheresoftware.b4j.object.JavaObject();
  //BA.debugLineNum = 5;BA.debugLine="End Sub";
 return "";
 }
-public anywheresoftware.b4j.objects.PaneWrapper.ConcretePaneWrapper  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv3() throws Exception{
+public anywheresoftware.b4j.objects.PaneWrapper.ConcretePaneWrapper  _createtextflow() throws Exception{
 anywheresoftware.b4j.object.JavaObject _tf = null;
  //BA.debugLineNum = 45;BA.debugLine="Public Sub CreateTextFlow As Pane";
  //BA.debugLineNum = 46;BA.debugLine="Dim tf As JavaObject";
@@ -68,7 +68,7 @@ _tf.InitializeNewInstance("javafx.scene.text.TextFlow",(Object[])(__c.Null));
  //BA.debugLineNum = 48;BA.debugLine="tf.RunMethod(\"setTextAlignment\", Array(\"CENTER\"))";
 _tf.RunMethod("setTextAlignment",new Object[]{(Object)("CENTER")});
  //BA.debugLineNum = 49;BA.debugLine="tf.RunMethodJO(\"getChildren\", Null).RunMethod(\"ad";
-_tf.RunMethodJO("getChildren",(Object[])(__c.Null)).RunMethod("addAll",new Object[]{(Object)(_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv0.getObject())});
+_tf.RunMethodJO("getChildren",(Object[])(__c.Null)).RunMethod("addAll",new Object[]{(Object)(_texts.getObject())});
  //BA.debugLineNum = 50;BA.debugLine="Return tf";
 if (true) return (anywheresoftware.b4j.objects.PaneWrapper.ConcretePaneWrapper) anywheresoftware.b4a.AbsObjectWrapper.ConvertToWrapper(new anywheresoftware.b4j.objects.PaneWrapper.ConcretePaneWrapper(), (javafx.scene.layout.Pane)(_tf.getObject()));
  //BA.debugLineNum = 51;BA.debugLine="End Sub";
@@ -78,50 +78,50 @@ public String  _initialize(anywheresoftware.b4a.BA _ba) throws Exception{
 innerInitialize(_ba);
  //BA.debugLineNum = 7;BA.debugLine="Public Sub Initialize";
  //BA.debugLineNum = 8;BA.debugLine="Reset";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv4();
+_reset();
  //BA.debugLineNum = 9;BA.debugLine="End Sub";
 return "";
 }
-public b4j.example.b4jtextflow  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv4() throws Exception{
+public b4j.example.b4jtextflow  _reset() throws Exception{
  //BA.debugLineNum = 11;BA.debugLine="Public Sub Reset As B4JTextFlow";
  //BA.debugLineNum = 12;BA.debugLine="texts.Initialize";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv0.Initialize();
+_texts.Initialize();
  //BA.debugLineNum = 13;BA.debugLine="Return Me";
 if (true) return (b4j.example.b4jtextflow)(this);
  //BA.debugLineNum = 14;BA.debugLine="End Sub";
 return null;
 }
-public b4j.example.b4jtextflow  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv5(int _color) throws Exception{
+public b4j.example.b4jtextflow  _setcolor(int _color) throws Exception{
  //BA.debugLineNum = 28;BA.debugLine="Public Sub SetColor(Color As Int) As B4JTextFlow";
  //BA.debugLineNum = 29;BA.debugLine="lastItem.RunMethod(\"setFill\", Array(fx.Colors.Fro";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.RunMethod("setFill",new Object[]{(Object)(_vvvvvvvv3.Colors.From32Bit(_color))});
+_lastitem.RunMethod("setFill",new Object[]{(Object)(_fx.Colors.From32Bit(_color))});
  //BA.debugLineNum = 30;BA.debugLine="Return Me";
 if (true) return (b4j.example.b4jtextflow)(this);
  //BA.debugLineNum = 31;BA.debugLine="End Sub";
 return null;
 }
-public b4j.example.b4jtextflow  _vvvvvv2(anywheresoftware.b4j.objects.JFX.FontWrapper _font) throws Exception{
+public b4j.example.b4jtextflow  _setfont(anywheresoftware.b4j.objects.JFX.FontWrapper _font) throws Exception{
  //BA.debugLineNum = 23;BA.debugLine="Public Sub SetFont(Font As Font) As B4JTextFlow";
  //BA.debugLineNum = 24;BA.debugLine="lastItem.RunMethod(\"setFont\", Array(Font))";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.RunMethod("setFont",new Object[]{(Object)(_font.getObject())});
+_lastitem.RunMethod("setFont",new Object[]{(Object)(_font.getObject())});
  //BA.debugLineNum = 25;BA.debugLine="Return Me";
 if (true) return (b4j.example.b4jtextflow)(this);
  //BA.debugLineNum = 26;BA.debugLine="End Sub";
 return null;
 }
-public b4j.example.b4jtextflow  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv6(boolean _strikethrough) throws Exception{
+public b4j.example.b4jtextflow  _setstrikethrough(boolean _strikethrough) throws Exception{
  //BA.debugLineNum = 38;BA.debugLine="Public Sub SetStrikethrough(Strikethrough As Boole";
  //BA.debugLineNum = 39;BA.debugLine="lastItem.RunMethod(\"setStrikethrough\", Array(Stri";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.RunMethod("setStrikethrough",new Object[]{(Object)(_strikethrough)});
+_lastitem.RunMethod("setStrikethrough",new Object[]{(Object)(_strikethrough)});
  //BA.debugLineNum = 40;BA.debugLine="Return Me";
 if (true) return (b4j.example.b4jtextflow)(this);
  //BA.debugLineNum = 41;BA.debugLine="End Sub";
 return null;
 }
-public b4j.example.b4jtextflow  _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv7(boolean _underline) throws Exception{
+public b4j.example.b4jtextflow  _setunderline(boolean _underline) throws Exception{
  //BA.debugLineNum = 33;BA.debugLine="Public Sub SetUnderline(Underline As Boolean) As B";
  //BA.debugLineNum = 34;BA.debugLine="lastItem.RunMethod(\"setUnderline\", Array(Underlin";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv1.RunMethod("setUnderline",new Object[]{(Object)(_underline)});
+_lastitem.RunMethod("setUnderline",new Object[]{(Object)(_underline)});
  //BA.debugLineNum = 35;BA.debugLine="Return Me";
 if (true) return (b4j.example.b4jtextflow)(this);
  //BA.debugLineNum = 36;BA.debugLine="End Sub";

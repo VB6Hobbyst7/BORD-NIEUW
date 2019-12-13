@@ -41,15 +41,15 @@ static {
         }
     }
 public static anywheresoftware.b4a.keywords.Common __c = null;
-public static anywheresoftware.b4j.objects.JFX _vvvvvvvv3 = null;
-public static anywheresoftware.b4j.objects.Form _vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2 = null;
-public static b4j.example.cssutils _vvvvvvvv0 = null;
-public static b4j.example.dateutils _vvvvvvvvv1 = null;
-public static b4j.example.scorebord _vvvvvvvvv2 = null;
-public static b4j.example.func _vvvvvvvvv3 = null;
-public static b4j.example.parseconfig _vvvvvvvvv4 = null;
-public static b4j.example.funcinet _vvvvvvvvv5 = null;
-public static b4j.example.httputils2service _vvvvvvvvv6 = null;
+public static anywheresoftware.b4j.objects.JFX _fx = null;
+public static anywheresoftware.b4j.objects.Form _mainform = null;
+public static b4j.example.cssutils _cssutils = null;
+public static b4j.example.dateutils _dateutils = null;
+public static b4j.example.scorebord _scorebord = null;
+public static b4j.example.func _func = null;
+public static b4j.example.parseconfig _parseconfig = null;
+public static b4j.example.funcinet _funcinet = null;
+public static b4j.example.httputils2service _httputils2service = null;
 public static boolean  _application_error(anywheresoftware.b4a.objects.B4AException _error,String _stacktrace) throws Exception{
  //BA.debugLineNum = 28;BA.debugLine="Sub Application_Error (Error As Exception, StackTr";
  //BA.debugLineNum = 29;BA.debugLine="Return True";
@@ -61,18 +61,18 @@ public static String  _appstart(anywheresoftware.b4j.objects.Form _form1,String[
 String _apppath = "";
  //BA.debugLineNum = 11;BA.debugLine="Sub AppStart (Form1 As Form, Args() As String)";
  //BA.debugLineNum = 13;BA.debugLine="Dim appPath As String = parseConfig.getAppPath";
-_apppath = _vvvvvvvvv4._vvvvvvv5 /*String*/ ();
+_apppath = _parseconfig._getapppath /*String*/ ();
  //BA.debugLineNum = 15;BA.debugLine="If File.Exists(appPath, \"\") = False Then";
 if (anywheresoftware.b4a.keywords.Common.File.Exists(_apppath,"")==anywheresoftware.b4a.keywords.Common.False) { 
  //BA.debugLineNum = 16;BA.debugLine="File.Copy(File.DirAssets, \"cnf.44\", appPath, \"\")";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cnf.44",_apppath,"");
  };
  //BA.debugLineNum = 19;BA.debugLine="MainForm = Form1";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2 = _form1;
+_mainform = _form1;
  //BA.debugLineNum = 23;BA.debugLine="scorebord.Show";
-_vvvvvvvvv2._show /*void*/ ();
+_scorebord._show /*void*/ ();
  //BA.debugLineNum = 24;BA.debugLine="MainForm.Close";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2.Close();
+_mainform.Close();
  //BA.debugLineNum = 25;BA.debugLine="End Sub";
 return "";
 }
@@ -99,9 +99,9 @@ httputils2service._process_globals();
 }public static String  _process_globals() throws Exception{
  //BA.debugLineNum = 6;BA.debugLine="Sub Process_Globals";
  //BA.debugLineNum = 7;BA.debugLine="Private fx As JFX";
-_vvvvvvvv3 = new anywheresoftware.b4j.objects.JFX();
+_fx = new anywheresoftware.b4j.objects.JFX();
  //BA.debugLineNum = 8;BA.debugLine="Private MainForm As Form";
-_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv2 = new anywheresoftware.b4j.objects.Form();
+_mainform = new anywheresoftware.b4j.objects.Form();
  //BA.debugLineNum = 9;BA.debugLine="End Sub";
 return "";
 }

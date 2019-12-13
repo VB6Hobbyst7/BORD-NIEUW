@@ -52,7 +52,10 @@ Sub pullConfig
 	Dim line_3 As String = message.Get("line_3")
 	Dim line_4 As String = message.Get("line_4")
 	Dim fontColor As Map = root.Get("fontColor")
-	
+
+	Dim sponsor As Map = root.Get("reclame")
+	Dim sponsorActive As String = sponsor.Get("active")
+
 	Dim showPromote As Map = root.Get("showPromote")
 	If showPromote.Get("active") = "1" Then
 		timeOutActive = True
@@ -79,6 +82,12 @@ Sub pullConfig
 	
 	msgList.AddAll(Array As String(line_1, line_2, line_3, line_4, line_5))
 	CallSub2(scorebord, "setMessage", msgList)
+	
+	If sponsorActive = "1" Then
+		CallSub2(scorebord, "showSponor", True)
+	Else
+		CallSub2(scorebord, "showSponor", False)
+	End If
 	
 End Sub
 

@@ -18,7 +18,7 @@ Sub Process_Globals
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
-	Private clsUpdate as classUpdate
+	Private clsUpdate As classUpdate
 	
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
@@ -103,6 +103,9 @@ Sub Process_Globals
 	Private lbl_message_3 As Label
 	Private lbl_message_4 As Label
 	Private lbl_message_5 As Label
+	Private btn_test As Button
+	Private lbl_version As Label
+	Private pn_sponsore As Pane
 End Sub
 
 
@@ -114,7 +117,7 @@ Public Sub show
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	parseConfig.pullConfig
 	#if debug
-		frm.SetFormStyle("UTILITY")
+	frm.SetFormStyle("UTILITY")
 	#Else
 		frm.SetFormStyle("UNDECORATED")
 		frm.Resizable = False
@@ -135,9 +138,7 @@ Public Sub show
 	clsCheckCfg.Initialize
 	clsToast.Initialize(frm.RootPane)
 	clsUpdate.Initialize
-	
-	clsUpdate.checkUpdate
-	
+	lbl_version.Text = func.getVersion
 
 	func.lblInnings = lbl_innings
 	func.lbl_player_one_hs = lbl_player_one_hs
@@ -149,6 +150,7 @@ Public Sub show
 	Wait For (funcInet.testInet) Complete (result As Boolean)
 	If result Then
 		func.hasInternetAccess = True
+		clsUpdate.checkUpdate
 	Else
 		func.hasInternetAccess = False
 	End If
@@ -713,8 +715,10 @@ Sub useFontYellow(useYellow As Boolean)
 	func.setFontColor(lbl_player_two_make_100, useYellow)
 	func.setFontColor(lbl_player_two_make_10, useYellow)
 	func.setFontColor(lbl_player_two_make_1, useYellow)
-	
-	
+End Sub
+
+Sub showSponor(enabled As Boolean)
+	pn_sponsore.Visible = enabled
 End Sub
 
 
@@ -725,4 +729,9 @@ Sub setMessage(msgList As List)
 	lbl_message_4.Text = msgList.get(3)
 	lbl_message_5.Text = msgList.Get(4)
 	
+End Sub
+
+
+Sub btn_test_MouseReleased (EventData As MouseEvent)
+	clsUpdate.restartApp
 End Sub

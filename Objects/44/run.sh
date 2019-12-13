@@ -1,0 +1,1 @@
+sudo /home/pi/jdk-11.0.5/bin/java -jar /home/pi/44/44.jar

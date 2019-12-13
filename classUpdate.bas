@@ -49,7 +49,7 @@ Sub checkUpdate As ResumableSub
 		For i = 0 To fileS.Length - 1
 			fileName = fileS(i).Name
 			
-			If fileName.IndexOf("44") <> -1 And fileS(i).Timestamp <> fileDate Then
+			If fileName.IndexOf("44") <> -1 And fileS(i).Timestamp > fileDate Then
 				processVersion(fileName)
 				fileServerDate = fileS(i).Timestamp
 				'Log(fileS(i))	
@@ -70,8 +70,8 @@ Sub FTP_DownloadProgress (ServerPath As String, TotalDownloaded As Long, Total A
 End Sub
 
 Sub FTP_DownloadCompleted (ServerPath As String, Success As Boolean)
-	Log(ServerPath & ", Success= " & Success)
-	If Success = False Then 
+'	Log(ServerPath & ", Success= " & Success)
+	If Success = False Then
 		Log(LastException.Message)
 	Else
 		
@@ -79,7 +79,9 @@ Sub FTP_DownloadCompleted (ServerPath As String, Success As Boolean)
 		str = File.ReadString(appDownloadPath & "upd.pdg", "")
 		fileDate = str
 		File.WriteString(appDownloadPath , "upd.pdg", fileServerDate)
-		restartApp
+		If os = "linux" Then
+			restartApp
+		End If
 	End If
 End Sub
 
@@ -122,7 +124,7 @@ Sub updateFileExists
 End Sub
 
 Sub processVersion(str As String)
-	Log(str)
+'	Log(str)
 	Dim version As String
 	Dim lst As List
 	
@@ -131,14 +133,17 @@ Sub processVersion(str As String)
 	lst = Regex.Split("-", str)
 	version = lst.Get(1)
 	version = version.Replace("_", ".")
+	version = version.Replace(".jar", "")
+	Log($"Version : ${version}"$)
 	File.WriteString(appDownloadPath, "ver.pdg", version)
 	
 End Sub
 
 Sub restartApp
 	Dim sh As Shell
-	sh.Initialize("sh", "run.sh", Null)
-	sh.WorkingDirectory = "/home/pi/44"
+'	sh.Initialize("sh", "/home/pi/44/run.sh", Null)
+'	sh.WorkingDirectory = "/home/pi/44"
+	sh.Initialize("sh", "sh", Array("/home/pi/44/run.sh"))
 	sh.Run(5000)
 	ExitApplication
 End Sub

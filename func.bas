@@ -20,6 +20,7 @@ Sub Process_Globals
 	Public p2_1, p2_10, p2_100, p2_1000, p2_moyenne As Label
 	Public p1_progress, p2_progress As Float
 	Public p1_progressBar, p2_progressBar As B4XProgressBar
+	Public os as String
 	Dim txtScore As String
 End Sub
 
@@ -355,3 +356,31 @@ Sub setNumberCss(lbl As Label)
 	CSSUtils.SetStyleProperty(lbl, "-fx-background-color",  "linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%)")
 	CSSUtils.SetStyleProperty(lbl, "-fx-background-radius", "3,2,1")
 End Sub
+
+Sub getVersion As String
+	Dim version, os, appPath As String
+	os = DetectOS
+	Select os
+		Case "windows"
+			appPath = File.DirApp&"\44\"
+		Case "linux"
+			appPath = File.DirApp&"/44/"
+	End Select
+	
+	version = File.ReadString(appPath, "ver.pdg")
+	
+	Return $" v ${version.Trim}"$
+	
+End Sub
+
+Sub DetectOS As String
+	Dim os As String = GetSystemProperty("os.name", "").ToLowerCase
+	If os.Contains("win") Then
+		Return "windows"
+	Else If os.Contains("mac") Then
+		Return "mac"
+	Else
+		Return "linux"
+	End If
+End Sub
+

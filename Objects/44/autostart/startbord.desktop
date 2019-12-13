@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=StartBord
+GenericName=Start Bord
+Comment=Java Control Panel
+Exec=/home/pi/jdk-11.0.5/bin/java -jar /home/pi/44/44.jar
+#Exec=home/pi/44/run.sh
+Icon=lxterminal
+Type=Application
+Categories=Utility
