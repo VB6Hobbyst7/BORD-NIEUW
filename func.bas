@@ -10,7 +10,7 @@ Sub Process_Globals
 	Private regexStr As StringBuilder
 	
 	Public timeLastClick As Long = 0
-	
+	Public setNieuwePartij As Boolean = True
 	Public hasInternetAccess As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
 	Public innigs, inngSet, make, playerOneHs = 0, playerTwoHs = 0, score As Int
@@ -20,7 +20,7 @@ Sub Process_Globals
 	Public p2_1, p2_10, p2_100, p2_1000, p2_moyenne As Label
 	Public p1_progress, p2_progress As Float
 	Public p1_progressBar, p2_progressBar As B4XProgressBar
-	Public os as String
+	Public os As String
 	Dim txtScore As String
 End Sub
 
@@ -68,6 +68,7 @@ Public Sub setFont(lbl As Label, size As Int, digital As Boolean)
 		Dim jo As JavaObject=lbl
 	If digital Then
 		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"digital-7 (mono).ttf", size)))
+		'jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Courier Regular.ttf", size)))
 	Else
 		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Arial.ttf", size)))
 	End If
@@ -219,9 +220,14 @@ Sub playerOneMake(lbl100 As Label, lbl10 As Label, lbl1 As Label, leftButton As 
 	lbl1.Text	= strMaker.SubString2(2,3)
 	
 	playerOneToMake = make
+	If playerOneToMake > 0 Then
 	p1_progress = (scorePlayerOne/playerOneToMake)*100
-	setProgress(p1_progressBar, p1_progress)
 	CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/playerOneToMake)*100,1,2,2,False)&"%")
+	Else
+		p1_progress = 0
+	CallSub2(scorebord, "playerOnePerc", "n.v.t.")
+	End If
+	setProgress(p1_progressBar, p1_progress)
 End Sub
 
 Sub playerTwoMake(lbl100 As Label, lbl10 As Label, lbl1 As Label, leftButton As Boolean, number As Int)
@@ -247,9 +253,15 @@ Sub playerTwoMake(lbl100 As Label, lbl10 As Label, lbl1 As Label, leftButton As 
 	lbl1.Text	= strMaker.SubString2(2,3)
 	
 	playerTwoToMake = make
-	p2_progress = (scorePlayerTwo/playerTwoToMake)*100
-	setProgress(p1_progressBar, p1_progress)
-	CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/playerTwoToMake)*100,1,2,2,False)&"%")
+	If playerTwoToMake > 0 Then
+		p2_progress = (scorePlayerTwo/playerTwoToMake)*100
+		setProgress(p2_progressBar, p2_progress)
+		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/playerTwoToMake)*100,1,2,2,False)&"%")
+	Else
+		p2_progress = 0
+		setProgress(p2_progressBar, p2_progress)
+		CallSub2(scorebord, "playerTwoPerc", "n.v.t")
+	End If
 End Sub
 
 Sub processHs(player As String)
@@ -303,14 +315,14 @@ End Sub
 
 
 ' Example: SetFormCursor(MainForm, "arrowup.png")
-Sub SetFormCursor(frm As Form, imagefile As String)
-	Dim img As Image
-	img.Initialize(File.DirAssets, imagefile)
-	Dim joImageCursor As JavaObject
-	joImageCursor.InitializeNewInstance("javafx.scene.ImageCursor", Array(img))
-	Dim joCursor As JavaObject = frm.RootPane
-	joCursor.RunMethod("setCursor", Array(joImageCursor))
-End Sub
+'Sub SetFormCursor(frm As Form, imagefile As String)
+'	Dim img As Image
+'	img.Initialize(File.DirAssets, imagefile)
+'	Dim joImageCursor As JavaObject
+'	joImageCursor.InitializeNewInstance("javafx.scene.ImageCursor", Array(img))
+'	Dim joCursor As JavaObject = frm.RootPane
+'	joCursor.RunMethod("setCursor", Array(joImageCursor))
+'End Sub
 
 'Dir, 'Filename: Directory and filename of the cursor image.
 'hotspotX, hotspotY: X and Y Position of the hotspot of the cursor (where the click happens).
@@ -352,10 +364,10 @@ Sub caromLabelCss(lbl As Label, style As String)
 	lbl.StyleClasses.Add(style)
 End Sub
 
-Sub setNumberCss(lbl As Label)
-	CSSUtils.SetStyleProperty(lbl, "-fx-background-color",  "linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%)")
-	CSSUtils.SetStyleProperty(lbl, "-fx-background-radius", "3,2,1")
-End Sub
+'Sub setNumberCss(lbl As Label)
+'	CSSUtils.SetStyleProperty(lbl, "-fx-background-color",  "linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%)")
+'	CSSUtils.SetStyleProperty(lbl, "-fx-background-radius", "3,2,1")
+'End Sub
 
 Sub getVersion As String
 	Dim version, os, appPath As String

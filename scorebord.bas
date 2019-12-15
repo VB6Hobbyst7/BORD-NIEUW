@@ -12,35 +12,27 @@ Sub Process_Globals
 	
 	Private Dialog As B4XDialog
 	Private Base As B4XView
-'	Dim nh As NativeHook
 	Private XUI As XUI
-	Private frm As Form
+	Public frm As Form
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
 	Private clsUpdate As classUpdate
 	
+	
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
 	Private pNieuwePartij As B4XView 
 	Private pNieuwePartijDialog As B4XDialog
-	'Dim ftp As Ftp
 	
 	
-'	Private MainForm As Form
-'	Private lbl_player_one As B4XView
-'	Private lbl_player_two As B4XView
 	Private lbl_innings As Label
 	
-'	Private lbl_player_one_1000 As B4XView
-'	Private lbl_player_one_active As B4XView
 	Private lbl_player_one_moyenne As Label
 	Private lbl_player_two_moyenne As Label
-'	Private lbl_player_two_1000 As B4XView
 	Private lbl_player_two_100 As Label
 	Private lbl_player_two_10 As Label
 	Private lbl_player_two_1 As Label
-	Private btn_exit As B4XView
 	Private lbl_player_one_name As B4XView
 	Private lbl_player_two_name As B4XView
 	Private lbl_player_one_perc As Label
@@ -51,44 +43,30 @@ Sub Process_Globals
 	Private lbl_player_two_make_10 As Label
 	Private lbl_player_two_make_1 As Label
 	Private lbl_player_two_perc As Label
-'	Private cmb_game As ComboBox
 	Private lbl_reset As B4XView
 	Private jxui As XUI
 	Private lbl_player_one_hs As Label
 	Private lbl_player_two_hs As Label
 	Private lbl_clock As B4XView
 	Private clsTmr As timerClass
-'	Private lbl_logo As B4XView
 	
 	
 	Private Label7 As Label
-'	Private lbl_logo_top As B4XView
 	Private edt_speler_a As TextField
 	Private edt_temaken_a As TextField
 	Private edt_speler_b As TextField
 	Private edt_temaken_b As TextField
 	Private btn_a_begint As Button
 	Private btn_b_begint As Button
-'	Private lbl_p1_temaken As B4XView
-'	Private lbl_p1_perc As Label
-'	Private ProgressBar1 As ProgressBar
-	
 	Private B4XProgressBarP1 As B4XProgressBar
 	Private B4XProgressBarP2 As B4XProgressBar
 	
 	Private btn_nieuwe_partij As Button
 	Private btn_annuleer_nieuwe_partij As Button
-'	Private lbl_player_one_test As Label
-'	Private lbl_player_one_1_xx As B4XView
-'	Private lbl_player_one_1xx As B4XView
 	Private Label6 As Label
 	Private lbl_close As B4XView
 	Private chk_add_player As CheckBox
-	Private img_random As ImageView
-'	Private Label8 As Label
-'	Private Button1 As Button
 	Private pn_p1_carom As Pane
-'	Private Label2 As Label
 	Private pn_promote As Pane
 	Private lbl_config_update As Label
 	
@@ -103,25 +81,39 @@ Sub Process_Globals
 	Private lbl_message_3 As Label
 	Private lbl_message_4 As Label
 	Private lbl_message_5 As Label
-	Private btn_test As Button
 	Private lbl_version As Label
 	Private pn_sponsore As Pane
+	
+	Public xfrm As Form
+	Private pn_game As Pane
+	Private lbl_game_text As Label
+	Private pn_a As Pane
 End Sub
 
 
 Public Sub show
+	xfrm.Initialize("frm", 1920, 1080)
+	xfrm.SetFormStyle("UNDECORATED")
+	xfrm.RootPane.LoadLayout("nieuwe_partij")
+	xfrm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
+	xfrm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
+	
+	
 	
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("scorebord")
-	setFontSize
-	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
-	parseConfig.pullConfig
+	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	#if debug
 	frm.SetFormStyle("UTILITY")
 	#Else
-		frm.SetFormStyle("UNDECORATED")
-		frm.Resizable = False
+	frm.SetFormStyle("UNDECORATED")
+	frm.Resizable = False
 	#End If
+	
+	setFontSize
+	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
+	parseConfig.pullConfig
+	
 	
 	frm.Show
 	MouseOver(frm.RootPane)
@@ -131,6 +123,7 @@ Public Sub show
 	
 	'func.SetFormCursor(frm, "mouse.png")
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
+	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, xfrm.RootPane)
 	
 	
 	clsTmr.Initialize(lbl_clock)
@@ -139,14 +132,13 @@ Public Sub show
 	clsToast.Initialize(frm.RootPane)
 	clsUpdate.Initialize
 	lbl_version.Text = func.getVersion
-
-	func.lblInnings = lbl_innings
-	func.lbl_player_one_hs = lbl_player_one_hs
-	func.lbl_player_two_hs = lbl_player_two_hs
+		func.lblInnings = lbl_innings
+		func.lbl_player_one_hs = lbl_player_one_hs
+		func.lbl_player_two_hs = lbl_player_two_hs
 	
-	func.setP1CaromLables(lstPlayerOneScoreLbl)
-	func.setP2CaromLables(lstPlayerTwoScoreLbl)
-
+		func.setP1CaromLables(lstPlayerOneScoreLbl)
+		func.setP2CaromLables(lstPlayerTwoScoreLbl)
+		
 	Wait For (funcInet.testInet) Complete (result As Boolean)
 	If result Then
 		func.hasInternetAccess = True
@@ -155,12 +147,14 @@ Public Sub show
 		func.hasInternetAccess = False
 	End If
 	
-	
-	initPanels
-	
+		initPanels
 	
 End Sub
 
+
+Public Sub setClearBoard(clear As Boolean)
+	func.setNieuwePartij = clear
+End Sub
 
 Sub initPanels
 	pNieuwePartijDialog.Initialize (Base)
@@ -181,18 +175,10 @@ Sub initPanels
 End Sub
 
 
-Sub getRandomImage
-'	funcInet.newRandomImage("https://www.b4x.com/images3/android.png", img_random)
-	
-End Sub
-
-'Sub setRandomImage(img As Image)
-'	img_random.SetImage(img)
-'	
-'End Sub
-
 Sub setFontSize
 	func.caromLabelCss(lbl_innings, "labelCarom")
+	func.caromLabelCss(lbl_player_one_name, "labelCarom")
+	func.caromLabelCss(lbl_player_two_name, "labelCarom")
 
 	func.caromLabelCss(lbl_player_one_hs, "labelWhite")
 	func.caromLabelCss(lbl_player_one_moyenne, "labelWhite")
@@ -231,11 +217,11 @@ Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
 End Sub
 
 
-Sub lbl_player_two_MouseReleased (EventData As MouseEvent)
-'	CSSUtils.SetBorder(lbl_player_one, 0, fx.Colors.From32Bit(0xFFFFFFFF), 4)
-'	CSSUtils.SetBorder(lbl_player_two, 1, fx.Colors.From32Bit(0xFFFFFFFF), 4)
-
-End Sub
+'Sub lbl_player_two_MouseReleased (EventData As MouseEvent)
+''	CSSUtils.SetBorder(lbl_player_one, 0, fx.Colors.From32Bit(0xFFFFFFFF), 4)
+''	CSSUtils.SetBorder(lbl_player_two, 1, fx.Colors.From32Bit(0xFFFFFFFF), 4)
+'
+'End Sub
 
 Sub lstPlayerOneScoreLbl As List
 	Dim List As List
@@ -250,8 +236,6 @@ Sub lstPlayerTwoScoreLbl As List
 	List.AddAll(Array As Object(lbl_player_two_1, lbl_player_two_10, lbl_player_two_100, lbl_player_two_moyenne, B4XProgressBarP2))
 	Return List
 End Sub
-
-'	CSSUtils.SetBorder(lbl_player_one, 1, fx.Colors.From32Bit(0xFFFFFFFF), 4)
 
 
 Sub lastClick
@@ -413,7 +397,7 @@ End Sub
 Sub setCaromNumber(v As B4XView, value As String)
 '	func.setVisibleAnimated(v, 200, False)
 '	Sleep(200)
-	v.Color = 0x00FFFFFF
+'	v.Color = 0x00FFFFFF
 	v.Text = value
 '	func.setVisibleAnimated(v, 200, True)
 	
@@ -480,11 +464,27 @@ End Sub
 Sub setP1Name
 	lbl_player_one_name.Color = 0xff3455db'0xFF69D79A
 	lbl_player_two_name.Color = 0xFF001A01
+	
+	lbl_player_one_100.Enabled = True
+	lbl_player_one_10.Enabled = True
+	lbl_player_one_1.Enabled = True
+	
+	lbl_player_two_100.Enabled = False
+	lbl_player_two_10.Enabled = False
+	lbl_player_two_1.Enabled = False
 End Sub
 
 Sub setP2Name
 	lbl_player_two_name.Color = 0xff3455db'0xFF69D79A
 	lbl_player_one_name.Color = 0xFF001A01
+	
+	lbl_player_one_100.Enabled = False
+	lbl_player_one_10.Enabled = False
+	lbl_player_one_1.Enabled = False
+	
+	lbl_player_two_100.Enabled = True
+	lbl_player_two_10.Enabled = True
+	lbl_player_two_1.Enabled = True
 End Sub
 
 
@@ -496,8 +496,14 @@ Sub checkMatchWonP1
 	caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
 	make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
 	
+	If make = 0 Then Return
+	
 	If caroms >= make Then
-'		Log($"Speler 1 wint, nabeurt voor speler 2"$)
+		lbl_game_text.Text = $"Gelijkmakende beurt voor ${lbl_player_two_name.Text}"$
+		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
+		setP2Name
+		Sleep(4000)
+		pn_game.Top = 1650
 	End If
 End Sub
 
@@ -506,9 +512,18 @@ Sub checkMatchWonP2
 	
 	caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
 	make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
+	If make = 0 Then Return
 	
 	If caroms >= make Then
-'		Log($"Speler 2 wint, geen nabeurt voor speler 1"$)
+'		Dim m As MediaPlayer
+'		
+'		Dim mv As JavaObject
+'		m.Initialize("m",File.GetUri(File.DirApp&"/44","win_vid.mp4"))
+'		mv.InitializeNewInstance("javafx.scene.media.MediaView",Array(m))
+'		pn_a.AddNode(mv, 0, 0, pn_a.Width, pn_a.Height)
+'		m.Play
+'		Sleep(5000)
+'		m.Stop
 	End If
 End Sub
 
@@ -531,6 +546,8 @@ End Sub
 
 
 Sub nieuwePartij
+	xfrm.Show
+	Return
 	Wait For (pNieuwePartijDialog.ShowCustom(pNieuwePartij, "", "", "")) Complete (Result As Int)
 	If Result = XUI.DialogResponse_Positive Then
 		'Dialog.Show("PETER" & " " & "PAN", "OK", "", "")
@@ -580,8 +597,8 @@ End Sub
 
 
 Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
-	pNieuwePartijDialog.Close(XUI.DialogResponse_Positive)
-	
+	'pNieuwePartijDialog.Close(XUI.DialogResponse_Positive)
+	xfrm.Close
 	resetBoard(False)
 	If chk_add_player.Checked Then
 		iets
@@ -589,7 +606,8 @@ Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub btn_annuleer_nieuwe_partij_MouseReleased (EventData As MouseEvent)
-	pNieuwePartijDialog.Close(XUI.DialogResponse_Cancel)
+	xfrm.Close
+	'pNieuwePartijDialog.Close(XUI.DialogResponse_Cancel)
 	
 End Sub
 
@@ -645,9 +663,9 @@ private Sub setHandler(ob As JavaObject,eventName As String,handlerName As Strin
 	ob.RunMethod(eventName, Array(ob.CreateEventFromUI("javafx.event.EventHandler",handlerName,True)))
 End Sub
 
-Private Sub asJO(o As JavaObject) As JavaObject
-	Return o
-End Sub
+'Private Sub asJO(o As JavaObject) As JavaObject
+'	Return o
+'End Sub
 
 Sub MainForm_MouseClicked (EventData As MouseEvent)
 	If inactivecls.tmr_draw_promote.Enabled = True Then
@@ -671,9 +689,9 @@ Sub useDigitalFont(useDigital As Boolean)
 	Dim fsCarom, fsMake, fsInnings As Int
 	
 	If useDigital Then
-		fsCarom = 350
+		fsCarom = 300'350
 		fsMake = 225
-		fsInnings = 300
+		fsInnings = 250'300
 	Else 
 		fsCarom = 225
 		fsMake = 150

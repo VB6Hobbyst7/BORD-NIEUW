@@ -1,5 +1,6 @@
 package b4j.example;
 
+import anywheresoftware.b4a.debug.*;
 
 import anywheresoftware.b4a.BA;
 import anywheresoftware.b4a.B4AClass;
@@ -8,7 +9,7 @@ public class animatedcounter extends B4AClass.ImplB4AClass implements BA.SubDele
     public static java.util.HashMap<String, java.lang.reflect.Method> htSubs;
     private void innerInitialize(BA _ba) throws Exception {
         if (ba == null) {
-            ba = new  anywheresoftware.b4j.objects.FxBA("b4j.example", "b4j.example.animatedcounter", this);
+            ba = new  anywheresoftware.b4a.shell.ShellBA("b4j.example", "b4j.example.animatedcounter", this);
             if (htSubs == null) {
                 ba.loadHtSubs(this.getClass());
                 htSubs = ba.htSubs;
@@ -22,7 +23,14 @@ public class animatedcounter extends B4AClass.ImplB4AClass implements BA.SubDele
             ba.raiseEvent2(null, true, "class_globals", false);
     }
 
- public anywheresoftware.b4a.keywords.Common __c = null;
+ 
+    public void  innerInitializeHelper(anywheresoftware.b4a.BA _ba) throws Exception{
+        innerInitialize(_ba);
+    }
+    public Object callSub(String sub, Object sender, Object[] args) throws Exception {
+        return BA.SubDelegator.SubNotFound;
+    }
+public anywheresoftware.b4a.keywords.Common __c = null;
 public String _meventname = "";
 public Object _mcallback = null;
 public anywheresoftware.b4a.objects.B4XViewWrapper _mbase = null;
@@ -37,295 +45,430 @@ public int _mduration = 0;
 public anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper _fade = null;
 public anywheresoftware.b4a.objects.B4XViewWrapper _xfadeiv = null;
 public Object _tag = null;
-public b4j.example.cssutils _cssutils = null;
 public b4j.example.dateutils _dateutils = null;
+public b4j.example.cssutils _cssutils = null;
 public b4j.example.main _main = null;
 public b4j.example.scorebord _scorebord = null;
+public b4j.example.nieuwe_partij _nieuwe_partij = null;
 public b4j.example.func _func = null;
-public b4j.example.parseconfig _parseconfig = null;
 public b4j.example.funcinet _funcinet = null;
+public b4j.example.parseconfig _parseconfig = null;
 public b4j.example.httputils2service _httputils2service = null;
-public String  _base_resize(double _width,double _height) throws Exception{
+public String  _base_resize(b4j.example.animatedcounter __ref,double _width,double _height) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "base_resize", true))
+	 {return ((String) Debug.delegate(ba, "base_resize", new Object[] {_width,_height}));}
 int _columns = 0;
 anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper _bmp = null;
 int _left = 0;
 int _i = 0;
 anywheresoftware.b4a.objects.B4XViewWrapper _iv = null;
- //BA.debugLineNum = 70;BA.debugLine="Private Sub Base_Resize (Width As Double, Height A";
- //BA.debugLineNum = 71;BA.debugLine="mBase.GetView(0).SetLayoutAnimated(0, 0, 0, Width";
-_mbase.GetView((int) (0)).SetLayoutAnimated((int) (0),0,0,_width,_height);
- //BA.debugLineNum = 72;BA.debugLine="xfadeIv.SetLayoutAnimated(0, 0, 0, Width, Height)";
-_xfadeiv.SetLayoutAnimated((int) (0),0,0,_width,_height);
- //BA.debugLineNum = 73;BA.debugLine="xfadeIv.SetBitmap(fade.Resize(Width, Height, Fals";
-_xfadeiv.SetBitmap((javafx.scene.image.Image)(_fade.Resize((int) (_width),(int) (_height),__c.False).getObject()));
- //BA.debugLineNum = 74;BA.debugLine="DigitHeight = Height";
-_digitheight = (int) (_height);
- //BA.debugLineNum = 75;BA.debugLine="Dim Columns As Int = mdigits";
-_columns = _mdigits;
- //BA.debugLineNum = 76;BA.debugLine="DigitWidth = Width / Columns";
-_digitwidth = (int) (_width/(double)_columns);
- //BA.debugLineNum = 77;BA.debugLine="Dim bmp As B4XBitmap = CreateBitmap(lblTemplate)";
+RDebugUtils.currentLine=11534336;
+ //BA.debugLineNum = 11534336;BA.debugLine="Private Sub Base_Resize (Width As Double, Height A";
+RDebugUtils.currentLine=11534337;
+ //BA.debugLineNum = 11534337;BA.debugLine="mBase.GetView(0).SetLayoutAnimated(0, 0, 0, Width";
+__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .GetView((int) (0)).SetLayoutAnimated((int) (0),0,0,_width,_height);
+RDebugUtils.currentLine=11534338;
+ //BA.debugLineNum = 11534338;BA.debugLine="xfadeIv.SetLayoutAnimated(0, 0, 0, Width, Height)";
+__ref._xfadeiv /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .SetLayoutAnimated((int) (0),0,0,_width,_height);
+RDebugUtils.currentLine=11534339;
+ //BA.debugLineNum = 11534339;BA.debugLine="xfadeIv.SetBitmap(fade.Resize(Width, Height, Fals";
+__ref._xfadeiv /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .SetBitmap((javafx.scene.image.Image)(__ref._fade /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper*/ .Resize((int) (_width),(int) (_height),__c.False).getObject()));
+RDebugUtils.currentLine=11534340;
+ //BA.debugLineNum = 11534340;BA.debugLine="DigitHeight = Height";
+__ref._digitheight /*int*/  = (int) (_height);
+RDebugUtils.currentLine=11534341;
+ //BA.debugLineNum = 11534341;BA.debugLine="Dim Columns As Int = mdigits";
+_columns = __ref._mdigits /*int*/ ;
+RDebugUtils.currentLine=11534342;
+ //BA.debugLineNum = 11534342;BA.debugLine="DigitWidth = Width / Columns";
+__ref._digitwidth /*int*/  = (int) (_width/(double)_columns);
+RDebugUtils.currentLine=11534343;
+ //BA.debugLineNum = 11534343;BA.debugLine="Dim bmp As B4XBitmap = CreateBitmap(lblTemplate)";
 _bmp = new anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper();
-_bmp = _createbitmap(_lbltemplate);
- //BA.debugLineNum = 78;BA.debugLine="Dim left As Int = Width";
+_bmp = __ref._createbitmap /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper*/ (null,__ref._lbltemplate /*anywheresoftware.b4a.objects.B4XViewWrapper*/ );
+RDebugUtils.currentLine=11534344;
+ //BA.debugLineNum = 11534344;BA.debugLine="Dim left As Int = Width";
 _left = (int) (_width);
- //BA.debugLineNum = 79;BA.debugLine="For i = 0 To ImageViews.Size - 1";
+RDebugUtils.currentLine=11534345;
+ //BA.debugLineNum = 11534345;BA.debugLine="For i = 0 To ImageViews.Size - 1";
 {
 final int step9 = 1;
-final int limit9 = (int) (_imageviews.getSize()-1);
+final int limit9 = (int) (__ref._imageviews /*anywheresoftware.b4a.objects.collections.List*/ .getSize()-1);
 _i = (int) (0) ;
 for (;_i <= limit9 ;_i = _i + step9 ) {
- //BA.debugLineNum = 80;BA.debugLine="Dim iv As B4XView = ImageViews.Get(i)";
+RDebugUtils.currentLine=11534346;
+ //BA.debugLineNum = 11534346;BA.debugLine="Dim iv As B4XView = ImageViews.Get(i)";
 _iv = new anywheresoftware.b4a.objects.B4XViewWrapper();
-_iv.setObject((java.lang.Object)(_imageviews.Get(_i)));
- //BA.debugLineNum = 82;BA.debugLine="left = left - DigitWidth";
-_left = (int) (_left-_digitwidth);
- //BA.debugLineNum = 83;BA.debugLine="iv.SetLayoutAnimated(0, left, TopFromValue(i), D";
-_iv.SetLayoutAnimated((int) (0),_left,_topfromvalue(_i),_digitwidth,_digitheight*10);
- //BA.debugLineNum = 84;BA.debugLine="iv.SetBitmap(bmp)";
+_iv.setObject((java.lang.Object)(__ref._imageviews /*anywheresoftware.b4a.objects.collections.List*/ .Get(_i)));
+RDebugUtils.currentLine=11534348;
+ //BA.debugLineNum = 11534348;BA.debugLine="left = left - DigitWidth";
+_left = (int) (_left-__ref._digitwidth /*int*/ );
+RDebugUtils.currentLine=11534349;
+ //BA.debugLineNum = 11534349;BA.debugLine="iv.SetLayoutAnimated(0, left, TopFromValue(i), D";
+_iv.SetLayoutAnimated((int) (0),_left,__ref._topfromvalue /*int*/ (null,_i),__ref._digitwidth /*int*/ ,__ref._digitheight /*int*/ *10);
+RDebugUtils.currentLine=11534350;
+ //BA.debugLineNum = 11534350;BA.debugLine="iv.SetBitmap(bmp)";
 _iv.SetBitmap((javafx.scene.image.Image)(_bmp.getObject()));
  }
 };
- //BA.debugLineNum = 86;BA.debugLine="End Sub";
+RDebugUtils.currentLine=11534352;
+ //BA.debugLineNum = 11534352;BA.debugLine="End Sub";
 return "";
 }
-public String  _class_globals() throws Exception{
- //BA.debugLineNum = 5;BA.debugLine="Sub Class_Globals";
- //BA.debugLineNum = 6;BA.debugLine="Private mEventName As String 'ignore";
-_meventname = "";
- //BA.debugLineNum = 7;BA.debugLine="Private mCallBack As Object 'ignore";
-_mcallback = new Object();
- //BA.debugLineNum = 8;BA.debugLine="Public mBase As B4XView 'ignore";
-_mbase = new anywheresoftware.b4a.objects.B4XViewWrapper();
- //BA.debugLineNum = 9;BA.debugLine="Private xui As XUI 'ignore";
-_xui = new anywheresoftware.b4a.objects.B4XViewWrapper.XUI();
- //BA.debugLineNum = 10;BA.debugLine="Private ImageViews As List";
-_imageviews = new anywheresoftware.b4a.objects.collections.List();
- //BA.debugLineNum = 11;BA.debugLine="Private mdigits As Int";
-_mdigits = 0;
- //BA.debugLineNum = 12;BA.debugLine="Private lblTemplate As B4XView";
-_lbltemplate = new anywheresoftware.b4a.objects.B4XViewWrapper();
- //BA.debugLineNum = 13;BA.debugLine="Private mValue As List";
-_mvalue = new anywheresoftware.b4a.objects.collections.List();
- //BA.debugLineNum = 14;BA.debugLine="Private DigitHeight, DigitWidth As Int";
-_digitheight = 0;
-_digitwidth = 0;
- //BA.debugLineNum = 15;BA.debugLine="Private mDuration As Int";
-_mduration = 0;
- //BA.debugLineNum = 16;BA.debugLine="Private fade As B4XBitmap";
-_fade = new anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper();
- //BA.debugLineNum = 17;BA.debugLine="Private xfadeIv As B4XView";
-_xfadeiv = new anywheresoftware.b4a.objects.B4XViewWrapper();
- //BA.debugLineNum = 18;BA.debugLine="Public Tag As Object";
-_tag = new Object();
- //BA.debugLineNum = 20;BA.debugLine="End Sub";
-return "";
-}
-public anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper  _createbitmap(anywheresoftware.b4a.objects.B4XViewWrapper _lbl) throws Exception{
+public anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper  _createbitmap(b4j.example.animatedcounter __ref,anywheresoftware.b4a.objects.B4XViewWrapper _lbl) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "createbitmap", true))
+	 {return ((anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper) Debug.delegate(ba, "createbitmap", new Object[] {_lbl}));}
 anywheresoftware.b4a.objects.B4XViewWrapper _p = null;
 anywheresoftware.b4a.objects.B4XCanvas _cvs = null;
 anywheresoftware.b4a.objects.B4XCanvas.B4XRect _r = null;
 int _baseline = 0;
 int _i = 0;
 anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper _res = null;
- //BA.debugLineNum = 93;BA.debugLine="Private Sub CreateBitmap (lbl As B4XView) As B4XBi";
- //BA.debugLineNum = 94;BA.debugLine="Dim p As B4XView = xui.CreatePanel(\"\")";
+RDebugUtils.currentLine=11665408;
+ //BA.debugLineNum = 11665408;BA.debugLine="Private Sub CreateBitmap (lbl As B4XView) As B4XBi";
+RDebugUtils.currentLine=11665409;
+ //BA.debugLineNum = 11665409;BA.debugLine="Dim p As B4XView = xui.CreatePanel(\"\")";
 _p = new anywheresoftware.b4a.objects.B4XViewWrapper();
-_p = _xui.CreatePanel(ba,"");
- //BA.debugLineNum = 95;BA.debugLine="p.SetLayoutAnimated(0, 0, 0, DigitWidth, DigitHei";
-_p.SetLayoutAnimated((int) (0),0,0,_digitwidth,_digitheight*10);
- //BA.debugLineNum = 96;BA.debugLine="Dim cvs As B4XCanvas";
+_p = __ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .CreatePanel(ba,"");
+RDebugUtils.currentLine=11665410;
+ //BA.debugLineNum = 11665410;BA.debugLine="p.SetLayoutAnimated(0, 0, 0, DigitWidth, DigitHei";
+_p.SetLayoutAnimated((int) (0),0,0,__ref._digitwidth /*int*/ ,__ref._digitheight /*int*/ *10);
+RDebugUtils.currentLine=11665411;
+ //BA.debugLineNum = 11665411;BA.debugLine="Dim cvs As B4XCanvas";
 _cvs = new anywheresoftware.b4a.objects.B4XCanvas();
- //BA.debugLineNum = 97;BA.debugLine="cvs.Initialize(p)";
+RDebugUtils.currentLine=11665412;
+ //BA.debugLineNum = 11665412;BA.debugLine="cvs.Initialize(p)";
 _cvs.Initialize(ba,_p);
- //BA.debugLineNum = 98;BA.debugLine="Dim r As B4XRect = cvs.MeasureText(\"5\", lbl.Font)";
+RDebugUtils.currentLine=11665413;
+ //BA.debugLineNum = 11665413;BA.debugLine="Dim r As B4XRect = cvs.MeasureText(\"5\", lbl.Font)";
 _r = _cvs.MeasureText("5",_lbl.getFont());
- //BA.debugLineNum = 99;BA.debugLine="Dim BaseLine As Int = DigitHeight / 2 - r.Height";
-_baseline = (int) (_digitheight/(double)2-_r.getHeight()/(double)2-_r.getTop());
- //BA.debugLineNum = 100;BA.debugLine="For i = 0 To 9";
+RDebugUtils.currentLine=11665414;
+ //BA.debugLineNum = 11665414;BA.debugLine="Dim BaseLine As Int = DigitHeight / 2 - r.Height";
+_baseline = (int) (__ref._digitheight /*int*/ /(double)2-_r.getHeight()/(double)2-_r.getTop());
+RDebugUtils.currentLine=11665415;
+ //BA.debugLineNum = 11665415;BA.debugLine="For i = 0 To 9";
 {
 final int step7 = 1;
 final int limit7 = (int) (9);
 _i = (int) (0) ;
 for (;_i <= limit7 ;_i = _i + step7 ) {
- //BA.debugLineNum = 101;BA.debugLine="cvs.DrawText(i, DigitWidth / 2, i * DigitHeight";
-_cvs.DrawText(BA.NumberToString(_i),_digitwidth/(double)2,_i*_digitheight+_baseline,_lbl.getFont(),_lbl.getTextColor(),BA.getEnumFromString(javafx.scene.text.TextAlignment.class,"CENTER"));
+RDebugUtils.currentLine=11665416;
+ //BA.debugLineNum = 11665416;BA.debugLine="cvs.DrawText(i, DigitWidth / 2, i * DigitHeight";
+_cvs.DrawText(BA.NumberToString(_i),__ref._digitwidth /*int*/ /(double)2,_i*__ref._digitheight /*int*/ +_baseline,_lbl.getFont(),_lbl.getTextColor(),BA.getEnumFromString(javafx.scene.text.TextAlignment.class,"CENTER"));
  }
 };
- //BA.debugLineNum = 103;BA.debugLine="cvs.Invalidate";
+RDebugUtils.currentLine=11665418;
+ //BA.debugLineNum = 11665418;BA.debugLine="cvs.Invalidate";
 _cvs.Invalidate();
- //BA.debugLineNum = 104;BA.debugLine="Dim res As B4XBitmap = cvs.CreateBitmap";
+RDebugUtils.currentLine=11665419;
+ //BA.debugLineNum = 11665419;BA.debugLine="Dim res As B4XBitmap = cvs.CreateBitmap";
 _res = new anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper();
 _res = _cvs.CreateBitmap();
- //BA.debugLineNum = 105;BA.debugLine="cvs.Release";
+RDebugUtils.currentLine=11665420;
+ //BA.debugLineNum = 11665420;BA.debugLine="cvs.Release";
 _cvs.Release();
- //BA.debugLineNum = 106;BA.debugLine="Return res";
+RDebugUtils.currentLine=11665421;
+ //BA.debugLineNum = 11665421;BA.debugLine="Return res";
 if (true) return _res;
- //BA.debugLineNum = 107;BA.debugLine="End Sub";
+RDebugUtils.currentLine=11665422;
+ //BA.debugLineNum = 11665422;BA.debugLine="End Sub";
 return null;
 }
-public anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper  _createfadebitmap(int _clr) throws Exception{
+public int  _topfromvalue(b4j.example.animatedcounter __ref,int _digit) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "topfromvalue", true))
+	 {return ((Integer) Debug.delegate(ba, "topfromvalue", new Object[] {_digit}));}
+int _d = 0;
+RDebugUtils.currentLine=11599872;
+ //BA.debugLineNum = 11599872;BA.debugLine="Private Sub TopFromValue (Digit As Int) As Int";
+RDebugUtils.currentLine=11599873;
+ //BA.debugLineNum = 11599873;BA.debugLine="Dim d As Int = mValue.Get(Digit)";
+_d = (int)(BA.ObjectToNumber(__ref._mvalue /*anywheresoftware.b4a.objects.collections.List*/ .Get(_digit)));
+RDebugUtils.currentLine=11599874;
+ //BA.debugLineNum = 11599874;BA.debugLine="Return -d * DigitHeight";
+if (true) return (int) (-_d*__ref._digitheight /*int*/ );
+RDebugUtils.currentLine=11599875;
+ //BA.debugLineNum = 11599875;BA.debugLine="End Sub";
+return 0;
+}
+public String  _class_globals(b4j.example.animatedcounter __ref) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+RDebugUtils.currentLine=11272192;
+ //BA.debugLineNum = 11272192;BA.debugLine="Sub Class_Globals";
+RDebugUtils.currentLine=11272193;
+ //BA.debugLineNum = 11272193;BA.debugLine="Private mEventName As String 'ignore";
+_meventname = "";
+RDebugUtils.currentLine=11272194;
+ //BA.debugLineNum = 11272194;BA.debugLine="Private mCallBack As Object 'ignore";
+_mcallback = new Object();
+RDebugUtils.currentLine=11272195;
+ //BA.debugLineNum = 11272195;BA.debugLine="Public mBase As B4XView 'ignore";
+_mbase = new anywheresoftware.b4a.objects.B4XViewWrapper();
+RDebugUtils.currentLine=11272196;
+ //BA.debugLineNum = 11272196;BA.debugLine="Private xui As XUI 'ignore";
+_xui = new anywheresoftware.b4a.objects.B4XViewWrapper.XUI();
+RDebugUtils.currentLine=11272197;
+ //BA.debugLineNum = 11272197;BA.debugLine="Private ImageViews As List";
+_imageviews = new anywheresoftware.b4a.objects.collections.List();
+RDebugUtils.currentLine=11272198;
+ //BA.debugLineNum = 11272198;BA.debugLine="Private mdigits As Int";
+_mdigits = 0;
+RDebugUtils.currentLine=11272199;
+ //BA.debugLineNum = 11272199;BA.debugLine="Private lblTemplate As B4XView";
+_lbltemplate = new anywheresoftware.b4a.objects.B4XViewWrapper();
+RDebugUtils.currentLine=11272200;
+ //BA.debugLineNum = 11272200;BA.debugLine="Private mValue As List";
+_mvalue = new anywheresoftware.b4a.objects.collections.List();
+RDebugUtils.currentLine=11272201;
+ //BA.debugLineNum = 11272201;BA.debugLine="Private DigitHeight, DigitWidth As Int";
+_digitheight = 0;
+_digitwidth = 0;
+RDebugUtils.currentLine=11272202;
+ //BA.debugLineNum = 11272202;BA.debugLine="Private mDuration As Int";
+_mduration = 0;
+RDebugUtils.currentLine=11272203;
+ //BA.debugLineNum = 11272203;BA.debugLine="Private fade As B4XBitmap";
+_fade = new anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper();
+RDebugUtils.currentLine=11272204;
+ //BA.debugLineNum = 11272204;BA.debugLine="Private xfadeIv As B4XView";
+_xfadeiv = new anywheresoftware.b4a.objects.B4XViewWrapper();
+RDebugUtils.currentLine=11272205;
+ //BA.debugLineNum = 11272205;BA.debugLine="Public Tag As Object";
+_tag = new Object();
+RDebugUtils.currentLine=11272207;
+ //BA.debugLineNum = 11272207;BA.debugLine="End Sub";
+return "";
+}
+public anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper  _createfadebitmap(b4j.example.animatedcounter __ref,int _clr) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "createfadebitmap", true))
+	 {return ((anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper) Debug.delegate(ba, "createfadebitmap", new Object[] {_clr}));}
 b4j.example.bitmapcreator _bc = null;
 anywheresoftware.b4a.objects.B4XCanvas.B4XRect _r = null;
 int _tclr = 0;
- //BA.debugLineNum = 56;BA.debugLine="Private Sub CreateFadeBitmap (clr As Int) As B4XBi";
- //BA.debugLineNum = 57;BA.debugLine="Dim bc As BitmapCreator";
+RDebugUtils.currentLine=11468800;
+ //BA.debugLineNum = 11468800;BA.debugLine="Private Sub CreateFadeBitmap (clr As Int) As B4XBi";
+RDebugUtils.currentLine=11468801;
+ //BA.debugLineNum = 11468801;BA.debugLine="Dim bc As BitmapCreator";
 _bc = new b4j.example.bitmapcreator();
- //BA.debugLineNum = 58;BA.debugLine="bc.Initialize(200, 50)";
+RDebugUtils.currentLine=11468802;
+ //BA.debugLineNum = 11468802;BA.debugLine="bc.Initialize(200, 50)";
 _bc._initialize(ba,(int) (200),(int) (50));
- //BA.debugLineNum = 59;BA.debugLine="Dim r As B4XRect";
+RDebugUtils.currentLine=11468803;
+ //BA.debugLineNum = 11468803;BA.debugLine="Dim r As B4XRect";
 _r = new anywheresoftware.b4a.objects.B4XCanvas.B4XRect();
- //BA.debugLineNum = 60;BA.debugLine="r.Initialize(0, 0, bc.mWidth, bc.mHeight / 3)";
+RDebugUtils.currentLine=11468804;
+ //BA.debugLineNum = 11468804;BA.debugLine="r.Initialize(0, 0, bc.mWidth, bc.mHeight / 3)";
 _r.Initialize((float) (0),(float) (0),(float) (_bc._mwidth),(float) (_bc._mheight/(double)3));
- //BA.debugLineNum = 61;BA.debugLine="Dim tclr As Int = Bit.And(0x00ffffff, clr)";
+RDebugUtils.currentLine=11468805;
+ //BA.debugLineNum = 11468805;BA.debugLine="Dim tclr As Int = Bit.And(0x00ffffff, clr)";
 _tclr = __c.Bit.And((int) (0x00ffffff),_clr);
- //BA.debugLineNum = 62;BA.debugLine="bc.FillGradient(Array As Int(clr, tclr), r, \"TOP_";
+RDebugUtils.currentLine=11468806;
+ //BA.debugLineNum = 11468806;BA.debugLine="bc.FillGradient(Array As Int(clr, tclr), r, \"TOP_";
 _bc._fillgradient(new int[]{_clr,_tclr},_r,"TOP_BOTTOM");
- //BA.debugLineNum = 63;BA.debugLine="r.Top = bc.mHeight * 2 / 3";
+RDebugUtils.currentLine=11468807;
+ //BA.debugLineNum = 11468807;BA.debugLine="r.Top = bc.mHeight * 2 / 3";
 _r.setTop((float) (_bc._mheight*2/(double)3));
- //BA.debugLineNum = 64;BA.debugLine="r.Bottom = bc.mHeight";
+RDebugUtils.currentLine=11468808;
+ //BA.debugLineNum = 11468808;BA.debugLine="r.Bottom = bc.mHeight";
 _r.setBottom((float) (_bc._mheight));
- //BA.debugLineNum = 65;BA.debugLine="bc.FillGradient(Array As Int(clr, tclr), r, \"BOTT";
+RDebugUtils.currentLine=11468809;
+ //BA.debugLineNum = 11468809;BA.debugLine="bc.FillGradient(Array As Int(clr, tclr), r, \"BOTT";
 _bc._fillgradient(new int[]{_clr,_tclr},_r,"BOTTOM_TOP");
- //BA.debugLineNum = 66;BA.debugLine="Return bc.Bitmap";
+RDebugUtils.currentLine=11468810;
+ //BA.debugLineNum = 11468810;BA.debugLine="Return bc.Bitmap";
 if (true) return _bc._getbitmap();
- //BA.debugLineNum = 67;BA.debugLine="End Sub";
+RDebugUtils.currentLine=11468811;
+ //BA.debugLineNum = 11468811;BA.debugLine="End Sub";
 return null;
 }
-public String  _designercreateview(Object _base,anywheresoftware.b4j.objects.LabelWrapper _lbl,anywheresoftware.b4a.objects.collections.Map _props) throws Exception{
+public String  _designercreateview(b4j.example.animatedcounter __ref,Object _base,anywheresoftware.b4j.objects.LabelWrapper _lbl,anywheresoftware.b4a.objects.collections.Map _props) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "designercreateview", true))
+	 {return ((String) Debug.delegate(ba, "designercreateview", new Object[] {_base,_lbl,_props}));}
 anywheresoftware.b4a.objects.B4XViewWrapper _pnl = null;
 int _i = 0;
 anywheresoftware.b4j.objects.ImageViewWrapper _iv = null;
 anywheresoftware.b4j.objects.ImageViewWrapper _fadeiv = null;
- //BA.debugLineNum = 30;BA.debugLine="Public Sub DesignerCreateView (Base As Object, lbl";
- //BA.debugLineNum = 31;BA.debugLine="mBase = Base";
-_mbase.setObject((java.lang.Object)(_base));
- //BA.debugLineNum = 32;BA.debugLine="Tag = mBase.Tag : mBase.Tag = Me";
-_tag = _mbase.getTag();
- //BA.debugLineNum = 32;BA.debugLine="Tag = mBase.Tag : mBase.Tag = Me";
-_mbase.setTag(this);
- //BA.debugLineNum = 33;BA.debugLine="Dim pnl As B4XView = xui.CreatePanel(\"\") 'needed";
+RDebugUtils.currentLine=11403264;
+ //BA.debugLineNum = 11403264;BA.debugLine="Public Sub DesignerCreateView (Base As Object, lbl";
+RDebugUtils.currentLine=11403265;
+ //BA.debugLineNum = 11403265;BA.debugLine="mBase = Base";
+__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .setObject((java.lang.Object)(_base));
+RDebugUtils.currentLine=11403266;
+ //BA.debugLineNum = 11403266;BA.debugLine="Tag = mBase.Tag : mBase.Tag = Me";
+__ref._tag /*Object*/  = __ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .getTag();
+RDebugUtils.currentLine=11403266;
+ //BA.debugLineNum = 11403266;BA.debugLine="Tag = mBase.Tag : mBase.Tag = Me";
+__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .setTag(this);
+RDebugUtils.currentLine=11403267;
+ //BA.debugLineNum = 11403267;BA.debugLine="Dim pnl As B4XView = xui.CreatePanel(\"\") 'needed";
 _pnl = new anywheresoftware.b4a.objects.B4XViewWrapper();
-_pnl = _xui.CreatePanel(ba,"");
- //BA.debugLineNum = 34;BA.debugLine="mBase.AddView(pnl, 0, 0, 0, 0)";
-_mbase.AddView((javafx.scene.Node)(_pnl.getObject()),0,0,0,0);
- //BA.debugLineNum = 35;BA.debugLine="mdigits = Props.Get(\"Digits\")";
-_mdigits = (int)(BA.ObjectToNumber(_props.Get((Object)("Digits"))));
- //BA.debugLineNum = 36;BA.debugLine="mDuration = Props.Get(\"Duration\")";
-_mduration = (int)(BA.ObjectToNumber(_props.Get((Object)("Duration"))));
- //BA.debugLineNum = 37;BA.debugLine="lblTemplate = lbl";
-_lbltemplate.setObject((java.lang.Object)(_lbl.getObject()));
- //BA.debugLineNum = 38;BA.debugLine="fade = CreateFadeBitmap(xui.PaintOrColorToColor(P";
-_fade = _createfadebitmap(_xui.PaintOrColorToColor(_props.GetDefault((Object)("FadeColor"),(Object)(_xui.Color_White))));
- //BA.debugLineNum = 39;BA.debugLine="For i = 0 To mdigits - 1";
+_pnl = __ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .CreatePanel(ba,"");
+RDebugUtils.currentLine=11403268;
+ //BA.debugLineNum = 11403268;BA.debugLine="mBase.AddView(pnl, 0, 0, 0, 0)";
+__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .AddView((javafx.scene.Node)(_pnl.getObject()),0,0,0,0);
+RDebugUtils.currentLine=11403269;
+ //BA.debugLineNum = 11403269;BA.debugLine="mdigits = Props.Get(\"Digits\")";
+__ref._mdigits /*int*/  = (int)(BA.ObjectToNumber(_props.Get((Object)("Digits"))));
+RDebugUtils.currentLine=11403270;
+ //BA.debugLineNum = 11403270;BA.debugLine="mDuration = Props.Get(\"Duration\")";
+__ref._mduration /*int*/  = (int)(BA.ObjectToNumber(_props.Get((Object)("Duration"))));
+RDebugUtils.currentLine=11403271;
+ //BA.debugLineNum = 11403271;BA.debugLine="lblTemplate = lbl";
+__ref._lbltemplate /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .setObject((java.lang.Object)(_lbl.getObject()));
+RDebugUtils.currentLine=11403272;
+ //BA.debugLineNum = 11403272;BA.debugLine="fade = CreateFadeBitmap(xui.PaintOrColorToColor(P";
+__ref._fade /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper*/  = __ref._createfadebitmap /*anywheresoftware.b4a.objects.B4XViewWrapper.B4XBitmapWrapper*/ (null,__ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .PaintOrColorToColor(_props.GetDefault((Object)("FadeColor"),(Object)(__ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .Color_White))));
+RDebugUtils.currentLine=11403273;
+ //BA.debugLineNum = 11403273;BA.debugLine="For i = 0 To mdigits - 1";
 {
 final int step10 = 1;
-final int limit10 = (int) (_mdigits-1);
+final int limit10 = (int) (__ref._mdigits /*int*/ -1);
 _i = (int) (0) ;
 for (;_i <= limit10 ;_i = _i + step10 ) {
- //BA.debugLineNum = 40;BA.debugLine="Dim iv As ImageView";
+RDebugUtils.currentLine=11403274;
+ //BA.debugLineNum = 11403274;BA.debugLine="Dim iv As ImageView";
 _iv = new anywheresoftware.b4j.objects.ImageViewWrapper();
- //BA.debugLineNum = 41;BA.debugLine="iv.Initialize(\"\")";
+RDebugUtils.currentLine=11403275;
+ //BA.debugLineNum = 11403275;BA.debugLine="iv.Initialize(\"\")";
 _iv.Initialize(ba,"");
- //BA.debugLineNum = 42;BA.debugLine="ImageViews.Add(iv)";
-_imageviews.Add((Object)(_iv.getObject()));
- //BA.debugLineNum = 43;BA.debugLine="mBase.GetView(0).AddView(iv, 0, 0, 0, 0)";
-_mbase.GetView((int) (0)).AddView((javafx.scene.Node)(_iv.getObject()),0,0,0,0);
+RDebugUtils.currentLine=11403276;
+ //BA.debugLineNum = 11403276;BA.debugLine="ImageViews.Add(iv)";
+__ref._imageviews /*anywheresoftware.b4a.objects.collections.List*/ .Add((Object)(_iv.getObject()));
+RDebugUtils.currentLine=11403277;
+ //BA.debugLineNum = 11403277;BA.debugLine="mBase.GetView(0).AddView(iv, 0, 0, 0, 0)";
+__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .GetView((int) (0)).AddView((javafx.scene.Node)(_iv.getObject()),0,0,0,0);
  }
 };
- //BA.debugLineNum = 45;BA.debugLine="Dim fadeIv As ImageView";
+RDebugUtils.currentLine=11403279;
+ //BA.debugLineNum = 11403279;BA.debugLine="Dim fadeIv As ImageView";
 _fadeiv = new anywheresoftware.b4j.objects.ImageViewWrapper();
- //BA.debugLineNum = 46;BA.debugLine="fadeIv.Initialize(\"\")";
+RDebugUtils.currentLine=11403280;
+ //BA.debugLineNum = 11403280;BA.debugLine="fadeIv.Initialize(\"\")";
 _fadeiv.Initialize(ba,"");
- //BA.debugLineNum = 47;BA.debugLine="xfadeIv = fadeIv";
-_xfadeiv.setObject((java.lang.Object)(_fadeiv.getObject()));
- //BA.debugLineNum = 48;BA.debugLine="mBase.GetView(0).AddView(fadeIv, 0, 0, 0, 0)";
-_mbase.GetView((int) (0)).AddView((javafx.scene.Node)(_fadeiv.getObject()),0,0,0,0);
- //BA.debugLineNum = 49;BA.debugLine="setValue(0)";
-_setvalue((int) (0));
- //BA.debugLineNum = 50;BA.debugLine="If xui.IsB4A Then";
-if (_xui.getIsB4A()) { 
- //BA.debugLineNum = 51;BA.debugLine="Base_Resize(mBase.Width, mBase.Height)";
-_base_resize(_mbase.getWidth(),_mbase.getHeight());
- //BA.debugLineNum = 52;BA.debugLine="setValue(getValue)";
-_setvalue(_getvalue());
+RDebugUtils.currentLine=11403281;
+ //BA.debugLineNum = 11403281;BA.debugLine="xfadeIv = fadeIv";
+__ref._xfadeiv /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .setObject((java.lang.Object)(_fadeiv.getObject()));
+RDebugUtils.currentLine=11403282;
+ //BA.debugLineNum = 11403282;BA.debugLine="mBase.GetView(0).AddView(fadeIv, 0, 0, 0, 0)";
+__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .GetView((int) (0)).AddView((javafx.scene.Node)(_fadeiv.getObject()),0,0,0,0);
+RDebugUtils.currentLine=11403283;
+ //BA.debugLineNum = 11403283;BA.debugLine="setValue(0)";
+__ref._setvalue /*String*/ (null,(int) (0));
+RDebugUtils.currentLine=11403284;
+ //BA.debugLineNum = 11403284;BA.debugLine="If xui.IsB4A Then";
+if (__ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .getIsB4A()) { 
+RDebugUtils.currentLine=11403285;
+ //BA.debugLineNum = 11403285;BA.debugLine="Base_Resize(mBase.Width, mBase.Height)";
+__ref._base_resize /*String*/ (null,__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .getWidth(),__ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .getHeight());
+RDebugUtils.currentLine=11403286;
+ //BA.debugLineNum = 11403286;BA.debugLine="setValue(getValue)";
+__ref._setvalue /*String*/ (null,__ref._getvalue /*int*/ (null));
  };
- //BA.debugLineNum = 54;BA.debugLine="End Sub";
+RDebugUtils.currentLine=11403288;
+ //BA.debugLineNum = 11403288;BA.debugLine="End Sub";
 return "";
 }
-public int  _getvalue() throws Exception{
-int _res = 0;
-int _i = 0;
- //BA.debugLineNum = 120;BA.debugLine="Public Sub getValue As Int";
- //BA.debugLineNum = 121;BA.debugLine="Dim res As Int";
-_res = 0;
- //BA.debugLineNum = 122;BA.debugLine="For i = 0 To mValue.Size - 1";
-{
-final int step2 = 1;
-final int limit2 = (int) (_mvalue.getSize()-1);
-_i = (int) (0) ;
-for (;_i <= limit2 ;_i = _i + step2 ) {
- //BA.debugLineNum = 123;BA.debugLine="res = res + mValue.Get(i) * Power(10, i)";
-_res = (int) (_res+(double)(BA.ObjectToNumber(_mvalue.Get(_i)))*__c.Power(10,_i));
- }
-};
- //BA.debugLineNum = 125;BA.debugLine="Return res";
-if (true) return _res;
- //BA.debugLineNum = 126;BA.debugLine="End Sub";
-return 0;
-}
-public String  _initialize(anywheresoftware.b4a.BA _ba,Object _callback,String _eventname) throws Exception{
-innerInitialize(_ba);
- //BA.debugLineNum = 22;BA.debugLine="Public Sub Initialize (Callback As Object, EventNa";
- //BA.debugLineNum = 23;BA.debugLine="mEventName = EventName";
-_meventname = _eventname;
- //BA.debugLineNum = 24;BA.debugLine="mCallBack = Callback";
-_mcallback = _callback;
- //BA.debugLineNum = 25;BA.debugLine="ImageViews.Initialize";
-_imageviews.Initialize();
- //BA.debugLineNum = 26;BA.debugLine="mValue.Initialize";
-_mvalue.Initialize();
- //BA.debugLineNum = 27;BA.debugLine="End Sub";
-return "";
-}
-public String  _setvalue(int _v) throws Exception{
+public String  _setvalue(b4j.example.animatedcounter __ref,int _v) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "setvalue", true))
+	 {return ((String) Debug.delegate(ba, "setvalue", new Object[] {_v}));}
 int _i = 0;
 anywheresoftware.b4a.objects.B4XViewWrapper _iv = null;
- //BA.debugLineNum = 109;BA.debugLine="Public Sub setValue(v As Int)";
- //BA.debugLineNum = 110;BA.debugLine="mValue.Clear";
-_mvalue.Clear();
- //BA.debugLineNum = 111;BA.debugLine="For i = 0 To mdigits - 1";
+RDebugUtils.currentLine=11730944;
+ //BA.debugLineNum = 11730944;BA.debugLine="Public Sub setValue(v As Int)";
+RDebugUtils.currentLine=11730945;
+ //BA.debugLineNum = 11730945;BA.debugLine="mValue.Clear";
+__ref._mvalue /*anywheresoftware.b4a.objects.collections.List*/ .Clear();
+RDebugUtils.currentLine=11730946;
+ //BA.debugLineNum = 11730946;BA.debugLine="For i = 0 To mdigits - 1";
 {
 final int step2 = 1;
-final int limit2 = (int) (_mdigits-1);
+final int limit2 = (int) (__ref._mdigits /*int*/ -1);
 _i = (int) (0) ;
 for (;_i <= limit2 ;_i = _i + step2 ) {
- //BA.debugLineNum = 112;BA.debugLine="mValue.Add(v Mod 10)";
-_mvalue.Add((Object)(_v%10));
- //BA.debugLineNum = 113;BA.debugLine="v = v / 10";
+RDebugUtils.currentLine=11730947;
+ //BA.debugLineNum = 11730947;BA.debugLine="mValue.Add(v Mod 10)";
+__ref._mvalue /*anywheresoftware.b4a.objects.collections.List*/ .Add((Object)(_v%10));
+RDebugUtils.currentLine=11730948;
+ //BA.debugLineNum = 11730948;BA.debugLine="v = v / 10";
 _v = (int) (_v/(double)10);
- //BA.debugLineNum = 114;BA.debugLine="Dim iv As B4XView = ImageViews.Get(i)";
+RDebugUtils.currentLine=11730949;
+ //BA.debugLineNum = 11730949;BA.debugLine="Dim iv As B4XView = ImageViews.Get(i)";
 _iv = new anywheresoftware.b4a.objects.B4XViewWrapper();
-_iv.setObject((java.lang.Object)(_imageviews.Get(_i)));
- //BA.debugLineNum = 115;BA.debugLine="iv.SetLayoutAnimated(mDuration, iv.Left, TopFrom";
-_iv.SetLayoutAnimated(_mduration,_iv.getLeft(),_topfromvalue(_i),__c.Max(1,_iv.getWidth()),__c.Max(1,_iv.getHeight()));
+_iv.setObject((java.lang.Object)(__ref._imageviews /*anywheresoftware.b4a.objects.collections.List*/ .Get(_i)));
+RDebugUtils.currentLine=11730950;
+ //BA.debugLineNum = 11730950;BA.debugLine="iv.SetLayoutAnimated(mDuration, iv.Left, TopFrom";
+_iv.SetLayoutAnimated(__ref._mduration /*int*/ ,_iv.getLeft(),__ref._topfromvalue /*int*/ (null,_i),__c.Max(1,_iv.getWidth()),__c.Max(1,_iv.getHeight()));
  }
 };
- //BA.debugLineNum = 118;BA.debugLine="End Sub";
+RDebugUtils.currentLine=11730953;
+ //BA.debugLineNum = 11730953;BA.debugLine="End Sub";
 return "";
 }
-public int  _topfromvalue(int _digit) throws Exception{
-int _d = 0;
- //BA.debugLineNum = 88;BA.debugLine="Private Sub TopFromValue (Digit As Int) As Int";
- //BA.debugLineNum = 89;BA.debugLine="Dim d As Int = mValue.Get(Digit)";
-_d = (int)(BA.ObjectToNumber(_mvalue.Get(_digit)));
- //BA.debugLineNum = 90;BA.debugLine="Return -d * DigitHeight";
-if (true) return (int) (-_d*_digitheight);
- //BA.debugLineNum = 91;BA.debugLine="End Sub";
+public int  _getvalue(b4j.example.animatedcounter __ref) throws Exception{
+__ref = this;
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "getvalue", true))
+	 {return ((Integer) Debug.delegate(ba, "getvalue", null));}
+int _res = 0;
+int _i = 0;
+RDebugUtils.currentLine=11796480;
+ //BA.debugLineNum = 11796480;BA.debugLine="Public Sub getValue As Int";
+RDebugUtils.currentLine=11796481;
+ //BA.debugLineNum = 11796481;BA.debugLine="Dim res As Int";
+_res = 0;
+RDebugUtils.currentLine=11796482;
+ //BA.debugLineNum = 11796482;BA.debugLine="For i = 0 To mValue.Size - 1";
+{
+final int step2 = 1;
+final int limit2 = (int) (__ref._mvalue /*anywheresoftware.b4a.objects.collections.List*/ .getSize()-1);
+_i = (int) (0) ;
+for (;_i <= limit2 ;_i = _i + step2 ) {
+RDebugUtils.currentLine=11796483;
+ //BA.debugLineNum = 11796483;BA.debugLine="res = res + mValue.Get(i) * Power(10, i)";
+_res = (int) (_res+(double)(BA.ObjectToNumber(__ref._mvalue /*anywheresoftware.b4a.objects.collections.List*/ .Get(_i)))*__c.Power(10,_i));
+ }
+};
+RDebugUtils.currentLine=11796485;
+ //BA.debugLineNum = 11796485;BA.debugLine="Return res";
+if (true) return _res;
+RDebugUtils.currentLine=11796486;
+ //BA.debugLineNum = 11796486;BA.debugLine="End Sub";
 return 0;
 }
-public Object callSub(String sub, Object sender, Object[] args) throws Exception {
-BA.senderHolder.set(sender);
-return BA.SubDelegator.SubNotFound;
+public String  _initialize(b4j.example.animatedcounter __ref,anywheresoftware.b4a.BA _ba,Object _callback,String _eventname) throws Exception{
+__ref = this;
+innerInitialize(_ba);
+RDebugUtils.currentModule="animatedcounter";
+if (Debug.shouldDelegate(ba, "initialize", true))
+	 {return ((String) Debug.delegate(ba, "initialize", new Object[] {_ba,_callback,_eventname}));}
+RDebugUtils.currentLine=11337728;
+ //BA.debugLineNum = 11337728;BA.debugLine="Public Sub Initialize (Callback As Object, EventNa";
+RDebugUtils.currentLine=11337729;
+ //BA.debugLineNum = 11337729;BA.debugLine="mEventName = EventName";
+__ref._meventname /*String*/  = _eventname;
+RDebugUtils.currentLine=11337730;
+ //BA.debugLineNum = 11337730;BA.debugLine="mCallBack = Callback";
+__ref._mcallback /*Object*/  = _callback;
+RDebugUtils.currentLine=11337731;
+ //BA.debugLineNum = 11337731;BA.debugLine="ImageViews.Initialize";
+__ref._imageviews /*anywheresoftware.b4a.objects.collections.List*/ .Initialize();
+RDebugUtils.currentLine=11337732;
+ //BA.debugLineNum = 11337732;BA.debugLine="mValue.Initialize";
+__ref._mvalue /*anywheresoftware.b4a.objects.collections.List*/ .Initialize();
+RDebugUtils.currentLine=11337733;
+ //BA.debugLineNum = 11337733;BA.debugLine="End Sub";
+return "";
 }
 }

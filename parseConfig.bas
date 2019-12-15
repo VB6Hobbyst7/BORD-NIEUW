@@ -40,7 +40,9 @@ Sub pullConfig
 	msgList.Initialize
 
 
-	Dim root As Map = parser.NextObject
+	Dim root As Map' = parser.NextObject
+	root.Initialize
+	root= parser.NextObject
 	Dim fontColor As Map = root.Get("fontColor")
 	Dim colorYellow As String = fontColor.Get("colorYellow")
 	'Dim lightSchema As Map = root.Get("lightSchema")

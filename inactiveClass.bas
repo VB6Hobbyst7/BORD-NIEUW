@@ -7,7 +7,7 @@ Version=8
 Sub Class_Globals
 	Private fx As JFX
 	Public tmr, tmr_draw_promote As Timer
-	Private minute As Long = 60000
+'	Private minute As Long = 60000
 	Public timeOutPeriode As Int' = 5000 ' 10*minute
 	Public lastClick As Long
 	Private timeDiff As Long

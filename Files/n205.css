@@ -27,6 +27,14 @@
     -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
 	-fx-text-fill: #ffffff;
 	-fx-background-radius: 3,2,1;
-	
+}
 
+.button {
+	-fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+	  -fx-text-fill: #000000;
+}
+
+.button:hover {
+	-fx-background-color: #00008B;
+	-fx-text-fill: #ffffff;
 }

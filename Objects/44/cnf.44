@@ -1,7 +1,7 @@
 {
   "showPromote": {
     "active": "1",
-    "timeOut": "1"
+    "timeOut": "15"
   },
   "digitalFont": {
     "active": "1"
@@ -20,6 +20,9 @@
     "line_5": "Neem een versnapering van het huis"
   },
   "reclame": {
+    "active": "1"
+  },
+  "sponsor": {
     "active": "1"
   }
 }
