@@ -1,6 +1,6 @@
 
-Objects/shell/
-Objects/src/b4j
+/Objects/*
+
 
 # Compiled class file
 *.class

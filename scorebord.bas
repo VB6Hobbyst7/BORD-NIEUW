@@ -6,10 +6,7 @@ Version=8
 @EndOfDesignText@
 'Static code module
 Sub Process_Globals
-	
-	
 	Private fx As JFX
-	
 	Private Dialog As B4XDialog
 	Private Base As B4XView
 	Private XUI As XUI
@@ -18,16 +15,11 @@ Sub Process_Globals
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
 	Private clsUpdate As classUpdate
-	
-	
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
 	Private pNieuwePartij As B4XView 
 	Private pNieuwePartijDialog As B4XDialog
-	
-	
 	Private lbl_innings As Label
-	
 	Private lbl_player_one_moyenne As Label
 	Private lbl_player_two_moyenne As Label
 	Private lbl_player_two_100 As Label
@@ -49,8 +41,6 @@ Sub Process_Globals
 	Private lbl_player_two_hs As Label
 	Private lbl_clock As B4XView
 	Private clsTmr As timerClass
-	
-	
 	Private Label7 As Label
 	Private edt_speler_a As TextField
 	Private edt_temaken_a As TextField
@@ -60,7 +50,6 @@ Sub Process_Globals
 	Private btn_b_begint As Button
 	Private B4XProgressBarP1 As B4XProgressBar
 	Private B4XProgressBarP2 As B4XProgressBar
-	
 	Private btn_nieuwe_partij As Button
 	Private btn_annuleer_nieuwe_partij As Button
 	Private Label6 As Label
@@ -69,13 +58,9 @@ Sub Process_Globals
 	Private pn_p1_carom As Pane
 	Private pn_promote As Pane
 	Private lbl_config_update As Label
-	
-	
 	Private lbl_player_one_1 As Label
 	Private lbl_player_one_10 As Label
 	Private lbl_player_one_100 As Label
-	
-	
 	Private lbl_message_1 As Label
 	Private lbl_message_2 As Label
 	Private lbl_message_3 As Label
@@ -83,7 +68,6 @@ Sub Process_Globals
 	Private lbl_message_5 As Label
 	Private lbl_version As Label
 	Private pn_sponsore As Pane
-	
 	Public xfrm As Form
 	Private pn_game As Pane
 	Private lbl_game_text As Label
