@@ -33,8 +33,8 @@ public static b4j.example.main _main = null;
 public static b4j.example.scorebord _scorebord = null;
 public static b4j.example.nieuwe_partij _nieuwe_partij = null;
 public static b4j.example.func _func = null;
-public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.parseconfig _parseconfig = null;
+public static b4j.example.funcinet _funcinet = null;
 public static String  _completejob(int _taskid,boolean _success,String _errormessage) throws Exception{
 RDebugUtils.currentModule="httputils2service";
 if (Debug.shouldDelegate(ba, "completejob", true))

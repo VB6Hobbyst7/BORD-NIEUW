@@ -72,8 +72,8 @@ public b4j.example.main _main = null;
 public b4j.example.scorebord _scorebord = null;
 public b4j.example.nieuwe_partij _nieuwe_partij = null;
 public b4j.example.func _func = null;
-public b4j.example.funcinet _funcinet = null;
 public b4j.example.parseconfig _parseconfig = null;
+public b4j.example.funcinet _funcinet = null;
 public b4j.example.httputils2service _httputils2service = null;
 public String  _btnmonth_click(b4j.example.b4xdatetemplate __ref) throws Exception{
 __ref = this;

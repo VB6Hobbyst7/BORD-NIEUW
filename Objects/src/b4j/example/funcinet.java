@@ -61,20 +61,20 @@ anywheresoftware.b4a.keywords.Common.ReturnFromResumableSub(this,null);return;}
 case 0:
 //C
 this.state = 1;
-RDebugUtils.currentLine=8192001;
- //BA.debugLineNum = 8192001;BA.debugLine="Dim j As HttpJob";
+RDebugUtils.currentLine=8650753;
+ //BA.debugLineNum = 8650753;BA.debugLine="Dim j As HttpJob";
 _j = new b4j.example.httpjob();
-RDebugUtils.currentLine=8192002;
- //BA.debugLineNum = 8192002;BA.debugLine="Dim url As String = \"https:\\\\www.google.com\"";
+RDebugUtils.currentLine=8650754;
+ //BA.debugLineNum = 8650754;BA.debugLine="Dim url As String = \"https:\\\\www.google.com\"";
 parent._url = "https:\\\\www.google.com";
-RDebugUtils.currentLine=8192004;
- //BA.debugLineNum = 8192004;BA.debugLine="j.Initialize(url, Me)";
+RDebugUtils.currentLine=8650756;
+ //BA.debugLineNum = 8650756;BA.debugLine="j.Initialize(url, Me)";
 _j._initialize /*String*/ (null,ba,parent._url,funcinet.getObject());
-RDebugUtils.currentLine=8192005;
- //BA.debugLineNum = 8192005;BA.debugLine="j.Download(url)";
+RDebugUtils.currentLine=8650757;
+ //BA.debugLineNum = 8650757;BA.debugLine="j.Download(url)";
 _j._download /*String*/ (null,parent._url);
-RDebugUtils.currentLine=8192007;
- //BA.debugLineNum = 8192007;BA.debugLine="Wait For (j) JobDone(j As HttpJob)";
+RDebugUtils.currentLine=8650759;
+ //BA.debugLineNum = 8650759;BA.debugLine="Wait For (j) JobDone(j As HttpJob)";
 anywheresoftware.b4a.keywords.Common.WaitFor("jobdone", ba, new anywheresoftware.b4a.shell.DebugResumableSub.DelegatableResumableSub(this, "funcinet", "testinet"), (Object)(_j));
 this.state = 7;
 return;
@@ -83,8 +83,8 @@ case 7:
 this.state = 1;
 _j = (b4j.example.httpjob) result[0];
 ;
-RDebugUtils.currentLine=8192009;
- //BA.debugLineNum = 8192009;BA.debugLine="If j.Success Then";
+RDebugUtils.currentLine=8650761;
+ //BA.debugLineNum = 8650761;BA.debugLine="If j.Success Then";
 if (true) break;
 
 case 1:
@@ -99,8 +99,8 @@ this.state = 5;
 case 3:
 //C
 this.state = 6;
-RDebugUtils.currentLine=8192010;
- //BA.debugLineNum = 8192010;BA.debugLine="Return True";
+RDebugUtils.currentLine=8650762;
+ //BA.debugLineNum = 8650762;BA.debugLine="Return True";
 if (true) {
 anywheresoftware.b4a.keywords.Common.ReturnFromResumableSub(this,(Object)(anywheresoftware.b4a.keywords.Common.True));return;};
  if (true) break;
@@ -108,8 +108,8 @@ anywheresoftware.b4a.keywords.Common.ReturnFromResumableSub(this,(Object)(anywhe
 case 5:
 //C
 this.state = 6;
-RDebugUtils.currentLine=8192012;
- //BA.debugLineNum = 8192012;BA.debugLine="Return False";
+RDebugUtils.currentLine=8650764;
+ //BA.debugLineNum = 8650764;BA.debugLine="Return False";
 if (true) {
 anywheresoftware.b4a.keywords.Common.ReturnFromResumableSub(this,(Object)(anywheresoftware.b4a.keywords.Common.False));return;};
  if (true) break;
@@ -118,8 +118,8 @@ case 6:
 //C
 this.state = -1;
 ;
-RDebugUtils.currentLine=8192015;
- //BA.debugLineNum = 8192015;BA.debugLine="End Sub";
+RDebugUtils.currentLine=8650767;
+ //BA.debugLineNum = 8650767;BA.debugLine="End Sub";
 if (true) break;
 
             }

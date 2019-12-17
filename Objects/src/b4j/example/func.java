@@ -64,8 +64,8 @@ public static b4j.example.cssutils _cssutils = null;
 public static b4j.example.main _main = null;
 public static b4j.example.scorebord _scorebord = null;
 public static b4j.example.nieuwe_partij _nieuwe_partij = null;
-public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.parseconfig _parseconfig = null;
+public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.httputils2service _httputils2service = null;
 public static String  _testnumber(String _oldstringtotest,String _newstringtotest) throws Exception{
 RDebugUtils.currentModule="func";

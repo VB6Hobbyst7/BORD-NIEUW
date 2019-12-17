@@ -52,8 +52,8 @@ public b4j.example.main _main = null;
 public b4j.example.scorebord _scorebord = null;
 public b4j.example.nieuwe_partij _nieuwe_partij = null;
 public b4j.example.func _func = null;
-public b4j.example.funcinet _funcinet = null;
 public b4j.example.parseconfig _parseconfig = null;
+public b4j.example.funcinet _funcinet = null;
 public b4j.example.httputils2service _httputils2service = null;
 public anywheresoftware.b4a.objects.B4XViewWrapper  _getpanel(b4j.example.b4xsearchtemplate __ref,b4j.example.b4xdialog _dialog) throws Exception{
 __ref = this;
