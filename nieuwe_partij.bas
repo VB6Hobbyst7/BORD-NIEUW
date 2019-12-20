@@ -21,15 +21,19 @@ Sub Process_Globals
 	Private txt_maken_2 As TextField
 	Private btn_p1_begint As Button
 	Private btn_p2_begint As Button
-	
-	Private lst As List
 	Private lbl_speler_data As Label
+	
+	Private tmr As Timer
+	Private lst As List
 End Sub
 
 
 Sub show
+	tmr.Initialize("tmr", 60*1000)
+	tmr.Enabled = True
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("nieuwe_partij")
+	MouseOver(frm.RootPane)
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
@@ -42,9 +46,9 @@ Sub show
 	#End If
 	
 	lst.Initialize
-'	frm.Show
+	frm.Show
 	func.newGameInitialized = True
-	
+		
 End Sub
 
 Sub chk_add_player_CheckedChange(Checked As Boolean)
@@ -64,8 +68,10 @@ Sub chk_add_player_CheckedChange(Checked As Boolean)
 	txt_maken_1.SetAlphaAnimated(0,op)
 	txt_maken_2.SetAlphaAnimated(0,op)
 	btn_nieuwe_partij.SetAlphaAnimated(0, opM)
+	btn_nieuwe_partij.Enabled = Checked <> True
 	btn_p1_begint.SetAlphaAnimated(0,op)
 	btn_p2_begint.SetAlphaAnimated(0,op)
+	txt_speler_1.RequestFocus
 End Sub
 
 
@@ -76,15 +82,23 @@ End Sub
 
 Sub btn_annuleer_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	frm.Close
-	CallSub2(scorebord, "hideForm", True)
+	'CallSub2(scorebord, "hideForm", True)
 End Sub
 
 Sub txt_maken_1_TextChanged (Old As String, New As String)
+	If New.Length > 3 Then 
+		txt_maken_1.Text = Old
+	New = Old
+	End If
 	txt_maken_1.Text =  func.testNumber(Old, New)
 	txt_maken_1.SetSelection(txt_maken_1.Text.Length, txt_maken_1.Text.Length)
 End Sub
 
 Sub txt_maken_2_TextChanged (Old As String, New As String)
+	If New.Length > 3 Then 
+		txt_maken_2.Text = Old
+		New = Old
+	End If
 	txt_maken_2.Text =  func.testNumber(Old, New)
 	txt_maken_2.SetSelection(txt_maken_2.Text.Length, txt_maken_2.Text.Length)
 End Sub
@@ -97,9 +111,11 @@ Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 		lbl_speler_data.SetAlphaAnimated(200, 0)
 		Return
 	End If
+	lst.Initialize
 	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
 	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
 	CallSub2(scorebord, "setSpelerData", lst)
+	tmr.Enabled = False
 	frm.close
 	'frm.RootPane.Visible = False
 	CallSub2(scorebord, "hideForm", True)
@@ -112,24 +128,53 @@ Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 		lbl_speler_data.SetAlphaAnimated(200, 0)
 		Return
 	End If
+	lst.Initialize
 	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
 	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
 	CallSub2(scorebord, "setSpelerData", lst)
+	tmr.Enabled = False
 	frm.Close
 	'frm.RootPane.Visible = False
 	CallSub2(scorebord, "hideForm", True)
 End Sub
 
 Sub chkSpelerData As Boolean
+	Dim teMaken1, teMaken2 As Int
+	
+	teMaken1 = txt_maken_1.Text
+	teMaken2 = txt_maken_2.Text
+	
+	If teMaken1 < 1 Or teMaken2 < 1 Then Return False
+	
 	If txt_speler_1.text = "" Or txt_speler_2.text = "" Or txt_maken_1.Text = "" Or txt_maken_2.text = "" Then
 		Return False
 	End If
 	Return True
 End Sub
 
-'Sub showForm
-'	frm.Show
-'End Sub
+Sub showForm
+	tmr.Enabled = True	
+	frm.Show
+End Sub
 
 
+Sub tmr_Tick
+	frm.Close
+	
+End Sub
 
+Sub mouseIn_Event(m As String,args() As Object)
+	tmr.Enabled = False
+	tmr.Enabled = True
+	
+End Sub
+
+private Sub MouseOver(n1 As Node)
+	
+	setHandler(n1,"setOnMouseMoved","mouseIn")
+	setHandler(n1,"setOnMouseExited","mouseOut")
+End Sub
+
+private Sub setHandler(ob As JavaObject,eventName As String,handlerName As String)
+	ob.RunMethod(eventName, Array(ob.CreateEventFromUI("javafx.event.EventHandler",handlerName,True)))
+End Sub

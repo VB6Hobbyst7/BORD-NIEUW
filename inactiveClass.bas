@@ -19,9 +19,11 @@ Sub Class_Globals
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
-Public Sub Initialize
-	timeOutPeriode = (parseConfig.timeOut*(60*1000))
+Public Sub Initialize(promoteWidth As Double, promoteHeight As Double)
+	pnlWidth = promoteWidth
+	pnlHeight = promoteHeight
 	
+	timeOutPeriode = (parseConfig.timeOut*(60*1000))
 	tmr.Initialize("timeOut", timeOutPeriode)
 	tmr.Enabled = parseConfig.timeOutActive
 	tmr_draw_promote.Initialize("drawPromote", 5000)
@@ -62,15 +64,13 @@ End Sub
 
 Sub getBounds
 	
-	'Log(currentY)	
-	
-	If (currentX+20) + pnlWidth+20 > frm.Width Then
+	If (currentX+50) + pnlWidth+30 > frm.Width Then
 		vx = -Abs(vx)
 	Else If currentX < 0 Then
 		vx = Abs(vx)
 	End If
 	
-	If (currentY+50) + pnlHeight > frm.Height Then
+	If (currentY+70) + pnlHeight > frm.Height Then
 		vy = -Abs(vy)
 	Else If currentY < 0 Then
 		vy = Abs(vy)

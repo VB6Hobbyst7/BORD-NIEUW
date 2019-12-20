@@ -12,13 +12,13 @@ Sub Process_Globals
 	Public timeLastClick As Long = 0
 	Public setNieuwePartij As Boolean = True
 	Public hasInternetAccess As Boolean = False
-	Public newGameInitialized as Boolean = False
+	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
 	Public innigs, inngSet, make, playerOneHs = 0, playerTwoHs = 0, score As Int
 	Public playerOneToMake = 0, playerTwoToMake = 0, p1HsTemp = 0, p2HsTemp = 0 As Int
 	Public lblInnings, lbl_player_one_hs, lbl_player_two_hs As Label
-	Public p1_1, p1_10, p1_100, p1_1000, p1_moyenne As Label
-	Public p2_1, p2_10, p2_100, p2_1000, p2_moyenne As Label
+	Public p1_1, p1_10, p1_100,  p1_moyenne As Label
+	Public p2_1, p2_10, p2_100, p2_moyenne As Label
 	Public p1_progress, p2_progress As Float
 	Public p1_progressBar, p2_progressBar As B4XProgressBar
 	Public os As String
@@ -71,7 +71,8 @@ Public Sub setFont(lbl As Label, size As Int, digital As Boolean)
 		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"digital-7 (mono).ttf", size)))
 		'jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Courier Regular.ttf", size)))
 	Else
-		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Arial.ttf", size)))
+		'lbl.Style = $"-fx-font-family: Arial; -fx-font-size: ${size};"$
+		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Crasng.ttf", size)))
 	End If
 End Sub
 
@@ -106,7 +107,11 @@ Public Sub padString(padText As String ,padChr As String, padSide As Int, padCou
 End Sub
 
 
-Sub calcScorePlayerOne(points As Int)
+Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
+	If leftMouse = False Then
+		points = -Abs(points)
+	End If
+	
 	Dim P1Score As Int
 	CallSubDelayed(scorebord, "lastClick")
 '	Dim tmpScore As Int = p1_100.Text&p1_10.Text&p1_1.Text
@@ -172,7 +177,11 @@ Sub calcScorePlayerOne(points As Int)
 	
 End Sub
 
-Sub calcScorePlayertwo(points As Int)
+Sub calcScorePlayertwo(points As Int, leftMouse As Boolean)
+	If leftMouse = False Then
+		points = -Abs(points)
+	End If
+	
 	Dim p2Score As Int
 '	p2HsTemp = 0
 	CallSubDelayed(scorebord, "lastClick")

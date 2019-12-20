@@ -13,6 +13,10 @@
 	 
 }
 
+.labelPlayer {
+	-fx-text-fill: #81CFE0;
+}
+
 .labelScore:hover {
  /*   -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
 	-fx-background-radius: 3,2,1;*/
@@ -25,7 +29,7 @@
 
 .labelCarom:hover {
     -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
-	-fx-text-fill: #ffffff;
+	/*-fx-text-fill: #FFFF00;*/
 	-fx-background-radius: 3,2,1;
 }
 
