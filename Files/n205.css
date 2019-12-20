@@ -35,6 +35,10 @@
 }
 
 .button:hover {
-	-fx-background-color: #00008B;
-	-fx-text-fill: #ffffff;
+	-fx-background-color: #0A00FF;
+	-fx-text-fill: #FFFF00;
+}
+.checkbox:hover {
+	-fx-background-color: #0A00FF;
+	-fx-text-fill: #FFFF00;
 }

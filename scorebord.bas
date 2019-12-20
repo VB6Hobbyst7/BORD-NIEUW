@@ -9,7 +9,7 @@ Sub Process_Globals
 	Private fx As JFX
 	Private Dialog As B4XDialog
 	Private Base As B4XView
-	Private XUI As XUI
+'	Private XUI As XUI
 	Public frm As Form
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
@@ -17,8 +17,8 @@ Sub Process_Globals
 	Private clsUpdate As classUpdate
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
-	Private pNieuwePartij As B4XView 
-	Private pNieuwePartijDialog As B4XDialog
+'	Private pNieuwePartij As B4XView 
+'	Private pNieuwePartijDialog As B4XDialog
 	Private lbl_innings As Label
 	Private lbl_player_one_moyenne As Label
 	Private lbl_player_two_moyenne As Label
@@ -36,25 +36,25 @@ Sub Process_Globals
 	Private lbl_player_two_make_1 As Label
 	Private lbl_player_two_perc As Label
 	Private lbl_reset As B4XView
-	Private jxui As XUI
+'	Private jxui As XUI
 	Private lbl_player_one_hs As Label
 	Private lbl_player_two_hs As Label
 	Private lbl_clock As B4XView
 	Private clsTmr As timerClass
 	Private Label7 As Label
-	Private edt_speler_a As TextField
-	Private edt_temaken_a As TextField
-	Private edt_speler_b As TextField
-	Private edt_temaken_b As TextField
-	Private btn_a_begint As Button
-	Private btn_b_begint As Button
+'	Private edt_speler_a As TextField
+'	Private edt_temaken_a As TextField
+'	Private edt_speler_b As TextField
+'	Private edt_temaken_b As TextField
+'	Private btn_a_begint As Button
+'	Private btn_b_begint As Button
 	Private B4XProgressBarP1 As B4XProgressBar
 	Private B4XProgressBarP2 As B4XProgressBar
-	Private btn_nieuwe_partij As Button
-	Private btn_annuleer_nieuwe_partij As Button
+'	Private btn_nieuwe_partij As Button
+'	Private btn_annuleer_nieuwe_partij As Button
 	Private Label6 As Label
 	Private lbl_close As B4XView
-	Private chk_add_player As CheckBox
+'	Private chk_add_player As CheckBox
 	Private pn_p1_carom As Pane
 	Private pn_promote As Pane
 	Private lbl_config_update As Label
@@ -68,22 +68,18 @@ Sub Process_Globals
 	Private lbl_message_5 As Label
 	Private lbl_version As Label
 	Private pn_sponsore As Pane
-	Public xfrm As Form
+'	Public xfrm As Form
 	Private pn_game As Pane
 	Private lbl_game_text As Label
-	Private pn_a As Pane
+'	Private pn_a As Pane
+'	Private txt_maken_1 As TextField
+'	Private txt_speler_2 As TextField
+'	Private txt_maken_2 As TextField
+'	Private txt_speler_1 As TextField
 End Sub
 
 
 Public Sub show
-	xfrm.Initialize("frm", 1920, 1080)
-	xfrm.SetFormStyle("UNDECORATED")
-	xfrm.RootPane.LoadLayout("nieuwe_partij")
-	xfrm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
-	xfrm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
-	
-	
-	
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("scorebord")
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
@@ -94,11 +90,11 @@ Public Sub show
 	frm.Resizable = False
 	#End If
 	
-	setFontSize
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
+	setFontSize
 	parseConfig.pullConfig
 	
-	
+	CallSub(nieuwe_partij, "show")
 	frm.Show
 	MouseOver(frm.RootPane)
 	
@@ -107,7 +103,7 @@ Public Sub show
 	
 	'func.SetFormCursor(frm, "mouse.png")
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
-	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, xfrm.RootPane)
+'	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, xfrm.RootPane)
 	
 	
 	clsTmr.Initialize(lbl_clock)
@@ -116,12 +112,12 @@ Public Sub show
 	clsToast.Initialize(frm.RootPane)
 	clsUpdate.Initialize
 	lbl_version.Text = func.getVersion
-		func.lblInnings = lbl_innings
-		func.lbl_player_one_hs = lbl_player_one_hs
-		func.lbl_player_two_hs = lbl_player_two_hs
+	func.lblInnings = lbl_innings
+	func.lbl_player_one_hs = lbl_player_one_hs
+	func.lbl_player_two_hs = lbl_player_two_hs
 	
-		func.setP1CaromLables(lstPlayerOneScoreLbl)
-		func.setP2CaromLables(lstPlayerTwoScoreLbl)
+	func.setP1CaromLables(lstPlayerOneScoreLbl)
+	func.setP2CaromLables(lstPlayerTwoScoreLbl)
 		
 	Wait For (funcInet.testInet) Complete (result As Boolean)
 	If result Then
@@ -131,9 +127,10 @@ Public Sub show
 		func.hasInternetAccess = False
 	End If
 	
-		initPanels
+	initPanels
 	
 End Sub
+
 
 
 Public Sub setClearBoard(clear As Boolean)
@@ -141,12 +138,12 @@ Public Sub setClearBoard(clear As Boolean)
 End Sub
 
 Sub initPanels
-	pNieuwePartijDialog.Initialize (Base)
-	pNieuwePartij = XUI.CreatePanel("")
-	pNieuwePartij.SetLayoutAnimated(0, 100dip, 0, 1000dip, 800dip)
-	pNieuwePartij.LoadLayout("nieuwe_partij")
-	pNieuwePartijDialog.Title = "Nieuwe Partij"
-	pNieuwePartijDialog.PutAtTop = False 'put the dialog at the top of the screen
+'	pNieuwePartijDialog.Initialize (Base)
+'	pNieuwePartij = XUI.CreatePanel("")
+'	pNieuwePartij.SetLayoutAnimated(0, 100dip, 0, 1000dip, 800dip)
+'	pNieuwePartij.LoadLayout("nieuwe_partij")
+'	pNieuwePartijDialog.Title = "Nieuwe Partij"
+'	pNieuwePartijDialog.PutAtTop = False 'put the dialog at the top of the screen
 	
 	pn_promote_top = 1130 'pn_promote.Top
 	pn_promote_left = 20 'pn_promote.Left
@@ -191,7 +188,7 @@ Sub setFontSize
 	func.caromLabelCss(lbl_player_two_make_1, "labelCarom")
 	
 	
-	resetBoard(False)
+	resetBoard
 	
 End Sub
 
@@ -387,15 +384,15 @@ Sub setCaromNumber(v As B4XView, value As String)
 	
 End Sub
 
-Sub resetBoard(bordStart As Boolean)
-	If bordStart Then
-	
-		Dim sf As Object = jxui.Msgbox2Async("Bord resetten?", "", "Ja", "", "Nee", Null)
-		Wait For (sf) Msgbox_Result (Result As Int)
-		If Result = jxui.DialogResponse_Negative Then
-			Return
-		End If
-	End If
+Sub resetBoard
+'	If bordStart Then
+'	
+'		Dim sf As Object = jxui.Msgbox2Async("Bord resetten?", "", "Ja", "", "Nee", Null)
+'		Wait For (sf) Msgbox_Result (Result As Int)
+'		If Result = jxui.DialogResponse_Negative Then
+'			Return
+'		End If
+'	End If
 	
 '	lbl_player_one_1000.Text = "0"
 	
@@ -514,51 +511,50 @@ End Sub
 
 
 
-Sub iets
-	Dim dlg As B4XDialog
-	dlg.Initialize (Base)
-	Dim p As B4XView = XUI.CreatePanel("")
-	p.SetLayoutAnimated(0, 0, 0, 600dip, 600dip)
-	p.LoadLayout("players")
-	dlg.Title = "Spelers Invoer"
-	dlg.PutAtTop = True 'put the dialog at the top of the screen
-	Wait For (dlg.ShowCustom(p, "OK", "", "CANCEL")) Complete (Result As Int)
-	If Result = XUI.DialogResponse_Positive Then
-		
-	End If
-End Sub
+'Sub iets
+'	Dim dlg As B4XDialog
+'	dlg.Initialize (Base)
+'	Dim p As B4XView = XUI.CreatePanel("")
+'	p.SetLayoutAnimated(0, 0, 0, 600dip, 600dip)
+'	p.LoadLayout("players")
+'	dlg.Title = "Spelers Invoer"
+'	dlg.PutAtTop = True 'put the dialog at the top of the screen
+'	Wait For (dlg.ShowCustom(p, "OK", "", "CANCEL")) Complete (Result As Int)
+'	If Result = XUI.DialogResponse_Positive Then
+'		
+'	End If
+'End Sub
 
+
+Sub hideForm(hide As Boolean)
+	frm.rootpane.Visible = hide
+	
+End Sub
 
 Sub nieuwePartij
-	xfrm.Show
-	Return
-	Wait For (pNieuwePartijDialog.ShowCustom(pNieuwePartij, "", "", "")) Complete (Result As Int)
-	If Result = XUI.DialogResponse_Positive Then
-		'Dialog.Show("PETER" & " " & "PAN", "OK", "", "")
-	End If
-	
-	
+	'hideForm(False)
+	nieuwe_partij.show
 End Sub
 
 
-Sub btn_a_begint_MouseReleased (EventData As MouseEvent)
-	
-End Sub
+'Sub btn_a_begint_MouseReleased (EventData As MouseEvent)
+'	
+'End Sub
+'
+'Sub btn_b_begint_MouseReleased (EventData As MouseEvent)
+'	
+'End Sub
 
-Sub btn_b_begint_MouseReleased (EventData As MouseEvent)
-	
-End Sub
+'Sub edt_temaken_a_TextChanged (Old As String, New As String)
+'	edt_temaken_a.Text =  func.testNumber(Old, New)
+'	edt_temaken_a.SetSelection(edt_temaken_a.Text.Length, edt_temaken_a.Text.Length)
+'		
+'End Sub
 
-Sub edt_temaken_a_TextChanged (Old As String, New As String)
-	edt_temaken_a.Text =  func.testNumber(Old, New)
-	edt_temaken_a.SetSelection(edt_temaken_a.Text.Length, edt_temaken_a.Text.Length)
-		
-End Sub
-
-Sub edt_temaken_b_TextChanged (Old As String, New As String)
-	edt_temaken_b.Text =  func.testNumber(Old, New)
-	edt_temaken_b.SetSelection(edt_temaken_b.Text.Length, edt_temaken_b.Text.Length)
-End Sub
+'Sub edt_temaken_b_TextChanged (Old As String, New As String)
+'	edt_temaken_b.Text =  func.testNumber(Old, New)
+'	edt_temaken_b.SetSelection(edt_temaken_b.Text.Length, edt_temaken_b.Text.Length)
+'End Sub
 
 
 Sub lbl_reset_MouseEntered (EventData As MouseEvent)
@@ -579,21 +575,29 @@ Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 End Sub
 
 
+'
+'Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
+'	'pNieuwePartijDialog.Close(XUI.DialogResponse_Positive)
+''	xfrm.Close
+'	resetBoard(False)
+'		
+''		Dim p As Pane = xfrm.RootPane.GetNode(0)
+''		p.SetLayoutAnimated(1000, p.Left, xfrm.RootPane.Top-300dip, p.Width, p.Height)
+''		Sleep(1000)
+''		p.SetLayoutAnimated(1000, p.Left, xfrm.RootPane.Top+10dip, p.Width, p.Height)
+''	If chk_add_player.Checked Then
+''		'iets
+''		pn_new.SetLayoutAnimated(1000, pn_new.Left, pn_new.Top-300dip, pn_new.Width, pn_new.Height)
+''		
+''	End If
+'End Sub
 
-Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
-	'pNieuwePartijDialog.Close(XUI.DialogResponse_Positive)
-	xfrm.Close
-	resetBoard(False)
-	If chk_add_player.Checked Then
-		iets
-	End If
-End Sub
-
-Sub btn_annuleer_nieuwe_partij_MouseReleased (EventData As MouseEvent)
-	xfrm.Close
-	'pNieuwePartijDialog.Close(XUI.DialogResponse_Cancel)
-	
-End Sub
+'Sub btn_annuleer_nieuwe_partij_MouseReleased (EventData As MouseEvent)
+''	xfrm.Close
+'	frm.rootpane.Visible = True
+'	'pNieuwePartijDialog.Close(XUI.DialogResponse_Cancel)
+'	
+'End Sub
 
 
 
@@ -612,14 +616,14 @@ Sub drawPromote(x As Double, y As Double)
 	
 End Sub
 
-Sub pn_promote_MouseReleased (EventData As MouseEvent)
-	pn_promote.Top = pn_promote_top
-	pn_promote.left = pn_promote_left
-	
-	inactivecls.lastClick = DateTime.Now
-	inactivecls.enableTime(True)
-	inactivecls.enablePromote(False)
-End Sub
+'Sub pn_promote_MouseReleased (EventData As MouseEvent)
+'	pn_promote.Top = pn_promote_top
+'	pn_promote.left = pn_promote_left
+'	
+'	inactivecls.lastClick = DateTime.Now
+'	inactivecls.enableTime(True)
+'	inactivecls.enablePromote(False)
+'End Sub
 
 Sub setPromoteRunning(running As Boolean)
 	promoteRunning = running
@@ -639,6 +643,7 @@ private Sub mouseIn_Event(m As String,args() As Object)
 End Sub
 
 private Sub MouseOver(n1 As Node)
+	
 	setHandler(n1,"setOnMouseMoved","mouseIn")
 	setHandler(n1,"setOnMouseExited","mouseOut")
 End Sub
@@ -734,6 +739,32 @@ Sub setMessage(msgList As List)
 End Sub
 
 
-Sub btn_test_MouseReleased (EventData As MouseEvent)
-	clsUpdate.restartApp
+'Sub btn_test_MouseReleased (EventData As MouseEvent)
+'	clsUpdate.restartApp
+'End Sub
+
+
+Sub setSpelerData(data As List)
+	resetBoard
+	Dim teMaken As String
+	lbl_player_one_name.Text = data.Get(0)
+	func.playerOneToMake = data.Get(1)
+	teMaken =  func.padString(data.Get(1), "0", 0, 3)
+	lbl_player_one_make_100.Text	= teMaken.SubString2(0,1)
+	lbl_player_one_make_10.Text		= teMaken.SubString2(1,2)
+	lbl_player_one_make_1.Text		= teMaken.SubString2(2,3)
+		
+	lbl_player_two_name.Text = data.Get(2)
+	teMaken =  func.padString(data.Get(3), "0", 0, 3)
+	func.playerTwoToMake = data.Get(3)
+	lbl_player_two_make_100.Text	= teMaken.SubString2(0,1)
+	lbl_player_two_make_10.Text		= teMaken.SubString2(1,2)
+	lbl_player_two_make_1.Text		= teMaken.SubString2(2,3)
+	
+'	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
+	
 End Sub
+
+
+
+

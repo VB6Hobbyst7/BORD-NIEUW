@@ -12,6 +12,7 @@ Sub Process_Globals
 	Public timeLastClick As Long = 0
 	Public setNieuwePartij As Boolean = True
 	Public hasInternetAccess As Boolean = False
+	Public newGameInitialized as Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
 	Public innigs, inngSet, make, playerOneHs = 0, playerTwoHs = 0, score As Int
 	Public playerOneToMake = 0, playerTwoToMake = 0, p1HsTemp = 0, p2HsTemp = 0 As Int
@@ -106,37 +107,54 @@ End Sub
 
 
 Sub calcScorePlayerOne(points As Int)
-'	Dim inning As Int
+	Dim P1Score As Int
 	CallSubDelayed(scorebord, "lastClick")
-	If score > 9999 Or score <= -1 Then
+'	Dim tmpScore As Int = p1_100.Text&p1_10.Text&p1_1.Text
+'	processHs("p2")
+	
+	P1Score		= p1_100.Text&p1_10.Text&p1_1.Text
+	P1Score		= P1Score+points
+	'NO SCORE BELOW 0
+	If P1Score < 0 Then
+	'	Log("SCORE < 0")
+		P1Score = p1_100.Text&p1_10.Text&p1_1.Text
+	End If
+	
+	If P1Score > 9999 Then 'Or P1Score <= -1 Then
 		Return
 	End If
-	processHs("p2")
+	
+	If P1Score < 0 Then
+		playerOneHs = 0
+		p1HsTemp = 0
+'		processHs("p1")
+		Return
+	End If
+	
 	
 	p1HsTemp	= p1HsTemp + points
-	score		= p1_100.Text&p1_10.Text&p1_1.Text
-	score		= score+points
+'	P1Score		= p1_100.Text&p1_10.Text&p1_1.Text
+'	P1Score		= score+points
 	
-	If score > 999 Or score <= -1 Then
-		Return
-	End If
+'	If P1Score > 999 Or P1Score <= -1 Then
+'		Return
+'	End If
 	
 	If lblInnings.Text = "000" Then
 		lblInnings.Text	= "001"
 		innigs			= 1
 		inngSet			= 1
 	End If
+'	
+'	If inngSet <> 1 And P1Score <> scorePlayerOne Then
+'		innigs = lblInnings.Text
+'		innigs = innigs + 1
+'		lblInnings.Text = padString(innigs, "0", 0, 3)
+'		inngSet = 1
+'	End If
 	
-	If inngSet <> 1 And score <> scorePlayerOne Then
-		innigs = lblInnings.Text
-		innigs = innigs + 1
-		lblInnings.Text = padString(innigs, "0", 0, 3)
-		inngSet = 1
-	End If
-	
-	scorePlayerOne = score
-	
-	txtScore = padString(score, "0", 0, 4)
+	scorePlayerOne = P1Score
+	txtScore = padString(P1Score, "0", 0, 4)
 
 '	p1_1000.Text	= txtScore.SubString2(0,1)
 	p1_100.Text		= txtScore.SubString2(1,2)
@@ -155,15 +173,29 @@ Sub calcScorePlayerOne(points As Int)
 End Sub
 
 Sub calcScorePlayertwo(points As Int)
+	Dim p2Score As Int
+'	p2HsTemp = 0
 	CallSubDelayed(scorebord, "lastClick")
+	
+	
 	inngSet = 0
-	processHs("p1")
+'	processHs("p1")
+'	Log("VOOR " &p2HsTemp)
 	p2HsTemp = p2HsTemp + points
+'	Log("NA " &p2HsTemp)
+'	If p2HsTemp < 0 Then p2HsTemp = 0
 	
-	score = p2_100.Text&p2_10.Text&p2_1.Text
-	score = score+points
+	p2Score = p2_100.Text&p2_10.Text&p2_1.Text
+	p2Score = p2Score+points
 	
-	If score > 999 Or score <= -1 Then
+	If p2Score > 999 Then ' Or score <= -0 Then
+		Return
+	End If
+	
+	If p2Score < 0 Then
+		playerTwoHs = 0
+		p2HsTemp = 0
+'		processHs("p2")
 		Return
 	End If
 	
@@ -173,11 +205,10 @@ Sub calcScorePlayertwo(points As Int)
 		inngSet			= 1
 	End If
 	
-	playerTwoHs		= scorePlayerTwo - playerTwoHs
-	scorePlayerTwo	= score
-	txtScore		= padString(score, "0", 0, 4)
+'	playerTwoHs		= p2HsTemp-playerTwoHs 'scorePlayerTwo - playerTwoHs
+	scorePlayerTwo	= p2Score
+	txtScore		= padString(p2Score, "0", 0, 4)
 	
-	'p2_1000.Text	= txtScore.SubString2(0,1)
 	p2_100.Text		= txtScore.SubString2(1,2)
 	p2_10.Text		= txtScore.SubString2(2,3)
 	p2_1.Text		= txtScore.SubString2(3,4)
@@ -188,6 +219,7 @@ Sub calcScorePlayertwo(points As Int)
 		p2_progress = (scorePlayerTwo/playerTwoToMake)*100
 	End If
 	setProgress(p2_progressBar, p2_progress)
+	
 	checkMatchWon("p2")
 	
 End Sub
@@ -280,25 +312,52 @@ Sub processHs(player As String)
 			p2HsTemp = 0
 			lbl_player_two_hs.Text = padString(playerTwoHs, "0", 0, 3)
 '			Log($"player 2 hs is ${playerTwoHs}"$)
+		Else
+			lbl_player_two_hs.Text = padString(0, "0", 0, 3)
 		End If
 	End If
 	
 	If player = "all" Then
-		If p1HsTemp > 0 And p1HsTemp > playerOneHs Then
+'		If p1HsTemp > 0 And p1HsTemp > playerOneHs Then
+'			playerOneHs = p1HsTemp
+'			p1HsTemp = 0
+'			lbl_player_one_hs.Text = padString(playerOneHs, "0", 0, 3)
+		''			Log($"player 1 hs is ${playerOneHs}"$)
+'		End If
+		If p1HsTemp > playerOneHs Then
 			playerOneHs = p1HsTemp
 			p1HsTemp = 0
 			lbl_player_one_hs.Text = padString(playerOneHs, "0", 0, 3)
-'			Log($"player 1 hs is ${playerOneHs}"$)
-		End If
-		
-		
-		If p2HsTemp > 0 And p2HsTemp > playerTwoHs Then
-			playerTwoHs = p2HsTemp
-			p2HsTemp = 0
-			lbl_player_two_hs.Text = padString(playerTwoHs, "0", 0, 3)
-'			Log($"player 2 hs is ${playerTwoHs}"$)
+		else If scorePlayerOne < playerOneHs Then
+			playerOneHs = scorePlayerOne
+			p1HsTemp = 0
+			lbl_player_one_hs.Text = padString(playerOneHs, "0", 0, 3)
 		End If
 	End If
+		
+	If p2HsTemp > playerTwoHs Then
+		playerTwoHs = p2HsTemp
+		p2HsTemp = 0
+		lbl_player_two_hs.Text = padString(playerTwoHs, "0", 0, 3)
+	Else If scorePlayerTwo < playerTwoHs Then
+		playerTwoHs = scorePlayerTwo
+		p2HsTemp = 0
+		lbl_player_two_hs.Text = padString(playerTwoHs, "0", 0, 3)
+	End If
+		
+'		If scorePlayerTwo < playerTwoHs Then
+'			playerTwoHs = scorePlayerTwo
+'			p2HsTemp = 0
+'			lbl_player_two_hs.Text = padString(playerTwoHs, "0", 0, 3)
+'		End If
+		
+'		If p2HsTemp > 0 And p2HsTemp > playerTwoHs Or p2HsTemp < scorePlayerTwo Then
+'			playerTwoHs = p2HsTemp
+'			p2HsTemp = 0
+'			lbl_player_two_hs.Text = padString(playerTwoHs, "0", 0, 3)
+	''			Log($"player 2 hs is ${playerTwoHs}"$)
+'		End If
+'	End If
 	
 End Sub
 

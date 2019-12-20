@@ -65,6 +65,7 @@ public static b4j.example.scorebord _scorebord = null;
 public static b4j.example.nieuwe_partij _nieuwe_partij = null;
 public static b4j.example.func _func = null;
 public static b4j.example.parseconfig _parseconfig = null;
+public static b4j.example.getnode _getnode = null;
 public static b4j.example.funcinet _funcinet = null;
 public static b4j.example.httputils2service _httputils2service = null;
 public static boolean  _application_error(anywheresoftware.b4a.objects.B4AException _error,String _stacktrace) throws Exception{
