@@ -1,13 +1,13 @@
 {
   "showPromote": {
     "active": "1",
-    "timeOut": "1"
+    "timeOut": "10"
   },
   "digitalFont": {
     "active": "1"
   },
   "fontColor": {
-    "colorYellow": "0"
+    "colorYellow": "1"
   },
   "lightSchema": {
     "useLightSchema": "0"
@@ -20,9 +20,6 @@
     "line_5": "Neem een versnapering van het huis"
   },
   "reclame": {
-    "active": "1"
-  },
-  "sponsor": {
     "active": "1"
   }
 }

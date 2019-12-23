@@ -26,6 +26,24 @@ Sub Process_Globals
 End Sub
 
 
+Public Sub setHs(hs As String, leftMouse As Boolean) As String
+	Dim value As Int = hs
+	
+	If leftMouse Then
+		value = value + 1
+	Else 	
+		value = value - 1
+	End If
+	
+	If value < 0 Then value = 0
+	If value > 999 Then value = 999
+	
+	Return padString(value, "0", 0, 3)
+	
+	
+End Sub
+
+
 Public Sub testNumber(oldStringToTest As String, newStringToTest As String) As String
 	Dim stringToTest As String
 	
@@ -463,4 +481,27 @@ Sub DetectOS As String
 		Return "linux"
 	End If
 End Sub
+
+Sub getIpNumber As String
+	Dim Server As ServerSocket
+	Dim components As List
+	Dim Ip, ipStr As String
+	
+	ipStr = ""
+	Server.Initialize(50000, Me)
+	Ip = Server.GetMyIP
+	components.Initialize
+	
+	For i = 0 To Ip.Length - 1
+		If Ip.SubString2(i,i+1) = "." Then
+		ipStr = ipStr &	","
+			Else
+		ipStr = ipStr &	Ip.SubString2(i,i+1)
+		End If
+	Next
+	components = Regex.Split(",", ipStr)
+	
+	Return components.Get(3)
+End Sub
+
 

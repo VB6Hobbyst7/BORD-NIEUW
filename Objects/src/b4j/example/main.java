@@ -53,10 +53,10 @@ public static b4j.example.getnode _getnode = null;
 public static b4j.example.parseconfig _parseconfig = null;
 public static b4j.example.httputils2service _httputils2service = null;
 public static boolean  _application_error(anywheresoftware.b4a.objects.B4AException _error,String _stacktrace) throws Exception{
- //BA.debugLineNum = 44;BA.debugLine="Sub Application_Error (Error As Exception, StackTr";
- //BA.debugLineNum = 45;BA.debugLine="Return True";
+ //BA.debugLineNum = 46;BA.debugLine="Sub Application_Error (Error As Exception, StackTr";
+ //BA.debugLineNum = 47;BA.debugLine="Return True";
 if (true) return anywheresoftware.b4a.keywords.Common.True;
- //BA.debugLineNum = 46;BA.debugLine="End Sub";
+ //BA.debugLineNum = 48;BA.debugLine="End Sub";
 return false;
 }
 public static String  _appstart(anywheresoftware.b4j.objects.Form _form1,String[] _args) throws Exception{
@@ -73,32 +73,38 @@ _appfolder = "";
  //BA.debugLineNum = 19;BA.debugLine="Select os";
 switch (BA.switchObjectToInt(_os,"windows","linux")) {
 case 0: {
- //BA.debugLineNum = 21;BA.debugLine="appFolder = File.DirApp&\"\\44\\\"";
-_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"\\44\\";
+ //BA.debugLineNum = 21;BA.debugLine="appFolder = File.DirApp'&\"\\44\\\"";
+_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp();
  break; }
 case 1: {
- //BA.debugLineNum = 23;BA.debugLine="appFolder = File.DirApp&\"/44/\"";
-_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"/44/";
+ //BA.debugLineNum = 23;BA.debugLine="appFolder = File.DirApp'&\"/44/\"";
+_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp();
  break; }
 }
 ;
- //BA.debugLineNum = 28;BA.debugLine="If File.Exists(appPath, \"\") = False Then";
-if (anywheresoftware.b4a.keywords.Common.File.Exists(_apppath,"")==anywheresoftware.b4a.keywords.Common.False) { 
- //BA.debugLineNum = 29;BA.debugLine="File.Copy(File.DirAssets, \"cnf.44\", appPath, \"\")";
+ //BA.debugLineNum = 27;BA.debugLine="Log(\"APPFOLDER \" & File.DirApp)";
+anywheresoftware.b4a.keywords.Common.Log("APPFOLDER "+anywheresoftware.b4a.keywords.Common.File.getDirApp());
+ //BA.debugLineNum = 28;BA.debugLine="If File.Exists(appPath, \"cnf.44\") = False Then";
+if (anywheresoftware.b4a.keywords.Common.File.Exists(_apppath,"cnf.44")==anywheresoftware.b4a.keywords.Common.False) { 
+ //BA.debugLineNum = 29;BA.debugLine="Log(\"APPFOLDER \" & File.DirApp)";
+anywheresoftware.b4a.keywords.Common.Log("APPFOLDER "+anywheresoftware.b4a.keywords.Common.File.getDirApp());
+ //BA.debugLineNum = 30;BA.debugLine="File.Copy(File.DirAssets, \"cnf.44\", appPath, \"\")";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cnf.44",_apppath,"");
  };
- //BA.debugLineNum = 31;BA.debugLine="If File.IsDirectory(appFolder, \"media\") = False T";
+ //BA.debugLineNum = 32;BA.debugLine="If File.IsDirectory(appFolder, \"media\") = False T";
 if (anywheresoftware.b4a.keywords.Common.File.IsDirectory(_appfolder,"media")==anywheresoftware.b4a.keywords.Common.False) { 
- //BA.debugLineNum = 32;BA.debugLine="File.MakeDir(appFolder, \"media\")";
+ //BA.debugLineNum = 33;BA.debugLine="File.MakeDir(appFolder, \"media\")";
 anywheresoftware.b4a.keywords.Common.File.MakeDir(_appfolder,"media");
  };
- //BA.debugLineNum = 35;BA.debugLine="MainForm = Form1";
+ //BA.debugLineNum = 36;BA.debugLine="Log(\"APPFOLDER \" & File.DirApp)";
+anywheresoftware.b4a.keywords.Common.Log("APPFOLDER "+anywheresoftware.b4a.keywords.Common.File.getDirApp());
+ //BA.debugLineNum = 37;BA.debugLine="MainForm = Form1";
 _mainform = _form1;
- //BA.debugLineNum = 39;BA.debugLine="scorebord.Show";
+ //BA.debugLineNum = 41;BA.debugLine="scorebord.Show";
 _scorebord._show /*void*/ ();
- //BA.debugLineNum = 40;BA.debugLine="MainForm.Close";
+ //BA.debugLineNum = 42;BA.debugLine="MainForm.Close";
 _mainform.Close();
- //BA.debugLineNum = 41;BA.debugLine="End Sub";
+ //BA.debugLineNum = 43;BA.debugLine="End Sub";
 return "";
 }
 

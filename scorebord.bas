@@ -11,7 +11,7 @@ Sub Process_Globals
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
-'	Private clsUpdate As classUpdate
+	Private clsUpdate As classUpdate
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
 	Private lbl_innings As Label
@@ -55,12 +55,16 @@ Sub Process_Globals
 	Private pn_sponsore As Pane
 	Private pn_game As Pane
 	Private lbl_game_text As Label
+	Private lbl_ip As Label
 End Sub
 
 Public Sub show
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("scorebord")
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
+	lbl_ip.Text = func.getIpNumber
+	
+	
 	#if debug
 	frm.SetFormStyle("UTILITY")
 	#Else
@@ -79,7 +83,7 @@ Public Sub show
 	inactivecls.Initialize(870, 510)
 	clsCheckCfg.Initialize
 	clsToast.Initialize(frm.RootPane)
-'	clsUpdate.Initialize
+	'clsUpdate.Initialize
 	
 	
 	lbl_version.Text = func.getVersion
@@ -541,5 +545,10 @@ Sub setSpelerData(data As List)
 End Sub
 
 
+Sub lbl_player_two_hs_MouseReleased (EventData As MouseEvent)
+	lbl_player_two_hs.Text = func.setHs(lbl_player_two_hs.Text, EventData.PrimaryButtonPressed)
+End Sub
 
-
+Sub lbl_player_one_hs_MouseReleased (EventData As MouseEvent)
+	lbl_player_one_hs.Text = func.setHs(lbl_player_one_hs.Text, EventData.PrimaryButtonPressed)
+End Sub

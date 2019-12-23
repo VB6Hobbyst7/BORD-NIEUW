@@ -31,6 +31,7 @@ Library5=javaobject
 Library6=json
 Library7=jnet
 Library8=jshell
+Library9=jnetwork
 Module1=B4XProgressBar
 Module10=parseConfig
 Module11=scorebord
@@ -44,7 +45,7 @@ Module7=getNode
 Module8=inactiveClass
 Module9=nieuwe_partij
 NumberOfFiles=11
-NumberOfLibraries=8
+NumberOfLibraries=9
 NumberOfModules=12
 Version=8
 @EndOfDesignText@
@@ -68,20 +69,22 @@ Sub AppStart (Form1 As Form, Args() As String)
 	
 	Select os
 		Case "windows"
-			appFolder = File.DirApp&"\44\"
+			appFolder = File.DirApp'&"\44\"
 		Case "linux"
-			appFolder = File.DirApp&"/44/"
+			appFolder = File.DirApp'&"/44/"
 	End Select
 	
 	
-	
-	If File.Exists(appPath, "") = False Then
+	Log("APPFOLDER " & File.DirApp)
+	If File.Exists(appPath, "cnf.44") = False Then
+	Log("APPFOLDER " & File.DirApp)
 		File.Copy(File.DirAssets, "cnf.44", appPath, "")
 	End If
 	If File.IsDirectory(appFolder, "media") = False Then
 		File.MakeDir(appFolder, "media")
 	End If
 	
+	Log("APPFOLDER " & File.DirApp)
 	MainForm = Form1
 '	MainForm.RootPane.LoadLayout("main") 'Load the layout file.
 '	MainForm.Show

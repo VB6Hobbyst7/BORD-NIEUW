@@ -39,21 +39,21 @@ public static b4j.example.getnode _getnode = null;
 public static b4j.example.httputils2service _httputils2service = null;
 public static String  _detectos() throws Exception{
 String _os = "";
- //BA.debugLineNum = 90;BA.debugLine="Sub DetectOS As String";
- //BA.debugLineNum = 91;BA.debugLine="Dim os As String = GetSystemProperty(\"os.name\", \"";
+ //BA.debugLineNum = 91;BA.debugLine="Sub DetectOS As String";
+ //BA.debugLineNum = 92;BA.debugLine="Dim os As String = GetSystemProperty(\"os.name\", \"";
 _os = anywheresoftware.b4a.keywords.Common.GetSystemProperty("os.name","").toLowerCase();
- //BA.debugLineNum = 92;BA.debugLine="If os.Contains(\"win\") Then";
+ //BA.debugLineNum = 93;BA.debugLine="If os.Contains(\"win\") Then";
 if (_os.contains("win")) { 
- //BA.debugLineNum = 93;BA.debugLine="Return \"windows\"";
+ //BA.debugLineNum = 94;BA.debugLine="Return \"windows\"";
 if (true) return "windows";
  }else if(_os.contains("mac")) { 
- //BA.debugLineNum = 95;BA.debugLine="Return \"mac\"";
+ //BA.debugLineNum = 96;BA.debugLine="Return \"mac\"";
 if (true) return "mac";
  }else {
- //BA.debugLineNum = 97;BA.debugLine="Return \"linux\"";
+ //BA.debugLineNum = 98;BA.debugLine="Return \"linux\"";
 if (true) return "linux";
  };
- //BA.debugLineNum = 99;BA.debugLine="End Sub";
+ //BA.debugLineNum = 100;BA.debugLine="End Sub";
 return "";
 }
 public static String  _getapppath() throws Exception{
@@ -64,12 +64,12 @@ _os = _detectos();
  //BA.debugLineNum = 17;BA.debugLine="Select os";
 switch (BA.switchObjectToInt(_os,"windows","linux")) {
 case 0: {
- //BA.debugLineNum = 19;BA.debugLine="appPath = File.DirApp&\"\\44\\cnf.44\"";
-_apppath = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"\\44\\cnf.44";
+ //BA.debugLineNum = 19;BA.debugLine="appPath = File.DirApp&\"\\44\"'cnf.44\"";
+_apppath = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"\\44";
  break; }
 case 1: {
- //BA.debugLineNum = 21;BA.debugLine="appPath = File.DirApp&\"/44/cnf.44\"";
-_apppath = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"/44/cnf.44";
+ //BA.debugLineNum = 21;BA.debugLine="appPath = File.DirApp&\"/44/\"'cnf.44\"";
+_apppath = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"/44/";
  break; }
 }
 ;
@@ -118,93 +118,93 @@ String _digitalactive = "";
 _msglist = new anywheresoftware.b4a.objects.collections.List();
  //BA.debugLineNum = 31;BA.debugLine="useDigitalFont = False";
 _usedigitalfont = anywheresoftware.b4a.keywords.Common.False;
- //BA.debugLineNum = 32;BA.debugLine="cnf = File.ReadString(appPath, \"\")";
-_cnf = anywheresoftware.b4a.keywords.Common.File.ReadString(_apppath,"");
- //BA.debugLineNum = 33;BA.debugLine="parser.Initialize(cnf)";
+ //BA.debugLineNum = 32;BA.debugLine="cnf = File.ReadString(appPath, \"cnf.44\")";
+_cnf = anywheresoftware.b4a.keywords.Common.File.ReadString(_apppath,"cnf.44");
+ //BA.debugLineNum = 34;BA.debugLine="parser.Initialize(cnf)";
 _parser.Initialize(_cnf);
- //BA.debugLineNum = 34;BA.debugLine="msgList.Initialize";
+ //BA.debugLineNum = 35;BA.debugLine="msgList.Initialize";
 _msglist.Initialize();
- //BA.debugLineNum = 37;BA.debugLine="Dim root As Map' = parser.NextObject";
+ //BA.debugLineNum = 38;BA.debugLine="Dim root As Map' = parser.NextObject";
 _root = new anywheresoftware.b4a.objects.collections.Map();
- //BA.debugLineNum = 38;BA.debugLine="root.Initialize";
+ //BA.debugLineNum = 39;BA.debugLine="root.Initialize";
 _root.Initialize();
- //BA.debugLineNum = 39;BA.debugLine="root= parser.NextObject";
+ //BA.debugLineNum = 40;BA.debugLine="root= parser.NextObject";
 _root = _parser.NextObject();
- //BA.debugLineNum = 40;BA.debugLine="Dim fontColor As Map = root.Get(\"fontColor\")";
+ //BA.debugLineNum = 41;BA.debugLine="Dim fontColor As Map = root.Get(\"fontColor\")";
 _fontcolor = new anywheresoftware.b4a.objects.collections.Map();
 _fontcolor.setObject((anywheresoftware.b4a.objects.collections.Map.MyMap)(_root.Get((Object)("fontColor"))));
- //BA.debugLineNum = 41;BA.debugLine="Dim colorYellow As String = fontColor.Get(\"colorY";
+ //BA.debugLineNum = 42;BA.debugLine="Dim colorYellow As String = fontColor.Get(\"colorY";
 _coloryellow = BA.ObjectToString(_fontcolor.Get((Object)("colorYellow")));
- //BA.debugLineNum = 44;BA.debugLine="Dim message As Map = root.Get(\"message\")";
+ //BA.debugLineNum = 45;BA.debugLine="Dim message As Map = root.Get(\"message\")";
 _message = new anywheresoftware.b4a.objects.collections.Map();
 _message.setObject((anywheresoftware.b4a.objects.collections.Map.MyMap)(_root.Get((Object)("message"))));
- //BA.debugLineNum = 45;BA.debugLine="Dim line_1 As String = message.Get(\"line_1\")";
+ //BA.debugLineNum = 46;BA.debugLine="Dim line_1 As String = message.Get(\"line_1\")";
 _line_1 = BA.ObjectToString(_message.Get((Object)("line_1")));
- //BA.debugLineNum = 46;BA.debugLine="Dim line_2 As String = message.Get(\"line_2\")";
+ //BA.debugLineNum = 47;BA.debugLine="Dim line_2 As String = message.Get(\"line_2\")";
 _line_2 = BA.ObjectToString(_message.Get((Object)("line_2")));
- //BA.debugLineNum = 47;BA.debugLine="Dim line_5 As String = message.Get(\"line_5\")";
+ //BA.debugLineNum = 48;BA.debugLine="Dim line_5 As String = message.Get(\"line_5\")";
 _line_5 = BA.ObjectToString(_message.Get((Object)("line_5")));
- //BA.debugLineNum = 48;BA.debugLine="Dim line_3 As String = message.Get(\"line_3\")";
+ //BA.debugLineNum = 49;BA.debugLine="Dim line_3 As String = message.Get(\"line_3\")";
 _line_3 = BA.ObjectToString(_message.Get((Object)("line_3")));
- //BA.debugLineNum = 49;BA.debugLine="Dim line_4 As String = message.Get(\"line_4\")";
+ //BA.debugLineNum = 50;BA.debugLine="Dim line_4 As String = message.Get(\"line_4\")";
 _line_4 = BA.ObjectToString(_message.Get((Object)("line_4")));
- //BA.debugLineNum = 50;BA.debugLine="Dim fontColor As Map = root.Get(\"fontColor\")";
+ //BA.debugLineNum = 51;BA.debugLine="Dim fontColor As Map = root.Get(\"fontColor\")";
 _fontcolor = new anywheresoftware.b4a.objects.collections.Map();
 _fontcolor.setObject((anywheresoftware.b4a.objects.collections.Map.MyMap)(_root.Get((Object)("fontColor"))));
- //BA.debugLineNum = 52;BA.debugLine="Dim sponsor As Map = root.Get(\"reclame\")";
+ //BA.debugLineNum = 53;BA.debugLine="Dim sponsor As Map = root.Get(\"reclame\")";
 _sponsor = new anywheresoftware.b4a.objects.collections.Map();
 _sponsor.setObject((anywheresoftware.b4a.objects.collections.Map.MyMap)(_root.Get((Object)("reclame"))));
- //BA.debugLineNum = 53;BA.debugLine="Dim sponsorActive As String = sponsor.Get(\"active";
+ //BA.debugLineNum = 54;BA.debugLine="Dim sponsorActive As String = sponsor.Get(\"active";
 _sponsoractive = BA.ObjectToString(_sponsor.Get((Object)("active")));
- //BA.debugLineNum = 55;BA.debugLine="Dim showPromote As Map = root.Get(\"showPromote\")";
+ //BA.debugLineNum = 56;BA.debugLine="Dim showPromote As Map = root.Get(\"showPromote\")";
 _showpromote = new anywheresoftware.b4a.objects.collections.Map();
 _showpromote.setObject((anywheresoftware.b4a.objects.collections.Map.MyMap)(_root.Get((Object)("showPromote"))));
- //BA.debugLineNum = 56;BA.debugLine="If showPromote.Get(\"active\") = \"1\" Then";
+ //BA.debugLineNum = 57;BA.debugLine="If showPromote.Get(\"active\") = \"1\" Then";
 if ((_showpromote.Get((Object)("active"))).equals((Object)("1"))) { 
- //BA.debugLineNum = 57;BA.debugLine="timeOutActive = True";
+ //BA.debugLineNum = 58;BA.debugLine="timeOutActive = True";
 _timeoutactive = anywheresoftware.b4a.keywords.Common.True;
  }else {
- //BA.debugLineNum = 59;BA.debugLine="timeOutActive = False";
+ //BA.debugLineNum = 60;BA.debugLine="timeOutActive = False";
 _timeoutactive = anywheresoftware.b4a.keywords.Common.False;
  };
- //BA.debugLineNum = 61;BA.debugLine="timeOut = showPromote.Get(\"timeOut\")";
+ //BA.debugLineNum = 62;BA.debugLine="timeOut = showPromote.Get(\"timeOut\")";
 _timeout = (int)(BA.ObjectToNumber(_showpromote.Get((Object)("timeOut"))));
- //BA.debugLineNum = 63;BA.debugLine="Dim digitalFont As Map = root.Get(\"digitalFont\")";
+ //BA.debugLineNum = 64;BA.debugLine="Dim digitalFont As Map = root.Get(\"digitalFont\")";
 _digitalfont = new anywheresoftware.b4a.objects.collections.Map();
 _digitalfont.setObject((anywheresoftware.b4a.objects.collections.Map.MyMap)(_root.Get((Object)("digitalFont"))));
- //BA.debugLineNum = 64;BA.debugLine="Dim digitalActive As String = digitalFont.Get(\"ac";
+ //BA.debugLineNum = 65;BA.debugLine="Dim digitalActive As String = digitalFont.Get(\"ac";
 _digitalactive = BA.ObjectToString(_digitalfont.Get((Object)("active")));
- //BA.debugLineNum = 66;BA.debugLine="If digitalActive  = \"1\" Then";
+ //BA.debugLineNum = 67;BA.debugLine="If digitalActive  = \"1\" Then";
 if ((_digitalactive).equals("1")) { 
- //BA.debugLineNum = 67;BA.debugLine="useDigitalFont = True";
+ //BA.debugLineNum = 68;BA.debugLine="useDigitalFont = True";
 _usedigitalfont = anywheresoftware.b4a.keywords.Common.True;
- //BA.debugLineNum = 68;BA.debugLine="CallSub2(scorebord, \"useDigitalFont\", True)";
+ //BA.debugLineNum = 69;BA.debugLine="CallSub2(scorebord, \"useDigitalFont\", True)";
 anywheresoftware.b4a.keywords.Common.CallSubNew2(ba,(Object)(_scorebord.getObject()),"useDigitalFont",(Object)(anywheresoftware.b4a.keywords.Common.True));
  }else {
- //BA.debugLineNum = 70;BA.debugLine="CallSub2(scorebord, \"useDigitalFont\", False)";
+ //BA.debugLineNum = 71;BA.debugLine="CallSub2(scorebord, \"useDigitalFont\", False)";
 anywheresoftware.b4a.keywords.Common.CallSubNew2(ba,(Object)(_scorebord.getObject()),"useDigitalFont",(Object)(anywheresoftware.b4a.keywords.Common.False));
  };
- //BA.debugLineNum = 73;BA.debugLine="If colorYellow = \"1\"  Then";
+ //BA.debugLineNum = 74;BA.debugLine="If colorYellow = \"1\"  Then";
 if ((_coloryellow).equals("1")) { 
- //BA.debugLineNum = 74;BA.debugLine="CallSub2(scorebord, \"useFontYellow\", True)";
+ //BA.debugLineNum = 75;BA.debugLine="CallSub2(scorebord, \"useFontYellow\", True)";
 anywheresoftware.b4a.keywords.Common.CallSubNew2(ba,(Object)(_scorebord.getObject()),"useFontYellow",(Object)(anywheresoftware.b4a.keywords.Common.True));
  }else {
- //BA.debugLineNum = 76;BA.debugLine="CallSub2(scorebord, \"useFontYellow\", False)";
+ //BA.debugLineNum = 77;BA.debugLine="CallSub2(scorebord, \"useFontYellow\", False)";
 anywheresoftware.b4a.keywords.Common.CallSubNew2(ba,(Object)(_scorebord.getObject()),"useFontYellow",(Object)(anywheresoftware.b4a.keywords.Common.False));
  };
- //BA.debugLineNum = 79;BA.debugLine="msgList.AddAll(Array As String(line_1, line_2, li";
+ //BA.debugLineNum = 80;BA.debugLine="msgList.AddAll(Array As String(line_1, line_2, li";
 _msglist.AddAll(anywheresoftware.b4a.keywords.Common.ArrayToList(new String[]{_line_1,_line_2,_line_3,_line_4,_line_5}));
- //BA.debugLineNum = 80;BA.debugLine="CallSub2(scorebord, \"setMessage\", msgList)";
+ //BA.debugLineNum = 81;BA.debugLine="CallSub2(scorebord, \"setMessage\", msgList)";
 anywheresoftware.b4a.keywords.Common.CallSubNew2(ba,(Object)(_scorebord.getObject()),"setMessage",(Object)(_msglist));
- //BA.debugLineNum = 82;BA.debugLine="If sponsorActive = \"1\" Then";
+ //BA.debugLineNum = 83;BA.debugLine="If sponsorActive = \"1\" Then";
 if ((_sponsoractive).equals("1")) { 
- //BA.debugLineNum = 83;BA.debugLine="CallSub2(scorebord, \"showSponor\", True)";
+ //BA.debugLineNum = 84;BA.debugLine="CallSub2(scorebord, \"showSponor\", True)";
 anywheresoftware.b4a.keywords.Common.CallSubNew2(ba,(Object)(_scorebord.getObject()),"showSponor",(Object)(anywheresoftware.b4a.keywords.Common.True));
  }else {
- //BA.debugLineNum = 85;BA.debugLine="CallSub2(scorebord, \"showSponor\", False)";
+ //BA.debugLineNum = 86;BA.debugLine="CallSub2(scorebord, \"showSponor\", False)";
 anywheresoftware.b4a.keywords.Common.CallSubNew2(ba,(Object)(_scorebord.getObject()),"showSponor",(Object)(anywheresoftware.b4a.keywords.Common.False));
  };
- //BA.debugLineNum = 88;BA.debugLine="End Sub";
+ //BA.debugLineNum = 89;BA.debugLine="End Sub";
 return "";
 }
 }
