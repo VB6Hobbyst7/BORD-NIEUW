@@ -179,33 +179,58 @@ Sub lastClick
 	inactivecls.lastClick = DateTime.Now
 End Sub
 
-Sub lbl_player_one_1_MouseReleased (EventData As MouseEvent)
+'PROCESS SCORE P1
+Sub p1Points_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
 	setP1Name
-	funcScorebord.calcScorePlayerOne(1, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayerOne(lbl.Tag, EventData.PrimaryButtonPressed)
+End Sub
+
+'PROCESS SCORE P2
+Sub p2Points_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
+	setP2Name
+	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
+End Sub
+
+'PROCESS P1 TO MAKE
+Sub p1ToMake_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
+	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
+End Sub
+
+'PROCESS P2 TO MAKE
+Sub p2ToMake_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
+	funcScorebord.playerOneMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
 End Sub
 
 
-Sub lbl_player_one_10_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	funcScorebord.calcScorePlayerOne(10, EventData.PrimaryButtonPressed)
-End Sub
-Sub lbl_player_one_100_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	funcScorebord.calcScorePlayerOne(100, EventData.PrimaryButtonPressed)
-End Sub
+'Sub lbl_player_one_1_MouseReleased (EventData As MouseEvent)
+'		setP1Name
+'	funcScorebord.calcScorePlayerOne(1, EventData.PrimaryButtonPressed)
+'End Sub
+'Sub lbl_player_one_10_MouseReleased (EventData As MouseEvent)
+'	setP1Name
+'	funcScorebord.calcScorePlayerOne(10, EventData.PrimaryButtonPressed)
+'End Sub
+'Sub lbl_player_one_100_MouseReleased (EventData As MouseEvent)
+'	setP1Name
+'	funcScorebord.calcScorePlayerOne(100, EventData.PrimaryButtonPressed)
+'End Sub
 
-Sub lbl_player_two_1_MouseReleased (EventData As MouseEvent)
-	setP2Name
-	funcScorebord.calcScorePlayertwo(1, EventData.PrimaryButtonPressed)
-End Sub
-Sub lbl_player_two_10_MouseReleased (EventData As MouseEvent)
-	setP2Name
-	funcScorebord.calcScorePlayertwo(10, EventData.PrimaryButtonPressed)
-End Sub
-Sub lbl_player_two_100_MouseReleased (EventData As MouseEvent)
-	setP2Name
-	funcScorebord.calcScorePlayertwo(100, EventData.PrimaryButtonPressed)
-End Sub
+'Sub lbl_player_two_1_MouseReleased (EventData As MouseEvent)
+'	setP2Name
+'	funcScorebord.calcScorePlayertwo(1, EventData.PrimaryButtonPressed)
+'End Sub
+'Sub lbl_player_two_10_MouseReleased (EventData As MouseEvent)
+'	setP2Name
+'	funcScorebord.calcScorePlayertwo(10, EventData.PrimaryButtonPressed)
+'End Sub
+'Sub lbl_player_two_100_MouseReleased (EventData As MouseEvent)
+'	setP2Name
+'	funcScorebord.calcScorePlayertwo(100, EventData.PrimaryButtonPressed)
+'End Sub
 
 Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 	Dim points As Int = lbl_innings.Text
@@ -244,21 +269,21 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	funcScorebord.inngSet = 0
 End Sub
 
-Sub lbl_player_one_make_100_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 100)
-End Sub
 
-Sub lbl_player_one_make_10_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 10)
-	
-End Sub
 
-Sub lbl_player_one_make_1_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 1)
-End Sub
+
+'Sub lbl_player_one_make_100_MouseReleased (EventData As MouseEvent)
+'	setP1Name
+'	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 100)
+'End Sub
+'Sub lbl_player_one_make_10_MouseReleased (EventData As MouseEvent)
+'	setP1Name
+'	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 10)
+'End Sub
+'Sub lbl_player_one_make_1_MouseReleased (EventData As MouseEvent)
+'	setP1Name
+'	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 1)
+'End Sub
 
 Sub playerOnePerc(perc As String)
 	lbl_player_one_perc.Text = perc
@@ -268,18 +293,15 @@ Sub playerTwoPerc(perc As String)
 	lbl_player_two_perc.Text = perc
 End Sub
 
-Sub lbl_player_two_make_100_MouseReleased (EventData As MouseEvent)
-	
-	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 100)
-End Sub
-
-Sub lbl_player_two_make_10_MouseReleased (EventData As MouseEvent)
-	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 10)
-End Sub
-
-Sub lbl_player_two_make_1_MouseReleased (EventData As MouseEvent)
-	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 1)
-End Sub
+'Sub lbl_player_two_make_100_MouseReleased (EventData As MouseEvent)
+'		funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 100)
+'End Sub
+'Sub lbl_player_two_make_10_MouseReleased (EventData As MouseEvent)
+'	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 10)
+'End Sub
+'Sub lbl_player_two_make_1_MouseReleased (EventData As MouseEvent)
+'	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 1)
+'End Sub
 
 Sub resetBoard
 	lbl_player_one_name.Text = "Speler 1"
@@ -380,7 +402,7 @@ End Sub
 
 Sub checkMatchWonP2
 	Dim p2caroms, p2make As Int
-	Dim p1caroms, p1make As Int
+	Dim p1caroms, p1Make As Int
 	
 	p2caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
 	p2make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
@@ -388,9 +410,9 @@ Sub checkMatchWonP2
 	If p2make = 0 Then Return
 	
 	p1caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
-	p1make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
+	p1Make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
 	
-	If p2caroms >= p2make And p1make = p1caroms Then
+	If p2caroms >= p2make And p1Make = p1caroms Then
 		lbl_game_text.Text = $"Remise partij"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
