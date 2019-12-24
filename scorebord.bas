@@ -56,6 +56,9 @@ Sub Process_Globals
 	Private pn_game As Pane
 	Private lbl_game_text As Label
 	Private lbl_ip As Label
+	Private lbl_p1_inning As Label
+	Private lbl_p2_innin As Label
+	Private lbl_p2_inning As Label
 End Sub
 
 Public Sub show
@@ -226,11 +229,18 @@ End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	setP1Name
+	If func.inngSet = 0 Then
+		func.inngSet = 1
+		func.innigs = func.innigs+1
+		lbl_innings.Text = func.padString(func.innigs, "0", 0, 3)
+	End If
+	func.calcMoyenneP2
 	func.processHs("all")
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	setP2Name
+	func.calcMoyenneP1
 	func.processHs("all")
 	func.inngSet = 0
 End Sub
@@ -273,6 +283,9 @@ Sub lbl_player_two_make_1_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub resetBoard
+	lbl_player_one_name.Text = "Speler 1"
+	lbl_player_two_name.Text = "Speler 2"
+	
 	lbl_player_one_1.Text = "0"
 	lbl_player_one_10.Text = "0"
 	lbl_player_one_100.Text = "0"
@@ -282,7 +295,7 @@ Sub resetBoard
 	lbl_player_one_moyenne.Text = "0.000"
 	lbl_player_one_perc.Text = "0.00%"
 	
-	lbl_innings.Text = "000"
+	lbl_innings.Text = "001"
 	
 	lbl_player_two_100.Text = "0"
 	lbl_player_two_10.Text = "0"
@@ -295,8 +308,8 @@ Sub resetBoard
 	lbl_player_one_hs.Text = "000"
 	lbl_player_two_hs.Text = "000"
 	
-	func.inngSet = 0
-	func.innigs = 0
+	func.inngSet = 1
+	func.innigs = 1
 	func.scorePlayerOne = 0
 	func.scorePlayerTwo = 0
 	func.playerOneToMake = 0
@@ -312,8 +325,10 @@ Sub resetBoard
 End Sub
 
 Sub setP1Name
-	lbl_player_one_name.Color = 0xff3455db'0xFF69D79A
+	lbl_player_one_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
+	lbl_player_one_name.TextColor = 0xff000000
 	lbl_player_two_name.Color = 0xFF001A01
+	lbl_player_two_name.TextColor = 0xFF81CFE0
 	
 	lbl_player_one_100.Enabled = True
 	lbl_player_one_10.Enabled = True
@@ -322,11 +337,17 @@ Sub setP1Name
 	lbl_player_two_100.Enabled = False
 	lbl_player_two_10.Enabled = False
 	lbl_player_two_1.Enabled = False
+	
+	lbl_p1_inning.Visible = True
+	lbl_p2_inning.Visible = False
+	
 End Sub
 
 Sub setP2Name
-	lbl_player_two_name.Color = 0xff3455db'0xFF69D79A
+	lbl_player_two_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
+	lbl_player_two_name.TextColor = 0xff000000
 	lbl_player_one_name.Color = 0xFF001A01
+	lbl_player_one_name.TextColor =0xFF81CFE0
 	
 	lbl_player_one_100.Enabled = False
 	lbl_player_one_10.Enabled = False
@@ -335,6 +356,9 @@ Sub setP2Name
 	lbl_player_two_100.Enabled = True
 	lbl_player_two_10.Enabled = True
 	lbl_player_two_1.Enabled = True
+	
+	lbl_p1_inning.Visible = False
+	lbl_p2_inning.Visible = True
 End Sub
 
 Sub checkMatchWonP1
@@ -346,6 +370,7 @@ Sub checkMatchWonP1
 	If make = 0 Then Return
 	
 	If caroms >= make Then
+		func.calcMoyenneP2
 		lbl_game_text.Text = $"Gelijkmakende beurt voor ${lbl_player_two_name.Text}"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
@@ -355,13 +380,34 @@ Sub checkMatchWonP1
 End Sub
 
 Sub checkMatchWonP2
-	Dim caroms, make As Int
+	Dim p2caroms, p2make As Int
+	Dim p1caroms, p1make As Int
 	
-	caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
-	make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
-	If make = 0 Then Return
+	p2caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
+	p2make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
 	
-	If caroms >= make Then
+	If p2make = 0 Then Return
+	
+	p1caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
+	p1make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
+	
+	If p2caroms >= p2make And p1make = p1caroms Then
+		lbl_game_text.Text = $"Remise partij"$
+		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
+		setP2Name
+		Sleep(4000)
+		pn_game.Top = 1650
+		Return
+	End If
+	
+	
+	If p2caroms >= p2make Then
+		lbl_game_text.Text = $"${lbl_player_two_name.Text} heeft de partij gewonnen"$
+		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
+		setP2Name
+		Sleep(4000)
+		pn_game.Top = 1650
+		
 '		Dim m As MediaPlayer
 '		
 '		Dim mv As JavaObject
@@ -528,6 +574,10 @@ End Sub
 
 Sub setSpelerData(data As List)
 	resetBoard
+	lbl_innings.Text = "001"
+	func.inngSet = 1
+	func.innigs = 1
+	
 	Dim teMaken As String
 	lbl_player_one_name.Text = data.Get(0)
 	func.playerOneToMake = data.Get(1)

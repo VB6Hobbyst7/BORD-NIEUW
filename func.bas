@@ -14,6 +14,9 @@ Sub Process_Globals
 	Public hasInternetAccess As Boolean = False
 	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
+	
+	Public p1Innings, p2Innings As Int = 0
+	
 	Public innigs, inngSet, make, playerOneHs = 0, playerTwoHs = 0, score As Int
 	Public playerOneToMake = 0, playerTwoToMake = 0, p1HsTemp = 0, p2HsTemp = 0 As Int
 	Public lblInnings, lbl_player_one_hs, lbl_player_two_hs As Label
@@ -137,6 +140,12 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	
 	P1Score		= p1_100.Text&p1_10.Text&p1_1.Text
 	P1Score		= P1Score+points
+	
+	If P1Score < playerOneHs And playerOneHs > 0 Then
+		playerOneHs = playerOneHs -1
+		lbl_player_one_hs.Text = padString(playerOneHs, "0", 0, 3)
+	End If
+	
 	'NO SCORE BELOW 0
 	If P1Score < 0 Then
 	'	Log("SCORE < 0")
@@ -156,6 +165,13 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	
 	
 	p1HsTemp	= p1HsTemp + points
+	
+	'TEST CODE
+	If p1HsTemp > playerOneHs Then
+		lbl_player_one_hs.Text = padString(p1HsTemp, "0", 0, 3)
+	End If
+	'TEST CODE
+	
 '	P1Score		= p1_100.Text&p1_10.Text&p1_1.Text
 '	P1Score		= score+points
 	
@@ -179,21 +195,30 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	scorePlayerOne = P1Score
 	txtScore = padString(P1Score, "0", 0, 4)
 
-'	p1_1000.Text	= txtScore.SubString2(0,1)
 	p1_100.Text		= txtScore.SubString2(1,2)
 	p1_10.Text		= txtScore.SubString2(2,3)
 	p1_1.Text		= txtScore.SubString2(3,4)
 
 	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innigs),1,3,3,False)
-	
+'''	
 	If playerOneToMake > 0 Then
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/playerOneToMake)*100,1,2,2,False)&"%")
-		p1_progress = (scorePlayerOne/playerOneToMake)*100
+	p1_progress = (scorePlayerOne/playerOneToMake)*100
 	End If
 	setProgress(p1_progressBar, p1_progress)
 	checkMatchWon("p1")
 	
 End Sub
+
+Sub calcMoyenneP1
+	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innigs),1,3,3,False)
+	If playerOneToMake > 0 Then
+		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/playerOneToMake)*100,1,2,2,False)&"%")
+		p1_progress = (scorePlayerOne/playerOneToMake)*100
+	End If
+	setProgress(p1_progressBar, p1_progress)
+End Sub
+
 
 Sub calcScorePlayertwo(points As Int, leftMouse As Boolean)
 	If leftMouse = False Then
@@ -239,8 +264,8 @@ Sub calcScorePlayertwo(points As Int, leftMouse As Boolean)
 	p2_100.Text		= txtScore.SubString2(1,2)
 	p2_10.Text		= txtScore.SubString2(2,3)
 	p2_1.Text		= txtScore.SubString2(3,4)
-	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/innigs),1,3,3,False)
 	
+	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/innigs),1,3,3,False)
 	If playerTwoToMake > 0 Then
 		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/playerTwoToMake)*100,1,2,2,False)&"%")
 		p2_progress = (scorePlayerTwo/playerTwoToMake)*100
@@ -249,6 +274,17 @@ Sub calcScorePlayertwo(points As Int, leftMouse As Boolean)
 	
 	checkMatchWon("p2")
 	
+End Sub
+
+Sub calcMoyenneP2
+	If innigs > 0 Then
+	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/(innigs-1)),1,3,3,False)
+	End If
+	If playerTwoToMake > 0 Then
+		CallSub2(scorebord, "playertwoPerc", NumberFormat2((scorePlayerTwo/playerTwoToMake)*100,1,2,2,False)&"%")
+		p2_progress = (scorePlayerTwo/playerTwoToMake)*100
+	End If
+	setProgress(p2_progressBar, p2_progress)
 End Sub
 
 Sub calcMoyenne(mPlayerOne As Label, mPlayerTwo As Label)
@@ -395,6 +431,7 @@ Sub checkMatchWon(player As String)
 	End If
 	
 	If player = "p2" Then
+		processHs("p2")
 		CallSub(scorebord, "checkMatchWonP2")
 	End If
 End Sub
