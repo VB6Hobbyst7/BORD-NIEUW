@@ -47,7 +47,7 @@ Sub show
 	
 	lst.Initialize
 	frm.Show
-	func.newGameInitialized = True
+	funcScorebord.newGameInitialized = True
 		
 End Sub
 

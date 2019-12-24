@@ -11,7 +11,7 @@ Sub Process_Globals
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
-	Private clsUpdate As classUpdate
+'	Private clsUpdate As classUpdate
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
 	Private lbl_innings As Label
@@ -57,7 +57,6 @@ Sub Process_Globals
 	Private lbl_game_text As Label
 	Private lbl_ip As Label
 	Private lbl_p1_inning As Label
-	Private lbl_p2_innin As Label
 	Private lbl_p2_inning As Label
 End Sub
 
@@ -90,12 +89,12 @@ Public Sub show
 	
 	
 	lbl_version.Text = func.getVersion
-	func.lblInnings = lbl_innings
-	func.lbl_player_one_hs = lbl_player_one_hs
-	func.lbl_player_two_hs = lbl_player_two_hs
+	funcScorebord.lblInnings = lbl_innings
+	funcScorebord.lbl_player_one_hs = lbl_player_one_hs
+	funcScorebord.lbl_player_two_hs = lbl_player_two_hs
 	
-	func.setP1CaromLables(lstPlayerOneScoreLbl)
-	func.setP2CaromLables(lstPlayerTwoScoreLbl)
+	funcScorebord.setP1CaromLables(lstPlayerOneScoreLbl)
+	funcScorebord.setP2CaromLables(lstPlayerTwoScoreLbl)
 		
 	Wait For (funcInet.testInet) Complete (result As Boolean)
 	If result Then
@@ -113,7 +112,7 @@ End Sub
 
 
 Public Sub setClearBoard(clear As Boolean)
-	func.setNieuwePartij = clear
+	funcScorebord.setNieuwePartij = clear
 End Sub
 
 Sub initPanels
@@ -182,30 +181,30 @@ End Sub
 
 Sub lbl_player_one_1_MouseReleased (EventData As MouseEvent)
 	setP1Name
-	func.calcScorePlayerOne(1, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayerOne(1, EventData.PrimaryButtonPressed)
 End Sub
 
 
 Sub lbl_player_one_10_MouseReleased (EventData As MouseEvent)
 	setP1Name
-	func.calcScorePlayerOne(10, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayerOne(10, EventData.PrimaryButtonPressed)
 End Sub
 Sub lbl_player_one_100_MouseReleased (EventData As MouseEvent)
 	setP1Name
-	func.calcScorePlayerOne(100, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayerOne(100, EventData.PrimaryButtonPressed)
 End Sub
 
 Sub lbl_player_two_1_MouseReleased (EventData As MouseEvent)
 	setP2Name
-	func.calcScorePlayertwo(1, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayertwo(1, EventData.PrimaryButtonPressed)
 End Sub
 Sub lbl_player_two_10_MouseReleased (EventData As MouseEvent)
 	setP2Name
-	func.calcScorePlayertwo(10, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayertwo(10, EventData.PrimaryButtonPressed)
 End Sub
 Sub lbl_player_two_100_MouseReleased (EventData As MouseEvent)
 	setP2Name
-	func.calcScorePlayertwo(100, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayertwo(100, EventData.PrimaryButtonPressed)
 End Sub
 
 Sub lbl_innings_MouseReleased (EventData As MouseEvent)
@@ -220,45 +219,45 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 		Return
 	End If
 	
-	func.innigs = points
+	funcScorebord.innigs = points
 	lbl_innings.Text = func.padString(points, "0", 0, 3)
-	func.calcMoyenne(lbl_player_one_moyenne, lbl_player_two_moyenne)
-	func.processHs("all")
-	func.inngSet = 1
+	funcScorebord.calcMoyenne(lbl_player_one_moyenne, lbl_player_two_moyenne)
+	funcScorebord.processHs("all")
+	funcScorebord.inngSet = 1
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	setP1Name
-	If func.inngSet = 0 Then
-		func.inngSet = 1
-		func.innigs = func.innigs+1
-		lbl_innings.Text = func.padString(func.innigs, "0", 0, 3)
+	If funcScorebord.inngSet = 0 Then
+		funcScorebord.inngSet = 1
+		funcScorebord.innigs = funcScorebord.innigs+1
+		lbl_innings.Text = func.padString(funcScorebord.innigs, "0", 0, 3)
 	End If
-	func.calcMoyenneP2
-	func.processHs("all")
+	funcScorebord.calcMoyenneP2
+	funcScorebord.processHs("all")
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	setP2Name
-	func.calcMoyenneP1
-	func.processHs("all")
-	func.inngSet = 0
+	funcScorebord.calcMoyenneP1
+	funcScorebord.processHs("all")
+	funcScorebord.inngSet = 0
 End Sub
 
 Sub lbl_player_one_make_100_MouseReleased (EventData As MouseEvent)
 	setP1Name
-	func.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 100)
+	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 100)
 End Sub
 
 Sub lbl_player_one_make_10_MouseReleased (EventData As MouseEvent)
 	setP1Name
-	func.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 10)
+	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 10)
 	
 End Sub
 
 Sub lbl_player_one_make_1_MouseReleased (EventData As MouseEvent)
 	setP1Name
-	func.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 1)
+	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 1)
 End Sub
 
 Sub playerOnePerc(perc As String)
@@ -271,15 +270,15 @@ End Sub
 
 Sub lbl_player_two_make_100_MouseReleased (EventData As MouseEvent)
 	
-	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 100)
+	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 100)
 End Sub
 
 Sub lbl_player_two_make_10_MouseReleased (EventData As MouseEvent)
-	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 10)
+	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 10)
 End Sub
 
 Sub lbl_player_two_make_1_MouseReleased (EventData As MouseEvent)
-	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 1)
+	funcScorebord.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 1)
 End Sub
 
 Sub resetBoard
@@ -308,16 +307,16 @@ Sub resetBoard
 	lbl_player_one_hs.Text = "000"
 	lbl_player_two_hs.Text = "000"
 	
-	func.inngSet = 1
-	func.innigs = 1
-	func.scorePlayerOne = 0
-	func.scorePlayerTwo = 0
-	func.playerOneToMake = 0
-	func.playertwoToMake = 0
-	func.playerOneHs = 0
-	func.playerTwoHs = 0
-	func.p1HsTemp = 0
-	func.p2HsTemp = 0
+	funcScorebord.inngSet = 1
+	funcScorebord.innigs = 1
+	funcScorebord.scorePlayerOne = 0
+	funcScorebord.scorePlayerTwo = 0
+	funcScorebord.playerOneToMake = 0
+	funcScorebord.playertwoToMake = 0
+	funcScorebord.playerOneHs = 0
+	funcScorebord.playerTwoHs = 0
+	funcScorebord.p1HsTemp = 0
+	funcScorebord.p2HsTemp = 0
 	B4XProgressBarP1.Progress = 0
 	B4XProgressBarP2.Progress = 0
 	setP1Name
@@ -370,7 +369,7 @@ Sub checkMatchWonP1
 	If make = 0 Then Return
 	
 	If caroms >= make Then
-		func.calcMoyenneP2
+		funcScorebord.calcMoyenneP2
 		lbl_game_text.Text = $"Gelijkmakende beurt voor ${lbl_player_two_name.Text}"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
@@ -425,7 +424,7 @@ Sub hideForm(hide As Boolean)
 End Sub
 
 Sub nieuwePartij
-	If func.newGameInitialized = False Then
+	If funcScorebord.newGameInitialized = False Then
 	nieuwe_partij.show
 	Else
 		CallSub(nieuwe_partij, "showForm")
@@ -444,7 +443,7 @@ End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
-	If func.newGameInitialized = False Then
+	If funcScorebord.newGameInitialized = False Then
 		CallSub(nieuwe_partij, "show")
 		Else
 			CallSub(nieuwe_partij, "showForm")
@@ -575,12 +574,12 @@ End Sub
 Sub setSpelerData(data As List)
 	resetBoard
 	lbl_innings.Text = "001"
-	func.inngSet = 1
-	func.innigs = 1
+	funcScorebord.inngSet = 1
+	funcScorebord.innigs = 1
 	
 	Dim teMaken As String
 	lbl_player_one_name.Text = data.Get(0)
-	func.playerOneToMake = data.Get(1)
+	funcScorebord.playerOneToMake = data.Get(1)
 	teMaken =  func.padString(data.Get(1), "0", 0, 3)
 	lbl_player_one_make_100.Text	= teMaken.SubString2(0,1)
 	lbl_player_one_make_10.Text		= teMaken.SubString2(1,2)
@@ -588,7 +587,7 @@ Sub setSpelerData(data As List)
 		
 	lbl_player_two_name.Text = data.Get(2)
 	teMaken =  func.padString(data.Get(3), "0", 0, 3)
-	func.playerTwoToMake = data.Get(3)
+	funcScorebord.playerTwoToMake = data.Get(3)
 	lbl_player_two_make_100.Text	= teMaken.SubString2(0,1)
 	lbl_player_two_make_10.Text		= teMaken.SubString2(1,2)
 	lbl_player_two_make_1.Text		= teMaken.SubString2(2,3)
