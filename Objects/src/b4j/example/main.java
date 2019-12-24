@@ -66,6 +66,7 @@ public static b4j.example.nieuwe_partij _nieuwe_partij = null;
 public static b4j.example.func _func = null;
 public static b4j.example.parseconfig _parseconfig = null;
 public static b4j.example.funcinet _funcinet = null;
+public static b4j.example.getnode _getnode = null;
 public static b4j.example.httputils2service _httputils2service = null;
 public static boolean  _application_error(anywheresoftware.b4a.objects.B4AException _error,String _stacktrace) throws Exception{
 RDebugUtils.currentModule="main";
@@ -103,41 +104,50 @@ RDebugUtils.currentLine=65542;
 switch (BA.switchObjectToInt(_os,"windows","linux")) {
 case 0: {
 RDebugUtils.currentLine=65544;
- //BA.debugLineNum = 65544;BA.debugLine="appFolder = File.DirApp&\"\\44\\\"";
-_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"\\44\\";
+ //BA.debugLineNum = 65544;BA.debugLine="appFolder = File.DirApp'&\"\\44\\\"";
+_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp();
  break; }
 case 1: {
 RDebugUtils.currentLine=65546;
- //BA.debugLineNum = 65546;BA.debugLine="appFolder = File.DirApp&\"/44/\"";
-_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp()+"/44/";
+ //BA.debugLineNum = 65546;BA.debugLine="appFolder = File.DirApp'&\"/44/\"";
+_appfolder = anywheresoftware.b4a.keywords.Common.File.getDirApp();
  break; }
 }
 ;
+RDebugUtils.currentLine=65550;
+ //BA.debugLineNum = 65550;BA.debugLine="Log(\"APPFOLDER \" & File.DirApp)";
+anywheresoftware.b4a.keywords.Common.Log("APPFOLDER "+anywheresoftware.b4a.keywords.Common.File.getDirApp());
 RDebugUtils.currentLine=65551;
- //BA.debugLineNum = 65551;BA.debugLine="If File.Exists(appPath, \"\") = False Then";
-if (anywheresoftware.b4a.keywords.Common.File.Exists(_apppath,"")==anywheresoftware.b4a.keywords.Common.False) { 
+ //BA.debugLineNum = 65551;BA.debugLine="If File.Exists(appPath, \"cnf.44\") = False Then";
+if (anywheresoftware.b4a.keywords.Common.File.Exists(_apppath,"cnf.44")==anywheresoftware.b4a.keywords.Common.False) { 
 RDebugUtils.currentLine=65552;
- //BA.debugLineNum = 65552;BA.debugLine="File.Copy(File.DirAssets, \"cnf.44\", appPath, \"\")";
+ //BA.debugLineNum = 65552;BA.debugLine="Log(\"APPFOLDER \" & File.DirApp)";
+anywheresoftware.b4a.keywords.Common.Log("APPFOLDER "+anywheresoftware.b4a.keywords.Common.File.getDirApp());
+RDebugUtils.currentLine=65553;
+ //BA.debugLineNum = 65553;BA.debugLine="File.Copy(File.DirAssets, \"cnf.44\", appPath, \"\")";
 anywheresoftware.b4a.keywords.Common.File.Copy(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),"cnf.44",_apppath,"");
  };
-RDebugUtils.currentLine=65554;
- //BA.debugLineNum = 65554;BA.debugLine="If File.IsDirectory(appFolder, \"media\") = False T";
-if (anywheresoftware.b4a.keywords.Common.File.IsDirectory(_appfolder,"media")==anywheresoftware.b4a.keywords.Common.False) { 
 RDebugUtils.currentLine=65555;
- //BA.debugLineNum = 65555;BA.debugLine="File.MakeDir(appFolder, \"media\")";
+ //BA.debugLineNum = 65555;BA.debugLine="If File.IsDirectory(appFolder, \"media\") = False T";
+if (anywheresoftware.b4a.keywords.Common.File.IsDirectory(_appfolder,"media")==anywheresoftware.b4a.keywords.Common.False) { 
+RDebugUtils.currentLine=65556;
+ //BA.debugLineNum = 65556;BA.debugLine="File.MakeDir(appFolder, \"media\")";
 anywheresoftware.b4a.keywords.Common.File.MakeDir(_appfolder,"media");
  };
-RDebugUtils.currentLine=65558;
- //BA.debugLineNum = 65558;BA.debugLine="MainForm = Form1";
+RDebugUtils.currentLine=65559;
+ //BA.debugLineNum = 65559;BA.debugLine="Log(\"APPFOLDER \" & File.DirApp)";
+anywheresoftware.b4a.keywords.Common.Log("APPFOLDER "+anywheresoftware.b4a.keywords.Common.File.getDirApp());
+RDebugUtils.currentLine=65560;
+ //BA.debugLineNum = 65560;BA.debugLine="MainForm = Form1";
 _mainform = _form1;
-RDebugUtils.currentLine=65562;
- //BA.debugLineNum = 65562;BA.debugLine="scorebord.Show";
-_scorebord._show /*void*/ ();
-RDebugUtils.currentLine=65563;
- //BA.debugLineNum = 65563;BA.debugLine="MainForm.Close";
-_mainform.Close();
 RDebugUtils.currentLine=65564;
- //BA.debugLineNum = 65564;BA.debugLine="End Sub";
+ //BA.debugLineNum = 65564;BA.debugLine="scorebord.Show";
+_scorebord._show /*void*/ ();
+RDebugUtils.currentLine=65565;
+ //BA.debugLineNum = 65565;BA.debugLine="MainForm.Close";
+_mainform.Close();
+RDebugUtils.currentLine=65566;
+ //BA.debugLineNum = 65566;BA.debugLine="End Sub";
 return "";
 }
 }

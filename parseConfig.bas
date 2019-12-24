@@ -22,9 +22,9 @@ Sub getAppPath As String
 	
 	Select os
 		Case "windows"
-			appPath = File.DirApp&"\44\cnf.44"
+			appPath = File.DirApp&"\44"'cnf.44"
 		Case "linux"
-			appPath = File.DirApp&"/44/cnf.44"
+			appPath = File.DirApp&"/44/"'cnf.44"
 	End Select
 	
 	Return appPath
@@ -35,7 +35,8 @@ Sub pullConfig
 	Dim msgList As List
 	
 	useDigitalFont = False
-	cnf = File.ReadString(appPath, "")
+	cnf = File.ReadString(appPath, "cnf.44")
+'	cnf = File.ReadString("", "cnf.44")
 	parser.Initialize(cnf)
 	msgList.Initialize
 

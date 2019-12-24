@@ -43,19 +43,20 @@ public b4j.example.nieuwe_partij _nieuwe_partij = null;
 public b4j.example.func _func = null;
 public b4j.example.parseconfig _parseconfig = null;
 public b4j.example.funcinet _funcinet = null;
+public b4j.example.getnode _getnode = null;
 public b4j.example.httputils2service _httputils2service = null;
 public anywheresoftware.b4a.objects.B4XViewWrapper  _getpanel(b4j.example.b4xlongtexttemplate __ref,b4j.example.b4xdialog _dialog) throws Exception{
 __ref = this;
 RDebugUtils.currentModule="b4xlongtexttemplate";
 if (Debug.shouldDelegate(ba, "getpanel", true))
 	 {return ((anywheresoftware.b4a.objects.B4XViewWrapper) Debug.delegate(ba, "getpanel", new Object[] {_dialog}));}
-RDebugUtils.currentLine=13238272;
- //BA.debugLineNum = 13238272;BA.debugLine="Public Sub GetPanel (Dialog As B4XDialog) As B4XVi";
-RDebugUtils.currentLine=13238273;
- //BA.debugLineNum = 13238273;BA.debugLine="Return mBase";
+RDebugUtils.currentLine=22872064;
+ //BA.debugLineNum = 22872064;BA.debugLine="Public Sub GetPanel (Dialog As B4XDialog) As B4XVi";
+RDebugUtils.currentLine=22872065;
+ //BA.debugLineNum = 22872065;BA.debugLine="Return mBase";
 if (true) return __ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ ;
-RDebugUtils.currentLine=13238274;
- //BA.debugLineNum = 13238274;BA.debugLine="End Sub";
+RDebugUtils.currentLine=22872066;
+ //BA.debugLineNum = 22872066;BA.debugLine="End Sub";
 return null;
 }
 public String  _show(b4j.example.b4xlongtexttemplate __ref,b4j.example.b4xdialog _dialog) throws Exception{
@@ -63,22 +64,22 @@ __ref = this;
 RDebugUtils.currentModule="b4xlongtexttemplate";
 if (Debug.shouldDelegate(ba, "show", true))
 	 {return ((String) Debug.delegate(ba, "show", new Object[] {_dialog}));}
-RDebugUtils.currentLine=13303808;
- //BA.debugLineNum = 13303808;BA.debugLine="Private Sub Show (Dialog As B4XDialog)";
-RDebugUtils.currentLine=13303809;
- //BA.debugLineNum = 13303809;BA.debugLine="CustomListView1.Clear";
+RDebugUtils.currentLine=22937600;
+ //BA.debugLineNum = 22937600;BA.debugLine="Private Sub Show (Dialog As B4XDialog)";
+RDebugUtils.currentLine=22937601;
+ //BA.debugLineNum = 22937601;BA.debugLine="CustomListView1.Clear";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._clear();
-RDebugUtils.currentLine=13303810;
- //BA.debugLineNum = 13303810;BA.debugLine="CustomListView1.AddTextItem(Text, \"\")";
+RDebugUtils.currentLine=22937602;
+ //BA.debugLineNum = 22937602;BA.debugLine="CustomListView1.AddTextItem(Text, \"\")";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._addtextitem(__ref._text /*Object*/ ,(Object)(""));
-RDebugUtils.currentLine=13303811;
- //BA.debugLineNum = 13303811;BA.debugLine="CustomListView1.GetPanel(0).GetView(0).SetTextAli";
+RDebugUtils.currentLine=22937603;
+ //BA.debugLineNum = 22937603;BA.debugLine="CustomListView1.GetPanel(0).GetView(0).SetTextAli";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._getpanel((int) (0)).GetView((int) (0)).SetTextAlignment("TOP","LEFT");
-RDebugUtils.currentLine=13303812;
- //BA.debugLineNum = 13303812;BA.debugLine="Dialog.InternalAddStubToCLVIfNeeded(CustomListVie";
+RDebugUtils.currentLine=22937604;
+ //BA.debugLineNum = 22937604;BA.debugLine="Dialog.InternalAddStubToCLVIfNeeded(CustomListVie";
 _dialog._internaladdstubtoclvifneeded /*String*/ (null,__ref._customlistview1 /*b4j.example.customlistview*/ ,__ref._customlistview1 /*b4j.example.customlistview*/ ._defaulttextbackgroundcolor);
-RDebugUtils.currentLine=13303813;
- //BA.debugLineNum = 13303813;BA.debugLine="End Sub";
+RDebugUtils.currentLine=22937605;
+ //BA.debugLineNum = 22937605;BA.debugLine="End Sub";
 return "";
 }
 public String  _dialogclosed(b4j.example.b4xlongtexttemplate __ref,int _result) throws Exception{
@@ -86,31 +87,31 @@ __ref = this;
 RDebugUtils.currentModule="b4xlongtexttemplate";
 if (Debug.shouldDelegate(ba, "dialogclosed", true))
 	 {return ((String) Debug.delegate(ba, "dialogclosed", new Object[] {_result}));}
-RDebugUtils.currentLine=13369344;
- //BA.debugLineNum = 13369344;BA.debugLine="Private Sub DialogClosed(Result As Int) 'ignore";
-RDebugUtils.currentLine=13369346;
- //BA.debugLineNum = 13369346;BA.debugLine="End Sub";
+RDebugUtils.currentLine=23003136;
+ //BA.debugLineNum = 23003136;BA.debugLine="Private Sub DialogClosed(Result As Int) 'ignore";
+RDebugUtils.currentLine=23003138;
+ //BA.debugLineNum = 23003138;BA.debugLine="End Sub";
 return "";
 }
 public String  _class_globals(b4j.example.b4xlongtexttemplate __ref) throws Exception{
 __ref = this;
 RDebugUtils.currentModule="b4xlongtexttemplate";
-RDebugUtils.currentLine=13041664;
- //BA.debugLineNum = 13041664;BA.debugLine="Sub Class_Globals";
-RDebugUtils.currentLine=13041665;
- //BA.debugLineNum = 13041665;BA.debugLine="Private xui As XUI";
+RDebugUtils.currentLine=22675456;
+ //BA.debugLineNum = 22675456;BA.debugLine="Sub Class_Globals";
+RDebugUtils.currentLine=22675457;
+ //BA.debugLineNum = 22675457;BA.debugLine="Private xui As XUI";
 _xui = new anywheresoftware.b4a.objects.B4XViewWrapper.XUI();
-RDebugUtils.currentLine=13041666;
- //BA.debugLineNum = 13041666;BA.debugLine="Public mBase As B4XView";
+RDebugUtils.currentLine=22675458;
+ //BA.debugLineNum = 22675458;BA.debugLine="Public mBase As B4XView";
 _mbase = new anywheresoftware.b4a.objects.B4XViewWrapper();
-RDebugUtils.currentLine=13041667;
- //BA.debugLineNum = 13041667;BA.debugLine="Public CustomListView1 As CustomListView";
+RDebugUtils.currentLine=22675459;
+ //BA.debugLineNum = 22675459;BA.debugLine="Public CustomListView1 As CustomListView";
 _customlistview1 = new b4j.example.customlistview();
-RDebugUtils.currentLine=13041668;
- //BA.debugLineNum = 13041668;BA.debugLine="Public Text As Object";
+RDebugUtils.currentLine=22675460;
+ //BA.debugLineNum = 22675460;BA.debugLine="Public Text As Object";
 _text = new Object();
-RDebugUtils.currentLine=13041669;
- //BA.debugLineNum = 13041669;BA.debugLine="End Sub";
+RDebugUtils.currentLine=22675461;
+ //BA.debugLineNum = 22675461;BA.debugLine="End Sub";
 return "";
 }
 public String  _initialize(b4j.example.b4xlongtexttemplate __ref,anywheresoftware.b4a.BA _ba) throws Exception{
@@ -120,41 +121,41 @@ RDebugUtils.currentModule="b4xlongtexttemplate";
 if (Debug.shouldDelegate(ba, "initialize", true))
 	 {return ((String) Debug.delegate(ba, "initialize", new Object[] {_ba}));}
 anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper _sv = null;
-RDebugUtils.currentLine=13107200;
- //BA.debugLineNum = 13107200;BA.debugLine="Public Sub Initialize";
-RDebugUtils.currentLine=13107201;
- //BA.debugLineNum = 13107201;BA.debugLine="mBase = xui.CreatePanel(\"mBase\")";
+RDebugUtils.currentLine=22740992;
+ //BA.debugLineNum = 22740992;BA.debugLine="Public Sub Initialize";
+RDebugUtils.currentLine=22740993;
+ //BA.debugLineNum = 22740993;BA.debugLine="mBase = xui.CreatePanel(\"mBase\")";
 __ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/  = __ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .CreatePanel(ba,"mBase");
-RDebugUtils.currentLine=13107202;
- //BA.debugLineNum = 13107202;BA.debugLine="mBase.SetLayoutAnimated(0, 0, 0, 300dip, 300dip)";
+RDebugUtils.currentLine=22740994;
+ //BA.debugLineNum = 22740994;BA.debugLine="mBase.SetLayoutAnimated(0, 0, 0, 300dip, 300dip)";
 __ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .SetLayoutAnimated((int) (0),0,0,__c.DipToCurrent((int) (300)),__c.DipToCurrent((int) (300)));
-RDebugUtils.currentLine=13107203;
- //BA.debugLineNum = 13107203;BA.debugLine="mBase.LoadLayout(\"LongTextTemplate\")";
+RDebugUtils.currentLine=22740995;
+ //BA.debugLineNum = 22740995;BA.debugLine="mBase.LoadLayout(\"LongTextTemplate\")";
 __ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .LoadLayout("LongTextTemplate",ba);
-RDebugUtils.currentLine=13107204;
- //BA.debugLineNum = 13107204;BA.debugLine="mBase.SetColorAndBorder(xui.Color_Transparent, 0,";
+RDebugUtils.currentLine=22740996;
+ //BA.debugLineNum = 22740996;BA.debugLine="mBase.SetColorAndBorder(xui.Color_Transparent, 0,";
 __ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .SetColorAndBorder(__ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .Color_Transparent,0,(int) (0),0);
-RDebugUtils.currentLine=13107205;
- //BA.debugLineNum = 13107205;BA.debugLine="CustomListView1.sv.SetColorAndBorder(xui.Color_Tr";
+RDebugUtils.currentLine=22740997;
+ //BA.debugLineNum = 22740997;BA.debugLine="CustomListView1.sv.SetColorAndBorder(xui.Color_Tr";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._sv.SetColorAndBorder(__ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .Color_Transparent,0,(int) (0),0);
-RDebugUtils.currentLine=13107206;
- //BA.debugLineNum = 13107206;BA.debugLine="CustomListView1.DefaultTextBackgroundColor = 0xFF";
+RDebugUtils.currentLine=22740998;
+ //BA.debugLineNum = 22740998;BA.debugLine="CustomListView1.DefaultTextBackgroundColor = 0xFF";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._defaulttextbackgroundcolor = (int) (0xff555555);
-RDebugUtils.currentLine=13107207;
- //BA.debugLineNum = 13107207;BA.debugLine="CustomListView1.DefaultTextColor = xui.Color_Whit";
+RDebugUtils.currentLine=22740999;
+ //BA.debugLineNum = 22740999;BA.debugLine="CustomListView1.DefaultTextColor = xui.Color_Whit";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._defaulttextcolor = __ref._xui /*anywheresoftware.b4a.objects.B4XViewWrapper.XUI*/ .Color_White;
-RDebugUtils.currentLine=13107208;
- //BA.debugLineNum = 13107208;BA.debugLine="CustomListView1.sv.Color = 0xFF464646";
+RDebugUtils.currentLine=22741000;
+ //BA.debugLineNum = 22741000;BA.debugLine="CustomListView1.sv.Color = 0xFF464646";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._sv.setColor((int) (0xff464646));
-RDebugUtils.currentLine=13107210;
- //BA.debugLineNum = 13107210;BA.debugLine="Dim sv As Node = CustomListView1.sv";
+RDebugUtils.currentLine=22741002;
+ //BA.debugLineNum = 22741002;BA.debugLine="Dim sv As Node = CustomListView1.sv";
 _sv = new anywheresoftware.b4j.objects.NodeWrapper.ConcreteNodeWrapper();
 _sv.setObject((javafx.scene.Node)(__ref._customlistview1 /*b4j.example.customlistview*/ ._sv.getObject()));
-RDebugUtils.currentLine=13107211;
- //BA.debugLineNum = 13107211;BA.debugLine="sv.StyleClasses.Add(\"b4xdialog\")";
+RDebugUtils.currentLine=22741003;
+ //BA.debugLineNum = 22741003;BA.debugLine="sv.StyleClasses.Add(\"b4xdialog\")";
 _sv.getStyleClasses().Add((Object)("b4xdialog"));
-RDebugUtils.currentLine=13107213;
- //BA.debugLineNum = 13107213;BA.debugLine="End Sub";
+RDebugUtils.currentLine=22741005;
+ //BA.debugLineNum = 22741005;BA.debugLine="End Sub";
 return "";
 }
 public String  _resize(b4j.example.b4xlongtexttemplate __ref,int _width,int _height) throws Exception{
@@ -162,19 +163,19 @@ __ref = this;
 RDebugUtils.currentModule="b4xlongtexttemplate";
 if (Debug.shouldDelegate(ba, "resize", true))
 	 {return ((String) Debug.delegate(ba, "resize", new Object[] {_width,_height}));}
-RDebugUtils.currentLine=13172736;
- //BA.debugLineNum = 13172736;BA.debugLine="Public Sub Resize(Width As Int, Height As Int)";
-RDebugUtils.currentLine=13172737;
- //BA.debugLineNum = 13172737;BA.debugLine="mBase.SetLayoutAnimated(0, 0, 0, Width, Height)";
+RDebugUtils.currentLine=22806528;
+ //BA.debugLineNum = 22806528;BA.debugLine="Public Sub Resize(Width As Int, Height As Int)";
+RDebugUtils.currentLine=22806529;
+ //BA.debugLineNum = 22806529;BA.debugLine="mBase.SetLayoutAnimated(0, 0, 0, Width, Height)";
 __ref._mbase /*anywheresoftware.b4a.objects.B4XViewWrapper*/ .SetLayoutAnimated((int) (0),0,0,_width,_height);
-RDebugUtils.currentLine=13172738;
- //BA.debugLineNum = 13172738;BA.debugLine="CustomListView1.AsView.SetLayoutAnimated(0, 0, 0,";
+RDebugUtils.currentLine=22806530;
+ //BA.debugLineNum = 22806530;BA.debugLine="CustomListView1.AsView.SetLayoutAnimated(0, 0, 0,";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._asview().SetLayoutAnimated((int) (0),0,0,_width,_height);
-RDebugUtils.currentLine=13172739;
- //BA.debugLineNum = 13172739;BA.debugLine="CustomListView1.Base_Resize(Width, Height)";
+RDebugUtils.currentLine=22806531;
+ //BA.debugLineNum = 22806531;BA.debugLine="CustomListView1.Base_Resize(Width, Height)";
 __ref._customlistview1 /*b4j.example.customlistview*/ ._base_resize(_width,_height);
-RDebugUtils.currentLine=13172740;
- //BA.debugLineNum = 13172740;BA.debugLine="End Sub";
+RDebugUtils.currentLine=22806532;
+ //BA.debugLineNum = 22806532;BA.debugLine="End Sub";
 return "";
 }
 }

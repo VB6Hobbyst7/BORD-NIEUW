@@ -1,23 +1,19 @@
 ﻿AppType=JavaFX
 Build1=Default,b4j.example
-File1=3bv_logo.png
-File10=n205light.css
-File11=nieuwe_partij.bjl
-File12=players.bjl
-File13=scorebord.bjl
-File2=Arial.ttf
-File3=biljarter.png
-File4=cnf.44
-File5=digital-7 (mono).ttf
-File6=logo.png
-File7=main.bjl
-File8=mouse.png
-File9=n205.css
+File1=biljarter.png
+File10=players.bjl
+File11=scorebord.bjl
+File2=cnf.44
+File3=Crasng.ttf
+File4=digital-7 (mono).ttf
+File5=logo.png
+File6=main.bjl
+File7=mouse.png
+File8=n205.css
+File9=nieuwe_partij.bjl
 FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
-FileGroup12=Default Group
-FileGroup13=Default Group
 FileGroup2=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
@@ -30,33 +26,34 @@ Group=Default Group
 Library1=jcore
 Library2=jfx
 Library3=jokhttputils2
-Library4=jxui
-Library5=xui views
-Library6=javaobject
-Library7=json
-Library8=jnet
-Library9=jshell
+Library4=xui views
+Library5=javaobject
+Library6=json
+Library7=jnet
+Library8=jshell
+Library9=jnetwork
 Module1=B4XProgressBar
-Module10=scorebord
-Module11=timerClass
+Module10=parseConfig
+Module11=scorebord
+Module12=timerClass
 Module2=classCheckConfig
 Module3=classUpdate
 Module4=clXToastMessage
 Module5=func
 Module6=funcInet
-Module7=inactiveClass
-Module8=nieuwe_partij
-Module9=parseConfig
-NumberOfFiles=13
+Module7=getNode
+Module8=inactiveClass
+Module9=nieuwe_partij
+NumberOfFiles=11
 NumberOfLibraries=9
-NumberOfModules=11
+NumberOfModules=12
 Version=8
 @EndOfDesignText@
 #Region Project Attributes 
 	#MainFormWidth: 1920
 	#MainFormHeight: 1080 
 #End Region
-'#VirtualMachineArgs: --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+#IgnoreWarnings: 16
 
 
 Sub Process_Globals
@@ -72,20 +69,22 @@ Sub AppStart (Form1 As Form, Args() As String)
 	
 	Select os
 		Case "windows"
-			appFolder = File.DirApp&"\44\"
+			appFolder = File.DirApp'&"\44\"
 		Case "linux"
-			appFolder = File.DirApp&"/44/"
+			appFolder = File.DirApp'&"/44/"
 	End Select
 	
 	
-	
-	If File.Exists(appPath, "") = False Then
+	Log("APPFOLDER " & File.DirApp)
+	If File.Exists(appPath, "cnf.44") = False Then
+	Log("APPFOLDER " & File.DirApp)
 		File.Copy(File.DirAssets, "cnf.44", appPath, "")
 	End If
 	If File.IsDirectory(appFolder, "media") = False Then
 		File.MakeDir(appFolder, "media")
 	End If
 	
+	Log("APPFOLDER " & File.DirApp)
 	MainForm = Form1
 '	MainForm.RootPane.LoadLayout("main") 'Load the layout file.
 '	MainForm.Show
