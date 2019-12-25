@@ -14,8 +14,8 @@ Sub Process_Globals
 	
 	Public p1Innings, p2Innings As Int = 0
 	
-	Public innigs, inngSet, make, playerOneHs = 0, playerTwoHs = 0, score As Int
-	Public playerOneToMake = 0, playerTwoToMake = 0, p1HsTemp = 0, p2HsTemp = 0 As Int
+	Public innings, inningSet, make, p1Hs = 0, p2Hs = 0, score As Int
+	Public p1ToMake = 0, p2ToMake = 0, p1HsTemp = 0, p2HsTemp = 0 As Int
 	Public lblInnings, lbl_player_one_hs, lbl_player_two_hs As Label
 	Public p1_1, p1_10, p1_100,  p1_moyenne As Label
 	Public p2_1, p2_10, p2_100, p2_moyenne As Label
@@ -55,9 +55,9 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	P1Score		= p1_100.Text&p1_10.Text&p1_1.Text
 	P1Score		= P1Score+points
 	
-	If P1Score < playerOneHs And playerOneHs > 0 Then
-		playerOneHs = playerOneHs -1
-		lbl_player_one_hs.Text = func.padString(playerOneHs, "0", 0, 3)
+	If P1Score < p1Hs And p1Hs > 0 Then
+		p1Hs = p1Hs -1
+		lbl_player_one_hs.Text = func.padString(p1Hs, "0", 0, 3)
 	End If
 	
 	'NO SCORE BELOW 0
@@ -70,7 +70,7 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	End If
 	
 	If P1Score < 0 Then
-		playerOneHs = 0
+		p1Hs = 0
 		p1HsTemp = 0
 		Return
 	End If
@@ -78,15 +78,15 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	p1HsTemp	= p1HsTemp + points
 	
 	'TEST CODE
-	If p1HsTemp > playerOneHs Then
+	If p1HsTemp > p1Hs Then
 		lbl_player_one_hs.Text = func.padString(p1HsTemp, "0", 0, 3)
 	End If
 	'TEST CODE
 	
 	If lblInnings.Text = "000" Then
 		lblInnings.Text	= "001"
-		innigs			= 1
-		inngSet			= 1
+		innings			= 1
+		inningSet			= 1
 	End If
 	
 	scorePlayerOne = P1Score
@@ -96,11 +96,11 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	p1_10.Text		= txtScore.SubString2(2,3)
 	p1_1.Text		= txtScore.SubString2(3,4)
 
-	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innigs),1,3,3,False)
+	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
 
-	If playerOneToMake > 0 Then
-		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/playerOneToMake)*100,1,2,2,False)&"%")
-		p1_progress = (scorePlayerOne/playerOneToMake)*100
+	If p1ToMake > 0 Then
+		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
+		p1_progress = (scorePlayerOne/p1ToMake)*100
 	End If
 	setProgress(p1_progressBar, p1_progress)
 	checkMatchWon("p1")
@@ -110,10 +110,10 @@ End Sub
 
 'CALC MOYENNE P1
 Sub calcMoyenneP1
-	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innigs),1,3,3,False)
-	If playerOneToMake > 0 Then
-		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/playerOneToMake)*100,1,2,2,False)&"%")
-		p1_progress = (scorePlayerOne/playerOneToMake)*100
+	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
+	If p1ToMake > 0 Then
+		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
+		p1_progress = (scorePlayerOne/p1ToMake)*100
 	End If
 	setProgress(p1_progressBar, p1_progress)
 End Sub
@@ -142,10 +142,10 @@ Sub playerOneMake(lbl100 As Label, lbl10 As Label, lbl1 As Label, leftButton As 
 	lbl10.Text	= strMaker.SubString2(1,2)
 	lbl1.Text	= strMaker.SubString2(2,3)
 	
-	playerOneToMake = make
-	If playerOneToMake > 0 Then
-		p1_progress = (scorePlayerOne/playerOneToMake)*100
-		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/playerOneToMake)*100,1,2,2,False)&"%")
+	p1ToMake = make
+	If p1ToMake > 0 Then
+		p1_progress = (scorePlayerOne/p1ToMake)*100
+		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
 	Else
 		p1_progress = 0
 		CallSub2(scorebord, "playerOnePerc", "n.v.t.")
@@ -156,58 +156,65 @@ End Sub
 
 
 'HANDLE SCORE P2
-Sub calcScorePlayertwo(points As Int, leftMouse As Boolean)
+Sub calcScorePlayerTwo(points As Int, leftMouse As Boolean)
 	If leftMouse = False Then
 		points = -Abs(points)
 	End If
 	
-	Dim p2Score As Int
-'	p2HsTemp = 0
+	Dim P2Score As Int
 	CallSubDelayed(scorebord, "lastClick")
 	
+	P2Score		= p2_100.Text&p2_10.Text&p2_1.Text
+	P2Score		= P2Score+points
 	
-	inngSet = 0
-	p2HsTemp = p2HsTemp + points
+	If P2Score < p2Hs And p2Hs > 0 Then
+		p2Hs = p2Hs -1
+		lbl_player_two_hs.Text = func.padString(p2Hs, "0", 0, 3)
+	End If
 	
-	p2Score = p2_100.Text&p2_10.Text&p2_1.Text
-	p2Score = p2Score+points
+	'NO SCORE BELOW 0
+	If P2Score < 0 Then
+		P2Score = p2_100.Text&p2_10.Text&p2_1.Text
+	End If
 	
-	If p2Score > 999 Then ' Or score <= -0 Then
+	If P2Score > 9999 Then
 		Return
 	End If
 	
-	If p2Score < 0 Then
-		playerTwoHs = 0
+	If P2Score < 0 Then
+		p2Hs = 0
 		p2HsTemp = 0
 		Return
 	End If
 	
-	If p2Score < playerTwoHs And playerTwoHs > 0 Then
-		playerTwoHs = playerTwoHs -1
-		lbl_player_two_hs.Text = func.padString(playerTwoHs, "0", 0, 3)
-	End If
+	p2HsTemp	= p2HsTemp + points
 	
+	'TEST CODE
+	If p2HsTemp > p2Hs Then
+		lbl_player_two_hs.Text = func.padString(p2HsTemp, "0", 0, 3)
+	End If
+	'TEST CODE
 	
 	If lblInnings.Text = "000" Then
 		lblInnings.Text	= "001"
-		innigs			= 1
-		inngSet			= 1
+		innings			= 1
+		inningSet			= 1
 	End If
 	
-	scorePlayerTwo	= p2Score
-	txtScore		= func.padString(p2Score, "0", 0, 4)
-	
+	scorePlayerTwo = P2Score
+	txtScore = func.padString(P2Score, "0", 0, 4)
+
 	p2_100.Text		= txtScore.SubString2(1,2)
 	p2_10.Text		= txtScore.SubString2(2,3)
 	p2_1.Text		= txtScore.SubString2(3,4)
-	
-	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/innigs),1,3,3,False)
-	If playerTwoToMake > 0 Then
-		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/playerTwoToMake)*100,1,2,2,False)&"%")
-		p2_progress = (scorePlayerTwo/playerTwoToMake)*100
+
+	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
+
+	If p2ToMake > 0 Then
+		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/p2ToMake)*100,1,2,2,False)&"%")
+		p2_progress = (scorePlayerTwo/p2ToMake)*100
 	End If
 	setProgress(p2_progressBar, p2_progress)
-	
 	checkMatchWon("p2")
 	
 End Sub
@@ -215,12 +222,12 @@ End Sub
 
 'CALC MOYENNE P2
 Sub calcMoyenneP2
-	If innigs > 0 Then
-		p2_moyenne.Text = NumberFormat2((scorePlayerTwo/(innigs-1)),1,3,3,False)
+	If innings > 0 Then
+		p2_moyenne.Text = NumberFormat2((scorePlayerTwo/(innings-1)),1,3,3,False)
 	End If
-	If playerTwoToMake > 0 Then
-		CallSub2(scorebord, "playertwoPerc", NumberFormat2((scorePlayerTwo/playerTwoToMake)*100,1,2,2,False)&"%")
-		p2_progress = (scorePlayerTwo/playerTwoToMake)*100
+	If p2ToMake > 0 Then
+		CallSub2(scorebord, "playertwoPerc", NumberFormat2((scorePlayerTwo/p2ToMake)*100,1,2,2,False)&"%")
+		p2_progress = (scorePlayerTwo/p2ToMake)*100
 	End If
 	setProgress(p2_progressBar, p2_progress)
 End Sub
@@ -249,11 +256,11 @@ Sub playerTwoMake(lbl100 As Label, lbl10 As Label, lbl1 As Label, leftButton As 
 	lbl10.Text	= strMaker.SubString2(1,2)
 	lbl1.Text	= strMaker.SubString2(2,3)
 	
-	playerTwoToMake = make
-	If playerTwoToMake > 0 Then
-		p2_progress = (scorePlayerTwo/playerTwoToMake)*100
+	p2ToMake = make
+	If p2ToMake > 0 Then
+		p2_progress = (scorePlayerTwo/p2ToMake)*100
 		setProgress(p2_progressBar, p2_progress)
-		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/playerTwoToMake)*100,1,2,2,False)&"%")
+		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/p2ToMake)*100,1,2,2,False)&"%")
 	Else
 		p2_progress = 0
 		setProgress(p2_progressBar, p2_progress)
@@ -265,45 +272,45 @@ End Sub
 'PROCESS HIGHSCORE
 Sub processHs(player As String)
 	If player = "p1" Then
-		If p1HsTemp > 0 And p1HsTemp > playerOneHs Then
-			playerOneHs = p1HsTemp
+		If p1HsTemp > 0 And p1HsTemp > p1Hs Then
+			p1Hs = p1HsTemp
 			p1HsTemp = 0
-			lbl_player_one_hs.Text = func.padString(playerOneHs, "0", 0, 3)
-'			Log($"player 1 hs is ${playerOneHs}"$)
+			lbl_player_one_hs.Text = func.padString(p1Hs, "0", 0, 3)
+'			Log($"player 1 hs is ${p1Hs}"$)
 		End If
 	End If
 
 	If player = "p2" Then
-		If p2HsTemp > 0 And p2HsTemp > playerTwoHs Then
-			playerTwoHs = p2HsTemp
+		If p2HsTemp > 0 And p2HsTemp > p2Hs Then
+			p2Hs = p2HsTemp
 			p2HsTemp = 0
-			lbl_player_two_hs.Text = func.padString(playerTwoHs, "0", 0, 3)
-'			Log($"player 2 hs is ${playerTwoHs}"$)
+			lbl_player_two_hs.Text = func.padString(p2Hs, "0", 0, 3)
+'			Log($"player 2 hs is ${p2Hs}"$)
 		Else
-			lbl_player_two_hs.Text = func.padString(0, "0", 0, 3)
+		'	lbl_player_two_hs.Text = func.padString(0, "0", 0, 3)
 		End If
 	End If
 	
 	If player = "all" Then
-		If p1HsTemp > playerOneHs Then
-			playerOneHs = p1HsTemp
+		If p1HsTemp > p1Hs Then
+			p1Hs = p1HsTemp
 			p1HsTemp = 0
-			lbl_player_one_hs.Text = func.padString(playerOneHs, "0", 0, 3)
-		else If scorePlayerOne < playerOneHs Then
-			playerOneHs = scorePlayerOne
+			lbl_player_one_hs.Text = func.padString(p1Hs, "0", 0, 3)
+		else If scorePlayerOne < p1Hs Then
+			p1Hs = scorePlayerOne
 			p1HsTemp = 0
-			lbl_player_one_hs.Text = func.padString(playerOneHs, "0", 0, 3)
+			lbl_player_one_hs.Text = func.padString(p1Hs, "0", 0, 3)
 		End If
 	End If
 		
-	If p2HsTemp > playerTwoHs Then
-		playerTwoHs = p2HsTemp
+	If p2HsTemp > p2Hs Then
+		p2Hs = p2HsTemp
 		p2HsTemp = 0
-		lbl_player_two_hs.Text = func.padString(playerTwoHs, "0", 0, 3)
-	Else If scorePlayerTwo < playerTwoHs Then
-		playerTwoHs = scorePlayerTwo
+		lbl_player_two_hs.Text = func.padString(p2Hs, "0", 0, 3)
+	Else If scorePlayerTwo < p2Hs Then
+		p2Hs = scorePlayerTwo
 		p2HsTemp = 0
-		lbl_player_two_hs.Text = func.padString(playerTwoHs, "0", 0, 3)
+		lbl_player_two_hs.Text = func.padString(p2Hs, "0", 0, 3)
 	End If
 End Sub
 'PROCESS HIGHSCORE
@@ -315,7 +322,7 @@ Sub checkMatchWon(player As String)
 	End If
 	
 	If player = "p2" Then
-		processHs("p2")
+		'processHs("p2")
 		CallSub(scorebord, "checkMatchWonP2")
 	End If
 End Sub
@@ -330,8 +337,8 @@ End Sub
 
 'UNKNOWN
 Sub calcMoyenne(mPlayerOne As Label, mPlayerTwo As Label)
-	mPlayerOne.Text = NumberFormat2((scorePlayerOne/innigs),1,3,3,False)
-	mPlayerTwo.Text = NumberFormat2((scorePlayerTwo/innigs),1,3,3,False)
+	mPlayerOne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
+	mPlayerTwo.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
 End Sub
 
 'UNKNOWN

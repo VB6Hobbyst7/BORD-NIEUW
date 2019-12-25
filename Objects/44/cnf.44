@@ -1,7 +1,7 @@
 {
   "showPromote": {
     "active": "1",
-    "timeOut": "10"
+    "timeOut": "15"
   },
   "digitalFont": {
     "active": "1"
