@@ -17,6 +17,20 @@ Sub Process_Globals
 End Sub
 
 
+Sub getAppImagePath As String
+	Dim os As String = DetectOS
+	Dim mediaPath As String
+	Select os
+		Case "windows"
+			mediaPath = File.DirApp&"\44\media\"'cnf.44"
+		Case "linux"
+			mediaPath = File.DirApp&"/44/media/"'cnf.44"
+	End Select
+	
+	Return mediaPath
+	
+End Sub
+
 Sub getAppPath As String
 	Dim os As String = DetectOS
 	

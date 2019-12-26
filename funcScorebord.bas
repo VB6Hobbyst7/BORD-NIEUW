@@ -197,8 +197,8 @@ Sub calcScorePlayerTwo(points As Int, leftMouse As Boolean)
 	
 	If lblInnings.Text = "000" Then
 		lblInnings.Text	= "001"
-		innings			= 1
-		inningSet			= 1
+		innings	= 1
+		inningSet = 1
 	End If
 	
 	scorePlayerTwo = P2Score
@@ -223,7 +223,7 @@ End Sub
 'CALC MOYENNE P2
 Sub calcMoyenneP2
 	If innings > 0 Then
-		p2_moyenne.Text = NumberFormat2((scorePlayerTwo/(innings-1)),1,3,3,False)
+		p2_moyenne.Text = NumberFormat2((scorePlayerTwo/(innings)),1,3,3,False)
 	End If
 	If p2ToMake > 0 Then
 		CallSub2(scorebord, "playertwoPerc", NumberFormat2((scorePlayerTwo/p2ToMake)*100,1,2,2,False)&"%")

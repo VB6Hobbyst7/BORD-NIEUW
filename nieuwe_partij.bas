@@ -25,6 +25,7 @@ Sub Process_Globals
 	
 	Private tmr As Timer
 	Private lst As List
+	
 End Sub
 
 
@@ -37,7 +38,7 @@ Sub show
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
-	
+
 	#if debug
 		frm.SetFormStyle("UTILITY")
 	#Else
@@ -46,9 +47,19 @@ Sub show
 	#End If
 	
 	lst.Initialize
+	setPlayerName
 	frm.Show
 	funcScorebord.newGameInitialized = True
 		
+End Sub
+
+Sub setPlayerName
+	If txt_speler_1.Text = "" Then
+		txt_speler_1.Text = "Speler 1"
+	End If
+	If txt_speler_2.Text = "" Then
+		txt_speler_2.Text = "Speler 2"
+	End If
 End Sub
 
 Sub chk_add_player_CheckedChange(Checked As Boolean)
@@ -77,6 +88,7 @@ End Sub
 
 Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	CallSub(scorebord, "resetBoard")
+	CallSub2(scorebord, "setNewGame", True)
 	frm.Close
 End Sub
 
@@ -114,6 +126,7 @@ Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 	lst.Initialize
 	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
 	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
+	CallSub2(scorebord, "setNewGame", True)
 	CallSub2(scorebord, "setSpelerData", lst)
 	tmr.Enabled = False
 	frm.close
@@ -131,6 +144,7 @@ Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 	lst.Initialize
 	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
 	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
+	CallSub2(scorebord, "setNewGame", True)
 	CallSub2(scorebord, "setSpelerData", lst)
 	tmr.Enabled = False
 	frm.Close
@@ -154,6 +168,7 @@ End Sub
 
 Sub showForm
 	tmr.Enabled = True	
+	setPlayerName
 	frm.Show
 End Sub
 

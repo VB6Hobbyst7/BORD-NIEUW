@@ -13,7 +13,9 @@ Sub Process_Globals
 	Private clsToast As clXToastMessage
 '	Private clsUpdate As classUpdate
 	Private clsTmr As timerClass
+	Private clsNewGame As classNewGame
 	
+	Private newGame As Boolean = False
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
 	Private lbl_player_one_moyenne, lbl_player_two_moyenne As Label
@@ -31,6 +33,7 @@ Sub Process_Globals
 	Private lbl_player_one_1, lbl_player_one_10, lbl_player_one_100 As Label
 	Private lbl_message_1, lbl_message_2, lbl_message_3, lbl_message_4, lbl_message_5 As Label
 	Private lbl_game_text, lbl_ip, lbl_p1_inning, lbl_p2_inning, Label7, Label6, lbl_version As Label
+	Private lbl_img_sponsore As Label
 End Sub
 
 Public Sub show
@@ -39,6 +42,8 @@ Public Sub show
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	lbl_ip.Text = func.getIpNumber
 	
+'	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
 	
 	#if debug
 	frm.SetFormStyle("UTILITY")
@@ -58,6 +63,7 @@ Public Sub show
 	inactivecls.Initialize(870, 510)
 	clsCheckCfg.Initialize
 	clsToast.Initialize(frm.RootPane)
+	clsNewGame.Initialize(lbl_reset)
 	'clsUpdate.Initialize
 	
 	
@@ -80,6 +86,8 @@ Public Sub show
 	initPanels
 	frm.Show
 	setFontStyle
+	disableControls
+	clsNewGame.tmrEnable(True)
 End Sub
 
 
@@ -198,21 +206,21 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
+	funcScorebord.calcMoyenneP2
 	setP1Name
 	If funcScorebord.inningSet = 0 Then
 		funcScorebord.inningSet = 1
 		funcScorebord.innings = funcScorebord.innings+1
 		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
 	End If
-	funcScorebord.calcMoyenneP2
 	funcScorebord.processHs("all")
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	setP2Name
+	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
-	funcScorebord.inningSet = 0
 End Sub
 
 Sub playerOnePerc(perc As String)
@@ -261,7 +269,66 @@ Sub resetBoard
 	funcScorebord.p2HsTemp = 0
 	B4XProgressBarP1.Progress = 0
 	B4XProgressBarP2.Progress = 0
-	setP1Name
+	
+'	If newGame = False Then
+'		disableControls
+'	Else
+'		setP1Name
+'	End If
+
+	
+End Sub
+
+
+Sub setNewGame(set As Boolean)
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
+	newGame = set
+	disableControls
+	enableScoreAndMake
+End Sub
+
+Sub enableScoreAndMake
+	disableControls
+	
+	lbl_player_one_make_100.Enabled = True
+	lbl_player_one_make_10.Enabled = True
+	lbl_player_one_make_1.Enabled = True
+	
+	lbl_player_two_make_100.Enabled = True
+	lbl_player_two_make_10.Enabled = True
+	lbl_player_two_make_1.Enabled = True
+End Sub
+
+
+Sub disableControls
+	lbl_player_one_name.Enabled = False
+	lbl_player_two_name.Enabled = False
+	
+	lbl_player_one_name.Color = 0xFF001A01'0xff3455db'0xFF69D79A
+	lbl_player_one_name.TextColor = 0xFF81CFE0
+	lbl_player_two_name.Color = 0xFF001A01
+	lbl_player_two_name.TextColor = 0xFF81CFE0
+	
+	lbl_innings.Enabled = False
+	lbl_player_one_100.Enabled = False
+	lbl_player_one_10.Enabled = False
+	lbl_player_one_1.Enabled = False
+	lbl_player_one_make_100.Enabled = False
+	lbl_player_one_make_10.Enabled = False
+	lbl_player_one_make_1.Enabled = False
+	lbl_player_one_hs.Enabled = False
+	
+	
+	lbl_player_two_100.Enabled = False
+	lbl_player_two_10.Enabled = False
+	lbl_player_two_1.Enabled = False
+	lbl_player_two_make_100.Enabled = False
+	lbl_player_two_make_10.Enabled = False
+	lbl_player_two_make_1.Enabled = False
+	lbl_player_two_hs.Enabled = False
+	
+	lbl_p1_inning.Visible = True
+	lbl_p2_inning.Visible = False
 	
 End Sub
 
@@ -274,10 +341,19 @@ Sub setP1Name
 	lbl_player_one_100.Enabled = True
 	lbl_player_one_10.Enabled = True
 	lbl_player_one_1.Enabled = True
+	lbl_player_one_make_100.Enabled = True
+	lbl_player_one_make_10.Enabled = True
+	lbl_player_one_make_1.Enabled = True
+	lbl_player_one_hs.Enabled = True
+	
 	
 	lbl_player_two_100.Enabled = False
 	lbl_player_two_10.Enabled = False
 	lbl_player_two_1.Enabled = False
+	lbl_player_two_make_100.Enabled = False
+	lbl_player_two_make_10.Enabled = False
+	lbl_player_two_make_1.Enabled = False
+	lbl_player_two_hs.Enabled = False
 	
 	lbl_p1_inning.Visible = True
 	lbl_p2_inning.Visible = False
@@ -293,10 +369,18 @@ Sub setP2Name
 	lbl_player_one_100.Enabled = False
 	lbl_player_one_10.Enabled = False
 	lbl_player_one_1.Enabled = False
+	lbl_player_one_make_100.Enabled = False
+	lbl_player_one_make_10.Enabled = False
+	lbl_player_one_make_1.Enabled = False
+	lbl_player_one_hs.Enabled = False
 	
 	lbl_player_two_100.Enabled = True
 	lbl_player_two_10.Enabled = True
 	lbl_player_two_1.Enabled = True
+	lbl_player_two_make_100.Enabled = True
+	lbl_player_two_make_10.Enabled = True
+	lbl_player_two_make_1.Enabled = True
+	lbl_player_two_hs.Enabled = True
 	
 	lbl_p1_inning.Visible = False
 	lbl_p2_inning.Visible = True
@@ -367,10 +451,10 @@ End Sub
 
 Sub nieuwePartij
 	If funcScorebord.newGameInitialized = False Then
-	nieuwe_partij.show
+		nieuwe_partij.show
 	Else
 		CallSub(nieuwe_partij, "showForm")
-	End If	
+	End If
 End Sub
 
 Sub lbl_reset_MouseEntered (EventData As MouseEvent)
@@ -387,8 +471,8 @@ Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
 	If funcScorebord.newGameInitialized = False Then
 		CallSub(nieuwe_partij, "show")
-		Else
-			CallSub(nieuwe_partij, "showForm")
+	Else
+		CallSub(nieuwe_partij, "showForm")
 	End If
 	nieuwePartij
 End Sub
@@ -542,4 +626,28 @@ End Sub
 
 Sub lbl_player_one_hs_MouseReleased (EventData As MouseEvent)
 	lbl_player_one_hs.Text = func.setHs(lbl_player_one_hs.Text, EventData.PrimaryButtonPressed)
+End Sub
+
+Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+	lbl_player_two_name.Enabled = True
+	lbl_player_one_name.Enabled = True
+	lbl_innings.Enabled = True
+	lbl_player_one_hs.Enabled = True
+	lbl_player_two_hs.Enabled = True
+'	enableScoreAndMake
+	setP1Name
+	newGame = False
+End Sub
+
+Sub lbl_img_sponsore_MouseMoved (EventData As MouseEvent)
+	If newGame Then
+		CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "begin_partij.png")
+	End If
+End Sub
+
+Sub lbl_img_sponsore_MouseExited (EventData As MouseEvent)
+	If newGame Then
+		CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
+	End If
 End Sub
