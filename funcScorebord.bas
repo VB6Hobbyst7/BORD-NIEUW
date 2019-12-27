@@ -96,8 +96,8 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	p1_10.Text		= txtScore.SubString2(2,3)
 	p1_1.Text		= txtScore.SubString2(3,4)
 
-	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
-
+'	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
+	p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
 	If p1ToMake > 0 Then
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
 		p1_progress = (scorePlayerOne/p1ToMake)*100
@@ -110,7 +110,8 @@ End Sub
 
 'CALC MOYENNE P1
 Sub calcMoyenneP1
-	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
+	'p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
+	p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
 	If p1ToMake > 0 Then
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
 		p1_progress = (scorePlayerOne/p1ToMake)*100
@@ -208,7 +209,9 @@ Sub calcScorePlayerTwo(points As Int, leftMouse As Boolean)
 	p2_10.Text		= txtScore.SubString2(2,3)
 	p2_1.Text		= txtScore.SubString2(3,4)
 
-	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
+'	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
+	p2_moyenne.Text =  func.getUnroundedMoyenne(NumberFormat2((scorePlayerTwo/innings),1,4,4,False))
+	
 
 	If p2ToMake > 0 Then
 		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/p2ToMake)*100,1,2,2,False)&"%")
@@ -222,8 +225,12 @@ End Sub
 
 'CALC MOYENNE P2
 Sub calcMoyenneP2
+	
+	
+	
 	If innings > 0 Then
-		p2_moyenne.Text = NumberFormat2((scorePlayerTwo/(innings)),1,3,3,False)
+		
+		p2_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerTwo/innings),1,4,4,False))
 	End If
 	If p2ToMake > 0 Then
 		CallSub2(scorebord, "playertwoPerc", NumberFormat2((scorePlayerTwo/p2ToMake)*100,1,2,2,False)&"%")

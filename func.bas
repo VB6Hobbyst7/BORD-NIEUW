@@ -172,4 +172,6 @@ Sub getIpNumber As String
 	Return components.Get(3)
 End Sub
 
-
+Sub getUnroundedMoyenne(moyenne As String) As String
+	Return moyenne.SubString2(0, moyenne.Length-1)
+End Sub

@@ -31,7 +31,7 @@ End Sub
 
 Sub show
 	tmr.Initialize("tmr", 60*1000)
-	tmr.Enabled = True
+'	tmr.Enabled = True
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("nieuwe_partij")
 	MouseOver(frm.RootPane)
