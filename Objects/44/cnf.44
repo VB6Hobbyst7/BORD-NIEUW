@@ -1,7 +1,7 @@
 {
   "showPromote": {
     "active": "1",
-    "timeOut": "15"
+    "timeOut": "20"
   },
   "digitalFont": {
     "active": "1"
@@ -13,13 +13,16 @@
     "useLightSchema": "0"
   },
   "message": {
-    "line_1": "Dit is een test bericht",
-    "line_2": "",
-    "line_3": "Blijf kalm",
+    "line_1": "Familie Dröge wenst u een voorspoedig",
+    "line_2": "2020, en een sportief biljart jaar toe",
+    "line_3": "",
     "line_4": "",
-    "line_5": "Neem een versnapering van het huis"
+    "line_5": ""
   },
   "reclame": {
     "active": "1"
+  },
+  "partijDuur": {
+    "active": "0"
   }
 }

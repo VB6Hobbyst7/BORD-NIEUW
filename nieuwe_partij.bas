@@ -25,7 +25,8 @@ Sub Process_Globals
 	
 	Private tmr As Timer
 	Private lst As List
-	
+	Private lstSpelSoort As List
+	Private cmbSpelSoort As B4XComboBox
 End Sub
 
 
@@ -47,8 +48,13 @@ Sub show
 	#End If
 	
 	lst.Initialize
+	lstSpelSoort.Initialize
+	lstSpelSoort.AddAll(Array As String("Libre", "Bandstoten", "DrieBanden", "Kader 38/2", "Kader 57/2", "Anker-Kader 57/2"))
+	cmbSpelSoort.SetItems(lstSpelSoort)
+	
 	setPlayerName
-	frm.Show
+	
+'	frm.Show
 	funcScorebord.newGameInitialized = True
 		
 End Sub
@@ -88,6 +94,7 @@ End Sub
 
 Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	CallSub(scorebord, "resetBoard")
+	CallSub2(scorebord, "setSpelSoort", cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex))
 	CallSub2(scorebord, "setNewGame", True)
 	frm.Close
 End Sub
@@ -126,6 +133,7 @@ Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 	lst.Initialize
 	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
 	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
+	lst.AddAll(Array As String(cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex)))
 	CallSub2(scorebord, "setNewGame", True)
 	CallSub2(scorebord, "setSpelerData", lst)
 	tmr.Enabled = False
@@ -144,6 +152,7 @@ Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 	lst.Initialize
 	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
 	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
+	lst.AddAll(Array As String(cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex)))
 	CallSub2(scorebord, "setNewGame", True)
 	CallSub2(scorebord, "setSpelerData", lst)
 	tmr.Enabled = False

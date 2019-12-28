@@ -72,6 +72,15 @@ Sub pullConfig
 
 	Dim sponsor As Map = root.Get("reclame")
 	Dim sponsorActive As String = sponsor.Get("active")
+	
+	Dim gameTime As Map = root.Get("partijDuur")
+	Dim gameTimeActive As String = gameTime.Get("active")
+
+	If gameTimeActive = "1" Then
+		CallSub2(scorebord, "showHideGameTime", True)
+	Else
+		CallSub2(scorebord, "showHideGameTime", False)
+	End If
 
 	Dim showPromote As Map = root.Get("showPromote")
 	If showPromote.Get("active") = "1" Then

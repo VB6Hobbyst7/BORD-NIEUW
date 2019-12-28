@@ -14,6 +14,7 @@ Sub Process_Globals
 '	Private clsUpdate As classUpdate
 	Private clsTmr As timerClass
 	Private clsNewGame As classNewGame
+	Private clsGameTime As classGameTimer
 	
 	Private newGame As Boolean = False
 	Private pn_promote_top, pn_promote_left As Double
@@ -34,6 +35,11 @@ Sub Process_Globals
 	Private lbl_message_1, lbl_message_2, lbl_message_3, lbl_message_4, lbl_message_5 As Label
 	Private lbl_game_text, lbl_ip, lbl_p1_inning, lbl_p2_inning, Label7, Label6, lbl_version As Label
 	Private lbl_img_sponsore As Label
+	Private lbl_date_time_dag As Label
+	Private lbl_date_time_date As Label
+	Private lbl_partij_duur As Label
+	Private lbl_spel_soort As Label
+	Private lbl_partij_duur_header As Label
 End Sub
 
 Public Sub show
@@ -59,11 +65,12 @@ Public Sub show
 	'func.SetFormCursor(frm, "mouse.png")
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 	
-	clsTmr.Initialize(lbl_clock)
+	clsTmr.Initialize(lbl_clock, lbl_date_time_date, lbl_date_time_dag)
 	inactivecls.Initialize(870, 510)
 	clsCheckCfg.Initialize
 	clsToast.Initialize(frm.RootPane)
 	clsNewGame.Initialize(lbl_reset)
+	clsGameTime.Initialize(lbl_partij_duur)
 	'clsUpdate.Initialize
 	
 	
@@ -235,6 +242,8 @@ Sub resetBoard
 	lbl_player_one_name.Text = "Speler 1"
 	lbl_player_two_name.Text = "Speler 2"
 	
+	lbl_partij_duur.Text = "00:00"
+	
 	lbl_player_one_1.Text = "0"
 	lbl_player_one_10.Text = "0"
 	lbl_player_one_100.Text = "0"
@@ -279,6 +288,10 @@ Sub resetBoard
 	
 End Sub
 
+
+Sub setSpelSoort(spel As String)
+	lbl_spel_soort.Text = spel
+End Sub
 
 Sub setNewGame(set As Boolean)
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
@@ -463,18 +476,37 @@ Sub lbl_reset_MouseEntered (EventData As MouseEvent)
 End Sub
 
 Sub lbl_reset_MouseExited (EventData As MouseEvent)
-	lbl_reset.Color = 0xFFFF0000
-	lbl_reset.TextColor = 0xFFFFFFFF
+	If lbl_reset.Text = "Nieuwe Partij" Then
+		lbl_reset.Color = 0xFFFF0000
+		lbl_reset.Color = 0xFF205502
+		lbl_reset.TextColor = 0xFFFFFFFF
+	Else
+		lbl_reset.Color = 0xFFFF0000
+		lbl_reset.TextColor = 0xFFFFFFFF
+	End If
 End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
-	If funcScorebord.newGameInitialized = False Then
-		CallSub(nieuwe_partij, "show")
-	Else
-		CallSub(nieuwe_partij, "showForm")
+	If lbl_reset.Text = "Nieuwe Partij" Then
+		If funcScorebord.newGameInitialized = False Then
+			CallSub(nieuwe_partij, "show")
+		Else
+			CallSub(nieuwe_partij, "showForm")
+		End If
+		nieuwePartij
+	else If lbl_reset.Text = "Partij Beëindigen" Then
+		CallSub(einde_partij, "show")
+		clsGameTime.tmrEnable(False)
 	End If
-	nieuwePartij
+	
+End Sub
+
+Sub eindePartij
+	lbl_reset.Text = "Nieuwe Partij"
+	lbl_reset.Color = 0xFF205502
+'	resetBoard
+	disableControls
 End Sub
 
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
@@ -530,9 +562,11 @@ End Sub
 
 Sub updateCfg
 	inactivecls.updatePromote
-	lbl_config_update.Visible = True
+	'lbl_config_update.Visible = True
+	lbl_config_update.SetAlphaAnimated(0, 1)
 	Sleep(5000)
-	lbl_config_update.Visible = False
+	lbl_config_update.SetAlphaAnimated(0, 0)
+	'lbl_config_update.Visible = False
 End Sub
 
 Sub useDigitalFont(useDigital As Boolean)
@@ -617,6 +651,8 @@ Sub setSpelerData(data As List)
 	lbl_player_two_make_100.Text	= teMaken.SubString2(0,1)
 	lbl_player_two_make_10.Text		= teMaken.SubString2(1,2)
 	lbl_player_two_make_1.Text		= teMaken.SubString2(2,3)
+	
+	lbl_spel_soort.Text = data.get(4)
 End Sub
 
 
@@ -629,15 +665,23 @@ Sub lbl_player_one_hs_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
+	If newGame = False Then Return
+	
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
 	lbl_player_two_name.Enabled = True
 	lbl_player_one_name.Enabled = True
 	lbl_innings.Enabled = True
 	lbl_player_one_hs.Enabled = True
 	lbl_player_two_hs.Enabled = True
+	
+	clsGameTime.setGameStart
+	clsGameTime.tmrEnable(True)
+	
 '	enableScoreAndMake
 	setP1Name
 	newGame = False
+	lbl_reset.Text = "Partij Beëindigen"
+	lbl_reset.Color = 0xFFFF0000
 End Sub
 
 Sub lbl_img_sponsore_MouseMoved (EventData As MouseEvent)
@@ -650,4 +694,23 @@ Sub lbl_img_sponsore_MouseExited (EventData As MouseEvent)
 	If newGame Then
 		CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
 	End If
+End Sub
+
+
+Sub showHideGameTime(enable As Boolean)
+	Dim op As Double
+	frm.RootPane.MouseCursor = fx.Cursors.NONE
+	If enable = True Then
+		op = 1.0
+	Else
+		op = 0.0
+	End If
+'	lbl_partij_duur.Visible = enable
+'	lbl_partij_duur_header.Visible = enable
+	
+	lbl_partij_duur_header.SetAlphaAnimated(2500, op)
+	lbl_partij_duur.SetAlphaAnimated(2500, op)
+	Sleep(2500)
+	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
+	
 End Sub

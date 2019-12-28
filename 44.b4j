@@ -1,17 +1,21 @@
 ﻿AppType=JavaFX
 Build1=Default,b4j.example
 File1=cnf.44
-File10=scorebord.bjl
+File10=nieuwe_partij.bjl
+File11=players.bjl
+File12=scorebord.bjl
 File2=Crasng.ttf
 File3=digital-7 (mono).ttf
-File4=logo.png
-File5=main.bjl
-File6=mouse.png
-File7=n205.css
-File8=nieuwe_partij.bjl
-File9=players.bjl
+File4=einde_partij.bjl
+File5=logo.png
+File6=main.bjl
+File7=Montserrat-Regular.ttf
+File8=mouse.png
+File9=n205.css
 FileGroup1=Default Group
 FileGroup10=Default Group
+FileGroup11=Default Group
+FileGroup12=Default Group
 FileGroup2=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
@@ -31,22 +35,24 @@ Library7=jnet
 Library8=jshell
 Library9=jnetwork
 Module1=B4XProgressBar
-Module10=inactiveClass
-Module11=nieuwe_partij
-Module12=parseConfig
-Module13=scorebord
-Module14=timerClass
+Module10=funcScorebord
+Module11=getNode
+Module12=inactiveClass
+Module13=nieuwe_partij
+Module14=parseConfig
+Module15=scorebord
+Module16=timerClass
 Module2=classCheckConfig
-Module3=classNewGame
-Module4=classUpdate
-Module5=clXToastMessage
-Module6=func
-Module7=funcInet
-Module8=funcScorebord
-Module9=getNode
-NumberOfFiles=10
+Module3=classGameTimer
+Module4=classNewGame
+Module5=classUpdate
+Module6=clXToastMessage
+Module7=einde_partij
+Module8=func
+Module9=funcInet
+NumberOfFiles=12
 NumberOfLibraries=9
-NumberOfModules=14
+NumberOfModules=16
 Version=8
 @EndOfDesignText@
 #Region Project Attributes 
@@ -89,6 +95,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 '	MainForm.RootPane.LoadLayout("main") 'Load the layout file.
 '	MainForm.Show
 '	Sleep(2000)
+	einde_partij.show
+	nieuwe_partij.show
 	scorebord.Show
 	MainForm.Close
 End Sub
