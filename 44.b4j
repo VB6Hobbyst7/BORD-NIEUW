@@ -81,16 +81,16 @@ Sub AppStart (Form1 As Form, Args() As String)
 	End Select
 	
 	
-	Log("APPFOLDER " & File.DirApp)
+'	Log("APPFOLDER " & File.DirApp)
 	If File.Exists(appPath, "cnf.44") = False Then
-	Log("APPFOLDER " & File.DirApp)
+'	Log("APPFOLDER " & File.DirApp)
 		File.Copy(File.DirAssets, "cnf.44", appPath, "")
 	End If
 	If File.IsDirectory(appFolder, "media") = False Then
 		File.MakeDir(appFolder, "media")
 	End If
 	
-	Log("APPFOLDER " & File.DirApp)
+'	Log("APPFOLDER " & File.DirApp)
 	MainForm = Form1
 '	MainForm.RootPane.LoadLayout("main") 'Load the layout file.
 '	MainForm.Show

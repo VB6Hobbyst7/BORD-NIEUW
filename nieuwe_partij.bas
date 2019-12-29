@@ -35,7 +35,7 @@ Sub show
 '	tmr.Enabled = True
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("nieuwe_partij")
-	MouseOver(frm.RootPane)
+'	MouseOver(frm.RootPane)
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
@@ -59,6 +59,23 @@ Sub show
 		
 End Sub
 
+
+Sub enablePlayerInput
+	txt_speler_1.Enabled = chk_add_player.Checked
+	txt_speler_2.Enabled = chk_add_player.Checked
+	txt_maken_1.Enabled	= chk_add_player.Checked
+	txt_maken_2.Enabled	= chk_add_player.Checked
+	btn_p1_begint.Enabled = chk_add_player.Checked
+	btn_p2_begint.Enabled = chk_add_player.Checked
+	
+End Sub
+
+Sub dummyShow
+	frm.Show
+	Sleep(1000)
+	frm.Close
+End Sub
+
 Sub setPlayerName
 	If txt_speler_1.Text = "" Then
 		txt_speler_1.Text = "Speler 1"
@@ -69,6 +86,7 @@ Sub setPlayerName
 End Sub
 
 Sub chk_add_player_CheckedChange(Checked As Boolean)
+	enablePlayerInput
 	Dim op As Int = 0
 	Dim opM As Int
 	
@@ -176,7 +194,8 @@ Sub chkSpelerData As Boolean
 End Sub
 
 Sub showForm
-	tmr.Enabled = True	
+	'tmr.Enabled = True	
+	enablePlayerInput
 	setPlayerName
 	frm.Show
 End Sub

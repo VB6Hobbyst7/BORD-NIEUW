@@ -91,10 +91,12 @@ Public Sub show
 	End If
 	
 	initPanels
+	nieuwe_partij.show
+	CallSub(nieuwe_partij, "dummyShow")
 	frm.Show
 	setFontStyle
 	disableControls
-	clsNewGame.tmrEnable(True)
+'	clsNewGame.tmrEnable(True)
 End Sub
 
 
@@ -459,7 +461,8 @@ Sub checkMatchWonP2
 End Sub
 
 Sub hideForm(hide As Boolean)
-	frm.rootpane.Visible = hide
+	'frm.rootpane.Visible = hide
+	frm.show
 End Sub
 
 Sub nieuwePartij
@@ -495,6 +498,7 @@ Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 			CallSub(nieuwe_partij, "showForm")
 		End If
 		nieuwePartij
+		
 	else If lbl_reset.Text = "Partij Beëindigen" Then
 		CallSub(einde_partij, "show")
 		clsGameTime.tmrEnable(False)

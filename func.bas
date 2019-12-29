@@ -158,6 +158,7 @@ Sub getIpNumber As String
 	ipStr = ""
 	Server.Initialize(50000, Me)
 	Ip = Server.GetMyIP
+	Return Ip
 	components.Initialize
 	
 	For i = 0 To Ip.Length - 1
