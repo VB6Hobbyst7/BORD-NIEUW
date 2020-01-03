@@ -111,6 +111,11 @@ End Sub
 'CALC MOYENNE P1
 Sub calcMoyenneP1
 	'p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
+	If innings < 1 Then
+		p1_moyenne.Text = "0.000"
+		Return
+	End If
+	
 	p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
 	If p1ToMake > 0 Then
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
@@ -342,8 +347,14 @@ End Sub
 'SET PLAYER PROGRESSBAR
 
 
-'UNKNOWN
+'USED FROM LBL_INNIING MOUSE RELEASED FROM SCOREBORD
 Sub calcMoyenne(mPlayerOne As Label, mPlayerTwo As Label)
+	If innings < 1 Then
+		mPlayerOne.Text = "0.000"	
+		mPlayerTwo.Text = "0.000"	
+		Return
+	End If
+	
 	mPlayerOne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
 	mPlayerTwo.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
 End Sub

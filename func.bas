@@ -98,11 +98,11 @@ Sub SetCustomCursor1(Dir As String, Filename As String, hotspotX  As Double, hot
 End Sub
 
 
-Sub Animacao_Rotacao (v As B4XView, duration As Int, degrees As Int)
-	v.SetRotationAnimated(duration, degrees)
-	Sleep(duration + 20) '+20 to make sure that the new value is set after animation completes.
-	v.Rotation = 0
-End Sub
+'Sub Animacao_Rotacao (v As B4XView, duration As Int, degrees As Int)
+'	v.SetRotationAnimated(duration, degrees)
+'	Sleep(duration + 20) '+20 to make sure that the new value is set after animation completes.
+'	v.Rotation = 0
+'End Sub
 
 'Sub setVisibleAnimated(v As B4XView, duration As Int, show As Boolean)
 '	v.SetVisibleAnimated(duration, show)
@@ -158,6 +158,7 @@ Sub getIpNumber As String
 	ipStr = ""
 	Server.Initialize(50000, Me)
 	Ip = Server.GetMyIP
+	
 	Return Ip
 	components.Initialize
 	

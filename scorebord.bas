@@ -4,6 +4,8 @@ ModulesStructureVersion=1
 Type=StaticCode
 Version=8
 @EndOfDesignText@
+#IgnoreWarnings: 16, 9
+
 'Static code module
 Sub Process_Globals
 	Private fx As JFX
@@ -141,6 +143,10 @@ Sub setFontStyle
 	func.caromLabelCss(lbl_player_two_make_100, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_10, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_1, "labelCarom")
+	
+	'func.caromLabelCss(lbl_player_two_name, "labelCarom")
+	
+	
 	
 	resetBoard
 End Sub
@@ -680,6 +686,13 @@ Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 	
 	clsGameTime.setGameStart
 	clsGameTime.tmrEnable(True)
+	If lbl_player_one_make_1.Text+lbl_player_one_make_10.Text+lbl_player_one_make_100.Text = 0 Then
+		lbl_player_one_perc.Text = "n.v.t."
+	End If
+	If lbl_player_two_make_1.Text+lbl_player_two_make_10.Text+lbl_player_two_make_100.Text = 0 Then
+		lbl_player_two_perc.Text = "n.v.t."
+	End If
+	
 	
 '	enableScoreAndMake
 	setP1Name

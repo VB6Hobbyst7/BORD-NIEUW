@@ -4,6 +4,8 @@ ModulesStructureVersion=1
 Type=StaticCode
 Version=8
 @EndOfDesignText@
+#IgnoreWarnings: 16,9,12
+
 'Static code module
 Sub Process_Globals
 	Private fx As JFX
@@ -143,9 +145,9 @@ End Sub
 
 Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 	If chkSpelerData = False Then
-		lbl_speler_data.SetAlphaAnimated(200, 1)
+		lbl_speler_data.SetAlphaAnimated(600, 1)
 		Sleep(1000)
-		lbl_speler_data.SetAlphaAnimated(200, 0)
+		lbl_speler_data.SetAlphaAnimated(600, 0)
 		Return
 	End If
 	lst.Initialize
@@ -182,10 +184,16 @@ End Sub
 Sub chkSpelerData As Boolean
 	Dim teMaken1, teMaken2 As Int
 	
+	If txt_maken_1.Text = "" Or txt_maken_2.Text = "" Then
+		txt_maken_1.Text = "0"
+		txt_maken_2.Text = "0"
+		
+	End If
+	
 	teMaken1 = txt_maken_1.Text
 	teMaken2 = txt_maken_2.Text
 	
-	If teMaken1 < 1 Or teMaken2 < 1 Then Return False
+'	If teMaken1 < 1 Or teMaken2 < 1 Then Return False
 	
 	If txt_speler_1.text = "" Or txt_speler_2.text = "" Or txt_maken_1.Text = "" Or txt_maken_2.text = "" Then
 		Return False

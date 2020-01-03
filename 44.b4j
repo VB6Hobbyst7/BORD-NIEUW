@@ -1,21 +1,23 @@
 ﻿AppType=JavaFX
 Build1=Default,b4j.example
-File1=cnf.44
-File10=nieuwe_partij.bjl
-File11=players.bjl
-File12=scorebord.bjl
-File2=Crasng.ttf
-File3=digital-7 (mono).ttf
-File4=einde_partij.bjl
-File5=logo.png
-File6=main.bjl
-File7=Montserrat-Regular.ttf
-File8=mouse.png
-File9=n205.css
+File1=bal.png
+File10=n205.css
+File11=nieuwe_partij.bjl
+File12=players.bjl
+File13=scorebord.bjl
+File2=cnf.44
+File3=Crasng.ttf
+File4=digital-7 (mono).ttf
+File5=einde_partij.bjl
+File6=logo.png
+File7=main.bjl
+File8=Montserrat-Regular.ttf
+File9=mouse.png
 FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
 FileGroup12=Default Group
+FileGroup13=Default Group
 FileGroup2=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
@@ -50,7 +52,7 @@ Module6=clXToastMessage
 Module7=einde_partij
 Module8=func
 Module9=funcInet
-NumberOfFiles=12
+NumberOfFiles=13
 NumberOfLibraries=9
 NumberOfModules=16
 Version=8
@@ -59,7 +61,7 @@ Version=8
 	#MainFormWidth: 1920
 	#MainFormHeight: 1080 
 #End Region
-#IgnoreWarnings: 16
+#IgnoreWarnings: 16,9
 
 
 Sub Process_Globals
