@@ -177,3 +177,33 @@ End Sub
 Sub getUnroundedMoyenne(moyenne As String) As String
 	Return moyenne.SubString2(0, moyenne.Length-1)
 End Sub
+
+Sub alignLabelCenter(lbl As Label)
+	Dim jo As JavaObject = lbl
+	jo.RunMethod("setTextAlignment", Array("CENTER"))
+End Sub
+
+Sub splitNaam(str As String) As String
+	Dim lst As List
+	Dim spaceIndex As Int = str.IndexOf(" ")
+	Dim retStr As String = ""
+	If spaceIndex < 0 Then Return str.ToUpperCase
+	
+	lst.Initialize
+	lst = Regex.Split(" ", str)
+	
+	For i = 0 To lst.Size -1
+		If i = 0 Then
+			retStr = retStr & lst.Get(i) & CRLF
+			Continue
+		End If
+		retStr = retStr & " " & lst.Get(i)
+	Next
+		
+	
+	Return retStr.ToUpperCase
+	
+	
+End Sub
+
+

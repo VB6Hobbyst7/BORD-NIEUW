@@ -98,6 +98,11 @@ Public Sub show
 	frm.Show
 	setFontStyle
 	disableControls
+	
+	func.alignLabelCenter(lbl_player_one_name)
+	func.alignLabelCenter(lbl_player_two_name)
+	func.alignLabelCenter(lbl_game_text)
+	
 '	clsNewGame.tmrEnable(True)
 End Sub
 
@@ -144,7 +149,7 @@ Sub setFontStyle
 	func.caromLabelCss(lbl_player_two_make_10, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_1, "labelCarom")
 	
-	'func.caromLabelCss(lbl_player_two_name, "labelCarom")
+	'func.caromLabelCss(lbl_player_two_name, "labelPlayer")
 	
 	
 	
@@ -247,8 +252,8 @@ Sub playerTwoPerc(perc As String)
 End Sub
 
 Sub resetBoard
-	lbl_player_one_name.Text = "Speler 1"
-	lbl_player_two_name.Text = "Speler 2"
+	lbl_player_one_name.Text = "SPELER"&CRLF&"1"
+	lbl_player_two_name.Text = "SPELER"&CRLF&"2"
 	
 	lbl_partij_duur.Text = "00:00"
 	
@@ -325,10 +330,12 @@ Sub disableControls
 	lbl_player_one_name.Enabled = False
 	lbl_player_two_name.Enabled = False
 	
-	lbl_player_one_name.Color = 0xFF001A01'0xff3455db'0xFF69D79A
-	lbl_player_one_name.TextColor = 0xFF81CFE0
-	lbl_player_two_name.Color = 0xFF001A01
-	lbl_player_two_name.TextColor = 0xFF81CFE0
+'	lbl_player_one_name.Color = 0xFF001A01'0xff3455db'0xFF69D79A
+'	lbl_player_one_name.TextColor = 0xFF81CFE0
+'	lbl_player_two_name.Color = 0xFF001A01
+'	lbl_player_two_name.TextColor = 0xFF81CFE0
+	
+	
 	
 	lbl_innings.Enabled = False
 	lbl_player_one_100.Enabled = False
@@ -355,9 +362,10 @@ End Sub
 
 Sub setP1Name
 	lbl_player_one_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
-	lbl_player_one_name.TextColor = 0xff000000
-	lbl_player_two_name.Color = 0xFF001A01
-	lbl_player_two_name.TextColor = 0xFF81CFE0
+	
+	'lbl_player_one_name.TextColor = 0xff000000
+	'lbl_player_two_name.Color = 0xFF001A01
+	'lbl_player_two_name.TextColor = 0xFF81CFE0
 	
 	lbl_player_one_100.Enabled = True
 	lbl_player_one_10.Enabled = True
@@ -379,13 +387,14 @@ Sub setP1Name
 	lbl_p1_inning.Visible = True
 	lbl_p2_inning.Visible = False
 	
+	
 End Sub
 
 Sub setP2Name
-	lbl_player_two_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
-	lbl_player_two_name.TextColor = 0xff000000
-	lbl_player_one_name.Color = 0xFF001A01
-	lbl_player_one_name.TextColor =0xFF81CFE0
+	'lbl_player_two_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
+	'lbl_player_two_name.TextColor = 0xff000000
+	'lbl_player_one_name.Color = 0xFF001A01
+	'lbl_player_one_name.TextColor =0xFF81CFE0
 	
 	lbl_player_one_100.Enabled = False
 	lbl_player_one_10.Enabled = False
@@ -409,6 +418,7 @@ End Sub
 
 Sub checkMatchWonP1
 	Dim caroms, make As Int
+	Dim player As String
 	
 	caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
 	make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
@@ -416,8 +426,10 @@ Sub checkMatchWonP1
 	If make = 0 Then Return
 	
 	If caroms >= make Then
+		player = lbl_player_two_name.Text.Replace(CRLF, " ")
+		
 		funcScorebord.calcMoyenneP2
-		lbl_game_text.Text = $"Gelijkmakende beurt voor ${lbl_player_two_name.Text}"$
+		lbl_game_text.Text = $"Gelijkmakende beurt voor ${player}"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
 		Sleep(4000)
@@ -428,6 +440,7 @@ End Sub
 Sub checkMatchWonP2
 	Dim p2caroms, p2make As Int
 	Dim p1caroms, p1Make As Int
+	Dim player As String
 	
 	p2caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
 	p2make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
@@ -448,7 +461,8 @@ Sub checkMatchWonP2
 	
 	
 	If p2caroms >= p2make Then
-		lbl_game_text.Text = $"${lbl_player_two_name.Text} heeft de partij gewonnen"$
+		player = lbl_player_two_name.Text.Replace(CRLF, " ")
+		lbl_game_text.Text = $"${player} heeft de partij gewonnen"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
 		Sleep(4000)
@@ -730,4 +744,21 @@ Sub showHideGameTime(enable As Boolean)
 	Sleep(2500)
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 	
+End Sub
+
+
+Sub lbl_player_one_name_MouseEntered (EventData As MouseEvent)
+	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 10dip, 0xFFff0000, 0dip)
+End Sub
+
+Sub lbl_player_one_name_MouseExited (EventData As MouseEvent)
+	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 0dip, 0xFFFF0000, 4dip)
+End Sub
+
+Sub lbl_player_two_name_MouseEntered (EventData As MouseEvent)
+	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 10dip, 0xFFff0000, 0dip)
+End Sub
+
+Sub lbl_player_two_name_MouseExited (EventData As MouseEvent)
+	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 0dip, 0xFFFF0000, 4dip)
 End Sub

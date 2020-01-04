@@ -4,7 +4,7 @@ ModulesStructureVersion=1
 Type=StaticCode
 Version=8
 @EndOfDesignText@
-#IgnoreWarnings: 16,9,12
+#IgnoreWarnings: 16,9,12,1
 
 'Static code module
 Sub Process_Globals
@@ -29,6 +29,8 @@ Sub Process_Globals
 	Private lst As List
 	Private lstSpelSoort As List
 	Private cmbSpelSoort As B4XComboBox
+	Private lbl_max_tekens As Label
+	
 End Sub
 
 
@@ -80,17 +82,21 @@ End Sub
 
 Sub setPlayerName
 	If txt_speler_1.Text = "" Then
-		txt_speler_1.Text = "Speler 1"
+	#If debug
+		txt_speler_1.Text = "SJAAK VAN DUIVENVOORDE"
+	#Else
+		txt_speler_1.Text = "SPELER"&CRLF&" 1" '"Speler 1"
+	#End if
 	End If
 	If txt_speler_2.Text = "" Then
-		txt_speler_2.Text = "Speler 2"
+		txt_speler_2.Text = "SPELER"&CRLF&" 2" '"Speler 2"
 	End If
 End Sub
 
 Sub chk_add_player_CheckedChange(Checked As Boolean)
 	enablePlayerInput
 	Dim op As Int = 0
-	Dim opM As Int
+	Dim opM, speed As Int
 	
 	If Checked Then
 		op = 1
@@ -100,14 +106,17 @@ Sub chk_add_player_CheckedChange(Checked As Boolean)
 			
 	End If
 	
-	txt_speler_1.SetAlphaAnimated(0,op)
-	txt_speler_2.SetAlphaAnimated(0,op)
-	txt_maken_1.SetAlphaAnimated(0,op)
-	txt_maken_2.SetAlphaAnimated(0,op)
-	btn_nieuwe_partij.SetAlphaAnimated(0, opM)
+	speed = 100
+	
+	txt_speler_1.SetAlphaAnimated(speed,op)
+	txt_speler_2.SetAlphaAnimated(speed,op)
+	txt_maken_1.SetAlphaAnimated(speed,op)
+	txt_maken_2.SetAlphaAnimated(speed,op)
+	btn_nieuwe_partij.SetAlphaAnimated(speed, opM)
 	btn_nieuwe_partij.Enabled = Checked <> True
-	btn_p1_begint.SetAlphaAnimated(0,op)
-	btn_p2_begint.SetAlphaAnimated(0,op)
+	btn_p1_begint.SetAlphaAnimated(speed,op)
+	btn_p2_begint.SetAlphaAnimated(speed,op)
+	lbl_max_tekens.SetAlphaAnimated(speed,op)
 	txt_speler_1.RequestFocus
 End Sub
 
@@ -150,9 +159,19 @@ Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 		lbl_speler_data.SetAlphaAnimated(600, 0)
 		Return
 	End If
+	
+	Dim lstTest As List
+	lstTest.Initialize
+	lstTest = Regex.Split(" ", txt_speler_1.Text)
+	
+	Dim naam1 As String = func.splitNaam(txt_speler_1.Text)
+	
+	
 	lst.Initialize
-	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
-	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
+'	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
+	lst.AddAll(Array As String(func.splitNaam(txt_speler_1.Text), txt_maken_1.Text))
+'	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
+	lst.AddAll(Array As String(func.splitNaam(txt_speler_2.Text), txt_maken_2.Text))
 	lst.AddAll(Array As String(cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex)))
 	CallSub2(scorebord, "setNewGame", True)
 	CallSub2(scorebord, "setSpelerData", lst)
@@ -170,8 +189,10 @@ Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 		Return
 	End If
 	lst.Initialize
-	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
-	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
+'	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
+	lst.AddAll(Array As String(func.splitNaam(txt_speler_2.Text), txt_maken_2.Text))
+'	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
+	lst.AddAll(Array As String(func.splitNaam(txt_speler_1.Text), txt_maken_1.Text))
 	lst.AddAll(Array As String(cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex)))
 	CallSub2(scorebord, "setNewGame", True)
 	CallSub2(scorebord, "setSpelerData", lst)
@@ -229,3 +250,22 @@ End Sub
 private Sub setHandler(ob As JavaObject,eventName As String,handlerName As String)
 	ob.RunMethod(eventName, Array(ob.CreateEventFromUI("javafx.event.EventHandler",handlerName,True)))
 End Sub
+
+
+Sub txt_speler_1_TextChanged (Old As String, New As String)
+	txtChanged(txt_speler_1, Old.ToUpperCase, New.ToUpperCase)
+End Sub
+
+Sub txt_speler_2_TextChanged (Old As String, New As String)
+	txtChanged(txt_speler_2, Old.ToUpperCase, New.ToUpperCase)
+End Sub
+
+Sub txtChanged(v As TextField, Old As String, New As String)
+	If New.Length > 22 Then
+		lbl_max_tekens.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	Else
+		lbl_max_tekens.TextColor = fx.Colors.From32Bit(0xFF000000)
+	End If
+	
+End Sub
+
