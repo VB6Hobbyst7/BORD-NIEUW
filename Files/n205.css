@@ -28,7 +28,8 @@
 }
 
 .labelCarom {
-	  -fx-background-color: #00008B;
+	  /*-fx-background-color: #00008B;*/
+	  -fx-background-color: #000053;
 	  -fx-text-fill: #ffffff;
 }
 

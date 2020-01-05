@@ -42,6 +42,7 @@ Sub Process_Globals
 	Private lbl_partij_duur As Label
 	Private lbl_spel_soort As Label
 	Private lbl_partij_duur_header As Label
+	Private lbl_has_inet As Label
 End Sub
 
 Public Sub show
@@ -91,6 +92,8 @@ Public Sub show
 	Else
 		func.hasInternetAccess = False
 	End If
+	
+	lbl_has_inet.Visible = result
 	
 	initPanels
 	nieuwe_partij.show
