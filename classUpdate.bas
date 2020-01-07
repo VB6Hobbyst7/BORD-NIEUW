@@ -13,12 +13,14 @@ Sub Class_Globals
 	Private don As String = "pdegrootafr"
 	Private dop As String = "hkWpXtB1!"
 	Private dos As String = "ftp.pdeg.nl"
+	Private clsMAC As GetMac
 	
 	
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
+	clsMAC.Initialize
 	os = DetectOS
 	Select os
 		Case "windows"
@@ -28,11 +30,84 @@ Public Sub Initialize
 	End Select
 	
 	'CREATE UPDATE TIMESTAMP
-	updateFileExists
-	If getUpdateTimeStamp = False Then
-		Return
-	End If
+'	updateFileExists
+'	If getUpdateTimeStamp = False Then
+'		Return
+'	End If
 	
+End Sub
+
+Sub createStartLog
+	Dim sys As String
+	Dim j As HttpJob
+	Dim str, strMac As String
+	Dim lst As List
+	
+	Try
+	lst.Initialize
+	
+	lst = clsMAC.GetMacAddresses
+	
+	For Each macm As Map In lst
+		For Each k In macm.Keys
+			If k = "mac" Then
+				strMac = macm.Get(k)
+				Exit
+			End If
+		Next
+	Next
+	
+		strMac = strMac.Replace("-", "")&".frt"
+		j.Initialize("", Me)
+		j.Download("https://freegeoip.app/json/")
+		Wait For (j) JobDone(j As HttpJob)
+		If j.Success Then
+			str = j.GetString
+			j.Release
+	
+			'	Log(str)
+			If ftp.IsInitialized = False Then
+				ftp.Initialize("FTP", dos, 21, don, dop)
+			End If
+			ftp.PassiveMode = True
+	
+			If File.Exists(appDownloadPath, strMac) = False Then
+				File.WriteString(appDownloadPath, strMac, $"${parseJson(str)} $DateTime{DateTime.Now}"$)
+			Else
+				sys = File.ReadString(appDownloadPath, strMac)
+				sys = $"${sys}${CRLF} ${parseJson(str)}  $DateTime{DateTime.Now}"$
+				File.WriteString(appDownloadPath, strMac, sys)
+			End If
+	
+			Sleep(100)
+			ftp.UploadFile(appDownloadPath, strMac, False, strMac)
+			ftp.Close
+		End If
+	Catch
+		Log("..")
+	End Try
+		
+End Sub
+
+
+Sub parseJson(data As String) As String
+	
+	Dim parser As JSONParser
+	parser.Initialize(data)
+	Dim root As Map = parser.NextObject
+'	Dim country_code As String = root.Get("country_code")
+'	Dim metro_code As Int = root.Get("metro_code")
+	Dim city As String = root.Get("city")
+	Dim ip As String = root.Get("ip")
+'	Dim latitude As Double = root.Get("latitude")
+'	Dim country_name As String = root.Get("country_name")
+'	Dim region_name As String = root.Get("region_name")
+'	Dim time_zone As String = root.Get("time_zone")
+	Dim zip_code As String = root.Get("zip_code")
+'	Dim region_code As String = root.Get("region_code")
+'	Dim longitude As Double = root.Get("longitude")
+	
+	Return $"${city} ${ip} ${zip_code}"$
 End Sub
 
 Sub checkUpdate As ResumableSub

@@ -8,6 +8,7 @@ Version=8
 Sub Process_Globals
 	Public timeLastClick As Long = 0
 	Public setNieuwePartij As Boolean = True
+	Public autoInnings As Boolean = False
 	
 	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
@@ -83,11 +84,11 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	End If
 	'TEST CODE
 	
-	If lblInnings.Text = "000" Then
-		lblInnings.Text	= "001"
-		innings			= 1
-		inningSet			= 1
-	End If
+'	If lblInnings.Text = "000" And autoInnings Then
+'		lblInnings.Text	= "001"
+'		innings	= 1
+'		inningSet = 1
+'	End If
 	
 	scorePlayerOne = P1Score
 	txtScore = func.padString(P1Score, "0", 0, 4)
@@ -97,7 +98,9 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	p1_1.Text		= txtScore.SubString2(3,4)
 
 '	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
-	p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
+	If innings >= 1 Then
+		p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
+	End If
 	If p1ToMake > 0 Then
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
 		p1_progress = (scorePlayerOne/p1ToMake)*100

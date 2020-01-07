@@ -31,6 +31,14 @@ Sub Process_Globals
 	Private cmbSpelSoort As B4XComboBox
 	Private lbl_max_tekens As Label
 	
+	
+	Private chkAuto_innings As CheckBox
+	Private lbl_speler_invoer As Label
+	Private lbl_auto_innings As Label
+	Private lbl_player_one_make_1 As Label
+	Private lbl_beurten_1 As Label
+	Private lbl_beurten_10 As Label
+	Private lbl_beurten_100 As Label
 End Sub
 
 
@@ -55,7 +63,12 @@ Sub show
 	lstSpelSoort.Initialize
 	lstSpelSoort.AddAll(Array As String("Libre", "Bandstoten", "DrieBanden", "Kader 38/2", "Kader 57/2", "Anker-Kader 57/2"))
 	cmbSpelSoort.SetItems(lstSpelSoort)
-	
+	chkAuto_innings.Checked = True
+	func.caromLabelCss(lbl_speler_invoer, "labelCarom")
+	func.caromLabelCss(lbl_beurten_1, "labelCarom")
+	func.caromLabelCss(lbl_beurten_10, "labelCarom")
+	func.caromLabelCss(lbl_beurten_100, "labelCarom")
+	func.caromLabelCss(lbl_auto_innings, "labelWhite")
 	setPlayerName
 	
 '	frm.Show
@@ -122,6 +135,7 @@ End Sub
 
 
 Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
+	funcScorebord.autoInnings = chkAuto_innings.Checked
 	CallSub(scorebord, "resetBoard")
 	CallSub2(scorebord, "setSpelSoort", cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex))
 	CallSub2(scorebord, "setNewGame", True)
@@ -165,7 +179,7 @@ Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 	lstTest = Regex.Split(" ", txt_speler_1.Text)
 	
 	Dim naam1 As String = func.splitNaam(txt_speler_1.Text)
-	
+	funcScorebord.autoInnings = chkAuto_innings.Checked
 	
 	lst.Initialize
 '	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
@@ -188,6 +202,7 @@ Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 		lbl_speler_data.SetAlphaAnimated(200, 0)
 		Return
 	End If
+	funcScorebord.autoInnings = chkAuto_innings.Checked
 	lst.Initialize
 '	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
 	lst.AddAll(Array As String(func.splitNaam(txt_speler_2.Text), txt_maken_2.Text))

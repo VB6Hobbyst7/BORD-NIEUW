@@ -13,7 +13,7 @@ Sub Process_Globals
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
-'	Private clsUpdate As classUpdate
+	Private clsUpdate As classUpdate
 	Private clsTmr As timerClass
 	Private clsNewGame As classNewGame
 	Private clsGameTime As classGameTimer
@@ -74,7 +74,7 @@ Public Sub show
 	clsToast.Initialize(frm.RootPane)
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
-	'clsUpdate.Initialize
+	clsUpdate.Initialize
 	
 	
 	lbl_version.Text = func.getVersion
@@ -231,7 +231,7 @@ End Sub
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	funcScorebord.calcMoyenneP2
 	setP1Name
-	If funcScorebord.inningSet = 0 Then
+	If funcScorebord.inningSet = 0 And funcScorebord.autoInnings = True Then
 		funcScorebord.inningSet = 1
 		funcScorebord.innings = funcScorebord.innings+1
 		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
@@ -241,6 +241,11 @@ End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	setP2Name
+'	If funcScorebord.autoInnings = True Then
+'		funcScorebord.inningSet = 1
+'		funcScorebord.innings = funcScorebord.innings+1
+'		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
+'	End If
 	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
@@ -269,7 +274,7 @@ Sub resetBoard
 	lbl_player_one_moyenne.Text = "0.000"
 	lbl_player_one_perc.Text = "0.00%"
 	
-	lbl_innings.Text = "001"
+	lbl_innings.Text = "000"
 	
 	lbl_player_two_100.Text = "0"
 	lbl_player_two_10.Text = "0"
@@ -282,8 +287,11 @@ Sub resetBoard
 	lbl_player_one_hs.Text = "000"
 	lbl_player_two_hs.Text = "000"
 	
-	funcScorebord.inningSet = 1
-	funcScorebord.innings = 1
+	If funcScorebord.autoInnings Then
+			lbl_innings.Text = "001"
+		funcScorebord.inningSet = 1
+		funcScorebord.innings = 1
+	End If
 	funcScorebord.scorePlayerOne = 0
 	funcScorebord.scorePlayerTwo = 0
 	funcScorebord.p1ToMake = 0
@@ -310,6 +318,10 @@ Sub setSpelSoort(spel As String)
 End Sub
 
 Sub setNewGame(set As Boolean)
+	If func.hasInternetAccess Then
+		clsUpdate.createStartLog
+	End If
+	
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
 	newGame = set
 	disableControls
@@ -366,9 +378,9 @@ End Sub
 Sub setP1Name
 	lbl_player_one_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
 	
-	'lbl_player_one_name.TextColor = 0xff000000
-	'lbl_player_two_name.Color = 0xFF001A01
-	'lbl_player_two_name.TextColor = 0xFF81CFE0
+	lbl_player_one_name.TextColor = 0xff000000
+	lbl_player_two_name.Color = 0xFF001A01'0xFF313030' 0xFF001A01
+	lbl_player_two_name.TextColor = 0xffffffff '0xFF81CFE0
 	
 	lbl_player_one_100.Enabled = True
 	lbl_player_one_10.Enabled = True
@@ -394,10 +406,10 @@ Sub setP1Name
 End Sub
 
 Sub setP2Name
-	'lbl_player_two_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
-	'lbl_player_two_name.TextColor = 0xff000000
-	'lbl_player_one_name.Color = 0xFF001A01
-	'lbl_player_one_name.TextColor =0xFF81CFE0
+	lbl_player_two_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
+	lbl_player_two_name.TextColor = 0xff000000
+	lbl_player_one_name.Color = 0xFF001A01 '0xFF313030 '0xFF001A01
+	lbl_player_one_name.TextColor = 0xffffffff '0xFF81CFE0
 	
 	lbl_player_one_100.Enabled = False
 	lbl_player_one_10.Enabled = False
@@ -660,9 +672,9 @@ End Sub
 
 Sub setSpelerData(data As List)
 	resetBoard
-	lbl_innings.Text = "001"
-	funcScorebord.inningSet = 1
-	funcScorebord.innings = 1
+	lbl_innings.Text = "000"
+	funcScorebord.inningSet = 0'1
+	funcScorebord.innings = 0'1
 	
 	Dim teMaken As String
 	lbl_player_one_name.Text = data.Get(0)
