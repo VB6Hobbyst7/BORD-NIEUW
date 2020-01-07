@@ -1,19 +1,27 @@
 ﻿AppType=JavaFX
 Build1=Default,b4j.example
-File1=biljarter.png
-File10=players.bjl
-File11=scorebord.bjl
-File2=cnf.44
-File3=Crasng.ttf
-File4=digital-7 (mono).ttf
-File5=logo.png
-File6=main.bjl
-File7=mouse.png
-File8=n205.css
-File9=nieuwe_partij.bjl
+File1=6626253_1.png
+File10=Montserrat-Regular.ttf
+File11=mouse.png
+File12=n205.css
+File13=nieuwe_partij.bjl
+File14=players.bjl
+File15=scorebord.bjl
+File2=6626253_2.png
+File3=bal.png
+File4=cnf.44
+File5=Crasng.ttf
+File6=digital-7 (mono).ttf
+File7=einde_partij.bjl
+File8=logo.png
+File9=main.bjl
 FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
+FileGroup12=Default Group
+FileGroup13=Default Group
+FileGroup14=Default Group
+FileGroup15=Default Group
 FileGroup2=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
@@ -33,27 +41,32 @@ Library7=jnet
 Library8=jshell
 Library9=jnetwork
 Module1=B4XProgressBar
-Module10=parseConfig
-Module11=scorebord
-Module12=timerClass
+Module10=funcScorebord
+Module11=GetMac
+Module12=getNode
+Module13=inactiveClass
+Module14=nieuwe_partij
+Module15=parseConfig
+Module16=scorebord
+Module17=timerClass
 Module2=classCheckConfig
-Module3=classUpdate
-Module4=clXToastMessage
-Module5=func
-Module6=funcInet
-Module7=getNode
-Module8=inactiveClass
-Module9=nieuwe_partij
-NumberOfFiles=11
+Module3=classGameTimer
+Module4=classNewGame
+Module5=classUpdate
+Module6=clXToastMessage
+Module7=einde_partij
+Module8=func
+Module9=funcInet
+NumberOfFiles=15
 NumberOfLibraries=9
-NumberOfModules=12
+NumberOfModules=17
 Version=8
 @EndOfDesignText@
 #Region Project Attributes 
 	#MainFormWidth: 1920
 	#MainFormHeight: 1080 
 #End Region
-#IgnoreWarnings: 16
+#IgnoreWarnings: 16,9
 
 
 Sub Process_Globals
@@ -75,20 +88,22 @@ Sub AppStart (Form1 As Form, Args() As String)
 	End Select
 	
 	
-	Log("APPFOLDER " & File.DirApp)
+'	Log("APPFOLDER " & File.DirApp)
 	If File.Exists(appPath, "cnf.44") = False Then
-	Log("APPFOLDER " & File.DirApp)
+'	Log("APPFOLDER " & File.DirApp)
 		File.Copy(File.DirAssets, "cnf.44", appPath, "")
 	End If
 	If File.IsDirectory(appFolder, "media") = False Then
 		File.MakeDir(appFolder, "media")
 	End If
 	
-	Log("APPFOLDER " & File.DirApp)
+'	Log("APPFOLDER " & File.DirApp)
 	MainForm = Form1
 '	MainForm.RootPane.LoadLayout("main") 'Load the layout file.
 '	MainForm.Show
 '	Sleep(2000)
+	einde_partij.show
+	nieuwe_partij.show
 	scorebord.Show
 	MainForm.Close
 End Sub

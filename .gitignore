@@ -1,5 +1,5 @@
 /Objects/*
-
+/Objects/src/*
 
 # Compiled class file
 *.class

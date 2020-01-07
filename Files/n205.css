@@ -14,7 +14,12 @@
 }
 
 .labelPlayer {
-	-fx-text-fill: #81CFE0;
+	-fx-text-fill: #000000;
+}
+
+.labelPlayer:hover {
+    -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+	-fx-background-radius: 3,2,1;
 }
 
 .labelScore:hover {
@@ -23,7 +28,8 @@
 }
 
 .labelCarom {
-	  -fx-background-color: #00008B;
+	  /*-fx-background-color: #00008B;*/
+	  -fx-background-color: #000053;
 	  -fx-text-fill: #ffffff;
 }
 
@@ -31,16 +37,20 @@
     -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
 	/*-fx-text-fill: #FFFF00;*/
 	-fx-background-radius: 3,2,1;
+	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.8) , 15, 0.0 , 0 , 0 );
+	 /*   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);*/
 }
 
 .button {
 	-fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
 	  -fx-text-fill: #000000;
+	 
 }
 
 .button:hover {
 	-fx-background-color: #0A00FF;
 	-fx-text-fill: #FFFF00;
+	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,1) , 30, 0.0 , 0 , 1 );
 }
 .checkbox:hover {
 	-fx-background-color: #0A00FF;

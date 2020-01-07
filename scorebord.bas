@@ -4,6 +4,8 @@ ModulesStructureVersion=1
 Type=StaticCode
 Version=8
 @EndOfDesignText@
+#IgnoreWarnings: 16, 9
+
 'Static code module
 Sub Process_Globals
 	Private fx As JFX
@@ -12,53 +14,35 @@ Sub Process_Globals
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
 	Private clsUpdate As classUpdate
+	Private clsTmr As timerClass
+	Private clsNewGame As classNewGame
+	Private clsGameTime As classGameTimer
+	
+	Private newGame As Boolean = False
 	Private pn_promote_top, pn_promote_left As Double
 	Private promoteRunning As Boolean = False
-	Private lbl_innings As Label
-	Private lbl_player_one_moyenne As Label
-	Private lbl_player_two_moyenne As Label
-	Private lbl_player_two_100 As Label
-	Private lbl_player_two_10 As Label
-	Private lbl_player_two_1 As Label
-	Private lbl_player_one_name As B4XView
-	Private lbl_player_two_name As B4XView
-	Private lbl_player_one_perc As Label
-	Private lbl_player_one_make_100 As Label
-	Private lbl_player_one_make_10 As Label
-	Private lbl_player_one_make_1 As Label
-	Private lbl_player_two_make_100 As Label
-	Private lbl_player_two_make_10 As Label
-	Private lbl_player_two_make_1 As Label
-	Private lbl_player_two_perc As Label
-	Private lbl_reset As B4XView
-	Private lbl_player_one_hs As Label
-	Private lbl_player_two_hs As Label
-	Private lbl_clock As B4XView
-	Private clsTmr As timerClass
-	Private Label7 As Label
-	Private B4XProgressBarP1 As B4XProgressBar
-	Private B4XProgressBarP2 As B4XProgressBar
-	Private Label6 As Label
-	Private lbl_close As B4XView
-	Private pn_p1_carom As Pane
-	Private pn_promote As Pane
+	Private lbl_player_one_moyenne, lbl_player_two_moyenne As Label
+	Private lbl_player_two_100, lbl_player_two_10, lbl_player_two_1 As Label
+	Private lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1 As Label
+	Private lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1 As Label
+
+	Private lbl_player_one_name, lbl_player_two_name As B4XView
+	Private lbl_player_one_perc, lbl_player_two_perc As Label
+	Private lbl_reset, lbl_clock, lbl_close As B4XView
+	Private lbl_player_one_hs, lbl_player_two_hs, lbl_innings As Label
+	Private B4XProgressBarP1, B4XProgressBarP2 As B4XProgressBar
+	Private pn_p1_carom, pn_promote, pn_sponsore, pn_game As Pane
 	Private lbl_config_update As Label
-	Private lbl_player_one_1 As Label
-	Private lbl_player_one_10 As Label
-	Private lbl_player_one_100 As Label
-	Private lbl_message_1 As Label
-	Private lbl_message_2 As Label
-	Private lbl_message_3 As Label
-	Private lbl_message_4 As Label
-	Private lbl_message_5 As Label
-	Private lbl_version As Label
-	Private pn_sponsore As Pane
-	Private pn_game As Pane
-	Private lbl_game_text As Label
-	Private lbl_ip As Label
-	Private lbl_p1_inning As Label
-	Private lbl_p2_innin As Label
-	Private lbl_p2_inning As Label
+	Private lbl_player_one_1, lbl_player_one_10, lbl_player_one_100 As Label
+	Private lbl_message_1, lbl_message_2, lbl_message_3, lbl_message_4, lbl_message_5 As Label
+	Private lbl_game_text, lbl_ip, lbl_p1_inning, lbl_p2_inning, Label7, Label6, lbl_version As Label
+	Private lbl_img_sponsore As Label
+	Private lbl_date_time_dag As Label
+	Private lbl_date_time_date As Label
+	Private lbl_partij_duur As Label
+	Private lbl_spel_soort As Label
+	Private lbl_partij_duur_header As Label
+	Private lbl_has_inet As Label
 End Sub
 
 Public Sub show
@@ -67,6 +51,8 @@ Public Sub show
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	lbl_ip.Text = func.getIpNumber
 	
+'	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
 	
 	#if debug
 	frm.SetFormStyle("UTILITY")
@@ -82,20 +68,22 @@ Public Sub show
 	'func.SetFormCursor(frm, "mouse.png")
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 	
-	clsTmr.Initialize(lbl_clock)
+	clsTmr.Initialize(lbl_clock, lbl_date_time_date, lbl_date_time_dag)
 	inactivecls.Initialize(870, 510)
 	clsCheckCfg.Initialize
 	clsToast.Initialize(frm.RootPane)
-	'clsUpdate.Initialize
+	clsNewGame.Initialize(lbl_reset)
+	clsGameTime.Initialize(lbl_partij_duur)
+	clsUpdate.Initialize
 	
 	
 	lbl_version.Text = func.getVersion
-	func.lblInnings = lbl_innings
-	func.lbl_player_one_hs = lbl_player_one_hs
-	func.lbl_player_two_hs = lbl_player_two_hs
+	funcScorebord.lblInnings = lbl_innings
+	funcScorebord.lbl_player_one_hs = lbl_player_one_hs
+	funcScorebord.lbl_player_two_hs = lbl_player_two_hs
 	
-	func.setP1CaromLables(lstPlayerOneScoreLbl)
-	func.setP2CaromLables(lstPlayerTwoScoreLbl)
+	funcScorebord.setP1CaromLables(lstPlayerOneScoreLbl)
+	funcScorebord.setP2CaromLables(lstPlayerTwoScoreLbl)
 		
 	Wait For (funcInet.testInet) Complete (result As Boolean)
 	If result Then
@@ -105,15 +93,26 @@ Public Sub show
 		func.hasInternetAccess = False
 	End If
 	
+	lbl_has_inet.Visible = result
+	
 	initPanels
+	nieuwe_partij.show
+	CallSub(nieuwe_partij, "dummyShow")
 	frm.Show
 	setFontStyle
+	disableControls
+	
+	func.alignLabelCenter(lbl_player_one_name)
+	func.alignLabelCenter(lbl_player_two_name)
+	func.alignLabelCenter(lbl_game_text)
+	
+'	clsNewGame.tmrEnable(True)
 End Sub
 
 
 
 Public Sub setClearBoard(clear As Boolean)
-	func.setNieuwePartij = clear
+	funcScorebord.setNieuwePartij = clear
 End Sub
 
 Sub initPanels
@@ -153,6 +152,10 @@ Sub setFontStyle
 	func.caromLabelCss(lbl_player_two_make_10, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_1, "labelCarom")
 	
+	'func.caromLabelCss(lbl_player_two_name, "labelPlayer")
+	
+	
+	
 	resetBoard
 End Sub
 
@@ -180,32 +183,30 @@ Sub lastClick
 	inactivecls.lastClick = DateTime.Now
 End Sub
 
-Sub lbl_player_one_1_MouseReleased (EventData As MouseEvent)
+'PROCESS SCORE P1
+Sub p1Points_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
 	setP1Name
-	func.calcScorePlayerOne(1, EventData.PrimaryButtonPressed)
+	funcScorebord.calcScorePlayerOne(lbl.Tag, EventData.PrimaryButtonPressed)
 End Sub
 
-
-Sub lbl_player_one_10_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	func.calcScorePlayerOne(10, EventData.PrimaryButtonPressed)
-End Sub
-Sub lbl_player_one_100_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	func.calcScorePlayerOne(100, EventData.PrimaryButtonPressed)
+'PROCESS SCORE P2
+Sub p2Points_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
+	setP2Name
+	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
 End Sub
 
-Sub lbl_player_two_1_MouseReleased (EventData As MouseEvent)
-	setP2Name
-	func.calcScorePlayertwo(1, EventData.PrimaryButtonPressed)
+'PROCESS P1 TO MAKE
+Sub p1ToMake_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
+	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
 End Sub
-Sub lbl_player_two_10_MouseReleased (EventData As MouseEvent)
-	setP2Name
-	func.calcScorePlayertwo(10, EventData.PrimaryButtonPressed)
-End Sub
-Sub lbl_player_two_100_MouseReleased (EventData As MouseEvent)
-	setP2Name
-	func.calcScorePlayertwo(100, EventData.PrimaryButtonPressed)
+
+'PROCESS P2 TO MAKE
+Sub p2ToMake_MouseReleased (EventData As MouseEvent)
+	Dim lbl As Label = Sender
+	funcScorebord.playerTwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
 End Sub
 
 Sub lbl_innings_MouseReleased (EventData As MouseEvent)
@@ -220,45 +221,34 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 		Return
 	End If
 	
-	func.innigs = points
+	funcScorebord.innings = points
 	lbl_innings.Text = func.padString(points, "0", 0, 3)
-	func.calcMoyenne(lbl_player_one_moyenne, lbl_player_two_moyenne)
-	func.processHs("all")
-	func.inngSet = 1
+	funcScorebord.calcMoyenne(lbl_player_one_moyenne, lbl_player_two_moyenne)
+	funcScorebord.processHs("all")
+	funcScorebord.inningSet = 1
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
+	funcScorebord.calcMoyenneP2
 	setP1Name
-	If func.inngSet = 0 Then
-		func.inngSet = 1
-		func.innigs = func.innigs+1
-		lbl_innings.Text = func.padString(func.innigs, "0", 0, 3)
+	If funcScorebord.inningSet = 0 And funcScorebord.autoInnings = True Then
+		funcScorebord.inningSet = 1
+		funcScorebord.innings = funcScorebord.innings+1
+		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
 	End If
-	func.calcMoyenneP2
-	func.processHs("all")
+	funcScorebord.processHs("all")
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	setP2Name
-	func.calcMoyenneP1
-	func.processHs("all")
-	func.inngSet = 0
-End Sub
-
-Sub lbl_player_one_make_100_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	func.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 100)
-End Sub
-
-Sub lbl_player_one_make_10_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	func.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 10)
-	
-End Sub
-
-Sub lbl_player_one_make_1_MouseReleased (EventData As MouseEvent)
-	setP1Name
-	func.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, 1)
+'	If funcScorebord.autoInnings = True Then
+'		funcScorebord.inningSet = 1
+'		funcScorebord.innings = funcScorebord.innings+1
+'		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
+'	End If
+	funcScorebord.inningSet = 0
+	funcScorebord.calcMoyenneP1
+	funcScorebord.processHs("all")
 End Sub
 
 Sub playerOnePerc(perc As String)
@@ -269,22 +259,11 @@ Sub playerTwoPerc(perc As String)
 	lbl_player_two_perc.Text = perc
 End Sub
 
-Sub lbl_player_two_make_100_MouseReleased (EventData As MouseEvent)
-	
-	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 100)
-End Sub
-
-Sub lbl_player_two_make_10_MouseReleased (EventData As MouseEvent)
-	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 10)
-End Sub
-
-Sub lbl_player_two_make_1_MouseReleased (EventData As MouseEvent)
-	func.playertwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, 1)
-End Sub
-
 Sub resetBoard
-	lbl_player_one_name.Text = "Speler 1"
-	lbl_player_two_name.Text = "Speler 2"
+	lbl_player_one_name.Text = "SPELER"&CRLF&"1"
+	lbl_player_two_name.Text = "SPELER"&CRLF&"2"
+	
+	lbl_partij_duur.Text = "00:00"
 	
 	lbl_player_one_1.Text = "0"
 	lbl_player_one_10.Text = "0"
@@ -295,7 +274,7 @@ Sub resetBoard
 	lbl_player_one_moyenne.Text = "0.000"
 	lbl_player_one_perc.Text = "0.00%"
 	
-	lbl_innings.Text = "001"
+	lbl_innings.Text = "000"
 	
 	lbl_player_two_100.Text = "0"
 	lbl_player_two_10.Text = "0"
@@ -308,54 +287,145 @@ Sub resetBoard
 	lbl_player_one_hs.Text = "000"
 	lbl_player_two_hs.Text = "000"
 	
-	func.inngSet = 1
-	func.innigs = 1
-	func.scorePlayerOne = 0
-	func.scorePlayerTwo = 0
-	func.playerOneToMake = 0
-	func.playertwoToMake = 0
-	func.playerOneHs = 0
-	func.playerTwoHs = 0
-	func.p1HsTemp = 0
-	func.p2HsTemp = 0
+	If funcScorebord.autoInnings Then
+			lbl_innings.Text = "001"
+		funcScorebord.inningSet = 1
+		funcScorebord.innings = 1
+	End If
+	funcScorebord.scorePlayerOne = 0
+	funcScorebord.scorePlayerTwo = 0
+	funcScorebord.p1ToMake = 0
+	funcScorebord.p2ToMake = 0
+	funcScorebord.p1Hs = 0
+	funcScorebord.p2Hs = 0
+	funcScorebord.p1HsTemp = 0
+	funcScorebord.p2HsTemp = 0
 	B4XProgressBarP1.Progress = 0
 	B4XProgressBarP2.Progress = 0
-	setP1Name
+	
+'	If newGame = False Then
+'		disableControls
+'	Else
+'		setP1Name
+'	End If
+
 	
 End Sub
 
-Sub setP1Name
-	lbl_player_one_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
-	lbl_player_one_name.TextColor = 0xff000000
-	lbl_player_two_name.Color = 0xFF001A01
-	lbl_player_two_name.TextColor = 0xFF81CFE0
+
+Sub setSpelSoort(spel As String)
+	lbl_spel_soort.Text = spel
+End Sub
+
+Sub setNewGame(set As Boolean)
+	If func.hasInternetAccess Then
+		clsUpdate.createStartLog
+	End If
 	
-	lbl_player_one_100.Enabled = True
-	lbl_player_one_10.Enabled = True
-	lbl_player_one_1.Enabled = True
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
+	newGame = set
+	disableControls
+	enableScoreAndMake
+End Sub
+
+Sub enableScoreAndMake
+	disableControls
+	
+	lbl_player_one_make_100.Enabled = True
+	lbl_player_one_make_10.Enabled = True
+	lbl_player_one_make_1.Enabled = True
+	
+	lbl_player_two_make_100.Enabled = True
+	lbl_player_two_make_10.Enabled = True
+	lbl_player_two_make_1.Enabled = True
+End Sub
+
+
+Sub disableControls
+	lbl_player_one_name.Enabled = False
+	lbl_player_two_name.Enabled = False
+	
+'	lbl_player_one_name.Color = 0xFF001A01'0xff3455db'0xFF69D79A
+'	lbl_player_one_name.TextColor = 0xFF81CFE0
+'	lbl_player_two_name.Color = 0xFF001A01
+'	lbl_player_two_name.TextColor = 0xFF81CFE0
+	
+	
+	
+	lbl_innings.Enabled = False
+	lbl_player_one_100.Enabled = False
+	lbl_player_one_10.Enabled = False
+	lbl_player_one_1.Enabled = False
+	lbl_player_one_make_100.Enabled = False
+	lbl_player_one_make_10.Enabled = False
+	lbl_player_one_make_1.Enabled = False
+	lbl_player_one_hs.Enabled = False
+	
 	
 	lbl_player_two_100.Enabled = False
 	lbl_player_two_10.Enabled = False
 	lbl_player_two_1.Enabled = False
+	lbl_player_two_make_100.Enabled = False
+	lbl_player_two_make_10.Enabled = False
+	lbl_player_two_make_1.Enabled = False
+	lbl_player_two_hs.Enabled = False
 	
 	lbl_p1_inning.Visible = True
 	lbl_p2_inning.Visible = False
 	
 End Sub
 
+Sub setP1Name
+	lbl_player_one_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
+	
+	lbl_player_one_name.TextColor = 0xff000000
+	lbl_player_two_name.Color = 0xFF001A01'0xFF313030' 0xFF001A01
+	lbl_player_two_name.TextColor = 0xffffffff '0xFF81CFE0
+	
+	lbl_player_one_100.Enabled = True
+	lbl_player_one_10.Enabled = True
+	lbl_player_one_1.Enabled = True
+	lbl_player_one_make_100.Enabled = True
+	lbl_player_one_make_10.Enabled = True
+	lbl_player_one_make_1.Enabled = True
+	lbl_player_one_hs.Enabled = True
+	
+	
+	lbl_player_two_100.Enabled = False
+	lbl_player_two_10.Enabled = False
+	lbl_player_two_1.Enabled = False
+	lbl_player_two_make_100.Enabled = False
+	lbl_player_two_make_10.Enabled = False
+	lbl_player_two_make_1.Enabled = False
+	lbl_player_two_hs.Enabled = False
+	
+	lbl_p1_inning.Visible = True
+	lbl_p2_inning.Visible = False
+	
+	
+End Sub
+
 Sub setP2Name
 	lbl_player_two_name.Color = 0xffFFFFFF'0xff3455db'0xFF69D79A
 	lbl_player_two_name.TextColor = 0xff000000
-	lbl_player_one_name.Color = 0xFF001A01
-	lbl_player_one_name.TextColor =0xFF81CFE0
+	lbl_player_one_name.Color = 0xFF001A01 '0xFF313030 '0xFF001A01
+	lbl_player_one_name.TextColor = 0xffffffff '0xFF81CFE0
 	
 	lbl_player_one_100.Enabled = False
 	lbl_player_one_10.Enabled = False
 	lbl_player_one_1.Enabled = False
+	lbl_player_one_make_100.Enabled = False
+	lbl_player_one_make_10.Enabled = False
+	lbl_player_one_make_1.Enabled = False
+	lbl_player_one_hs.Enabled = False
 	
 	lbl_player_two_100.Enabled = True
 	lbl_player_two_10.Enabled = True
 	lbl_player_two_1.Enabled = True
+	lbl_player_two_make_100.Enabled = True
+	lbl_player_two_make_10.Enabled = True
+	lbl_player_two_make_1.Enabled = True
+	lbl_player_two_hs.Enabled = True
 	
 	lbl_p1_inning.Visible = False
 	lbl_p2_inning.Visible = True
@@ -363,6 +433,7 @@ End Sub
 
 Sub checkMatchWonP1
 	Dim caroms, make As Int
+	Dim player As String
 	
 	caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
 	make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
@@ -370,8 +441,10 @@ Sub checkMatchWonP1
 	If make = 0 Then Return
 	
 	If caroms >= make Then
-		func.calcMoyenneP2
-		lbl_game_text.Text = $"Gelijkmakende beurt voor ${lbl_player_two_name.Text}"$
+		player = lbl_player_two_name.Text.Replace(CRLF, " ")
+		
+		funcScorebord.calcMoyenneP2
+		lbl_game_text.Text = $"Gelijkmakende beurt voor ${player}"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
 		Sleep(4000)
@@ -381,7 +454,8 @@ End Sub
 
 Sub checkMatchWonP2
 	Dim p2caroms, p2make As Int
-	Dim p1caroms, p1make As Int
+	Dim p1caroms, p1Make As Int
+	Dim player As String
 	
 	p2caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
 	p2make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
@@ -389,9 +463,9 @@ Sub checkMatchWonP2
 	If p2make = 0 Then Return
 	
 	p1caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
-	p1make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
+	p1Make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
 	
-	If p2caroms >= p2make And p1make = p1caroms Then
+	If p2caroms >= p2make And p1Make = p1caroms Then
 		lbl_game_text.Text = $"Remise partij"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
@@ -402,7 +476,8 @@ Sub checkMatchWonP2
 	
 	
 	If p2caroms >= p2make Then
-		lbl_game_text.Text = $"${lbl_player_two_name.Text} heeft de partij gewonnen"$
+		player = lbl_player_two_name.Text.Replace(CRLF, " ")
+		lbl_game_text.Text = $"${player} heeft de partij gewonnen"$
 		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
 		setP2Name
 		Sleep(4000)
@@ -421,15 +496,16 @@ Sub checkMatchWonP2
 End Sub
 
 Sub hideForm(hide As Boolean)
-	frm.rootpane.Visible = hide
+	'frm.rootpane.Visible = hide
+	frm.show
 End Sub
 
 Sub nieuwePartij
-	If func.newGameInitialized = False Then
-	nieuwe_partij.show
+	If funcScorebord.newGameInitialized = False Then
+		nieuwe_partij.show
 	Else
 		CallSub(nieuwe_partij, "showForm")
-	End If	
+	End If
 End Sub
 
 Sub lbl_reset_MouseEntered (EventData As MouseEvent)
@@ -438,18 +514,38 @@ Sub lbl_reset_MouseEntered (EventData As MouseEvent)
 End Sub
 
 Sub lbl_reset_MouseExited (EventData As MouseEvent)
-	lbl_reset.Color = 0xFFFF0000
-	lbl_reset.TextColor = 0xFFFFFFFF
+	If lbl_reset.Text = "Nieuwe Partij" Then
+		lbl_reset.Color = 0xFFFF0000
+		lbl_reset.Color = 0xFF205502
+		lbl_reset.TextColor = 0xFFFFFFFF
+	Else
+		lbl_reset.Color = 0xFFFF0000
+		lbl_reset.TextColor = 0xFFFFFFFF
+	End If
 End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
-	If func.newGameInitialized = False Then
-		CallSub(nieuwe_partij, "show")
+	If lbl_reset.Text = "Nieuwe Partij" Then
+		If funcScorebord.newGameInitialized = False Then
+			CallSub(nieuwe_partij, "show")
 		Else
 			CallSub(nieuwe_partij, "showForm")
+		End If
+		nieuwePartij
+		
+	else If lbl_reset.Text = "Partij Beëindigen" Then
+		CallSub(einde_partij, "show")
+		clsGameTime.tmrEnable(False)
 	End If
-	nieuwePartij
+	
+End Sub
+
+Sub eindePartij
+	lbl_reset.Text = "Nieuwe Partij"
+	lbl_reset.Color = 0xFF205502
+'	resetBoard
+	disableControls
 End Sub
 
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
@@ -505,9 +601,11 @@ End Sub
 
 Sub updateCfg
 	inactivecls.updatePromote
-	lbl_config_update.Visible = True
+	'lbl_config_update.Visible = True
+	lbl_config_update.SetAlphaAnimated(0, 1)
 	Sleep(5000)
-	lbl_config_update.Visible = False
+	lbl_config_update.SetAlphaAnimated(0, 0)
+	'lbl_config_update.Visible = False
 End Sub
 
 Sub useDigitalFont(useDigital As Boolean)
@@ -574,13 +672,13 @@ End Sub
 
 Sub setSpelerData(data As List)
 	resetBoard
-	lbl_innings.Text = "001"
-	func.inngSet = 1
-	func.innigs = 1
+	lbl_innings.Text = "000"
+	funcScorebord.inningSet = 0'1
+	funcScorebord.innings = 0'1
 	
 	Dim teMaken As String
 	lbl_player_one_name.Text = data.Get(0)
-	func.playerOneToMake = data.Get(1)
+	funcScorebord.p1ToMake = data.Get(1)
 	teMaken =  func.padString(data.Get(1), "0", 0, 3)
 	lbl_player_one_make_100.Text	= teMaken.SubString2(0,1)
 	lbl_player_one_make_10.Text		= teMaken.SubString2(1,2)
@@ -588,10 +686,12 @@ Sub setSpelerData(data As List)
 		
 	lbl_player_two_name.Text = data.Get(2)
 	teMaken =  func.padString(data.Get(3), "0", 0, 3)
-	func.playerTwoToMake = data.Get(3)
+	funcScorebord.p2ToMake = data.Get(3)
 	lbl_player_two_make_100.Text	= teMaken.SubString2(0,1)
 	lbl_player_two_make_10.Text		= teMaken.SubString2(1,2)
 	lbl_player_two_make_1.Text		= teMaken.SubString2(2,3)
+	
+	lbl_spel_soort.Text = data.get(4)
 End Sub
 
 
@@ -601,4 +701,79 @@ End Sub
 
 Sub lbl_player_one_hs_MouseReleased (EventData As MouseEvent)
 	lbl_player_one_hs.Text = func.setHs(lbl_player_one_hs.Text, EventData.PrimaryButtonPressed)
+End Sub
+
+Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
+	If newGame = False Then Return
+	
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+	lbl_player_two_name.Enabled = True
+	lbl_player_one_name.Enabled = True
+	lbl_innings.Enabled = True
+	lbl_player_one_hs.Enabled = True
+	lbl_player_two_hs.Enabled = True
+	
+	clsGameTime.setGameStart
+	clsGameTime.tmrEnable(True)
+	If lbl_player_one_make_1.Text+lbl_player_one_make_10.Text+lbl_player_one_make_100.Text = 0 Then
+		lbl_player_one_perc.Text = "n.v.t."
+	End If
+	If lbl_player_two_make_1.Text+lbl_player_two_make_10.Text+lbl_player_two_make_100.Text = 0 Then
+		lbl_player_two_perc.Text = "n.v.t."
+	End If
+	
+	
+'	enableScoreAndMake
+	setP1Name
+	newGame = False
+	lbl_reset.Text = "Partij Beëindigen"
+	lbl_reset.Color = 0xFFFF0000
+End Sub
+
+Sub lbl_img_sponsore_MouseMoved (EventData As MouseEvent)
+	If newGame Then
+		CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "begin_partij.png")
+	End If
+End Sub
+
+Sub lbl_img_sponsore_MouseExited (EventData As MouseEvent)
+	If newGame Then
+		CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
+	End If
+End Sub
+
+
+Sub showHideGameTime(enable As Boolean)
+	Dim op As Double
+	frm.RootPane.MouseCursor = fx.Cursors.NONE
+	If enable = True Then
+		op = 1.0
+	Else
+		op = 0.0
+	End If
+'	lbl_partij_duur.Visible = enable
+'	lbl_partij_duur_header.Visible = enable
+	
+	lbl_partij_duur_header.SetAlphaAnimated(2500, op)
+	lbl_partij_duur.SetAlphaAnimated(2500, op)
+	Sleep(2500)
+	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
+	
+End Sub
+
+
+Sub lbl_player_one_name_MouseEntered (EventData As MouseEvent)
+	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 10dip, 0xFFff0000, 0dip)
+End Sub
+
+Sub lbl_player_one_name_MouseExited (EventData As MouseEvent)
+	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 0dip, 0xFFFF0000, 4dip)
+End Sub
+
+Sub lbl_player_two_name_MouseEntered (EventData As MouseEvent)
+	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 10dip, 0xFFff0000, 0dip)
+End Sub
+
+Sub lbl_player_two_name_MouseExited (EventData As MouseEvent)
+	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 0dip, 0xFFFF0000, 4dip)
 End Sub

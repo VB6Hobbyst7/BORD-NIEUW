@@ -7,21 +7,31 @@ Version=8
 Sub Class_Globals
 	Private fx As JFX
 	Private tmr As Timer
+	Private lbl, lbl_date_time_dag, lbl_date_time_date As Label
 	
-	Private lbl As Label
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
-Public Sub Initialize(label As Label)
-	tmr.Initialize("tmr", 1000*60)
+Public Sub Initialize(label As Label, date As Label, dag As Label)
+'	tmr.Initialize("tmr", 1000*60)
+	tmr.Initialize("tmr", DateTime.TicksPerSecond)
 	tmr.Enabled = True
 	lbl = label
+	'lbl_date_time_dag.Initialize(Me)
+	
+	lbl_date_time_dag = dag
+	lbl_date_time_date = date
 	tmr_Tick
 End Sub
 
 Private Sub tmr_Tick
 	Dim time As String
-	DateTime.DateFormat="EEEE, dd MMMM yyyy HH:mm"
-	time = "     " & DateTime.Date(DateTime.Now) 'func.padString(DateTime.Date(DateTime.Now) &"  " & DateTime.GetHour(DateTime.Now), "0", 0, 2)&":"&func.padString(DateTime.GetMinute(DateTime.Now), "0", 0, 2)&":"&func.padString(DateTime.GetSecond(DateTime.Now), "0", 0, 2)
+	'DateTime.DateFormat="EEEE, dd MMMM yyyy HH:mm"
+	DateTime.DateFormat="HH:mm"
+	time = DateTime.Date(DateTime.Now) 'func.padString(DateTime.Date(DateTime.Now) &"  " & DateTime.GetHour(DateTime.Now), "0", 0, 2)&":"&func.padString(DateTime.GetMinute(DateTime.Now), "0", 0, 2)&":"&func.padString(DateTime.GetSecond(DateTime.Now), "0", 0, 2)
 	lbl.Text = time
+	DateTime.DateFormat="EEEE"
+	lbl_date_time_dag.Text = DateTime.Date(DateTime.Now)
+	DateTime.DateFormat="dd MMMM yyyy"
+	lbl_date_time_date.Text = DateTime.Date(DateTime.Now)
 End Sub
