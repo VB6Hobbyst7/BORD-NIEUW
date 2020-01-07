@@ -4,7 +4,7 @@ ModulesStructureVersion=1
 Type=StaticCode
 Version=8
 @EndOfDesignText@
-#IgnoreWarnings: 16,9,12,1
+#IgnoreWarnings: 16,9,12,1, 10
 
 'Static code module
 Sub Process_Globals
@@ -35,7 +35,8 @@ Sub Process_Globals
 	Private chkAuto_innings As CheckBox
 	Private lbl_speler_invoer As Label
 	Private lbl_auto_innings As Label
-	Private lbl_player_one_make_1 As Label
+	
+	Private chk_beurten_partij As CheckBox
 	Private lbl_beurten_1 As Label
 	Private lbl_beurten_10 As Label
 	Private lbl_beurten_100 As Label
@@ -241,6 +242,8 @@ Sub showForm
 	'tmr.Enabled = True	
 	enablePlayerInput
 	setPlayerName
+	useDigitalFont
+	useFontYellow
 	frm.Show
 End Sub
 
@@ -284,3 +287,32 @@ Sub txtChanged(v As TextField, Old As String, New As String)
 	
 End Sub
 
+
+
+Sub chk_beurten_partij_CheckedChange(Checked As Boolean)
+	funcScorebord.beurtenPartij = Checked
+	lbl_beurten_1.Visible = Checked
+	lbl_beurten_10.Visible = Checked
+	lbl_beurten_100.Visible = Checked
+End Sub
+
+
+Sub useDigitalFont
+	Dim fsCarom, fsMake, fsInnings As Int
+	
+	If funcScorebord.useDigitalFont Then
+		fsInnings = 200'300
+	Else
+		fsInnings = 200
+	End If
+	
+	func.setFont(lbl_beurten_1, fsInnings, funcScorebord.useDigitalFont)
+	func.setFont(lbl_beurten_10, fsInnings, funcScorebord.useDigitalFont)
+	func.setFont(lbl_beurten_100, fsInnings, funcScorebord.useDigitalFont)
+End Sub
+
+Sub useFontYellow
+	func.setFontColor(lbl_beurten_1, funcScorebord.useYellowFont)
+	func.setFontColor(lbl_beurten_10, funcScorebord.useYellowFont)
+	func.setFontColor(lbl_beurten_100, funcScorebord.useYellowFont)
+End Sub

@@ -440,7 +440,7 @@ Sub checkMatchWonP1
 	
 	If make = 0 Then Return
 	
-	If caroms >= make Then
+	If caroms >= make And funcScorebord.beurtenPartij = False Then
 		player = lbl_player_two_name.Text.Replace(CRLF, " ")
 		
 		funcScorebord.calcMoyenneP2
@@ -656,6 +656,7 @@ Sub useFontYellow(useYellow As Boolean)
 	func.setFontColor(lbl_player_two_make_100, useYellow)
 	func.setFontColor(lbl_player_two_make_10, useYellow)
 	func.setFontColor(lbl_player_two_make_1, useYellow)
+	
 End Sub
 
 Sub showSponor(enabled As Boolean)
