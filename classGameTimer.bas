@@ -10,6 +10,7 @@ Sub Class_Globals
 	Private gameStart, playedTime As Int
 	
 	Private ms As Int = DateTime.TicksPerMinute  '60*1000
+	'Private ms As Int = DateTime.TicksPerSecond  '60*1000
 	Private lblTimer As Label
 End Sub
 
@@ -35,7 +36,7 @@ Sub tmr_Tick
 	
 	playedTime = DateTime.Now - gameStart
 	
-	lblTimer.Text = func.padString(DateTime.GetHour(playedTime), "0", 0 ,2)&":"&func.padString(DateTime.GetMinute(playedTime), "0", 0 ,2)
+	lblTimer.Text = func.padString(DateTime.GetHour(playedTime), "0", 0 ,2)&":"&func.padString(DateTime.GetMinute(playedTime), "0", 0 ,2)'&":"&func.padString(DateTime.GetSecond(playedTime), "0", 0 ,2)
 	
 	
 End Sub

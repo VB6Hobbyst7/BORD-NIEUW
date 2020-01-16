@@ -5,6 +5,7 @@ Type=StaticCode
 Version=8
 @EndOfDesignText@
 'Static code module
+#IgnoreWarnings: 16, 9,1
 Sub Process_Globals
 	Private fx As JFX
 	Private regexStr As StringBuilder

@@ -13,8 +13,8 @@ End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize(label As Label, date As Label, dag As Label)
-'	tmr.Initialize("tmr", 1000*60)
-	tmr.Initialize("tmr", DateTime.TicksPerSecond)
+	tmr.Initialize("tmr", 1000*10)
+'	tmr.Initialize("tmr", DateTime.TicksPerMinute)
 	tmr.Enabled = True
 	lbl = label
 	'lbl_date_time_dag.Initialize(Me)
@@ -34,4 +34,8 @@ Private Sub tmr_Tick
 	lbl_date_time_dag.Text = DateTime.Date(DateTime.Now)
 	DateTime.DateFormat="dd MMMM yyyy"
 	lbl_date_time_date.Text = DateTime.Date(DateTime.Now)
+End Sub
+
+Sub enableClock(enable As Boolean)
+	tmr.Enabled = enable
 End Sub

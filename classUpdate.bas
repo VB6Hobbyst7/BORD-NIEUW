@@ -4,6 +4,7 @@ ModulesStructureVersion=1
 Type=Class
 Version=8
 @EndOfDesignText@
+#IgnoreWarnings: 16, 9, 12
 Sub Class_Globals
 	Private fx As JFX
 	Private ftp As FTP
@@ -38,24 +39,28 @@ Public Sub Initialize
 End Sub
 
 Sub createStartLog
+	#if debug
+	Return
+	#End If
+	
 	Dim sys As String
 	Dim j As HttpJob
 	Dim str, strMac As String
 	Dim lst As List
 	
 	Try
-	lst.Initialize
+		lst.Initialize
 	
-	lst = clsMAC.GetMacAddresses
+		lst = clsMAC.GetMacAddresses
 	
-	For Each macm As Map In lst
-		For Each k In macm.Keys
-			If k = "mac" Then
-				strMac = macm.Get(k)
-				Exit
-			End If
+		For Each macm As Map In lst
+			For Each k In macm.Keys
+				If k = "mac" Then
+					strMac = macm.Get(k)
+					Exit
+				End If
+			Next
 		Next
-	Next
 	
 		strMac = strMac.Replace("-", "")&".frt"
 		j.Initialize("", Me)

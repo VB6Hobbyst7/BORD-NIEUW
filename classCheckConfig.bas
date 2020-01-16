@@ -4,6 +4,7 @@ ModulesStructureVersion=1
 Type=Class
 Version=8
 @EndOfDesignText@
+#IgnoreWarnings: 16, 9, 12
 Sub Class_Globals
 	Private fx As JFX
 	Dim tmr As Timer

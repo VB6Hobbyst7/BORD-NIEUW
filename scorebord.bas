@@ -84,8 +84,9 @@ Public Sub show
 	
 	funcScorebord.setP1CaromLables(lstPlayerOneScoreLbl)
 	funcScorebord.setP2CaromLables(lstPlayerTwoScoreLbl)
-		
+	funcInet.IsOnline	
 	Wait For (funcInet.testInet) Complete (result As Boolean)
+	'Wait For (funcInet.IsOnline) Complete (result As Boolean)
 	If result Then
 		func.hasInternetAccess = True
 	'	clsUpdate.checkUpdate
@@ -101,7 +102,7 @@ Public Sub show
 	frm.Show
 	setFontStyle
 	disableControls
-	
+	disabeClockFunction(func.hasInternetAccess)
 	func.alignLabelCenter(lbl_player_one_name)
 	func.alignLabelCenter(lbl_player_two_name)
 	func.alignLabelCenter(lbl_game_text)
@@ -220,12 +221,14 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 	If points = -1 Then
 		Return
 	End If
-	
+
 	funcScorebord.innings = points
+	funcScorebord.prevInnings = funcScorebord.prevInnings+1'points
 	lbl_innings.Text = func.padString(points, "0", 0, 3)
 	funcScorebord.calcMoyenne(lbl_player_one_moyenne, lbl_player_two_moyenne)
 	funcScorebord.processHs("all")
 	funcScorebord.inningSet = 1
+	
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
@@ -288,9 +291,13 @@ Sub resetBoard
 	lbl_player_two_hs.Text = "000"
 	
 	If funcScorebord.autoInnings Then
-			lbl_innings.Text = "001"
+		lbl_innings.Text = "001"
 		funcScorebord.inningSet = 1
 		funcScorebord.innings = 1
+		Else
+		funcScorebord.inningSet = 0
+		funcScorebord.innings = 0
+		funcScorebord.prevInnings = 1
 	End If
 	funcScorebord.scorePlayerOne = 0
 	funcScorebord.scorePlayerTwo = 0
@@ -312,6 +319,9 @@ Sub resetBoard
 	
 End Sub
 
+Sub setBeurten(beurten As String)
+	lbl_innings.Text = beurten
+End Sub
 
 Sub setSpelSoort(spel As String)
 	lbl_spel_soort.Text = spel
@@ -450,6 +460,8 @@ Sub checkMatchWonP1
 		Sleep(4000)
 		pn_game.Top = 1650
 	End If
+		
+	
 End Sub
 
 Sub checkMatchWonP2
@@ -527,21 +539,22 @@ End Sub
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
-		If funcScorebord.newGameInitialized = False Then
-			CallSub(nieuwe_partij, "show")
-		Else
+'		If funcScorebord.newGameInitialized = False Then
+'			CallSub(nieuwe_partij, "show")
+'		Else
 			CallSub(nieuwe_partij, "showForm")
-		End If
-		nieuwePartij
+'		End If
+'		nieuwePartij
 		
 	else If lbl_reset.Text = "Partij Beëindigen" Then
 		CallSub(einde_partij, "show")
-		clsGameTime.tmrEnable(False)
+		'clsGameTime.tmrEnable(False)
 	End If
 	
 End Sub
 
 Sub eindePartij
+		clsGameTime.tmrEnable(False)
 	lbl_reset.Text = "Nieuwe Partij"
 	lbl_reset.Color = 0xFF205502
 '	resetBoard
@@ -673,9 +686,9 @@ End Sub
 
 Sub setSpelerData(data As List)
 	resetBoard
-	lbl_innings.Text = "000"
-	funcScorebord.inningSet = 0'1
-	funcScorebord.innings = 0'1
+'	lbl_innings.Text = "000"
+'	funcScorebord.inningSet = 0'1
+'	funcScorebord.innings = 0'1
 	
 	Dim teMaken As String
 	lbl_player_one_name.Text = data.Get(0)
@@ -764,11 +777,15 @@ End Sub
 
 
 Sub lbl_player_one_name_MouseEntered (EventData As MouseEvent)
-	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 10dip, 0xFFff0000, 0dip)
+	Dim lbl As B4XView = Sender
+	'lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 10dip, 0xFFff0000, 0dip)
+	lbl.SetColorAndBorder(lbl.Color, 10dip, 0xFFff0000, 0dip)
 End Sub
 
 Sub lbl_player_one_name_MouseExited (EventData As MouseEvent)
-	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 0dip, 0xFFFF0000, 4dip)
+	Dim lbl As B4XView = Sender
+	'lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 0dip, 0xFFFF0000, 0dip)
+	lbl.SetColorAndBorder(lbl.Color, 0dip, 0xFFFF0000, 0dip)
 End Sub
 
 Sub lbl_player_two_name_MouseEntered (EventData As MouseEvent)
@@ -776,5 +793,12 @@ Sub lbl_player_two_name_MouseEntered (EventData As MouseEvent)
 End Sub
 
 Sub lbl_player_two_name_MouseExited (EventData As MouseEvent)
-	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 0dip, 0xFFFF0000, 4dip)
+	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 0dip, 0xFFFF0000, 0dip)
+End Sub
+
+Sub disabeClockFunction(enable As Boolean)
+	lbl_clock.Visible = enable
+	lbl_date_time_dag.Visible = enable
+	lbl_date_time_date.Visible = enable
+	clsTmr.enableClock(enable)
 End Sub

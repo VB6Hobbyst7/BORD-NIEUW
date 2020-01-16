@@ -18,18 +18,35 @@ End Sub
 Sub testInet As ResumableSub
 	Dim j As HttpJob
 	Dim url As String = "https:\\www.google.com"
+
+	Try
 	
-	j.Initialize(url, Me)
-	j.Download(url)
+		j.Initialize(url, Me)
+		j.Download(url)
 	
-	Wait For (j) JobDone(j As HttpJob)
-		
+		Wait For (j) JobDone(j As HttpJob)
+	Catch
+		Log("No Internet")
+		Return False
+	End Try
+	
 	If j.Success Then
 		Return True
 	Else
-		Return False	
+		Return False
 	End If
-	
+End Sub
+
+
+Sub IsOnline As ResumableSub
+'	Private inetaddress As JavaObject
+'	inetaddress.InitializeStatic("java.net.InetAddress")
+'	If inetaddress.RunMethodJO("getByName",Array As String("www.google.nl")).RunMethod("isReachable",Array As Object(2000)) Then
+'		Return True
+'	Else
+'		Return False
+'	End If
+
 End Sub
 
 
