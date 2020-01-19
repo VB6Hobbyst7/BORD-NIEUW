@@ -8,11 +8,13 @@ Version=8
 Sub Process_Globals
 	Public timeLastClick As Long = 0
 	Public setNieuwePartij As Boolean = True
-	Public autoInnings As Boolean = False
+	Public autoInnings As Boolean = True
 	Public beurtenPartij As Boolean = False
 	Public beurtenPartijBeurten As Int
+	Public kraai As Int = 0
 	Public useDigitalFont As Boolean
 	Public useYellowFont As Boolean
+	Public error As String
 	
 	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int

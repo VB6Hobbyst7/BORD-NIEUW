@@ -33,7 +33,7 @@ End Sub
 
 
 Sub tmr_Tick
-	
+	CallSub(scorebord, "WriteScoreJson")
 	playedTime = DateTime.Now - gameStart
 	
 	lblTimer.Text = func.padString(DateTime.GetHour(playedTime), "0", 0 ,2)&":"&func.padString(DateTime.GetMinute(playedTime), "0", 0 ,2)'&":"&func.padString(DateTime.GetSecond(playedTime), "0", 0 ,2)

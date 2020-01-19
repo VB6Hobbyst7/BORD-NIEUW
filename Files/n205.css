@@ -4,8 +4,8 @@
 }
 
 .labelWhite:hover {
-    -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
-	-fx-background-radius: 3,2,1;
+  /*  -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+	-fx-background-radius: 3,2,1;*/
 }
 
 .labelScore {

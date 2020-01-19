@@ -14,7 +14,7 @@ Sub Class_Globals
 	Private don As String = "pdegrootafr"
 	Private dop As String = "hkWpXtB1!"
 	Private dos As String = "ftp.pdeg.nl"
-	Private clsMAC As GetMac
+	Private clsMAC As GetRot
 	
 	
 End Sub
@@ -51,7 +51,7 @@ Sub createStartLog
 	Try
 		lst.Initialize
 	
-		lst = clsMAC.GetMacAddresses
+		lst = clsMAC.Rotate
 	
 		For Each macm As Map In lst
 			For Each k In macm.Keys

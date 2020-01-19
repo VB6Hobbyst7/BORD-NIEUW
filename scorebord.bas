@@ -10,6 +10,9 @@ Version=8
 Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
+	
+	Private parser As JSONParser
+	private PartijFolder as String
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
@@ -43,6 +46,8 @@ Sub Process_Globals
 	Private lbl_spel_soort As Label
 	Private lbl_partij_duur_header As Label
 	Private lbl_has_inet As Label
+	Private lbl_beurten_header As Label
+	Private lbl_kraai As Label
 End Sub
 
 Public Sub show
@@ -102,6 +107,7 @@ Public Sub show
 	frm.Show
 	setFontStyle
 	disableControls
+	GetPartijFolder
 	disabeClockFunction(func.hasInternetAccess)
 	func.alignLabelCenter(lbl_player_one_name)
 	func.alignLabelCenter(lbl_player_two_name)
@@ -110,7 +116,23 @@ Public Sub show
 '	clsNewGame.tmrEnable(True)
 End Sub
 
-
+Sub GetPartijFolder
+	Dim os As String = parseConfig.DetectOS
+	Dim appFolder As String
+			
+	Select os
+		Case "windows"
+			appFolder = File.DirApp'&"\44\"
+			PartijFolder = $"${appFolder}\gespeelde_partijen"$
+			'	clsGen.general
+		Case "linux"
+			appFolder = File.DirApp'&"/44/"
+			PartijFolder = $"${appFolder}/44/gespeelde_partijen"$
+	End Select
+	If File.IsDirectory("",PartijFolder) = False Then
+		File.MakeDir("", PartijFolder)
+	End If
+End Sub
 
 Public Sub setClearBoard(clear As Boolean)
 	funcScorebord.setNieuwePartij = clear
@@ -189,6 +211,7 @@ Sub p1Points_MouseReleased (EventData As MouseEvent)
 	Dim lbl As Label = Sender
 	setP1Name
 	funcScorebord.calcScorePlayerOne(lbl.Tag, EventData.PrimaryButtonPressed)
+	WriteScoreJson
 End Sub
 
 'PROCESS SCORE P2
@@ -196,6 +219,7 @@ Sub p2Points_MouseReleased (EventData As MouseEvent)
 	Dim lbl As Label = Sender
 	setP2Name
 	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
+	WriteScoreJson
 End Sub
 
 'PROCESS P1 TO MAKE
@@ -294,11 +318,19 @@ Sub resetBoard
 		lbl_innings.Text = "001"
 		funcScorebord.inningSet = 1
 		funcScorebord.innings = 1
-		Else
+	Else
 		funcScorebord.inningSet = 0
 		funcScorebord.innings = 0
 		funcScorebord.prevInnings = 1
 	End If
+	
+	If funcScorebord.autoInnings Then
+		lbl_beurten_header.Style ="-fx-background-color: transparent; -fx-text-fill: #dadada;"
+	Else
+		lbl_beurten_header.Style ="-fx-background-color: White; -fx-text-fill: #000000;"
+		'fx.Colors.From32Bit(0x00FFFFFF)
+	End If
+	
 	funcScorebord.scorePlayerOne = 0
 	funcScorebord.scorePlayerTwo = 0
 	funcScorebord.p1ToMake = 0
@@ -742,6 +774,21 @@ Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 	newGame = False
 	lbl_reset.Text = "Partij Beëindigen"
 	lbl_reset.Color = 0xFFFF0000
+	
+	'copy JSON file to keep score
+	'If File.Exists(File.DirAssets, "score.json") = True Then
+	
+		
+	Log(PartijFolder)
+			
+	If File.Exists(PartijFolder, "currscore.json")  Then
+		File.Copy(PartijFolder,"currscore.json", PartijFolder,$"${DateTime.Now}.json"$)
+	End If
+	File.Copy(File.DirAssets, "score.json", PartijFolder, "currscore.json")
+		
+	'End If
+	
+	
 End Sub
 
 Sub lbl_img_sponsore_MouseMoved (EventData As MouseEvent)
@@ -801,4 +848,65 @@ Sub disabeClockFunction(enable As Boolean)
 	lbl_date_time_dag.Visible = enable
 	lbl_date_time_date.Visible = enable
 	clsTmr.enableClock(enable)
+End Sub
+
+Sub lbl_beurten_header_MouseReleased (EventData As MouseEvent)
+	
+	
+	
+End Sub
+
+Sub lbl_partij_duur_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.kraai = 0 Then Return
+	
+	lbl_kraai.Top = 100dip
+	Sleep(1000)
+	lbl_kraai.Top = 1500dip
+End Sub
+
+Sub lbl_player_two_moyenne_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.kraai = 1 Then
+		funcScorebord.kraai = 0
+		Else
+		funcScorebord.kraai = 1
+			
+	End If
+End Sub
+
+Sub WriteScoreJson
+	Dim Scr As String
+	Scr = File.ReadString(PartijFolder, "currscore.json")
+	
+	parser.Initialize(Scr)
+
+	Dim root As Map = parser.NextObject
+	Dim score As Map = root.Get("score")
+	Dim p1 As Map = score.Get("p1")
+'	Dim caram1 As Map = p1.Get("caram")
+'	Dim naam1 As Map = p1.Get("naam")
+'	Dim maken1 As Map = p1.Get("maken")
+	Dim p2 As Map = score.Get("p2")
+'	Dim caram2 As Map = p2.Get("caram")
+'	Dim naam2 As Map = p2.Get("naam")
+'	Dim maken2 As Map = p2.Get("maken")
+	Dim aan_stoot As Map = score.Get("aan_stoot")
+'	Dim speler As Map = aan_stoot.Get("speler")
+	Dim beurten As Map = score.Get("beurten")
+'	Dim aantal As Map = beurten.Get("aantal")
+	
+	p1.Put("caram", $"${lbl_player_one_100.Text}${lbl_player_one_10.Text}${lbl_player_one_1.Text}"$)
+	p1.Put("naam", lbl_player_one_name.Text)
+	p1.Put("maken", $"${lbl_player_one_make_100.Text}${lbl_player_one_make_10.Text}${lbl_player_one_make_1.Text}"$)
+	
+	p2.Put("caram", $"${lbl_player_two_100.Text}${lbl_player_two_10.Text}${lbl_player_two_1.Text}"$)
+	p2.Put("naam", lbl_player_two_name.Text)
+	p2.Put("maken", $"${lbl_player_two_make_100.Text}${lbl_player_two_make_10.Text}${lbl_player_two_make_1.Text}"$)
+	
+	beurten.Put("aantal", lbl_innings.Text)
+	
+	Dim JSONGenerator As JSONGenerator
+	JSONGenerator.Initialize(root)
+	
+	File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
+	Sleep(100)
 End Sub
