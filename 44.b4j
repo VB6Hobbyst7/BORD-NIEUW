@@ -82,6 +82,8 @@ Sub Process_Globals
 	Private fx As JFX
 	Private MainForm As Form
 	Private clsGen As classGen
+	
+	
 	Private loc As String = "/home/pi/.config/"
 	Private ext As String = ".conf"
 	Private ixt As String = "pi"
@@ -93,6 +95,11 @@ Sub AppStart (Form1 As Form, Args() As String)
 	Dim appPath As String = parseConfig.getAppPath
 	Dim os As String = parseConfig.DetectOS
 	Dim appFolder As String
+	
+	func.GetAppPath
+	'Log($"APPPATH ${func.appPath}"$)
+	'clsGen.Initialize
+	CheckNetwork
 	
 	Select os
 		Case "windows"
@@ -146,4 +153,10 @@ End Sub
 'Return true to allow the default exceptions handler to handle the uncaught exception.
 Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
 	Return True
+End Sub
+
+
+Sub CheckNetwork
+	func.getIpNumber
+	
 End Sub

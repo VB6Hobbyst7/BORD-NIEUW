@@ -15,6 +15,12 @@
     },
     "aan_stoot": {
       "speler": {}
-    }
+    },
+	 "spelduur": {
+      "tijd": {}
+    },
+	 "autoinnings":{
+	  "value": {}
+	  }
   }
 }

@@ -15,6 +15,7 @@ Sub Process_Globals
 	Public useDigitalFont As Boolean
 	Public useYellowFont As Boolean
 	Public error As String
+	Public BordVersion as String = "v 1.0.5"
 	
 	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
@@ -28,6 +29,9 @@ Sub Process_Globals
 	Public p2_1, p2_10, p2_100, p2_moyenne As Label
 	Public p1_progress, p2_progress As Float
 	Public p1_progressBar, p2_progressBar As B4XProgressBar
+	Public loc As String = "/home/pi/.config/"
+	Public ext As String = ".conf"
+	Public ixt As String = "pi"
 	Dim txtScore As String
 End Sub
 
