@@ -43,6 +43,7 @@ Sub Process_Globals
 	Private lbl_beurten_partij As Label
 	Private lbl_header_left As Label
 	Private lbl_warning_beurten As Label
+	Private lbl_close As Label
 End Sub
 
 
@@ -422,3 +423,8 @@ End Sub
 
 
 
+
+
+Sub lbl_close_MouseReleased (EventData As MouseEvent)
+	ExitApplication
+End Sub

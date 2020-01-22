@@ -20,7 +20,7 @@ Sub Process_Globals
 	Private clsTmr As timerClass
 	Private clsNewGame As classNewGame
 	Private clsGameTime As classGameTimer
-	Private aanStoot as Int
+	Private aanStoot As Int
 	
 	Private newGame As Boolean = False
 	Private pn_promote_top, pn_promote_left As Double
@@ -603,7 +603,7 @@ Sub eindePartij
 End Sub
 
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
-	ExitApplication
+	'ExitApplication
 End Sub
 
 Sub showPromote
