@@ -12,6 +12,7 @@ Sub Process_Globals
 	Private btn_annuleer_einde_partij As Button
 	Private btn_einde_partij As Button
 	Public frmInitialized As Boolean = False
+	Private lbl_close As Label
 End Sub
 
 
@@ -48,4 +49,8 @@ End Sub
 Sub btn_annuleer_einde_partij_MouseReleased (EventData As MouseEvent)
 	
 	frm.Close
+End Sub
+
+Sub lbl_close_MouseReleased (EventData As MouseEvent)
+	ExitApplication
 End Sub
