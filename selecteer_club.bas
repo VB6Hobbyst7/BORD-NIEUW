@@ -99,7 +99,16 @@ Sub BtnP1Start_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub Btn2Start_MouseReleased (EventData As MouseEvent)
-	
+	Dim lst As List
+	lst.Initialize
+	lst.AddAll(Array As String(func.splitNaam(lblP2.Text), "000"))
+	lst.AddAll(Array As String(func.splitNaam(lblP1.Text), "000"))
+	lst.AddAll(Array As String(""))
+	CallSub2(scorebord, "setNewGame", True)
+	CallSub2(scorebord, "setSpelerData", lst)
+	nieuwe_partij.CloseForm
+	frm.Close
+	CallSub2(scorebord, "hideForm", True)
 End Sub
 
 Sub BtnCancel_MouseReleased (EventData As MouseEvent)
