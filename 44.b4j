@@ -141,13 +141,13 @@ Sub AppStart (Form1 As Form, Args() As String)
 		MainForm = Form1
 		einde_partij.show
 		nieuwe_partij.show
-	'	scorebord.Show
-	'	selecteer_club.GenForm
+		selecteer_club.Show
+		scorebord.Show
 		MainForm.Close
 	Else
 		error_bord.show
 	End If
-		selecteer_club.GenForm
+		'selecteer_club.GenForm
 End Sub
 
 Sub retP As String
