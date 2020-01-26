@@ -2,23 +2,25 @@
 Build1=Marcel,nl.pdeg.bord
 Build2=sale,nl.pdeg.bord,SALE
 File1=6626253_1.png
-File10=logo.png
-File11=main.bjl
-File12=Montserrat-Regular.ttf
-File13=mouse.png
-File14=n205.css
-File15=nieuwe_partij.bjl
-File16=players.bjl
-File17=score.json
-File18=scorebord.bjl
+File10=einde_partij.bjl
+File11=error_bord.bjl
+File12=logo.png
+File13=main.bjl
+File14=Montserrat-Regular.ttf
+File15=mouse.png
+File16=n205.css
+File17=nieuwe_partij.bjl
+File18=players.bjl
+File19=score.json
 File2=6626253_2.png
+File20=scorebord.bjl
 File3=bal.png
-File4=cnf.44
-File5=Crasng.ttf
-File6=digital-7 (mono).ttf
-File7=eenvreselijkekraai1.png
-File8=einde_partij.bjl
-File9=error_bord.bjl
+File4=bord_leden.db
+File5=ClubSpelers.bjl
+File6=cnf.44
+File7=Crasng.ttf
+File8=digital-7 (mono).ttf
+File9=eenvreselijkekraai1.png
 FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
@@ -29,7 +31,9 @@ FileGroup15=Default Group
 FileGroup16=Default Group
 FileGroup17=Default Group
 FileGroup18=Default Group
+FileGroup19=Default Group
 FileGroup2=Default Group
+FileGroup20=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -39,6 +43,7 @@ FileGroup8=Default Group
 FileGroup9=Default Group
 Group=Default Group
 Library1=jcore
+Library10=jsql
 Library2=jfx
 Library3=jokhttputils2
 Library4=xui views
@@ -51,14 +56,16 @@ Module1=B4XProgressBar
 Module10=func
 Module11=funcInet
 Module12=funcScorebord
-Module13=getNode
-Module14=GetRot
-Module15=inactiveClass
-Module16=nieuwe_partij
-Module17=parseConfig
-Module18=scorebord
-Module19=timerClass
+Module13=GenDb
+Module14=getNode
+Module15=GetRot
+Module16=inactiveClass
+Module17=nieuwe_partij
+Module18=parseConfig
+Module19=scorebord
 Module2=classCheckConfig
+Module20=selecteer_club
+Module21=timerClass
 Module3=classGameTimer
 Module4=classGen
 Module5=classNewGame
@@ -66,14 +73,15 @@ Module6=classUpdate
 Module7=clXToastMessage
 Module8=einde_partij
 Module9=error_bord
-NumberOfFiles=18
-NumberOfLibraries=9
-NumberOfModules=19
+NumberOfFiles=20
+NumberOfLibraries=10
+NumberOfModules=21
 Version=8
 @EndOfDesignText@
 #Region Project Attributes 
 	#MainFormWidth: 1920
 	#MainFormHeight: 1080 
+	#AdditionalJar: sqlite-jdbc-3.7.2.jar 
 #End Region
 #IgnoreWarnings: 16,9, 10
 
@@ -115,6 +123,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 			
 	End Select
 	
+	GenDb.CheckDbFolder
+	
 	If result1 Then
 		
 		If File.Exists(appPath, "cnf.44") = False Then
@@ -131,11 +141,13 @@ Sub AppStart (Form1 As Form, Args() As String)
 		MainForm = Form1
 		einde_partij.show
 		nieuwe_partij.show
-		scorebord.Show
+	'	scorebord.Show
+	'	selecteer_club.GenForm
 		MainForm.Close
 	Else
 		error_bord.show
 	End If
+		selecteer_club.GenForm
 End Sub
 
 Sub retP As String
