@@ -44,6 +44,8 @@ Sub Process_Globals
 	Private lbl_header_left As Label
 	Private lbl_warning_beurten As Label
 	Private lbl_close As Label
+	
+	Public verDbExists As Boolean = False
 End Sub
 
 
@@ -76,6 +78,12 @@ Sub show
 	func.caromLabelCss(lbl_auto_innings, "labelCarom")
 	func.caromLabelCss(lbl_beurten_partij, "labelCarom")
 	
+	chk_beurten_partij.Visible = verDbExists
+	lbl_beurten_partij.Visible = verDbExists
+	enablePlayerInput
+	setPlayerName
+	useDigitalFont
+	useFontYellow
 	setPlayerName
 '	frm.Show
 	funcScorebord.newGameInitialized = True
@@ -259,10 +267,10 @@ End Sub
 
 Sub showForm
 	'tmr.Enabled = True	
-	enablePlayerInput
-	setPlayerName
-	useDigitalFont
-	useFontYellow
+'	enablePlayerInput
+'	setPlayerName
+'	useDigitalFont
+'	useFontYellow
 	frm.Show
 End Sub
 

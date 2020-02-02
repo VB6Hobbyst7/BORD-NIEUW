@@ -49,7 +49,18 @@ Sub Process_Globals
 	Private lbl_has_inet As Label
 	Private lbl_beurten_header As Label
 	Private lbl_kraai As Label
+	Private ImageView2 As ImageView
 End Sub
+
+'Return true to allow the default exceptions handler to handle the uncaught exception.
+Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
+	LogError("ERR" & Error)
+	LogError(StackTrace)
+	File.WriteString(File.DirApp, "errStackTrace.txt", StackTrace)
+	File.WriteString(File.DirApp, "errError.txt", Error)
+	Return True
+End Sub
+
 
 Public Sub show
 	frm.Initialize("frm", 1920, 1080)
@@ -154,14 +165,14 @@ End Sub
 
 
 Sub setFontStyle
-	func.caromLabelCss(lbl_player_one_hs, "labelWhite")
-	func.caromLabelCss(lbl_player_one_moyenne, "labelWhite")
-	func.caromLabelCss(lbl_player_one_perc, "labelWhite")
-	func.caromLabelCss(lbl_player_two_hs, "labelWhite")
-	func.caromLabelCss(lbl_player_two_moyenne, "labelWhite")
-	func.caromLabelCss(lbl_player_two_perc, "labelWhite")
+	'func.caromLabelCss(lbl_player_one_hs, "labelWhite")
+	'func.caromLabelCss(lbl_player_one_moyenne, "labelWhite")
+	'func.caromLabelCss(lbl_player_one_perc, "labelWhite")
+	'func.caromLabelCss(lbl_player_two_hs, "labelWhite")
+	'func.caromLabelCss(lbl_player_two_moyenne, "labelWhite")
+	'func.caromLabelCss(lbl_player_two_perc, "labelWhite")
 	
-	func.caromLabelCss(lbl_innings, "labelCarom")
+'	func.caromLabelCss(lbl_innings, "labelCarom")
 	
 	func.caromLabelCss(lbl_player_one_100, "labelCarom")
 	func.caromLabelCss(lbl_player_one_10, "labelCarom")
@@ -184,11 +195,6 @@ Sub setFontStyle
 	
 	
 	resetBoard
-End Sub
-
-'Return true to allow the default exceptions handler to handle the uncaught exception.
-Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
-	Return True
 End Sub
 
 
@@ -347,6 +353,8 @@ Sub resetBoard
 	funcScorebord.p2HsTemp = 0
 	B4XProgressBarP1.Progress = 0
 	B4XProgressBarP2.Progress = 0
+	
+	clsCheckCfg.enabledTimer(True)
 	
 '	If newGame = False Then
 '		disableControls
@@ -577,12 +585,8 @@ End Sub
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
-'		If funcScorebord.newGameInitialized = False Then
-'			CallSub(nieuwe_partij, "show")
-'		Else
-			CallSub(nieuwe_partij, "showForm")
-'		End If
-'		nieuwePartij
+'		clsCheckCfg.enabledTimer(False)
+		CallSub(nieuwe_partij, "showForm")
 		
 	else If lbl_reset.Text = "Partij Beëindigen" Then
 		CallSub(einde_partij, "show")
@@ -598,6 +602,7 @@ Sub eindePartij
 '	resetBoard
 	If File.Exists(PartijFolder, "currscore.json")  Then
 		File.Delete(PartijFolder, "currscore.json")
+		Sleep(300)
 	End If
 	disableControls
 End Sub
@@ -620,16 +625,20 @@ Sub setPromoteRunning(running As Boolean)
 End Sub
 
 private Sub mouseIn_Event(m As String,args() As Object)
-	If promoteRunning = True Then
-		pn_promote.Top = pn_promote_top
-		pn_promote.left = pn_promote_left
-		Sleep(0)
-		inactivecls.lastClick = DateTime.Now
-		inactivecls.enableTime(True)
-		inactivecls.enablePromote(False)
-		promoteRunning = False
-		Sleep(300)
-	End If
+	Try
+		If promoteRunning = True Then
+			pn_promote.Top = pn_promote_top
+			pn_promote.left = pn_promote_left
+			Sleep(0)
+			inactivecls.lastClick = DateTime.Now
+			inactivecls.enableTime(True)
+			inactivecls.enablePromote(False)
+			promoteRunning = False
+			Sleep(300)
+		End If
+	Catch
+		File.WriteString(File.DirApp,"lastErr.txt", LastException.Message)
+	End Try
 End Sub
 
 private Sub MouseOver(n1 As Node)
@@ -859,11 +868,23 @@ Sub lbl_beurten_header_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_partij_duur_MouseReleased (EventData As MouseEvent)
+	If lbl_reset.Text <> "Partij Beëindigen" Then Return
 	If funcScorebord.kraai = 0 Then Return
 	
-	lbl_kraai.Top = 100dip
-	Sleep(1000)
-	lbl_kraai.Top = 1500dip
+
+'	funcScorebord.PlayCrow(parseConfig.getAppImagePath, "Crow.mp3")
+'	frm.RootPane.MouseCursor = fx.Cursors.NONE
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, File.DirAssets, "ODT0.gif")
+	'lbl_kraai.Top = 100dip
+	'ImageView2.Visible = True
+	'ImageView2.Top = 100dip
+	Sleep(3000)
+	'lbl_kraai.Top = 1500dip
+	'ImageView2.Visible = False
+	'ImageView2.Top = 1500dip
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'	frm.RootPane.MouseCursor = fx.Cursors.DEFAULT
+'	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 End Sub
 
 Sub lbl_player_two_moyenne_MouseReleased (EventData As MouseEvent)
@@ -986,6 +1007,8 @@ Sub CheckGameStop
 		lbl_reset.Color = 0xFFFF0000
 		lbl_reset.TextColor = 0xFFFFFFFF
 		clsGameTime.tmrEnable(True)
+	Else
+		resetBoard
 	End If
 End Sub
 
@@ -993,3 +1016,13 @@ End Sub
 
 
 
+
+
+Sub lbl_innings_MouseEntered (EventData As MouseEvent)
+	lbl_innings.Style ="-fx-background-color: #FF00FF; -fx-text-fill: yellow;"
+End Sub
+
+Sub lbl_innings_MouseExited (EventData As MouseEvent)
+	lbl_innings.Style ="-fx-background-color: #000053; -fx-text-fill: yellow;"
+	
+End Sub

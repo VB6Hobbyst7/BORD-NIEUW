@@ -9,7 +9,7 @@ Sub Process_Globals
 	Public timeLastClick As Long = 0
 	Public setNieuwePartij As Boolean = True
 	Public autoInnings As Boolean = True
-	Public beurtenPartij As Boolean = False
+	Public beurtenPartij, gameStarted As Boolean = False
 	Public beurtenPartijBeurten As Int
 	Public kraai As Int = 0
 	Public useDigitalFont As Boolean
@@ -378,7 +378,24 @@ Sub calcMoyenne(mPlayerOne As Label, mPlayerTwo As Label)
 	mPlayerTwo.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
 End Sub
 
+Public Sub PlayCrow(dir As String, fileName As String)
+	Log(dir&fileName)
+	Dim js As  Shell
+	js.Initialize("", "omxplayer", Array As String(dir & fileName))
+	js.Run(-1)
+'	Dim audioSystem As JavaObject
+'	audioSystem.InitializeStatic("javax.sound.sampled.AudioSystem")
+'	Dim f As JavaObject
+'	f.InitializeNewInstance("java.io.File", Array(dir, fileName))
+'	Dim in As JavaObject = audioSystem.RunMethod("getAudioInputStream", Array(f))
+'	Dim clip As JavaObject = audioSystem.RunMethod("getClip", Null)
+'	clip.RunMethod("open", Array(in))
+'	clip.RunMethod("start", Null)
+'	in.RunMethod("close", Null)
+End Sub
+
 'UNKNOWN
+'parseConfig.getAppImagePath & "biljarter.png"
 
 
 

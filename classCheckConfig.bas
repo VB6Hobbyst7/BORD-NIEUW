@@ -21,9 +21,13 @@ Public Sub Initialize
 '	Log($"${DateTime.Date(cfgTimeStamp)}"$)
 	
 	tmr.Initialize("chkConfig", 5000)
-	tmr.Enabled = True
+	enabledTimer(True)
 End Sub
 
+
+Public Sub enabledTimer(enable As Boolean)
+	tmr.Enabled = enable
+End Sub
 
 Sub chkConfig_Tick
 	cfgCurrTimeStamp = File.LastModified(appPath, "cnf.44")

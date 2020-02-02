@@ -210,3 +210,19 @@ Sub splitNaam(str As String) As String
 End Sub
 
 
+Public Sub GetClubMembers
+	Dim lst As List
+	lst.Initialize
+	
+	lst = File.ListFiles($"${appPath}vereniging_spelers"$)
+	If lst.Size > 0 Then
+	'	selecteer_club.GetClubList(lst)
+		nieuwe_partij.verDbExists = True
+	Else 
+		nieuwe_partij.verDbExists = False
+	End If
+	
+End Sub
+
+
+

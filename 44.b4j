@@ -2,25 +2,27 @@
 Build1=Marcel,nl.pdeg.bord
 Build2=sale,nl.pdeg.bord,SALE
 File1=6626253_1.png
-File10=einde_partij.bjl
-File11=error_bord.bjl
-File12=logo.png
-File13=main.bjl
-File14=Montserrat-Regular.ttf
-File15=mouse.png
-File16=n205.css
-File17=nieuwe_partij.bjl
-File18=players.bjl
-File19=score.json
+File10=eenvreselijkekraai1.png
+File11=einde_partij.bjl
+File12=error_bord.bjl
+File13=logo.png
+File14=main.bjl
+File15=Montserrat-Regular.ttf
+File16=mouse.png
+File17=n205.css
+File18=nieuwe_partij.bjl
+File19=ODT0.gif
 File2=6626253_2.png
-File20=scorebord.bjl
+File20=players.bjl
+File21=score.json
+File22=scorebord.bjl
 File3=bal.png
 File4=bord_leden.db
 File5=ClubSpelers.bjl
 File6=cnf.44
 File7=Crasng.ttf
-File8=digital-7 (mono).ttf
-File9=eenvreselijkekraai1.png
+File8=Crow.mp3
+File9=digital-7 (mono).ttf
 FileGroup1=Default Group
 FileGroup10=Default Group
 FileGroup11=Default Group
@@ -34,6 +36,8 @@ FileGroup18=Default Group
 FileGroup19=Default Group
 FileGroup2=Default Group
 FileGroup20=Default Group
+FileGroup21=Default Group
+FileGroup22=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -43,7 +47,6 @@ FileGroup8=Default Group
 FileGroup9=Default Group
 Group=Default Group
 Library1=jcore
-Library10=jsql
 Library2=jfx
 Library3=jokhttputils2
 Library4=xui views
@@ -73,15 +76,15 @@ Module6=classUpdate
 Module7=clXToastMessage
 Module8=einde_partij
 Module9=error_bord
-NumberOfFiles=20
-NumberOfLibraries=10
+NumberOfFiles=22
+NumberOfLibraries=9
 NumberOfModules=21
-Version=8
+Version=8.1
 @EndOfDesignText@
 #Region Project Attributes 
 	#MainFormWidth: 1920
 	#MainFormHeight: 1080 
-	#AdditionalJar: sqlite-jdbc-3.7.2.jar 
+	'#AdditionalJar: sqlite-jdbc-3.7.2.jar 
 #End Region
 #IgnoreWarnings: 16,9, 10
 
@@ -90,7 +93,7 @@ Sub Process_Globals
 	Private fx As JFX
 	Private MainForm As Form
 	Private clsGen As classGen
-	
+	Public frm As Form
 	
 	Private loc As String = "/home/pi/.config/"
 	Private ext As String = ".conf"
@@ -99,6 +102,8 @@ Sub Process_Globals
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
+	frm.Initialize("frm", 1920, 1080)
+	frm.RootPane.LoadLayout("main")
 	
 	Dim appPath As String = parseConfig.getAppPath
 	Dim os As String = parseConfig.DetectOS
@@ -123,31 +128,44 @@ Sub AppStart (Form1 As Form, Args() As String)
 			
 	End Select
 	
-	GenDb.CheckDbFolder
+	func.GetClubMembers
 	
 	If result1 Then
 		
-		If File.Exists(appPath, "cnf.44") = False Then
-			File.Copy(File.DirAssets, "cnf.44", appPath, "")
+		If File.Exists(func.appPath, "cnf.44") = False Then
+			File.Copy(File.DirAssets, "cnf.44", func.appPath, "")
 		End If
-		If File.IsDirectory(appFolder, "media") = False Then
-			File.MakeDir(appFolder, "media")
+'		If File.IsDirectory(appFolder, "media") = False Then
+'			File.MakeDir(appFolder, "media")
+'		End If
+'		If File.IsDirectory(appFolder, "gepeelde_partijen") = False Then
+'			File.MakeDir(appFolder, "gespeelde_partijen")
+'		End If
+'		If File.IsDirectory(appFolder, "vereniging_spelers") = False Then
+'			File.MakeDir(appFolder, "vereniging_spelers")
+'		End If
+		If File.IsDirectory(func.appPath, "media") = False Then
+			File.MakeDir(func.appPath, "media")
 		End If
-		If File.IsDirectory(appFolder, "gepeelde_partijen") = False Then
-			File.MakeDir(appFolder, "gespeelde_partijen")
+		If File.IsDirectory(func.appPath, "gepeelde_partijen") = False Then
+			File.MakeDir(func.appPath, "gespeelde_partijen")
+		End If
+		If File.IsDirectory(func.appPath, "vereniging_spelers") = False Then
+			File.MakeDir(func.appPath, "vereniging_spelers")
 		End If
 	
-	
-		MainForm = Form1
+'		MainForm = Form1
 		einde_partij.show
 		nieuwe_partij.show
-		selecteer_club.Show
+		If nieuwe_partij.verDbExists = True Then
+			selecteer_club.Show
+		End If
 		scorebord.Show
-		MainForm.Close
+		frm.Close
 	Else
 		error_bord.show
 	End If
-		'selecteer_club.GenForm
+	'selecteer_club.GenForm
 End Sub
 
 Sub retP As String
@@ -164,6 +182,10 @@ End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
 Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
+	LogError(Error)
+	LogError(StackTrace)
+	File.WriteString(File.DirApp, "errStackTrace.txt", StackTrace)
+	File.WriteString(File.DirApp, "errError.txt", Error)
 	Return True
 End Sub
 
