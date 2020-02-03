@@ -95,14 +95,18 @@ Sub pullConfig
 	
 	If digitalActive  = "1" Then
 		useDigitalFont = True
+		funcScorebord.useDigitalFont = True
 		CallSub2(scorebord, "useDigitalFont", True)
 	Else
+		funcScorebord.useDigitalFont = False
 		CallSub2(scorebord, "useDigitalFont", False)
 	End If
 	
 	If colorYellow = "1"  Then
 		CallSub2(scorebord, "useFontYellow", True)
+		funcScorebord.useYellowFont = True
 	Else
+		funcScorebord.useYellowFont = False
 		CallSub2(scorebord, "useFontYellow", False)
 	End If
 	

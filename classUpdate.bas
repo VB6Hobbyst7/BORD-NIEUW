@@ -4,6 +4,7 @@ ModulesStructureVersion=1
 Type=Class
 Version=8
 @EndOfDesignText@
+#IgnoreWarnings: 16, 9, 12
 Sub Class_Globals
 	Private fx As JFX
 	Private ftp As FTP
@@ -13,7 +14,7 @@ Sub Class_Globals
 	Private don As String = "pdegrootafr"
 	Private dop As String = "hkWpXtB1!"
 	Private dos As String = "ftp.pdeg.nl"
-	Private clsMAC As GetMac
+	Private clsMAC As GetRot
 	
 	
 End Sub
@@ -38,24 +39,28 @@ Public Sub Initialize
 End Sub
 
 Sub createStartLog
+	#if debug
+	Return
+	#End If
+	
 	Dim sys As String
 	Dim j As HttpJob
 	Dim str, strMac As String
 	Dim lst As List
 	
 	Try
-	lst.Initialize
+		lst.Initialize
 	
-	lst = clsMAC.GetMacAddresses
+		lst = clsMAC.Rotate
 	
-	For Each macm As Map In lst
-		For Each k In macm.Keys
-			If k = "mac" Then
-				strMac = macm.Get(k)
-				Exit
-			End If
+		For Each macm As Map In lst
+			For Each k In macm.Keys
+				If k = "mac" Then
+					strMac = macm.Get(k)
+					Exit
+				End If
+			Next
 		Next
-	Next
 	
 		strMac = strMac.Replace("-", "")&".frt"
 		j.Initialize("", Me)
@@ -192,7 +197,7 @@ End Sub
 
 Sub updateFileExists
 	If File.Exists(appDownloadPath, "upd.pdg") = False Then
-		Log("upd created..")
+		'Log("upd created..")
 		File.WriteString(appDownloadPath , "upd.pdg", "")
 	End If
 	
@@ -209,7 +214,7 @@ Sub processVersion(str As String)
 	version = lst.Get(1)
 	version = version.Replace("_", ".")
 	version = version.Replace(".jar", "")
-	Log($"Version : ${version}"$)
+	'Log($"Version : ${version}"$)
 	File.WriteString(appDownloadPath, "ver.pdg", version)
 	
 End Sub

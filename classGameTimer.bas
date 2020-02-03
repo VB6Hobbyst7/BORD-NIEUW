@@ -7,23 +7,21 @@ Version=8
 Sub Class_Globals
 	Private fx As JFX
 	Private tmr As Timer
-	Private gameStart, playedTime As Int
 	
 	Private ms As Int = DateTime.TicksPerMinute  '60*1000
 	Private lblTimer As Label
+	Dim hours, minutes As Int
 End Sub
 
-'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize(lbl As Label)
 	lblTimer = lbl
 	tmr.Initialize("tmr", ms)
-	DateTime.DateFormat = "HH:mm"
 End Sub
 
 
 Sub setGameStart
-	gameStart = DateTime.Now + 3600000
-	
+	hours = 0
+	minutes = 0	
 End Sub
 
 Sub tmrEnable(enabled As Boolean)
@@ -32,10 +30,12 @@ End Sub
 
 
 Sub tmr_Tick
+	minutes = minutes + 1
+	If minutes > 59 Then
+		minutes = 0
+		hours = hours + 1
+	End If
+	lblTimer.Text = func.padString(hours, "0", 0 ,2)&":"&func.padString(minutes, "0", 0 ,2)	
 	
-	playedTime = DateTime.Now - gameStart
-	
-	lblTimer.Text = func.padString(DateTime.GetHour(playedTime), "0", 0 ,2)&":"&func.padString(DateTime.GetMinute(playedTime), "0", 0 ,2)
-	
-	
+	CallSub(scorebord, "WriteScoreJson")
 End Sub

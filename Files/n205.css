@@ -4,8 +4,8 @@
 }
 
 .labelWhite:hover {
-    -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
-	-fx-background-radius: 3,2,1;
+  /*  -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+	-fx-background-radius: 3,2,1;*/
 }
 
 .labelScore {
@@ -19,7 +19,7 @@
 
 .labelPlayer:hover {
     -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
-	-fx-background-radius: 3,2,1;
+	-fx-background-radius: 3,2,6;
 }
 
 .labelScore:hover {
@@ -34,12 +34,30 @@
 }
 
 .labelCarom:hover {
-    -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
+    -fx-background-color: #FF00FF;
+   /* -fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);*/
+	/*-fx-background-color: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 100%);*/
 	/*-fx-text-fill: #FFFF00;*/
-	-fx-background-radius: 3,2,1;
-	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.8) , 15, 0.0 , 0 , 0 );
+	-fx-text-fill: #000000;
+	-fx-background-radius: 3 2 1;
+	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.8) , 10, 0.0 , 0 , 0 );
 	 /*   -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);*/
 }
+
+.labelClubPlayer {
+	  -fx-background-color: blue;
+	  -fx-text-fill: yellow;
+}
+
+.labelClubPlayer:hover {
+    -fx-background-color: #FF00FF;
+   	-fx-text-fill: #000000;
+	-fx-background-radius: 3 2 1;
+	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.8) , 10, 0.0 , 0 , 0 );
+	
+}
+
+
 
 .button {
 	-fx-background-color: linear-gradient(to bottom,  #cfe7fa 0%,#6393c1 100%);
@@ -52,7 +70,31 @@
 	-fx-text-fill: #FFFF00;
 	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,1) , 30, 0.0 , 0 , 1 );
 }
+
+.checkbox {
+	-fx-background-color: #ffffff;
+	-fx-text-fill: #000000;
+}
+
 .checkbox:hover {
 	-fx-background-color: #0A00FF;
 	-fx-text-fill: #FFFF00;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+	-fx-background-color: linear-gradient(#328BDB 0%, #207BCF 25%, #1973C9 75%, #0A65BF 100%);
+    -fx-text-fill: yellow;
+}
+
+.list-cell:even { /* <=== changed to even */
+    -fx-background-color: white;
+}
+
+.list-cell:filled:hover {
+	 -fx-background-color: #FF00FF;
+   	-fx-text-fill: #000000;
+	-fx-background-radius: 3 2 1;
+	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.8) , 10, 0.0 , 0 , 0 );
+    /*-fx-background-color: blue;
+    -fx-text-fill: yellow;*/
 }

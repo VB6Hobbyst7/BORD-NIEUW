@@ -4,7 +4,7 @@ ModulesStructureVersion=1
 Type=StaticCode
 Version=8
 @EndOfDesignText@
-#IgnoreWarnings: 16,9,12,1
+#IgnoreWarnings: 16,9,12,1, 10
 
 'Static code module
 Sub Process_Globals
@@ -23,7 +23,7 @@ Sub Process_Globals
 	Private txt_maken_2 As TextField
 	Private btn_p1_begint As Button
 	Private btn_p2_begint As Button
-	Private lbl_speler_data As Label
+'	Private lbl_speler_data As Label
 	
 	Private tmr As Timer
 	Private lst As List
@@ -35,10 +35,17 @@ Sub Process_Globals
 	Private chkAuto_innings As CheckBox
 	Private lbl_speler_invoer As Label
 	Private lbl_auto_innings As Label
-	Private lbl_player_one_make_1 As Label
+	
+	Private chk_beurten_partij As CheckBox
 	Private lbl_beurten_1 As Label
 	Private lbl_beurten_10 As Label
 	Private lbl_beurten_100 As Label
+	Private lbl_beurten_partij As Label
+	Private lbl_header_left As Label
+	Private lbl_warning_beurten As Label
+	Private lbl_close As Label
+	
+	Public verDbExists As Boolean = False
 End Sub
 
 
@@ -61,16 +68,23 @@ Sub show
 	
 	lst.Initialize
 	lstSpelSoort.Initialize
-	lstSpelSoort.AddAll(Array As String("Libre", "Bandstoten", "DrieBanden", "Kader 38/2", "Kader 57/2", "Anker-Kader 57/2"))
+	lstSpelSoort.AddAll(Array As String("", "Libre", "Bandstoten", "DrieBanden", "Kader 38/2", "Kader 57/2", "Anker-Kader 57/2"))
 	cmbSpelSoort.SetItems(lstSpelSoort)
 	chkAuto_innings.Checked = True
 	func.caromLabelCss(lbl_speler_invoer, "labelCarom")
 	func.caromLabelCss(lbl_beurten_1, "labelCarom")
 	func.caromLabelCss(lbl_beurten_10, "labelCarom")
 	func.caromLabelCss(lbl_beurten_100, "labelCarom")
-	func.caromLabelCss(lbl_auto_innings, "labelWhite")
-	setPlayerName
+	func.caromLabelCss(lbl_auto_innings, "labelCarom")
+	func.caromLabelCss(lbl_beurten_partij, "labelCarom")
 	
+	chk_beurten_partij.Visible = verDbExists
+	lbl_beurten_partij.Visible = verDbExists
+	enablePlayerInput
+	setPlayerName
+	useDigitalFont
+	useFontYellow
+	setPlayerName
 '	frm.Show
 	funcScorebord.newGameInitialized = True
 		
@@ -139,6 +153,20 @@ Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	CallSub(scorebord, "resetBoard")
 	CallSub2(scorebord, "setSpelSoort", cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex))
 	CallSub2(scorebord, "setNewGame", True)
+'	If chk_beurten_partij.Checked = True Then
+'		Dim beurten As Int = $"${lbl_beurten_100.Text}${lbl_beurten_10.Text}${lbl_beurten_1.Text}"$
+'		If beurten = 0 Then
+'			lbl_warning_beurten.Top = 400
+'			Sleep(2000)
+'			lbl_warning_beurten.Top = 1400
+'			Return 
+'		End If
+'	End If
+'	funcScorebord.beurtenPartijBeurten = beurten
+	frm.Close
+End Sub
+
+Sub CloseForm
 	frm.Close
 End Sub
 
@@ -168,9 +196,9 @@ End Sub
 
 Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 	If chkSpelerData = False Then
-		lbl_speler_data.SetAlphaAnimated(600, 1)
+	'	lbl_speler_data.SetAlphaAnimated(600, 1)
 		Sleep(1000)
-		lbl_speler_data.SetAlphaAnimated(600, 0)
+	'	lbl_speler_data.SetAlphaAnimated(600, 0)
 		Return
 	End If
 	
@@ -197,9 +225,9 @@ End Sub
 
 Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 	If chkSpelerData = False Then
-		lbl_speler_data.SetAlphaAnimated(200, 1)
+	'	lbl_speler_data.SetAlphaAnimated(200, 1)
 		Sleep(1000)
-		lbl_speler_data.SetAlphaAnimated(200, 0)
+	'	lbl_speler_data.SetAlphaAnimated(200, 0)
 		Return
 	End If
 	funcScorebord.autoInnings = chkAuto_innings.Checked
@@ -239,8 +267,10 @@ End Sub
 
 Sub showForm
 	'tmr.Enabled = True	
-	enablePlayerInput
-	setPlayerName
+'	enablePlayerInput
+'	setPlayerName
+'	useDigitalFont
+'	useFontYellow
 	frm.Show
 End Sub
 
@@ -284,3 +314,135 @@ Sub txtChanged(v As TextField, Old As String, New As String)
 	
 End Sub
 
+
+
+Sub chk_beurten_partij_CheckedChange(Checked As Boolean)
+'	funcScorebord.beurtenPartij = Checked
+'	lbl_beurten_1.Visible = Checked
+'	lbl_beurten_10.Visible = Checked
+'	lbl_beurten_100.Visible = Checked
+	If chk_beurten_partij.Checked Then
+		selecteer_club.ShowForm
+	End If
+End Sub
+
+Sub UncheckVereniging
+	chk_beurten_partij.Checked = False
+End Sub
+
+Sub useDigitalFont
+	Dim fsCarom, fsMake, fsInnings As Int
+	
+	If funcScorebord.useDigitalFont Then
+		fsInnings = 200'300
+	Else
+		fsInnings = 200
+	End If
+	
+	func.setFont(lbl_beurten_1, fsInnings, funcScorebord.useDigitalFont)
+	func.setFont(lbl_beurten_10, fsInnings, funcScorebord.useDigitalFont)
+	func.setFont(lbl_beurten_100, fsInnings, funcScorebord.useDigitalFont)
+End Sub
+
+Sub useFontYellow
+	func.setFontColor(lbl_beurten_1, funcScorebord.useYellowFont)
+	func.setFontColor(lbl_beurten_10, funcScorebord.useYellowFont)
+	func.setFontColor(lbl_beurten_100, funcScorebord.useYellowFont)
+	func.setFontColor(lbl_speler_invoer, funcScorebord.useYellowFont)
+	func.setFontColor(lbl_auto_innings, funcScorebord.useYellowFont)
+	func.setFontColor(lbl_beurten_partij, funcScorebord.useYellowFont)
+End Sub
+
+
+Sub beurtenChanged_MouseReleased (EventData As MouseEvent)
+	Dim points, beurten As Int
+	Dim lbl As Label = Sender
+	Dim beurtenNew As String
+	Dim lblValue As Int = lbl.Tag
+	
+	points = lblValue
+	If EventData.PrimaryButtonPressed = False Then
+		points = -Abs(lblValue)
+	End If
+	
+	beurten = lbl_beurten_100.Text&lbl_beurten_10.Text&lbl_beurten_1.Text
+	beurten = beurten + points
+	
+	If beurten < 0 Then
+		beurten =lbl_beurten_100.Text&lbl_beurten_10.Text&lbl_beurten_1.Text
+	End If
+	
+	beurtenNew = func.padString(beurten, "0", 0, 3)
+
+	lbl_beurten_100.Text= beurtenNew.SubString2(0,1)
+	lbl_beurten_10.Text = beurtenNew.SubString2(1,2)
+	lbl_beurten_1.Text = beurtenNew.SubString2(2,3)
+	funcScorebord.beurtenPartijBeurten = lbl_beurten_100.Text&lbl_beurten_10.Text&lbl_beurten_1.Text
+	
+End Sub
+
+
+Sub lbl_beurten_partij_MouseReleased (EventData As MouseEvent)
+	If chk_beurten_partij.Checked = False Then
+		chk_beurten_partij.Checked = True
+	Else
+		chk_beurten_partij.Checked = False
+	End If
+End Sub
+
+Sub lbl_auto_innings_MouseReleased (EventData As MouseEvent)
+	If chkAuto_innings.Checked = False Then
+		chkAuto_innings.Checked = True
+	Else
+		chkAuto_innings.Checked = False
+	End If
+	funcScorebord.autoInnings = chkAuto_innings.Checked
+End Sub
+
+Sub lbl_speler_invoer_MouseReleased (EventData As MouseEvent)
+	If chk_add_player.Checked = False Then
+		chk_add_player.Checked = True
+		Else
+		chk_add_player.Checked = False
+	End If
+	chk_add_player_CheckedChange(chk_add_player.Checked)
+End Sub
+
+Sub txt_speler_1_FocusChanged (HasFocus As Boolean)
+	setTxtSelected(txt_speler_1, HasFocus)
+End Sub
+
+Sub txt_speler_2_FocusChanged (HasFocus As Boolean)
+	setTxtSelected(txt_speler_2, HasFocus)
+End Sub
+
+Sub txt_maken_1_FocusChanged (HasFocus As Boolean)
+	setTxtSelected(txt_maken_1, HasFocus)
+End Sub
+
+Sub txt_maken_2_FocusChanged (HasFocus As Boolean)
+	setTxtSelected(txt_maken_2, HasFocus)
+End Sub
+
+Sub setTxtSelected(tBox As TextField, focus As Boolean)
+	If focus Then
+		tBox.Style = "-fx-text-fill: Yellow; -fx-background-color: #00008B; -fx-font-size: 52; -fx-font-weight: bold; -fx-alignment: center;"
+	Else
+		tBox.Style = "-fx-text-fill: Black; -fx-background-color: #FFFFFF; -fx-font-size: 52; -fx-font-weight: bold; -fx-alignment: center;"
+	End If
+End Sub
+
+Sub RotateNode(n As Node, Degree As Double)
+	Dim jo As JavaObject = n
+	jo.RunMethod("setRotate", Array(Degree))
+End Sub
+
+
+
+
+
+
+
+Sub lbl_close_MouseReleased (EventData As MouseEvent)
+	ExitApplication
+End Sub

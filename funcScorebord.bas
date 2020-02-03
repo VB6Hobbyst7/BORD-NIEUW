@@ -8,20 +8,30 @@ Version=8
 Sub Process_Globals
 	Public timeLastClick As Long = 0
 	Public setNieuwePartij As Boolean = True
-	Public autoInnings As Boolean = False
+	Public autoInnings As Boolean = True
+	Public beurtenPartij, gameStarted As Boolean = False
+	Public beurtenPartijBeurten As Int
+	Public kraai As Int = 0
+	Public useDigitalFont As Boolean
+	Public useYellowFont As Boolean
+	Public error As String
+	Public BordVersion As String = "v 1.0.6"
 	
 	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
 	
 	Public p1Innings, p2Innings As Int = 0
 	
-	Public innings, inningSet, make, p1Hs = 0, p2Hs = 0, score As Int
+	Public innings, prevInnings = 1, inningSet, make, p1Hs = 0, p2Hs = 0, score As Int
 	Public p1ToMake = 0, p2ToMake = 0, p1HsTemp = 0, p2HsTemp = 0 As Int
 	Public lblInnings, lbl_player_one_hs, lbl_player_two_hs As Label
 	Public p1_1, p1_10, p1_100,  p1_moyenne As Label
 	Public p2_1, p2_10, p2_100, p2_moyenne As Label
 	Public p1_progress, p2_progress As Float
 	Public p1_progressBar, p2_progressBar As B4XProgressBar
+	Public loc As String = "/home/pi/.config/"
+	Public ext As String = ".conf"
+	Public ixt As String = "pi"
 	Dim txtScore As String
 End Sub
 
@@ -98,15 +108,19 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	p1_1.Text		= txtScore.SubString2(3,4)
 
 '	p1_moyenne.Text = NumberFormat2((scorePlayerOne/innings),1,3,3,False)
-	If innings >= 1 Then
+	If innings >= 1 And innings = prevInnings And autoInnings = True Then
 		p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
+		Else
+		p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
+			
 	End If
+	
 	If p1ToMake > 0 Then
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
 		p1_progress = (scorePlayerOne/p1ToMake)*100
 	End If
 	setProgress(p1_progressBar, p1_progress)
-	checkMatchWon("p1")
+'	checkMatchWon("p1")
 	
 End Sub
 'HANDLE P1 SCORE
@@ -166,6 +180,7 @@ End Sub
 
 'HANDLE SCORE P2
 Sub calcScorePlayerTwo(points As Int, leftMouse As Boolean)
+	
 	If leftMouse = False Then
 		points = -Abs(points)
 	End If
@@ -204,7 +219,7 @@ Sub calcScorePlayerTwo(points As Int, leftMouse As Boolean)
 	End If
 	'TEST CODE
 	
-	If lblInnings.Text = "000" Then
+	If lblInnings.Text = "000" And autoInnings = True Then
 		lblInnings.Text	= "001"
 		innings	= 1
 		inningSet = 1
@@ -218,15 +233,16 @@ Sub calcScorePlayerTwo(points As Int, leftMouse As Boolean)
 	p2_1.Text		= txtScore.SubString2(3,4)
 
 '	p2_moyenne.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
-	p2_moyenne.Text =  func.getUnroundedMoyenne(NumberFormat2((scorePlayerTwo/innings),1,4,4,False))
-	
+	If innings >= 1 Then
+		p2_moyenne.Text =  func.getUnroundedMoyenne(NumberFormat2((scorePlayerTwo/innings),1,4,4,False))
+	End If
 
 	If p2ToMake > 0 Then
 		CallSub2(scorebord, "playerTwoPerc", NumberFormat2((scorePlayerTwo/p2ToMake)*100,1,2,2,False)&"%")
 		p2_progress = (scorePlayerTwo/p2ToMake)*100
 	End If
 	setProgress(p2_progressBar, p2_progress)
-	checkMatchWon("p2")
+'	checkMatchWon("p2")
 	
 End Sub
 'HANDLE SCORE P2
@@ -362,7 +378,24 @@ Sub calcMoyenne(mPlayerOne As Label, mPlayerTwo As Label)
 	mPlayerTwo.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
 End Sub
 
+Public Sub PlayCrow(dir As String, fileName As String)
+	'Log(dir&fileName)
+	Dim js As  Shell
+	js.Initialize("", "omxplayer", Array As String(dir & fileName))
+	js.Run(-1)
+'	Dim audioSystem As JavaObject
+'	audioSystem.InitializeStatic("javax.sound.sampled.AudioSystem")
+'	Dim f As JavaObject
+'	f.InitializeNewInstance("java.io.File", Array(dir, fileName))
+'	Dim in As JavaObject = audioSystem.RunMethod("getAudioInputStream", Array(f))
+'	Dim clip As JavaObject = audioSystem.RunMethod("getClip", Null)
+'	clip.RunMethod("open", Array(in))
+'	clip.RunMethod("start", Null)
+'	in.RunMethod("close", Null)
+End Sub
+
 'UNKNOWN
+'parseConfig.getAppImagePath & "biljarter.png"
 
 
 

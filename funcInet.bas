@@ -18,39 +18,22 @@ End Sub
 Sub testInet As ResumableSub
 	Dim j As HttpJob
 	Dim url As String = "https:\\www.google.com"
+
+	Try
 	
-	j.Initialize(url, Me)
-	j.Download(url)
+		j.Initialize(url, Me)
+		j.Download(url)
 	
-	Wait For (j) JobDone(j As HttpJob)
-		
+		Wait For (j) JobDone(j As HttpJob)
+	Catch
+		'Log("No Internet")
+		Return False
+	End Try
+	
 	If j.Success Then
 		Return True
 	Else
-		Return False	
+		Return False
 	End If
-	
 End Sub
 
-
-'public Sub newRandomImage(Link As String, iv As ImageView)
-'		
-'	Dim j As HttpJob
-'	url = "http://picsum.photos/1920/1080?random=2"
-'	j.Initialize("",  Me)
-'	j.Download(Link)
-'	j.GetRequest.Timeout = 5000
-'	
-'	Wait For (j) JobDone(j As HttpJob)
-'	
-'	If j.Success Then
-'		iv.SetImage(j.GetBitmap)		
-'	End If
-'	j.Release
-'	
-'End Sub
-
-'Sub processImage(bmp As Image)
-'	CallSub2(scorebord, "setRandomImage", bmp)
-'	
-'End Sub

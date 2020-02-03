@@ -10,6 +10,9 @@ Version=8
 Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
+	
+	Private parser As JSONParser
+	Private PartijFolder As String
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
 	Private clsToast As clXToastMessage
@@ -17,6 +20,7 @@ Sub Process_Globals
 	Private clsTmr As timerClass
 	Private clsNewGame As classNewGame
 	Private clsGameTime As classGameTimer
+	Private aanStoot As Int
 	
 	Private newGame As Boolean = False
 	Private pn_promote_top, pn_promote_left As Double
@@ -43,7 +47,20 @@ Sub Process_Globals
 	Private lbl_spel_soort As Label
 	Private lbl_partij_duur_header As Label
 	Private lbl_has_inet As Label
+	Private lbl_beurten_header As Label
+	Private lbl_kraai As Label
+	Private ImageView2 As ImageView
 End Sub
+
+'Return true to allow the default exceptions handler to handle the uncaught exception.
+Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
+	LogError("ERR" & Error)
+	LogError(StackTrace)
+	File.WriteString(File.DirApp, "errStackTrace.txt", StackTrace)
+	File.WriteString(File.DirApp, "errError.txt", Error)
+	Return True
+End Sub
+
 
 Public Sub show
 	frm.Initialize("frm", 1920, 1080)
@@ -84,16 +101,18 @@ Public Sub show
 	
 	funcScorebord.setP1CaromLables(lstPlayerOneScoreLbl)
 	funcScorebord.setP2CaromLables(lstPlayerTwoScoreLbl)
-		
-	Wait For (funcInet.testInet) Complete (result As Boolean)
-	If result Then
-		func.hasInternetAccess = True
-	'	clsUpdate.checkUpdate
-	Else
-		func.hasInternetAccess = False
+
+	lbl_has_inet.Visible = False
+	If func.ipNumber <> "127.0.0.1" Then
+		Wait For (funcInet.testInet) Complete (result As Boolean)
+		If result Then
+			func.hasInternetAccess = True
+			'	clsUpdate.checkUpdate
+		Else
+			func.hasInternetAccess = False
+		End If
+		lbl_has_inet.Visible = result
 	End If
-	
-	lbl_has_inet.Visible = result
 	
 	initPanels
 	nieuwe_partij.show
@@ -101,15 +120,34 @@ Public Sub show
 	frm.Show
 	setFontStyle
 	disableControls
-	
+	GetPartijFolder
+	disabeClockFunction(func.hasInternetAccess)
 	func.alignLabelCenter(lbl_player_one_name)
 	func.alignLabelCenter(lbl_player_two_name)
 	func.alignLabelCenter(lbl_game_text)
+	lbl_version.Text = funcScorebord.BordVersion
+	CheckGameStop
 	
 '	clsNewGame.tmrEnable(True)
 End Sub
 
-
+Sub GetPartijFolder
+	Dim os As String = parseConfig.DetectOS
+	Dim appFolder As String
+			
+	Select os
+		Case "windows"
+			appFolder = File.DirApp'&"\44\"
+			PartijFolder = $"${appFolder}\gespeelde_partijen"$
+			'	clsGen.general
+		Case "linux"
+			appFolder = File.DirApp'&"/44/"
+			PartijFolder = $"${appFolder}/44/gespeelde_partijen"$
+	End Select
+	If File.IsDirectory("",PartijFolder) = False Then
+		File.MakeDir("", PartijFolder)
+	End If
+End Sub
 
 Public Sub setClearBoard(clear As Boolean)
 	funcScorebord.setNieuwePartij = clear
@@ -127,14 +165,14 @@ End Sub
 
 
 Sub setFontStyle
-	func.caromLabelCss(lbl_player_one_hs, "labelWhite")
-	func.caromLabelCss(lbl_player_one_moyenne, "labelWhite")
-	func.caromLabelCss(lbl_player_one_perc, "labelWhite")
-	func.caromLabelCss(lbl_player_two_hs, "labelWhite")
-	func.caromLabelCss(lbl_player_two_moyenne, "labelWhite")
-	func.caromLabelCss(lbl_player_two_perc, "labelWhite")
+	'func.caromLabelCss(lbl_player_one_hs, "labelWhite")
+	'func.caromLabelCss(lbl_player_one_moyenne, "labelWhite")
+	'func.caromLabelCss(lbl_player_one_perc, "labelWhite")
+	'func.caromLabelCss(lbl_player_two_hs, "labelWhite")
+	'func.caromLabelCss(lbl_player_two_moyenne, "labelWhite")
+	'func.caromLabelCss(lbl_player_two_perc, "labelWhite")
 	
-	func.caromLabelCss(lbl_innings, "labelCarom")
+'	func.caromLabelCss(lbl_innings, "labelCarom")
 	
 	func.caromLabelCss(lbl_player_one_100, "labelCarom")
 	func.caromLabelCss(lbl_player_one_10, "labelCarom")
@@ -157,11 +195,6 @@ Sub setFontStyle
 	
 	
 	resetBoard
-End Sub
-
-'Return true to allow the default exceptions handler to handle the uncaught exception.
-Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
-	Return True
 End Sub
 
 
@@ -188,6 +221,7 @@ Sub p1Points_MouseReleased (EventData As MouseEvent)
 	Dim lbl As Label = Sender
 	setP1Name
 	funcScorebord.calcScorePlayerOne(lbl.Tag, EventData.PrimaryButtonPressed)
+	WriteScoreJson
 End Sub
 
 'PROCESS SCORE P2
@@ -195,6 +229,7 @@ Sub p2Points_MouseReleased (EventData As MouseEvent)
 	Dim lbl As Label = Sender
 	setP2Name
 	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
+	WriteScoreJson
 End Sub
 
 'PROCESS P1 TO MAKE
@@ -220,12 +255,14 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 	If points = -1 Then
 		Return
 	End If
-	
+
 	funcScorebord.innings = points
+	funcScorebord.prevInnings = funcScorebord.prevInnings+1'points
 	lbl_innings.Text = func.padString(points, "0", 0, 3)
 	funcScorebord.calcMoyenne(lbl_player_one_moyenne, lbl_player_two_moyenne)
 	funcScorebord.processHs("all")
 	funcScorebord.inningSet = 1
+	WriteScoreJson
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
@@ -237,6 +274,7 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
 	End If
 	funcScorebord.processHs("all")
+	WriteScoreJson
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
@@ -249,6 +287,7 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
+	WriteScoreJson
 End Sub
 
 Sub playerOnePerc(perc As String)
@@ -288,10 +327,22 @@ Sub resetBoard
 	lbl_player_two_hs.Text = "000"
 	
 	If funcScorebord.autoInnings Then
-			lbl_innings.Text = "001"
+		lbl_innings.Text = "001"
 		funcScorebord.inningSet = 1
 		funcScorebord.innings = 1
+	Else
+		funcScorebord.inningSet = 0
+		funcScorebord.innings = 0
+		funcScorebord.prevInnings = 1
 	End If
+	
+	If funcScorebord.autoInnings Then
+		lbl_beurten_header.Style ="-fx-background-color: transparent; -fx-text-fill: #dadada;"
+	Else
+		lbl_beurten_header.Style ="-fx-background-color: White; -fx-text-fill: #000000;"
+		'fx.Colors.From32Bit(0x00FFFFFF)
+	End If
+	
 	funcScorebord.scorePlayerOne = 0
 	funcScorebord.scorePlayerTwo = 0
 	funcScorebord.p1ToMake = 0
@@ -303,6 +354,8 @@ Sub resetBoard
 	B4XProgressBarP1.Progress = 0
 	B4XProgressBarP2.Progress = 0
 	
+	clsCheckCfg.enabledTimer(True)
+	
 '	If newGame = False Then
 '		disableControls
 '	Else
@@ -312,6 +365,9 @@ Sub resetBoard
 	
 End Sub
 
+Sub setBeurten(beurten As String)
+	lbl_innings.Text = beurten
+End Sub
 
 Sub setSpelSoort(spel As String)
 	lbl_spel_soort.Text = spel
@@ -401,8 +457,7 @@ Sub setP1Name
 	
 	lbl_p1_inning.Visible = True
 	lbl_p2_inning.Visible = False
-	
-	
+	aanStoot = 1
 End Sub
 
 Sub setP2Name
@@ -429,6 +484,7 @@ Sub setP2Name
 	
 	lbl_p1_inning.Visible = False
 	lbl_p2_inning.Visible = True
+	aanStoot = 2
 End Sub
 
 Sub checkMatchWonP1
@@ -440,7 +496,7 @@ Sub checkMatchWonP1
 	
 	If make = 0 Then Return
 	
-	If caroms >= make Then
+	If caroms >= make And funcScorebord.beurtenPartij = False Then
 		player = lbl_player_two_name.Text.Replace(CRLF, " ")
 		
 		funcScorebord.calcMoyenneP2
@@ -450,6 +506,8 @@ Sub checkMatchWonP1
 		Sleep(4000)
 		pn_game.Top = 1650
 	End If
+		
+	
 End Sub
 
 Sub checkMatchWonP2
@@ -527,29 +585,30 @@ End Sub
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
-		If funcScorebord.newGameInitialized = False Then
-			CallSub(nieuwe_partij, "show")
-		Else
-			CallSub(nieuwe_partij, "showForm")
-		End If
-		nieuwePartij
+'		clsCheckCfg.enabledTimer(False)
+		CallSub(nieuwe_partij, "showForm")
 		
 	else If lbl_reset.Text = "Partij Beëindigen" Then
 		CallSub(einde_partij, "show")
-		clsGameTime.tmrEnable(False)
+		'clsGameTime.tmrEnable(False)
 	End If
 	
 End Sub
 
 Sub eindePartij
+	clsGameTime.tmrEnable(False)
 	lbl_reset.Text = "Nieuwe Partij"
 	lbl_reset.Color = 0xFF205502
 '	resetBoard
+	If File.Exists(PartijFolder, "currscore.json")  Then
+		File.Delete(PartijFolder, "currscore.json")
+		Sleep(300)
+	End If
 	disableControls
 End Sub
 
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
-	ExitApplication
+	'ExitApplication
 End Sub
 
 Sub showPromote
@@ -566,16 +625,20 @@ Sub setPromoteRunning(running As Boolean)
 End Sub
 
 private Sub mouseIn_Event(m As String,args() As Object)
-	If promoteRunning = True Then
-		pn_promote.Top = pn_promote_top
-		pn_promote.left = pn_promote_left
-		Sleep(0)
-		inactivecls.lastClick = DateTime.Now
-		inactivecls.enableTime(True)
-		inactivecls.enablePromote(False)
-		promoteRunning = False
-		Sleep(300)
-	End If
+	Try
+		If promoteRunning = True Then
+			pn_promote.Top = pn_promote_top
+			pn_promote.left = pn_promote_left
+			Sleep(0)
+			inactivecls.lastClick = DateTime.Now
+			inactivecls.enableTime(True)
+			inactivecls.enablePromote(False)
+			promoteRunning = False
+			Sleep(300)
+		End If
+	Catch
+		File.WriteString(File.DirApp,"lastErr.txt", LastException.Message)
+	End Try
 End Sub
 
 private Sub MouseOver(n1 As Node)
@@ -656,6 +719,7 @@ Sub useFontYellow(useYellow As Boolean)
 	func.setFontColor(lbl_player_two_make_100, useYellow)
 	func.setFontColor(lbl_player_two_make_10, useYellow)
 	func.setFontColor(lbl_player_two_make_1, useYellow)
+	
 End Sub
 
 Sub showSponor(enabled As Boolean)
@@ -672,9 +736,9 @@ End Sub
 
 Sub setSpelerData(data As List)
 	resetBoard
-	lbl_innings.Text = "000"
-	funcScorebord.inningSet = 0'1
-	funcScorebord.innings = 0'1
+'	lbl_innings.Text = "000"
+'	funcScorebord.inningSet = 0'1
+'	funcScorebord.innings = 0'1
 	
 	Dim teMaken As String
 	lbl_player_one_name.Text = data.Get(0)
@@ -728,6 +792,14 @@ Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 	newGame = False
 	lbl_reset.Text = "Partij Beëindigen"
 	lbl_reset.Color = 0xFFFF0000
+	
+	If File.Exists(PartijFolder, "currscore.json")  Then
+		'File.Copy(PartijFolder,"currscore.json", PartijFolder,$"${DateTime.Now}.json"$)
+		File.Delete(PartijFolder, "currscore.json")
+	End If
+	File.Copy(File.DirAssets, "score.json", PartijFolder, "currscore.json")
+	Sleep(200)
+	WriteScoreJson
 End Sub
 
 Sub lbl_img_sponsore_MouseMoved (EventData As MouseEvent)
@@ -763,11 +835,15 @@ End Sub
 
 
 Sub lbl_player_one_name_MouseEntered (EventData As MouseEvent)
-	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 10dip, 0xFFff0000, 0dip)
+	Dim lbl As B4XView = Sender
+	'lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 10dip, 0xFFff0000, 0dip)
+	lbl.SetColorAndBorder(lbl.Color, 10dip, 0xFFff0000, 0dip)
 End Sub
 
 Sub lbl_player_one_name_MouseExited (EventData As MouseEvent)
-	lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 0dip, 0xFFFF0000, 4dip)
+	Dim lbl As B4XView = Sender
+	'lbl_player_one_name.SetColorAndBorder(lbl_player_one_name.Color, 0dip, 0xFFFF0000, 0dip)
+	lbl.SetColorAndBorder(lbl.Color, 0dip, 0xFFFF0000, 0dip)
 End Sub
 
 Sub lbl_player_two_name_MouseEntered (EventData As MouseEvent)
@@ -775,5 +851,178 @@ Sub lbl_player_two_name_MouseEntered (EventData As MouseEvent)
 End Sub
 
 Sub lbl_player_two_name_MouseExited (EventData As MouseEvent)
-	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 0dip, 0xFFFF0000, 4dip)
+	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 0dip, 0xFFFF0000, 0dip)
+End Sub
+
+Sub disabeClockFunction(enable As Boolean)
+	lbl_clock.Visible = enable
+	lbl_date_time_dag.Visible = enable
+	lbl_date_time_date.Visible = enable
+	clsTmr.enableClock(enable)
+End Sub
+
+Sub lbl_beurten_header_MouseReleased (EventData As MouseEvent)
+	
+	
+	
+End Sub
+
+Sub lbl_partij_duur_MouseReleased (EventData As MouseEvent)
+	If lbl_reset.Text <> "Partij Beëindigen" Then Return
+	If funcScorebord.kraai = 0 Then Return
+	
+
+'	funcScorebord.PlayCrow(parseConfig.getAppImagePath, "Crow.mp3")
+'	frm.RootPane.MouseCursor = fx.Cursors.NONE
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, File.DirAssets, "ODT0.gif")
+	'lbl_kraai.Top = 100dip
+	'ImageView2.Visible = True
+	'ImageView2.Top = 100dip
+	Sleep(3000)
+	'lbl_kraai.Top = 1500dip
+	'ImageView2.Visible = False
+	'ImageView2.Top = 1500dip
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'	frm.RootPane.MouseCursor = fx.Cursors.DEFAULT
+'	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
+End Sub
+
+Sub lbl_player_two_moyenne_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.kraai = 1 Then
+		funcScorebord.kraai = 0
+		Else
+		funcScorebord.kraai = 1
+			
+	End If
+End Sub
+
+Sub WriteScoreJson
+	Dim Scr, strAanStoot As String
+	Scr = File.ReadString(PartijFolder, "currscore.json")
+	
+	strAanStoot = aanStoot
+	parser.Initialize(Scr)
+
+	Dim root As Map = parser.NextObject
+	Dim score As Map = root.Get("score")
+	Dim p1 As Map = score.Get("p1")
+	Dim p2 As Map = score.Get("p2")
+	Dim aan_stoot As Map = score.Get("aan_stoot")
+	Dim beurten As Map = score.Get("beurten")
+	Dim spelduur As Map = score.Get("spelduur")
+	Dim autoInnings As Map = score.Get("autoinnings")
+	
+	
+	p1.Put("caram", $"${lbl_player_one_100.Text}${lbl_player_one_10.Text}${lbl_player_one_1.Text}"$)
+	p1.Put("naam", lbl_player_one_name.Text)
+	p1.Put("maken", $"${lbl_player_one_make_100.Text}${lbl_player_one_make_10.Text}${lbl_player_one_make_1.Text}"$)
+	
+	p2.Put("caram", $"${lbl_player_two_100.Text}${lbl_player_two_10.Text}${lbl_player_two_1.Text}"$)
+	p2.Put("naam", lbl_player_two_name.Text)
+	p2.Put("maken", $"${lbl_player_two_make_100.Text}${lbl_player_two_make_10.Text}${lbl_player_two_make_1.Text}"$)
+	
+	beurten.Put("aantal", lbl_innings.Text)
+	aan_stoot.Put("speler", strAanStoot)
+	spelduur.Put("tijd", lbl_partij_duur.Text)
+	If funcScorebord.autoInnings = True Then
+		autoInnings.Put("value", "1")
+	Else
+		autoInnings.Put("value", "0")
+	End If
+	
+	Dim JSONGenerator As JSONGenerator
+	JSONGenerator.Initialize(root)
+	
+	File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
+	Sleep(100)
+End Sub
+
+
+Sub CheckGameStop
+	If File.Exists(PartijFolder, "currscore.json") Then
+		Dim Scr, maken, caram="" As String
+		Scr = File.ReadString(PartijFolder, "currscore.json")
+	
+		parser.Initialize(Scr)
+
+		Dim root As Map = parser.NextObject
+		Dim score As Map = root.Get("score")
+		Dim p1 As Map = score.Get("p1")
+		Dim p2 As Map = score.Get("p2")
+		Dim aan_stoot As Map = score.Get("aan_stoot")
+		Dim beurten As Map = score.Get("beurten")
+		Dim spelduur As Map = score.Get("spelduur")
+		Dim autoInnings As Map = score.Get("autoinnings")
+		
+		funcScorebord.innings = beurten.Get("aantal")
+		
+		maken = p1.Get("maken")
+		caram = p1.Get("caram")
+		funcScorebord.scorePlayerOne = caram
+		funcScorebord.p1ToMake = maken
+		lbl_player_one_name.Text = p1.Get("naam")
+		lbl_player_one_make_100.Text = maken.SubString2(0,1)
+		lbl_player_one_make_10.Text = maken.SubString2(1,2)
+		lbl_player_one_make_1.Text = maken.SubString2(2,3)
+		lbl_player_one_100.Text = caram.SubString2(0,1)
+		lbl_player_one_10.Text = caram.SubString2(1,2)
+		lbl_player_one_1.Text = caram.SubString2(2,3)
+		
+		maken = p2.Get("maken")
+		caram = p2.Get("caram")
+		funcScorebord.scorePlayerTwo = caram
+		funcScorebord.p2ToMake = maken
+		lbl_player_two_name.Text = p2.Get("naam")
+		lbl_player_two_make_100.Text = maken.SubString2(0,1)
+		lbl_player_two_make_10.Text = maken.SubString2(1,2)
+		lbl_player_two_make_1.Text = maken.SubString2(2,3)
+		lbl_player_two_100.Text = caram.SubString2(0,1)
+		lbl_player_two_10.Text = caram.SubString2(1,2)
+		lbl_player_two_1.Text = caram.SubString2(2,3)
+		
+		lbl_innings.Text = beurten.Get("aantal")
+		lbl_partij_duur.Text = spelduur.Get("tijd")
+		
+		clsGameTime.hours = lbl_partij_duur.Text.SubString2(0,2)
+		clsGameTime.minutes = lbl_partij_duur.Text.SubString2(3,5)
+		If aan_stoot.Get("speler") = "1" Then
+			setP1Name
+		Else
+			setP2Name
+		End If
+		funcScorebord.inningSet = 0
+		lbl_player_one_name.Enabled = True
+		lbl_player_two_name.Enabled = True
+		lbl_innings.Enabled = True
+		
+		If autoInnings.Get("value") = "1" Then
+			funcScorebord.autoInnings = True
+		Else
+			funcScorebord.autoInnings = False
+		End If
+		
+		funcScorebord.calcScorePlayerOne(0, True)
+		funcScorebord.calcScorePlayerTwo(0, True)
+		lbl_reset.Text = "Partij Beëindigen"
+		lbl_reset.Color = 0xFFFF0000
+		lbl_reset.TextColor = 0xFFFFFFFF
+		clsGameTime.tmrEnable(True)
+	Else
+		resetBoard
+	End If
+End Sub
+
+
+
+
+
+
+
+Sub lbl_innings_MouseEntered (EventData As MouseEvent)
+	lbl_innings.Style ="-fx-background-color: #FF00FF; -fx-text-fill: yellow;"
+End Sub
+
+Sub lbl_innings_MouseExited (EventData As MouseEvent)
+	lbl_innings.Style ="-fx-background-color: #000053; -fx-text-fill: yellow;"
+	
 End Sub

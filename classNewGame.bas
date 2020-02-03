@@ -4,6 +4,7 @@ ModulesStructureVersion=1
 Type=Class
 Version=8
 @EndOfDesignText@
+#IgnoreWarnings: 16, 9, 1, 12
 Sub Class_Globals
 	Private tmr As Timer
 	Private lblReset As Label

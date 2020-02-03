@@ -5,11 +5,13 @@ Type=StaticCode
 Version=8
 @EndOfDesignText@
 'Static code module
+#IgnoreWarnings: 16, 9,1
 Sub Process_Globals
 	Private fx As JFX
 	Private regexStr As StringBuilder
 	Public hasInternetAccess As Boolean = False
 	Public os As String
+	Public appPath, ipNumber As String
 End Sub
 
 Public Sub setHs(hs As String, leftMouse As Boolean) As String
@@ -98,21 +100,7 @@ Sub SetCustomCursor1(Dir As String, Filename As String, hotspotX  As Double, hot
 End Sub
 
 
-'Sub Animacao_Rotacao (v As B4XView, duration As Int, degrees As Int)
-'	v.SetRotationAnimated(duration, degrees)
-'	Sleep(duration + 20) '+20 to make sure that the new value is set after animation completes.
-'	v.Rotation = 0
-'End Sub
 
-'Sub setVisibleAnimated(v As B4XView, duration As Int, show As Boolean)
-'	v.SetVisibleAnimated(duration, show)
-'	Sleep(duration + 20) '+20 to make sure that the new value is set after animation completes.
-'End Sub
-
-'Sub RotateNode(n As Node, Degree As Double)
-'	Dim jo As JavaObject = n
-'	jo.RunMethod("setRotate", Array(Degree))
-'End Sub
 
 Sub caromLabelCss(lbl As Label, style As String)
 	lbl.StyleClasses.Add(style)
@@ -150,6 +138,17 @@ Sub DetectOS As String
 	End If
 End Sub
 
+Sub GetAppPath
+	os = DetectOS
+	Select os
+		Case "windows"
+			appPath = File.DirApp&"\44\"
+		Case "linux"
+			appPath = File.DirApp&"/44/"
+	End Select
+	
+End Sub
+
 Sub getIpNumber As String
 	Dim Server As ServerSocket
 	Dim components As List
@@ -158,7 +157,11 @@ Sub getIpNumber As String
 	ipStr = ""
 	Server.Initialize(50000, Me)
 	Ip = Server.GetMyIP
-	
+	Server.Close
+	ipNumber = Ip
+	If ipNumber = "127.0.0.1" Then
+		hasInternetAccess = False
+	End If
 	Return Ip
 	components.Initialize
 	
@@ -205,5 +208,21 @@ Sub splitNaam(str As String) As String
 	
 	
 End Sub
+
+
+Public Sub GetClubMembers
+	Dim lst As List
+	lst.Initialize
+	
+	lst = File.ListFiles($"${appPath}vereniging_spelers"$)
+	If lst.Size > 0 Then
+	'	selecteer_club.GetClubList(lst)
+		nieuwe_partij.verDbExists = True
+	Else 
+		nieuwe_partij.verDbExists = False
+	End If
+	
+End Sub
+
 
 
