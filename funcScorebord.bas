@@ -379,7 +379,7 @@ Sub calcMoyenne(mPlayerOne As Label, mPlayerTwo As Label)
 End Sub
 
 Public Sub PlayCrow(dir As String, fileName As String)
-	Log(dir&fileName)
+	'Log(dir&fileName)
 	Dim js As  Shell
 	js.Initialize("", "omxplayer", Array As String(dir & fileName))
 	js.Run(-1)

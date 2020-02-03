@@ -197,7 +197,7 @@ End Sub
 
 Sub updateFileExists
 	If File.Exists(appDownloadPath, "upd.pdg") = False Then
-		Log("upd created..")
+		'Log("upd created..")
 		File.WriteString(appDownloadPath , "upd.pdg", "")
 	End If
 	
@@ -214,7 +214,7 @@ Sub processVersion(str As String)
 	version = lst.Get(1)
 	version = version.Replace("_", ".")
 	version = version.Replace(".jar", "")
-	Log($"Version : ${version}"$)
+	'Log($"Version : ${version}"$)
 	File.WriteString(appDownloadPath, "ver.pdg", version)
 	
 End Sub
