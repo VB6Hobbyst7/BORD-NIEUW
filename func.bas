@@ -51,10 +51,10 @@ End Sub
 Public Sub setFont(lbl As Label, size As Int, digital As Boolean)
 		Dim jo As JavaObject=lbl
 	If digital Then
-		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"digital-7 (mono).ttf", size)))
+		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"digital-7.ttf", size)))
 	Else
-		'lbl.Style = $"-fx-font-family: Arial; -fx-font-size: ${size};"$
-		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Crasng.ttf", size)))
+		lbl.Style = $"-fx-font-family: Arial; -fx-font-size: ${size};"$
+'		jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"Crasng.ttf", size)))
 	End If
 End Sub
 

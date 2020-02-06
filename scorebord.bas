@@ -375,7 +375,7 @@ End Sub
 
 Sub setNewGame(set As Boolean)
 	If func.hasInternetAccess Then
-		clsUpdate.createStartLog
+	'	clsUpdate.createStartLog
 	End If
 	
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
@@ -870,21 +870,11 @@ End Sub
 Sub lbl_partij_duur_MouseReleased (EventData As MouseEvent)
 	If lbl_reset.Text <> "Partij Beëindigen" Then Return
 	If funcScorebord.kraai = 0 Then Return
-	
+	If lbl_partij_duur.Visible = False Then Return
 
-'	funcScorebord.PlayCrow(parseConfig.getAppImagePath, "Crow.mp3")
-'	frm.RootPane.MouseCursor = fx.Cursors.NONE
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, File.DirAssets, "ODT0.gif")
-	'lbl_kraai.Top = 100dip
-	'ImageView2.Visible = True
-	'ImageView2.Top = 100dip
 	Sleep(3000)
-	'lbl_kraai.Top = 1500dip
-	'ImageView2.Visible = False
-	'ImageView2.Top = 1500dip
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
-'	frm.RootPane.MouseCursor = fx.Cursors.DEFAULT
-'	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 End Sub
 
 Sub lbl_player_two_moyenne_MouseReleased (EventData As MouseEvent)
