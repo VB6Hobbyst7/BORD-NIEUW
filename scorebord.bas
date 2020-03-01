@@ -48,8 +48,8 @@ Sub Process_Globals
 	Private lbl_partij_duur_header As Label
 	Private lbl_has_inet As Label
 	Private lbl_beurten_header As Label
-	Private lbl_kraai As Label
-	Private ImageView2 As ImageView
+'	Private lbl_kraai As Label
+'	Private ImageView2 As ImageView
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -589,7 +589,13 @@ Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 		CallSub(nieuwe_partij, "showForm")
 		
 	else If lbl_reset.Text = "Partij Beëindigen" Then
-		CallSub(einde_partij, "show")
+		If CallSub(nieuwe_partij, "TestResponse") = "1" Then
+			CallSub(einde_partij, "show")
+		Else
+			CallSub(einde_partij, "show")
+		End If
+		
+'		CallSub(einde_partij, "show")
 		'clsGameTime.tmrEnable(False)
 	End If
 	
