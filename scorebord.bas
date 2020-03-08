@@ -682,7 +682,7 @@ Sub useDigitalFont(useDigital As Boolean)
 	
 	If useDigital Then
 		fsCarom = 300'350
-		fsMake = 225
+		fsMake = 200'225
 		fsInnings = 250'300
 	Else 
 		fsCarom = 225
