@@ -14,8 +14,9 @@ File18=nieuwe_partij.bjl
 File19=ODT0.gif
 File2=6626253_2.png
 File20=players.bjl
-File21=score.json
-File22=scorebord.bjl
+File21=retrobord.bjl
+File22=score.json
+File23=scorebord.bjl
 File3=bal.png
 File4=bord_leden.db
 File5=ClubSpelers.bjl
@@ -38,6 +39,7 @@ FileGroup2=Default Group
 FileGroup20=Default Group
 FileGroup21=Default Group
 FileGroup22=Default Group
+FileGroup23=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -65,10 +67,11 @@ Module15=GetRot
 Module16=inactiveClass
 Module17=nieuwe_partij
 Module18=parseConfig
-Module19=scorebord
+Module19=retroBord
 Module2=classCheckConfig
-Module20=selecteer_club
-Module21=timerClass
+Module20=scorebord
+Module21=selecteer_club
+Module22=timerClass
 Module3=classGameTimer
 Module4=classGen
 Module5=classNewGame
@@ -76,9 +79,9 @@ Module6=classUpdate
 Module7=clXToastMessage
 Module8=einde_partij
 Module9=error_bord
-NumberOfFiles=22
+NumberOfFiles=23
 NumberOfLibraries=9
-NumberOfModules=21
+NumberOfModules=22
 Version=8.1
 @EndOfDesignText@
 #Region Project Attributes 
@@ -160,7 +163,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 		If nieuwe_partij.verDbExists = True Then
 			selecteer_club.Show
 		End If
-		scorebord.Show
+'''		scorebord.Show
+		retroBord.show
 		frm.Close
 	Else
 		error_bord.show
