@@ -1,4 +1,13 @@
 
+.LabelLed {
+	-fx-background-color: #4B0303;
+	-fx-text-fill: #e50811 ;	
+}
+.LabelLed:hover{
+	-fx-background-color: #FFD700;
+	  -fx-text-fill: #0028ff ;
+}
+
 .labelWhite{
     -fx-background-color: #ffffff;
 }
