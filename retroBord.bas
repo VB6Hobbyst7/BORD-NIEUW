@@ -32,9 +32,13 @@ Public Sub show
 	useDigitalFont(True)
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	lblCopyright.Text = $"BeeCee Electronics"$
-	'SetFontStyle
+	setFontStyle
 	frm.Show
 
+End Sub
+
+Sub setFontStyle
+	func.caromLabelCss(p1_1, "LabelLed")
 End Sub
 
 
@@ -44,14 +48,14 @@ Sub useDigitalFont(useDigital As Boolean)
 	fsCarom = 300'350
 	fsInnings = 300'300
 	
-	func.setFont(p1_100, fsCarom, useDigital)
-	func.setFont(p1_10, fsCarom, useDigital)
-	func.setFont(p1_1, fsCarom, useDigital)
-	func.setFont(p2_1, fsCarom, useDigital)
-	func.setFont(p2_10, fsCarom, useDigital)
-	func.setFont(p2_100, fsCarom, useDigital)
-	func.setFont(Inning_10, fsInnings, useDigital)
-	func.setFont(Inning_1, fsInnings, useDigital)
+	func.setFontRetro(p1_100, fsCarom, useDigital)
+	func.setFontRetro(p1_10, fsCarom, useDigital)
+	func.setFontRetro(p1_1, fsCarom, useDigital)
+	func.setFontRetro(p2_1, fsCarom, useDigital)
+	func.setFontRetro(p2_10, fsCarom, useDigital)
+	func.setFontRetro(p2_100, fsCarom, useDigital)
+	func.setFontRetro(Inning_10, fsInnings, useDigital)
+	func.setFontRetro(Inning_1, fsInnings, useDigital)
 End Sub
 
 Sub lblCopyright_MouseReleased (EventData As MouseEvent)
@@ -72,14 +76,13 @@ End Sub
 
 
 Private Sub LedOnEnter(lbl As B4XView)
-	
-
-	lbl.Color = 0xFF4B0303
+	lbl.Color = 0xFF000000' 0xFF8F0C02
 	lbl.TextColor = 0xFFe50811
 End Sub
 
 Private Sub LedOnLeave(lbl As B4XView)
-	
+	lbl.Color = 0xFF4B0303
+	lbl.TextColor = 0xFFFF0000
 End Sub
 
 Sub ResetPartij
@@ -95,11 +98,13 @@ Sub ResetPartij
 End Sub
 
 Sub Inning_1_MouseEntered (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnEnter(lbl)
 End Sub
 
 Sub Inning_1_MouseExited (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnLeave(lbl)
 End Sub
 
 Sub Inning_1_MouseReleased (EventData As MouseEvent)
@@ -111,11 +116,13 @@ Sub Inning_10_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub Inning_10_MouseEntered (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnEnter(lbl)
 End Sub
 
 Sub Inning_10_MouseExited (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnLeave(lbl)
 End Sub
 
 
@@ -203,11 +210,13 @@ Sub p2_100_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub p2_100_MouseEntered (EventData As MouseEvent)
-	'LedOnEnter (Sender)
+	Dim lbl As Label = Sender
+	LedOnEnter(lbl)
 End Sub
 
 Sub p2_100_MouseExited (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnLeave(lbl)
 End Sub
 
 Sub p2_10_MouseReleased (EventData As MouseEvent)
@@ -215,11 +224,13 @@ Sub p2_10_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub p2_10_MouseEntered (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnEnter(lbl)
 End Sub
 
 Sub p2_10_MouseExited (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnLeave(lbl)
 End Sub
 
 Sub p2_1_MouseReleased (EventData As MouseEvent)
@@ -227,11 +238,13 @@ Sub p2_1_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub p2_1_MouseEntered (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnEnter(lbl)
 End Sub
 
 Sub p2_1_MouseExited (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnLeave(lbl)
 End Sub
 
 Sub p1_100_MouseReleased (EventData As MouseEvent)
@@ -239,7 +252,8 @@ Sub p1_100_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub p1_100_MouseEntered (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnEnter(lbl)
 End Sub
 
 Sub p1_10_MouseReleased (EventData As MouseEvent)
@@ -248,11 +262,13 @@ Sub p1_10_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub p1_10_MouseEntered (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnEnter(lbl)
 End Sub
 
 Sub p1_10_MouseExited (EventData As MouseEvent)
-	
+	Dim lbl As Label = Sender
+	LedOnLeave(lbl)
 End Sub
 
 Sub p1_1_MouseReleased (EventData As MouseEvent)
@@ -260,9 +276,16 @@ Sub p1_1_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub p1_1_MouseEntered (EventData As MouseEvent)
-	
+'	Dim lbl As Label = Sender
+'	LedOnEnter(lbl)
 End Sub
 
 Sub p1_1_MouseExited (EventData As MouseEvent)
-	
+'	Dim lbl As Label = Sender
+'	LedOnLeave(lbl)
+End Sub
+
+Sub p1_100_MouseExited (EventData As MouseEvent)
+	Dim lbl As Label = Sender
+	LedOnLeave(lbl)
 End Sub
