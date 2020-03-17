@@ -1,14 +1,12 @@
 
 .LabelLed {
-	-fx-background-color: #4B0303;
-	-fx-text-fill: #e50811 ;	
+	-fx-background-color: transparent;
+	-fx-text-fill: #FF0000;	
 }
 .LabelLed:hover{
 	-fx-background-color: #FF00FF;
-   	-fx-text-fill: #000000;
-	-fx-background-radius: 3 2 1;
-	-fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.8) , 10, 0.0 , 0 , 0 );	
-}
+	-fx-text-fill: #FFEE00 ;
+   }
 
 .labelWhite{
     -fx-background-color: #ffffff;

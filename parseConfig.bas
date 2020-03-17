@@ -76,6 +76,8 @@ Sub pullConfig
 	Dim gameTime As Map = root.Get("partijDuur")
 	Dim gameTimeActive As String = gameTime.Get("active")
 
+	Dim showRetro As Map = root.Get("retroBord")
+	
 	If gameTimeActive = "1" Then
 		CallSub2(scorebord, "showHideGameTime", True)
 	Else
@@ -93,7 +95,7 @@ Sub pullConfig
 	Dim digitalFont As Map = root.Get("digitalFont")
 	Dim digitalActive As String = digitalFont.Get("active")
 	
-	If digitalActive  = "1" Then
+		If digitalActive  = "1" Then
 		useDigitalFont = True
 		funcScorebord.useDigitalFont = True
 		CallSub2(scorebord, "useDigitalFont", True)
@@ -117,6 +119,15 @@ Sub pullConfig
 		CallSub2(scorebord, "showSponor", True)
 	Else
 		CallSub2(scorebord, "showSponor", False)
+	End If
+	
+	If showRetro.Get("active") = "1" Then
+		CallSub(retroBord, "showBord")
+		CallSub2(scorebord, "HideMainForRetro", False)
+		timeOutActive = False
+	Else
+		CallSub2(scorebord, "HideMainForRetro", True)
+		timeOutActive = True
 	End If
 	
 End Sub

@@ -553,9 +553,13 @@ Sub checkMatchWonP2
 	End If
 End Sub
 
-Sub hideForm(hide As Boolean)
+Sub hideForm(Hide As Boolean)
 	'frm.rootpane.Visible = hide
 	frm.show
+End Sub
+
+Public Sub HideMainForRetro(showForm As Boolean)
+	frm.RootPane.Visible = showForm
 End Sub
 
 Sub nieuwePartij

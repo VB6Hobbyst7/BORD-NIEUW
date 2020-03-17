@@ -20,6 +20,14 @@ Sub Process_Globals
 	Private LblReset As B4XView
 	
 	Private lblCopyright As Label
+	Private p1_1_8 As Label
+	Private p1_10_8 As Label
+	Private p1_100_8 As Label
+	Private p2_1_8 As Label
+	Private p2_10_8 As Label
+	Private p2_100_8 As Label
+	Private Inning_1_8 As Label
+	Private Inning_10_8 As Label
 End Sub
 
 
@@ -31,14 +39,27 @@ Public Sub show
 	frm.Resizable = False
 	useDigitalFont(True)
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
-	lblCopyright.Text = $"BeeCee Electronics"$
+	lblCopyright.Text = $"©2004 BC Heerhugowaard Electronics"$
 	setFontStyle
-	frm.Show
+	'frm.Show
 
+End Sub
+
+
+Public Sub showBord
+	frm.Show
 End Sub
 
 Sub setFontStyle
 	func.caromLabelCss(p1_1, "LabelLed")
+	func.caromLabelCss(p1_10, "LabelLed")
+	func.caromLabelCss(p1_100, "LabelLed")
+	func.caromLabelCss(p2_100, "LabelLed")
+	func.caromLabelCss(p2_10, "LabelLed")
+	func.caromLabelCss(p2_1, "LabelLed")
+	func.caromLabelCss(Inning_1, "LabelLed")
+	func.caromLabelCss(Inning_10, "LabelLed")
+	
 End Sub
 
 
@@ -51,11 +72,19 @@ Sub useDigitalFont(useDigital As Boolean)
 	func.setFontRetro(p1_100, fsCarom, useDigital)
 	func.setFontRetro(p1_10, fsCarom, useDigital)
 	func.setFontRetro(p1_1, fsCarom, useDigital)
+	func.setFontRetro(p1_1_8, fsCarom, useDigital)
+	func.setFontRetro(p1_10_8, fsCarom, useDigital)
+	func.setFontRetro(p1_100_8, fsCarom, useDigital)
+	func.setFontRetro(p2_1_8, fsCarom, useDigital)
+	func.setFontRetro(p2_10_8, fsCarom, useDigital)
+	func.setFontRetro(p2_100_8, fsCarom, useDigital)
 	func.setFontRetro(p2_1, fsCarom, useDigital)
 	func.setFontRetro(p2_10, fsCarom, useDigital)
 	func.setFontRetro(p2_100, fsCarom, useDigital)
 	func.setFontRetro(Inning_10, fsInnings, useDigital)
 	func.setFontRetro(Inning_1, fsInnings, useDigital)
+	func.setFontRetro(Inning_1_8, fsInnings, useDigital)
+	func.setFontRetro(Inning_10_8, fsInnings, useDigital)
 End Sub
 
 Sub lblCopyright_MouseReleased (EventData As MouseEvent)
@@ -75,16 +104,6 @@ Sub LblReset_MouseExited (EventData As MouseEvent)
 End Sub
 
 
-Private Sub LedOnEnter(lbl As B4XView)
-	lbl.Color = 0xFF000000' 0xFF8F0C02
-	lbl.TextColor = 0xFFe50811
-End Sub
-
-Private Sub LedOnLeave(lbl As B4XView)
-	lbl.Color = 0xFF4B0303
-	lbl.TextColor = 0xFFFF0000
-End Sub
-
 Sub ResetPartij
 	p1_1.Text = 0
 	p1_10.Text = 0
@@ -95,34 +114,6 @@ Sub ResetPartij
 	Inning_1.Text = 0
 	Inning_10.Text = 0
 	
-End Sub
-
-Sub Inning_1_MouseEntered (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnEnter(lbl)
-End Sub
-
-Sub Inning_1_MouseExited (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnLeave(lbl)
-End Sub
-
-Sub Inning_1_MouseReleased (EventData As MouseEvent)
-	SetInning(EventData.PrimaryButtonPressed)
-End Sub
-
-Sub Inning_10_MouseReleased (EventData As MouseEvent)
-	SetInning(EventData.PrimaryButtonPressed)
-End Sub
-
-Sub Inning_10_MouseEntered (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnEnter(lbl)
-End Sub
-
-Sub Inning_10_MouseExited (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnLeave(lbl)
 End Sub
 
 
@@ -176,7 +167,6 @@ Private Sub P2CalcCarom(leftMouse As Boolean, lbl As Label)
 	
 End Sub
 
-
 Private Sub SetInning(leftMouse As Boolean)
 	Dim inning As Int = Inning_10.Text & Inning_1.Text
 	Dim strInning As String
@@ -205,55 +195,20 @@ Private Sub SetInning(leftMouse As Boolean)
 	
 End Sub
 
-Sub p2_100_MouseReleased (EventData As MouseEvent)
+Sub p2_1_MouseReleased (EventData As MouseEvent)
 	P2CalcCarom(EventData.PrimaryButtonPressed, Sender)
-End Sub
-
-Sub p2_100_MouseEntered (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnEnter(lbl)
-End Sub
-
-Sub p2_100_MouseExited (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnLeave(lbl)
 End Sub
 
 Sub p2_10_MouseReleased (EventData As MouseEvent)
 	P2CalcCarom(EventData.PrimaryButtonPressed, Sender)
 End Sub
 
-Sub p2_10_MouseEntered (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnEnter(lbl)
-End Sub
-
-Sub p2_10_MouseExited (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnLeave(lbl)
-End Sub
-
-Sub p2_1_MouseReleased (EventData As MouseEvent)
+Sub p2_100_MouseReleased (EventData As MouseEvent)
 	P2CalcCarom(EventData.PrimaryButtonPressed, Sender)
-End Sub
-
-Sub p2_1_MouseEntered (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnEnter(lbl)
-End Sub
-
-Sub p2_1_MouseExited (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnLeave(lbl)
 End Sub
 
 Sub p1_100_MouseReleased (EventData As MouseEvent)
 	P1CalcCarom(EventData.PrimaryButtonPressed, Sender)
-End Sub
-
-Sub p1_100_MouseEntered (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnEnter(lbl)
 End Sub
 
 Sub p1_10_MouseReleased (EventData As MouseEvent)
@@ -261,31 +216,18 @@ Sub p1_10_MouseReleased (EventData As MouseEvent)
 	
 End Sub
 
-Sub p1_10_MouseEntered (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnEnter(lbl)
-End Sub
-
-Sub p1_10_MouseExited (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnLeave(lbl)
-End Sub
-
 Sub p1_1_MouseReleased (EventData As MouseEvent)
 	P1CalcCarom(EventData.PrimaryButtonPressed, Sender)
 End Sub
 
-Sub p1_1_MouseEntered (EventData As MouseEvent)
-'	Dim lbl As Label = Sender
-'	LedOnEnter(lbl)
+Sub Inning_1_MouseReleased (EventData As MouseEvent)
+	SetInning(EventData.PrimaryButtonPressed)
 End Sub
 
-Sub p1_1_MouseExited (EventData As MouseEvent)
-'	Dim lbl As Label = Sender
-'	LedOnLeave(lbl)
+Sub Inning_10_MouseReleased (EventData As MouseEvent)
+	SetInning(EventData.PrimaryButtonPressed)
 End Sub
 
-Sub p1_100_MouseExited (EventData As MouseEvent)
-	Dim lbl As Label = Sender
-	LedOnLeave(lbl)
-End Sub
+
+
+

@@ -165,8 +165,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 		If nieuwe_partij.verDbExists = True Then
 			selecteer_club.Show
 		End If
-'''		scorebord.Show
 		retroBord.show
+		scorebord.Show
 		frm.Close
 	Else
 		error_bord.show

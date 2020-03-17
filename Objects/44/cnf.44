@@ -24,5 +24,8 @@
   },
   "partijDuur": {
     "active": "1"
+  },
+  "retroBord": {
+    "active": "1"
   }
 }
