@@ -1019,7 +1019,9 @@ Sub CheckGameStop
 End Sub
 
 
-
+Public Sub DisablePromoTimer(enable As Boolean)
+	inactivecls.enablePromote(enable)
+End Sub
 
 
 

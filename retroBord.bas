@@ -14,9 +14,9 @@ Sub Process_Globals
 	Private p1_1 As Label
 	Private Inning_10 As Label
 	Private Inning_1 As Label
-	Private p2_100 As B4XView
-	Private p2_10 As B4XView
-	Private p2_1 As B4XView
+	Private p2_100 As Label
+	Private p2_10 As Label
+	Private p2_1 As Label
 	Private LblReset As B4XView
 	
 	Private lblCopyright As Label
@@ -110,15 +110,56 @@ End Sub
 
 
 Sub ResetPartij
-	p1_1.Text = 0
-	p1_10.Text = 0
-	p1_100.Text = 0
-	p2_1.Text = 0
-	p2_10.Text = 0
-	p2_100.Text = 0
-	Inning_1.Text = 0
-	Inning_10.Text = 0
+	Dim st As Int = 120
 	
+	'p1_1.Text = 0
+	'p1_10.Text = 0
+	'p1_100.Text = 0
+'	p2_1.Text = 0
+'	p2_10.Text = 0
+'	p2_100.Text = 0
+'	Inning_1.Text = 0
+'	Inning_10.Text = 0
+	
+	Sleep(100)
+	
+	p1_100.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	p1_100.Text = 0
+	Sleep(st)
+	p1_100.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	p1_10.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	p1_10.Text = 0
+	Sleep(st)
+	p1_10.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	p1_1.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	p1_1.Text = 0
+	Sleep(st)
+	p1_1.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	
+	Sleep(100)
+	
+	p2_100.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	p2_100.Text = 0
+	Sleep(st)
+	p2_100.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	p2_10.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	p2_10.Text = 0
+	Sleep(st)
+	p2_10.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	p2_1.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	p2_1.Text = 0
+	Sleep(st)
+	p2_1.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	
+	Sleep(100)
+	Inning_10.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	Inning_10.Text = 0
+	Sleep(st)
+	Inning_10.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	Inning_1.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	Inning_1.Text = 0
+	Sleep(st)
+	Inning_1.TextColor = fx.Colors.From32Bit(0xFFFF0000)
 End Sub
 
 

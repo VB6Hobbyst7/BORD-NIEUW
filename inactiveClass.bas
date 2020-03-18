@@ -48,7 +48,7 @@ Sub timeOut_Tick()
 
 End Sub
 
-Sub enableTime(enable As Boolean)
+Public Sub enableTime(enable As Boolean)
 	tmr.Enabled = enable
 End Sub
 
