@@ -120,8 +120,19 @@ Sub ResetPartij
 '	p2_100.Text = 0
 '	Inning_1.Text = 0
 '	Inning_10.Text = 0
+
+
+	p1_1.Text = 8
+	p1_10.Text = 8
+	p1_100.Text = 8
+	p2_1.Text = 8
+	p2_10.Text = 8
+	p2_100.Text = 8
+	Inning_1.Text = 8
+	Inning_10.Text = 8
+	Sleep(10)
 	
-	Sleep(100)
+	Sleep(300)
 	
 	p1_100.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
 	p1_100.Text = 0
