@@ -94,6 +94,8 @@ Public Sub show
 	clsUpdate.Initialize
 	
 	
+	
+	
 	lbl_version.Text = func.getVersion
 	funcScorebord.lblInnings = lbl_innings
 	funcScorebord.lbl_player_one_hs = lbl_player_one_hs
@@ -127,6 +129,10 @@ Public Sub show
 	func.alignLabelCenter(lbl_game_text)
 	lbl_version.Text = funcScorebord.BordVersion
 	CheckGameStop
+	
+	Dim strRetro As String = File.ReadString(func.appPath, "retro.cnf")
+	
+	clsCheckCfg.ProcessRetro(strRetro)
 	
 '	clsNewGame.tmrEnable(True)
 End Sub

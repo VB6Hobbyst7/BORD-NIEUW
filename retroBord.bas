@@ -47,7 +47,12 @@ End Sub
 
 
 Public Sub showBord
+	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 	frm.Show
+End Sub
+
+Public Sub hideRetro
+	frm.RootPane.Visible = False
 End Sub
 
 Sub setFontStyle

@@ -121,14 +121,14 @@ Sub pullConfig
 		CallSub2(scorebord, "showSponor", False)
 	End If
 	
-	If showRetro.Get("active") = "1" Then
-		CallSub(retroBord, "showBord")
-		CallSub2(scorebord, "HideMainForRetro", False)
-		timeOutActive = False
-	Else
-		CallSub2(scorebord, "HideMainForRetro", True)
-		timeOutActive = True
-	End If
+'	If showRetro.Get("active") = "1" Then
+'		CallSub(retroBord, "showBord")
+'		CallSub2(scorebord, "HideMainForRetro", False)
+'		timeOutActive = False
+'	Else
+'		CallSub2(scorebord, "HideMainForRetro", True)
+'		timeOutActive = True
+'	End If
 	
 End Sub
 

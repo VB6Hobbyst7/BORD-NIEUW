@@ -9,16 +9,18 @@ Sub Class_Globals
 	Private fx As JFX
 	Dim tmr As Timer
 	Dim appPath As String
-	Dim cfgTimeStamp, cfgCurrTimeStamp As Long
+	Dim cfgTimeStamp, cfgCurrTimeStamp, retroCurrTimeStamp, retroTimeStamp As Long
 	Dim sh As Shell
+	
+	dim retroVisible as Boolean = False
+	
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
 	appPath = parseConfig.getAppPath
 	cfgTimeStamp = File.LastModified(appPath, "cnf.44")
-	
-'	Log($"${DateTime.Date(cfgTimeStamp)}"$)
+	retroTimeStamp = File.LastModified(appPath, "retro.cnf")
 	
 	tmr.Initialize("chkConfig", 5000)
 	enabledTimer(True)
@@ -34,17 +36,43 @@ Sub chkConfig_Tick
 	
 	If cfgCurrTimeStamp <> cfgTimeStamp Then
 		parseConfig.pullConfig
-'		Log("CHANGE")
 		cfgTimeStamp = cfgCurrTimeStamp
 		CallSub(scorebord, "updateCfg")
-'		Log("USE DIGITAL " & parseConfig.useDigitalFont)
 		CallSub2(scorebord, "useDigitalFont", parseConfig.useDigitalFont)
-		
 	End If
 
+	retroCurrTimeStamp = File.LastModified(appPath, "retro.cnf")
 	
-'	checkIfUpdated
+	If retroTimeStamp <> retroCurrTimeStamp Then
+		Dim strRetro As String = File.ReadString(appPath, "retro.cnf")
+		
+		ProcessRetro(strRetro)			
+	End If
+End Sub
 
+
+public Sub ProcessRetro(strRetro As String)
+	Dim parser As JSONParser
+	parser.Initialize(strRetro)
+	Dim root As Map = parser.NextObject
+	Dim retro As Map = root.Get("retroBord")
+	Dim active As String = retro.Get("active")
+	
+	If active = "1"  And retroVisible = True Then
+		Return
+	End If
+	
+	
+	If active = "1" Then
+		retroVisible = True
+		scorebord.frm.RootPane.Visible = False
+		retroBord.showBord
+	Else
+		retroVisible = False
+		retroBord.frm.Close
+		scorebord.frm.RootPane.Visible = True
+	End If
+	
 	
 End Sub
 
@@ -70,3 +98,6 @@ Sub checkIfUpdated
 		ExitApplication
 	End If
 End Sub
+
+
+
