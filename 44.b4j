@@ -85,8 +85,8 @@ Version=8.1
 #Region Project Attributes 
 	#MainFormWidth: 1920
 	#MainFormHeight: 1080 
-	'#AdditionalJar: sqlite-jdbc-3.7.2.jar 
 #End Region
+
 #IgnoreWarnings: 16,9, 10
 
 
