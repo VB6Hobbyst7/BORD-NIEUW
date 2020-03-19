@@ -12,11 +12,14 @@ Sub Process_Globals
 	Private p1_100 As Label
 	Private p1_10 As Label
 	Private p1_1 As Label
-	Private Inning_10 As Label
-	Private Inning_1 As Label
+	
 	Private p2_100 As Label
 	Private p2_10 As Label
 	Private p2_1 As Label
+	
+	Private Inning_10 As Label
+	Private Inning_1 As Label
+	
 	Private LblReset As B4XView
 	
 	Private lblCopyright As Label
@@ -105,22 +108,12 @@ Sub LblReset_MouseEntered (EventData As MouseEvent)
 End Sub
 
 Sub LblReset_MouseExited (EventData As MouseEvent)
-	LblReset.Color = 0xFF002529
+	LblReset.Color = 0xFF001317 '0xFF002529
 End Sub
 
 
 Sub ResetPartij
-	Dim st As Int = 120
-	
-	'p1_1.Text = 0
-	'p1_10.Text = 0
-	'p1_100.Text = 0
-'	p2_1.Text = 0
-'	p2_10.Text = 0
-'	p2_100.Text = 0
-'	Inning_1.Text = 0
-'	Inning_10.Text = 0
-
+	Dim st As Int = 200
 
 	p1_1.Text = 8
 	p1_10.Text = 8
@@ -134,45 +127,33 @@ Sub ResetPartij
 	
 	Sleep(300)
 	
-	p1_100.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	p1_100.Text = 0
+	AnimatedReset(p1_100,st)
 	Sleep(st)
-	p1_100.TextColor = fx.Colors.From32Bit(0xFFFF0000)
-	p1_10.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	p1_10.Text = 0
+	AnimatedReset(p1_10, st)
 	Sleep(st)
-	p1_10.TextColor = fx.Colors.From32Bit(0xFFFF0000)
-	p1_1.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	p1_1.Text = 0
+	AnimatedReset(p1_1, st)
 	Sleep(st)
-	p1_1.TextColor = fx.Colors.From32Bit(0xFFFF0000)
 	
-	Sleep(100)
+	AnimatedReset(p2_100, st)
+	Sleep(st)
+	AnimatedReset(p2_10, st)
+	Sleep(st)
+	AnimatedReset(p2_1, st)
+	Sleep(st)
 	
-	p2_100.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	p2_100.Text = 0
 	Sleep(st)
-	p2_100.TextColor = fx.Colors.From32Bit(0xFFFF0000)
-	p2_10.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	p2_10.Text = 0
+	AnimatedReset(Inning_10, st)
 	Sleep(st)
-	p2_10.TextColor = fx.Colors.From32Bit(0xFFFF0000)
-	p2_1.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	p2_1.Text = 0
+	AnimatedReset(Inning_1,st)
 	Sleep(st)
-	p2_1.TextColor = fx.Colors.From32Bit(0xFFFF0000)
-	
-	Sleep(100)
-	Inning_10.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	Inning_10.Text = 0
-	Sleep(st)
-	Inning_10.TextColor = fx.Colors.From32Bit(0xFFFF0000)
-	Inning_1.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
-	Inning_1.Text = 0
-	Sleep(st)
-	Inning_1.TextColor = fx.Colors.From32Bit(0xFFFF0000)
 End Sub
 
+Sub AnimatedReset(lbl As Label, st As Int)
+	lbl.TextColor = fx.Colors.From32Bit(0xFFFFFFFF)
+	lbl.Text = 0
+	Sleep(st+10)
+	lbl.TextColor = fx.Colors.From32Bit(0xFFFF0000)
+	End Sub
 
 Private Sub P1CalcCarom(leftMouse As Boolean, lbl As Label)
 	Dim carom As Int = p1_100.Text&p1_10.Text&p1_1.Text
@@ -186,10 +167,7 @@ Private Sub P1CalcCarom(leftMouse As Boolean, lbl As Label)
 	carom = carom + value
 	
 	If carom > 999 Or carom <= 0 Then
-		p1_100.Text = "0"
-		p1_10.Text = "0"
-		p1_1.Text = "0"
-		Return
+		carom = 0
 	End If
 	
 	strCarom = func.padString(carom, "0", 0, 3)
@@ -211,10 +189,7 @@ Private Sub P2CalcCarom(leftMouse As Boolean, lbl As Label)
 	carom = carom + value
 	
 	If carom > 999 Or carom <= 0 Then
-		p2_100.Text = "0"
-		p2_10.Text = "0"
-		p2_1.Text = "0"
-		Return
+		carom = 0
 	End If
 	
 	strCarom = func.padString(carom, "0", 0, 3)
@@ -227,26 +202,20 @@ End Sub
 Private Sub SetInning(leftMouse As Boolean)
 	Dim inning As Int = Inning_10.Text & Inning_1.Text
 	Dim strInning As String
-	
-	If leftMouse Then
-		If inning + 1 > 99 Then
-			Inning_10.Text = "0"
-			Inning_1.Text = "0"
-			Return
-		End If
-	inning = inning + 1
-	End If
+	Dim value As Int = 1
+	Dim newInning As Int
 	
 	If leftMouse = False Then
-		If inning - 1 <= 0 Then
-			Inning_10.Text = "0"
-			Inning_1.Text = "0"
-			Return
-		End If
-		inning = inning - 1
+		value = -Abs(value)
 	End If
 	
-	strInning = func.padString(inning, 0, 0,2)
+	newInning = inning + value
+	
+	If newInning > 99 Or newInning < 0 Then
+		newInning = 0
+	End If
+	
+	strInning = func.padString(newInning, 0, 0,2)
 	Inning_10.Text = strInning.SubString2(0,1)
 	Inning_1.Text = strInning.SubString2(1,2)
 	

@@ -76,7 +76,7 @@ Sub pullConfig
 	Dim gameTime As Map = root.Get("partijDuur")
 	Dim gameTimeActive As String = gameTime.Get("active")
 
-	Dim showRetro As Map = root.Get("retroBord")
+	
 	
 	If gameTimeActive = "1" Then
 		CallSub2(scorebord, "showHideGameTime", True)

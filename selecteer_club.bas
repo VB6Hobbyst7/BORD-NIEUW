@@ -9,7 +9,7 @@ Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
 	Private parser As JSONParser
-	Private lstClubId, lstClubNaam As List
+	Private lstClubId As List
 	Private lvSpelers As ListView
 	Private lblP1 As Label
 	Private lblP2 As Label
