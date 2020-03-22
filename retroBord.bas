@@ -96,7 +96,7 @@ Sub useDigitalFont(useDigital As Boolean)
 End Sub
 
 Sub lblCopyright_MouseReleased (EventData As MouseEvent)
-	ExitApplication
+	'ExitApplication
 End Sub
 
 Sub LblReset_MouseReleased (EventData As MouseEvent)
@@ -227,7 +227,7 @@ End Sub
 
 Sub p2_10_MouseReleased (EventData As MouseEvent)
 	P2CalcCarom(EventData.PrimaryButtonPressed, Sender)
-End Sub
+	End Sub
 
 Sub p2_100_MouseReleased (EventData As MouseEvent)
 	P2CalcCarom(EventData.PrimaryButtonPressed, Sender)
@@ -256,4 +256,19 @@ End Sub
 
 
 
+'Return true to allow the default exceptions handler to handle the uncaught exception.
+Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
+	LogError(Error)
+	LogError(StackTrace)
+	File.WriteString(File.DirApp, "errStackTrace.txt", StackTrace)
+	File.WriteString(File.DirApp, "errError.txt", Error)
+	Return True
+End Sub
 
+
+Sub lblCopyright_MousePressed (EventData As MouseEvent)
+	Log(EventData.ClickCount)
+	If EventData.ClickCount >= 3 Then
+		ExitApplication
+	End If
+End Sub
