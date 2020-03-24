@@ -15,7 +15,6 @@ Sub Process_Globals
 	Private PartijFolder As String
 	Private inactivecls As inactiveClass
 	Private clsCheckCfg As classCheckConfig
-	Private clsToast As clXToastMessage
 	Private clsUpdate As classUpdate
 	Private clsTmr As timerClass
 	Private clsNewGame As classNewGame
@@ -88,7 +87,6 @@ Public Sub show
 	clsTmr.Initialize(lbl_clock, lbl_date_time_date, lbl_date_time_dag)
 	inactivecls.Initialize(870, 510)
 	clsCheckCfg.Initialize
-	clsToast.Initialize(frm.RootPane)
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize

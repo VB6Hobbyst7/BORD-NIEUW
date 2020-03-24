@@ -153,16 +153,6 @@ Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	CallSub(scorebord, "resetBoard")
 	CallSub2(scorebord, "setSpelSoort", cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex))
 	CallSub2(scorebord, "setNewGame", True)
-'	If chk_beurten_partij.Checked = True Then
-'		Dim beurten As Int = $"${lbl_beurten_100.Text}${lbl_beurten_10.Text}${lbl_beurten_1.Text}"$
-'		If beurten = 0 Then
-'			lbl_warning_beurten.Top = 400
-'			Sleep(2000)
-'			lbl_warning_beurten.Top = 1400
-'			Return 
-'		End If
-'	End If
-'	funcScorebord.beurtenPartijBeurten = beurten
 	frm.Close
 End Sub
 
@@ -172,7 +162,6 @@ End Sub
 
 Sub btn_annuleer_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	frm.Close
-	'CallSub2(scorebord, "hideForm", True)
 End Sub
 
 Sub txt_maken_1_TextChanged (Old As String, New As String)
@@ -317,10 +306,6 @@ End Sub
 
 
 Sub chk_beurten_partij_CheckedChange(Checked As Boolean)
-'	funcScorebord.beurtenPartij = Checked
-'	lbl_beurten_1.Visible = Checked
-'	lbl_beurten_10.Visible = Checked
-'	lbl_beurten_100.Visible = Checked
 	If chk_beurten_partij.Checked Then
 		selecteer_club.ShowForm
 	End If

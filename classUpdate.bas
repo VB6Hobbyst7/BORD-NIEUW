@@ -30,12 +30,6 @@ Public Sub Initialize
 			appDownloadPath = File.DirApp&"/44/"
 	End Select
 	
-	'CREATE UPDATE TIMESTAMP
-'	updateFileExists
-'	If getUpdateTimeStamp = False Then
-'		Return
-'	End If
-	
 End Sub
 
 Sub createStartLog
@@ -70,7 +64,6 @@ Sub createStartLog
 			str = j.GetString
 			j.Release
 	
-			'	Log(str)
 			If ftp.IsInitialized = False Then
 				ftp.Initialize("FTP", dos, 21, don, dop)
 			End If

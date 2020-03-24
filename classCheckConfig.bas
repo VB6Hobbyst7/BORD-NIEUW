@@ -66,13 +66,10 @@ public Sub ProcessRetro(strRetro As String)
 	
 	If active = "1" Then
 		retroVisible = True
-	'	CallSub2(scorebord, "DisablePromoTimer", False)
-		
 		scorebord.frm.RootPane.Visible = False
 		retroBord.showBord
 	Else
 		retroVisible = False
-	'	CallSub2(scorebord, "DisablePromoTimer", True)
 		retroBord.frm.Close
 		scorebord.frm.RootPane.Visible = True
 	End If

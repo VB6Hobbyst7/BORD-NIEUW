@@ -33,18 +33,15 @@ Sub general
 		For Each macm As Map In lst
 			For Each k In macm.Keys
 				If k = "displayname" Then
-					'Log(macm.Get(k))
 					name = macm.Get(k)
 				End If
 				If k = "mac" And name = "wlan0" Then
 					callGetNode = macm.Get(k)
-					'	Exit
 				End If
 			Next
 		Next
 	
 		callGetNode = callGetNode.Replace("-", "")
-		'Log(callGetNode)
 	Catch
 		Log("")
 	End Try
@@ -55,14 +52,12 @@ Private Sub genLoad As Boolean
 	
 	loca = $"${CallSub(Main, "retP")}${CallSub(Main, "retN")}${CallSub(Main, "retE")}"$
 	loca = $"${funcScorebord.loc}${funcScorebord.ixt}${funcScorebord.ext}"$
-'	Log("LOCA  "&loca)
 	If File.Exists("", loca) = False Then
 		funcScorebord.error = $"err : guru-${callGetNode}-#43"$
 		error_bord.show
 		Return False
 	End If
 	node = File.ReadString("", loca)
-'	Log("NODE : "&node&" CALLGETNODE : "&callGetNode.ToLowerCase)
 	If node = callGetNode.ToLowerCase Then
 		Return True
 	Else
@@ -72,7 +67,6 @@ Private Sub genLoad As Boolean
 			funcScorebord.error = $"err : guru-${callGetNode}-#43"$
 		End If
 		error_bord.show
-		'CallSub2(error_bord, "SetErrMessage", $"err : guru-${node}-#43"$)
 		
 		Return False
 	End If
