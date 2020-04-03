@@ -4,7 +4,7 @@ ModulesStructureVersion=1
 Type=StaticCode
 Version=8
 @EndOfDesignText@
-#IgnoreWarnings: 16, 9
+'#IgnoreWarnings: 16, 9
 
 'Static code module
 Sub Process_Globals
