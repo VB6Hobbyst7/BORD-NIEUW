@@ -224,11 +224,18 @@ Public Sub GetClubMembers
 	Dim lst As List
 	lst.Initialize
 	
+	'FOLDER EXISTS
+	If File.Exists(appPath, "vereniging_spelers") == False Then
+		File.MakeDir(appPath, "vereniging_spelers")
+		Sleep(100)
+	End If
+	
+	
 	lst = File.ListFiles($"${appPath}vereniging_spelers"$)
 	If lst.Size > 0 Then
-	'	selecteer_club.GetClubList(lst)
+		'	selecteer_club.GetClubList(lst)
 		nieuwe_partij.verDbExists = True
-	Else 
+	Else
 		nieuwe_partij.verDbExists = False
 	End If
 	

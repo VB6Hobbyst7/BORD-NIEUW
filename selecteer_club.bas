@@ -67,8 +67,23 @@ Sub GetClubList(lstClub As List)
 	
 	For i = 0 To lstClub.Size - 1
 		clbName = lstClub.Get(i)
+		If CheckClubHasMembers(clbName) < 1 Then
+			Continue
+		End If
 		cmbClub.Items.Add(clbName.Replace(".json", ""))
 	Next
+End Sub
+
+Sub CheckClubHasMembers(club As String) As Int
+	Dim Member As String = File.ReadString(func.appPath&"vereniging_spelers", club)
+	
+	Dim parser As JSONParser
+	parser.Initialize(Member)
+	
+	Dim root As Map = parser.NextObject
+	Dim LedenLijst As List = root.Get("LedenLijst")
+	
+	Return LedenLijst.Size
 End Sub
 
 Sub GetMembers(club As String)
@@ -117,11 +132,7 @@ Sub BtnP1Start_MouseReleased (EventData As MouseEvent)
 	lst.AddAll(Array As String(func.splitNaam(lblP1.Text), "000"))
 	lst.AddAll(Array As String(func.splitNaam(lblP2.Text), "000"))
 	lst.AddAll(Array As String(""))
-	CallSub2(scorebord, "setNewGame", True)
-	CallSub2(scorebord, "setSpelerData", lst)
-	nieuwe_partij.CloseForm
-	frm.Close
-	CallSub2(scorebord, "hideForm", True)
+	StartGame(lst)
 End Sub
 
 Sub Btn2Start_MouseReleased (EventData As MouseEvent)
@@ -130,6 +141,11 @@ Sub Btn2Start_MouseReleased (EventData As MouseEvent)
 	lst.AddAll(Array As String(func.splitNaam(lblP2.Text), "000"))
 	lst.AddAll(Array As String(func.splitNaam(lblP1.Text), "000"))
 	lst.AddAll(Array As String(""))
+	StartGame(lst)
+End Sub
+
+
+Sub StartGame(lst As List)
 	CallSub2(scorebord, "setNewGame", True)
 	CallSub2(scorebord, "setSpelerData", lst)
 	nieuwe_partij.CloseForm
