@@ -943,6 +943,7 @@ End Sub
 
 
 Sub CheckGameStop
+	Log($"PARTIJ FOLDER ${PartijFolder}"$)
 	If File.Exists(PartijFolder, "currscore.json") Then
 		Dim Scr, maken, caram="" As String
 		Scr = File.ReadString(PartijFolder, "currscore.json")
@@ -987,8 +988,13 @@ Sub CheckGameStop
 		lbl_innings.Text = beurten.Get("aantal")
 		lbl_partij_duur.Text = spelduur.Get("tijd")
 		
-		clsGameTime.hours = lbl_partij_duur.Text.SubString2(0,2)
-		clsGameTime.minutes = lbl_partij_duur.Text.SubString2(3,5)
+		'SPLIT DUUR AT : !!!!
+		Dim splitDuur() As String = Regex.Split(":", lbl_partij_duur.Text)
+		Dim duurHrs As String = splitDuur(0)
+		Dim duurMin As String = splitDuur(1)
+		
+		clsGameTime.hours = duurHrs 'lbl_partij_duur.Text.SubString2(0,2)
+		clsGameTime.minutes = duurMin 'lbl_partij_duur.Text.SubString2(3,5)
 		If aan_stoot.Get("speler") = "1" Then
 			setP1Name
 		Else
