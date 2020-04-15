@@ -43,6 +43,7 @@ FileGroup8=Default Group
 FileGroup9=Default Group
 Group=Default Group
 Library1=jcore
+Library10=jrandomaccessfile
 Library2=jfx
 Library3=jokhttputils2
 Library4=xui views
@@ -73,7 +74,7 @@ Module7=einde_partij
 Module8=error_bord
 Module9=func
 NumberOfFiles=20
-NumberOfLibraries=9
+NumberOfLibraries=10
 NumberOfModules=21
 Version=8.1
 @EndOfDesignText@
