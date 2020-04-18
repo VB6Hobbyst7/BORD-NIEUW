@@ -14,7 +14,9 @@ Sub Class_Globals
 	Private currentName As String
 End Sub
 
-
+Public Sub Initialize
+	
+End Sub
 
 Public Sub ConnectTo(Host As String, Name As String)
 	Disconnect
@@ -51,6 +53,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 		Dim m As Message = receivedObject
 	'	Main.NewMessage(m)
 	Log($"LAST MESSAGE : ${m}"$)
+	CallSub2(scorebord, "UpdateBordWhenClient", m.Body)
 	End If
 		
 End Sub

@@ -102,7 +102,7 @@ Sub Process_Globals
 	Private ixt As String = "pi"
 	Private result1 As Boolean = True
 	
-	Type Message (Body as String, From as String)
+	Type Message (Body As String, From As String)
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)

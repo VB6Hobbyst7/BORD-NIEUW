@@ -51,6 +51,7 @@ Sub Process_Globals
 '	Private ImageView2 As ImageView
 
 	Dim bordServer As tableServer
+	Dim bordClient As tableReceiver
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -92,9 +93,13 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
-	bordServer.Initialize
-	bordServer.ConnectTo()
-	
+	If 1=1 Then
+		bordServer.Initialize
+		bordServer.ConnectTo()
+	Else
+		bordClient.Initialize
+		bordClient.ConnectTo("192.168.1.19", "Client")
+	End If
 	
 	
 	
@@ -994,6 +999,62 @@ Sub CreateJsonFormMqttClient
 	bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
 	
 End Sub
+
+Sub UpdateBordWhenClient(data As String)
+	Dim number As String
+	
+	Dim parser As JSONParser
+	parser.Initialize(data)
+	Dim root As Map = parser.NextObject
+	Dim score As Map = root.Get("score")
+	Dim p1 As Map = score.Get("p1")
+'	Dim caram As String = p1.Get("caram")
+'	Dim percentage As String = p1.Get("percentage")
+'	Dim naam As String = p1.Get("naam")
+'	Dim maken As String = p1.Get("maken")
+'	Dim moyenne As String = p1.Get("moyenne")
+	Dim p2 As Map = score.Get("p2")
+'	Dim caram As String = p2.Get("caram")
+'	Dim percentage As String = p2.Get("percentage")
+'	Dim naam As String = p2.Get("naam")
+'	Dim maken As String = p2.Get("maken")
+'	Dim moyenne As String = p2.Get("moyenne")
+'	Dim aan_stoot As Map = score.Get("aan_stoot")
+'	Dim speler As String = aan_stoot.Get("speler")
+'	Dim spelduur As Map = score.Get("spelduur")
+'	Dim tijd As String = spelduur.Get("tijd")
+'	Dim autoinnings As Map = score.Get("autoinnings")
+'	Dim value As String = autoinnings.Get("value")
+'	Dim beurten As Map = score.Get("beurten")
+'	Dim aantal As String = beurten.Get("aantal")
+	
+	lbl_player_one_name.Text = p1.Get("naam")
+	number = p1.Get("caram")
+	lbl_player_one_100.Text = number.SubString2(1,1)
+	lbl_player_one_10.Text = number.SubString2(2,1)
+	lbl_player_one_1.Text = number.SubString2(3,1)
+	number = p1.Get("maken")
+	lbl_player_one_make_100.Text = number.SubString2(1,1)
+	lbl_player_one_make_10.Text = number.SubString2(2,1)
+	lbl_player_one_make_1.Text = number.SubString2(3,1)
+	lbl_player_one_moyenne.Text = p1.Get("moyenne")
+	lbl_player_one_perc.Text = p1.Get("maken")
+	
+	lbl_player_two_name.Text = p2.Get("naam")
+	number = p2.Get("caram")
+	lbl_player_two_100.Text = number.SubString2(1,1)
+	lbl_player_two_10.Text = number.SubString2(2,1)
+	lbl_player_two_1.Text = number.SubString2(3,1)
+	number = p2.Get("maken")
+	lbl_player_two_make_100.Text = number.SubString2(1,1)
+	lbl_player_two_make_10.Text = number.SubString2(2,1)
+	lbl_player_two_make_1.Text = number.SubString2(3,1)
+	lbl_player_two_moyenne.Text = p2.Get("moyenne")
+	lbl_player_two_perc.Text = p2.Get("maken")
+	
+	
+End Sub
+
 
 Sub CheckGameStop
 	Log($"PARTIJ FOLDER ${PartijFolder}"$)
