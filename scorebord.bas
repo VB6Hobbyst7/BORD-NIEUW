@@ -49,6 +49,8 @@ Sub Process_Globals
 	Private lbl_beurten_header As Label
 '	Private lbl_kraai As Label
 '	Private ImageView2 As ImageView
+
+	Dim bordServer As tableServer
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -90,6 +92,8 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
+	bordServer.Initialize
+	bordServer.ConnectTo()
 	
 	
 	
@@ -234,6 +238,9 @@ Sub p2Points_MouseReleased (EventData As MouseEvent)
 	setP2Name
 	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
 	WriteScoreJson
+'	If bordServer.brokerStarted = True Then
+'		bordServer.SendMessage(lbl_player_two_name.Text)
+'	End If
 End Sub
 
 'PROCESS P1 TO MAKE
@@ -267,6 +274,7 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 	funcScorebord.processHs("all")
 	funcScorebord.inningSet = 1
 	WriteScoreJson
+	
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
@@ -939,8 +947,53 @@ Sub WriteScoreJson
 	
 	File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
 	Sleep(100)
+	If bordServer.brokerStarted = True Then
+		CreateJsonFormMqttClient
+		'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
+	End If
 End Sub
 
+
+Sub CreateJsonFormMqttClient
+	Dim template, strAanStoot As String
+		
+	strAanStoot = aanStoot
+	
+	template = File.ReadString(File.DirAssets, "share_score.json")
+	parser.Initialize(template)
+	
+	Dim root As Map = parser.NextObject
+	Dim score As Map = root.Get("score")
+	Dim p1 As Map = score.Get("p1")
+	Dim p2 As Map = score.Get("p2")
+	Dim aan_stoot As Map = score.Get("aan_stoot")
+	Dim beurten As Map = score.Get("beurten")
+	Dim spelduur As Map = score.Get("spelduur")
+	Dim autoInnings As Map = score.Get("autoinnings")
+	
+	p1.Put("caram", $"${lbl_player_one_100.Text}${lbl_player_one_10.Text}${lbl_player_one_1.Text}"$)
+	p1.Put("naam", lbl_player_one_name.Text)
+	p1.Put("maken", $"${lbl_player_one_make_100.Text}${lbl_player_one_make_10.Text}${lbl_player_one_make_1.Text}"$)
+	p1.Put("moyenne", lbl_player_one_moyenne.Text)
+	p1.Put("percentage", lbl_player_one_perc.Text)
+	
+	p2.Put("caram", $"${lbl_player_two_100.Text}${lbl_player_two_10.Text}${lbl_player_two_1.Text}"$)
+	p2.Put("naam", lbl_player_two_name.Text)
+	p2.Put("maken", $"${lbl_player_two_make_100.Text}${lbl_player_two_make_10.Text}${lbl_player_two_make_1.Text}"$)
+	p2.Put("moyenne", lbl_player_two_moyenne.Text)
+	p2.Put("percentage", lbl_player_two_perc.Text)
+	
+	beurten.Put("aantal", lbl_innings.Text)
+	aan_stoot.Put("speler", strAanStoot)
+	spelduur.Put("tijd", lbl_partij_duur.Text)
+	autoInnings.Put("value", "0")
+	
+	Dim JSONGenerator As JSONGenerator
+	JSONGenerator.Initialize(root)
+	
+	bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
+	
+End Sub
 
 Sub CheckGameStop
 	Log($"PARTIJ FOLDER ${PartijFolder}"$)
@@ -1022,13 +1075,9 @@ Sub CheckGameStop
 	End If
 End Sub
 
-
 Public Sub DisablePromoTimer(enable As Boolean)
 	inactivecls.enablePromote(enable)
 End Sub
-
-
-
 
 Sub lbl_innings_MouseEntered (EventData As MouseEvent)
 	lbl_innings.Style ="-fx-background-color: #FF00FF; -fx-text-fill: yellow;"
@@ -1038,3 +1087,4 @@ Sub lbl_innings_MouseExited (EventData As MouseEvent)
 	lbl_innings.Style ="-fx-background-color: #000053; -fx-text-fill: yellow;"
 	
 End Sub
+

@@ -14,6 +14,7 @@ File18=retrobord.bjl
 File19=score.json
 File2=bord_leden.db
 File20=scorebord.bjl
+File21=share_score.json
 File3=ClubSpelers.bjl
 File4=cnf.44
 File5=digital-7.ttf
@@ -34,6 +35,7 @@ FileGroup18=Default Group
 FileGroup19=Default Group
 FileGroup2=Default Group
 FileGroup20=Default Group
+FileGroup21=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -44,6 +46,8 @@ FileGroup9=Default Group
 Group=Default Group
 Library1=jcore
 Library10=jrandomaccessfile
+Library11=jmqtt
+Library12=jmqttbroker
 Library2=jfx
 Library3=jokhttputils2
 Library4=xui views
@@ -65,7 +69,9 @@ Module18=retroBord
 Module19=scorebord
 Module2=classCheckConfig
 Module20=selecteer_club
-Module21=timerClass
+Module21=tableReceiver
+Module22=tableServer
+Module23=timerClass
 Module3=classGameTimer
 Module4=classGen
 Module5=classNewGame
@@ -73,9 +79,9 @@ Module6=classUpdate
 Module7=einde_partij
 Module8=error_bord
 Module9=func
-NumberOfFiles=20
-NumberOfLibraries=10
-NumberOfModules=21
+NumberOfFiles=21
+NumberOfLibraries=12
+NumberOfModules=23
 Version=8.1
 @EndOfDesignText@
 #Region Project Attributes 
@@ -90,13 +96,13 @@ Sub Process_Globals
 	Private fx As JFX
 	Private MainForm As Form
 	Private clsGen As classGen
-	
 	Public frm As Form
-	
 	Private loc As String = "/home/pi/.config/"
 	Private ext As String = ".conf"
 	Private ixt As String = "pi"
 	Private result1 As Boolean = True
+	
+	Type Message (Body as String, From as String)
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
