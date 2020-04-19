@@ -7,7 +7,7 @@ Version=8.1
 
 Sub Class_Globals
 	Private client As MqttClient
-	Private const port As Int = 51043
+	Private const port As Int = 51042
 	Private serializator As B4XSerializator
 	Public connected As Boolean
 	Private fx As JFX

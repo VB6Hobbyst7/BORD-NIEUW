@@ -93,12 +93,12 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
-	If 1=1 Then
+	If 1=2 Then
 		bordServer.Initialize
 		bordServer.ConnectTo()
 	Else
 		bordClient.Initialize
-		bordClient.ConnectTo("192.168.1.19", "Client")
+		bordClient.ConnectTo("192.168.1.41", "Client")
 	End If
 	
 	
@@ -1037,27 +1037,27 @@ Sub UpdateBordWhenClient(data As String)
 	
 	lbl_player_one_name.Text = p1.Get("naam")
 	number = p1.Get("caram")
-	lbl_player_one_100.Text = number.SubString2(1,1)
-	lbl_player_one_10.Text = number.SubString2(2,1)
-	lbl_player_one_1.Text = number.SubString2(3,1)
+	lbl_player_one_100.Text = number.SubString2(0,1)
+	lbl_player_one_10.Text = number.SubString2(1,2)
+	lbl_player_one_1.Text = number.SubString2(2,3)
 	number = p1.Get("maken")
-	lbl_player_one_make_100.Text = number.SubString2(1,1)
-	lbl_player_one_make_10.Text = number.SubString2(2,1)
-	lbl_player_one_make_1.Text = number.SubString2(3,1)
+	lbl_player_one_make_100.Text = number.SubString2(0,1)
+	lbl_player_one_make_10.Text = number.SubString2(1,2)
+	lbl_player_one_make_1.Text = number.SubString2(2,3)
 	lbl_player_one_moyenne.Text = p1.Get("moyenne")
-	lbl_player_one_perc.Text = p1.Get("maken")
+	lbl_player_one_perc.Text = p1.Get("percentage")
 	
 	lbl_player_two_name.Text = p2.Get("naam")
 	number = p2.Get("caram")
-	lbl_player_two_100.Text = number.SubString2(1,1)
-	lbl_player_two_10.Text = number.SubString2(2,1)
-	lbl_player_two_1.Text = number.SubString2(3,1)
+	lbl_player_two_100.Text = number.SubString2(0,1)
+	lbl_player_two_10.Text = number.SubString2(1,2)
+	lbl_player_two_1.Text = number.SubString2(2,3)
 	number = p2.Get("maken")
-	lbl_player_two_make_100.Text = number.SubString2(1,1)
-	lbl_player_two_make_10.Text = number.SubString2(2,1)
-	lbl_player_two_make_1.Text = number.SubString2(3,1)
+	lbl_player_two_make_100.Text = number.SubString2(0,1)
+	lbl_player_two_make_10.Text = number.SubString2(1,2)
+	lbl_player_two_make_1.Text = number.SubString2(2,3)
 	lbl_player_two_moyenne.Text = p2.Get("moyenne")
-	lbl_player_two_perc.Text = p2.Get("maken")
+	lbl_player_two_perc.Text = p2.Get("percentage")
 	
 	lbl_innings.Text = score.Get("beurten")
 	lbl_partij_duur.Text = score.Get("spelduur")
