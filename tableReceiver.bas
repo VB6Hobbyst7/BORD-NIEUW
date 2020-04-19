@@ -36,6 +36,7 @@ Private Sub client_Connected (Success As Boolean)
 		connected = True
 		client.Subscribe("all/#", 0)
 		client.Publish2("all/connect", serializator.ConvertObjectToBytes(currentName), 0, False)
+		funcScorebord.isBordClient = True
 	Else
 		Log("Error connecting: " & LastException)
 	End If
@@ -52,7 +53,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 	Else
 		Dim m As Message = receivedObject
 	'	Main.NewMessage(m)
-	Log($"LAST MESSAGE : ${m}"$)
+	'Log($"LAST MESSAGE : ${m}"$)
 	CallSub2(scorebord, "UpdateBordWhenClient", m.Body)
 	End If
 		

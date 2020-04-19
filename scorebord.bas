@@ -231,6 +231,9 @@ End Sub
 
 'PROCESS SCORE P1
 Sub p1Points_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
 	Dim lbl As Label = Sender
 	setP1Name
 	funcScorebord.calcScorePlayerOne(lbl.Tag, EventData.PrimaryButtonPressed)
@@ -239,6 +242,9 @@ End Sub
 
 'PROCESS SCORE P2
 Sub p2Points_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
 	Dim lbl As Label = Sender
 	setP2Name
 	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
@@ -250,17 +256,27 @@ End Sub
 
 'PROCESS P1 TO MAKE
 Sub p1ToMake_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
 	Dim lbl As Label = Sender
 	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
 End Sub
 
 'PROCESS P2 TO MAKE
 Sub p2ToMake_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
 	Dim lbl As Label = Sender
 	funcScorebord.playerTwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
 End Sub
 
 Sub lbl_innings_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
+	
 	Dim points As Int = lbl_innings.Text
 		
 	If EventData.PrimaryButtonPressed Then
@@ -283,6 +299,10 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
+	
 	funcScorebord.calcMoyenneP2
 	setP1Name
 	If funcScorebord.inningSet = 0 And funcScorebord.autoInnings = True Then
@@ -298,6 +318,10 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
+	
 	setP2Name
 '	If funcScorebord.autoInnings = True Then
 '		funcScorebord.inningSet = 1
@@ -611,6 +635,10 @@ Sub lbl_reset_MouseExited (EventData As MouseEvent)
 End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then
+		Return
+	End If
+	
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
 '		clsCheckCfg.enabledTimer(False)
@@ -922,6 +950,9 @@ End Sub
 
 Sub WriteScoreJson
 	Dim Scr, strAanStoot As String
+	If File.Exists(PartijFolder, "currscore.json") = False Then
+		File.Copy(File.DirAssets, "currscore.json", PartijFolder, "currscore.json")
+	End If
 	Scr = File.ReadString(PartijFolder, "currscore.json")
 	
 	strAanStoot = aanStoot
@@ -1025,15 +1056,15 @@ Sub UpdateBordWhenClient(data As String)
 '	Dim percentage As String = p2.Get("percentage")
 '	Dim naam As String = p2.Get("naam")
 '	Dim maken As String = p2.Get("maken")
-'	Dim moyenne As String = p2.Get("moyenne")
-'	Dim aan_stoot As Map = score.Get("aan_stoot")
-'	Dim speler As String = aan_stoot.Get("speler")
-'	Dim spelduur As Map = score.Get("spelduur")
-'	Dim tijd As String = spelduur.Get("tijd")
+	Dim moyenne As String = p2.Get("moyenne")
+	Dim aan_stoot As Map = score.Get("aan_stoot")
+	Dim speler As String = aan_stoot.Get("speler")
+	Dim spelduur As Map = score.Get("spelduur")
+	Dim tijd As String = spelduur.Get("tijd")
 '	Dim autoinnings As Map = score.Get("autoinnings")
 '	Dim value As String = autoinnings.Get("value")
-'	Dim beurten As Map = score.Get("beurten")
-'	Dim aantal As String = beurten.Get("aantal")
+	Dim beurten As Map = score.Get("beurten")
+	Dim aantal As String = beurten.Get("aantal")
 	
 	lbl_player_one_name.Text = p1.Get("naam")
 	number = p1.Get("caram")
@@ -1059,8 +1090,13 @@ Sub UpdateBordWhenClient(data As String)
 	lbl_player_two_moyenne.Text = p2.Get("moyenne")
 	lbl_player_two_perc.Text = p2.Get("percentage")
 	
-	lbl_innings.Text = score.Get("beurten")
-	lbl_partij_duur.Text = score.Get("spelduur")
+	lbl_innings.Text = aantal'score.Get("beurten")
+	lbl_partij_duur.Text = tijd'score.Get("spelduur")
+	If speler = 1 Then
+		setP1Name
+	Else
+		setP2Name
+	End If
 End Sub
 
 

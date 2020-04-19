@@ -12,7 +12,7 @@ Sub Process_Globals
 	Public beurtenPartij, gameStarted As Boolean = False
 	Public beurtenPartijBeurten As Int
 	Public kraai As Int = 0
-	Public useDigitalFont As Boolean
+	Public useDigitalFont, isBordClient As Boolean
 	Public useYellowFont As Boolean
 	Public error As String
 	Public BordVersion As String = "v 1.1.0"
