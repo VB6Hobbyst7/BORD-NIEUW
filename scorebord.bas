@@ -292,6 +292,9 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	End If
 	funcScorebord.processHs("all")
 	WriteScoreJson
+	If bordServer.brokerStarted = True Then
+		CreateJsonFormMqttClient
+	End If
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
@@ -305,6 +308,10 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
 	WriteScoreJson
+	If bordServer.brokerStarted = True Then
+		CreateJsonFormMqttClient
+	End If
+	
 End Sub
 
 Sub playerOnePerc(perc As String)
@@ -1052,7 +1059,8 @@ Sub UpdateBordWhenClient(data As String)
 	lbl_player_two_moyenne.Text = p2.Get("moyenne")
 	lbl_player_two_perc.Text = p2.Get("maken")
 	
-	
+	lbl_innings.Text = score.Get("beurten")
+	lbl_partij_duur.Text = score.Get("spelduur")
 End Sub
 
 
