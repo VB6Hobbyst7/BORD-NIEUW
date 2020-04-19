@@ -93,7 +93,7 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
-	If 1=2 Then
+	If 1=1 Then
 		bordServer.Initialize
 		bordServer.ConnectTo()
 	Else

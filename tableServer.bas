@@ -23,7 +23,7 @@ End Sub
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
 	broker1.Initialize("", port) 'first parameter is the event name. It is currently not used.
-	broker1.DebugLog = False
+	broker1.DebugLog = True
 	users.Initialize
 '	isServer = True
 End Sub
