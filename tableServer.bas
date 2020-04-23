@@ -50,7 +50,7 @@ Public Sub ConnectTo()
 End Sub
 
 Private Sub client_Connected (Success As Boolean)
-	Log($"Connected: ${Success}"$)
+	'Log($"Connected: ${Success}"$)
 	If Success Then
 		connected = True
 		client.Subscribe("all/#", 0)

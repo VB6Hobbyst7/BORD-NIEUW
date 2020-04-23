@@ -636,7 +636,7 @@ Sub lbl_reset_MouseExited (EventData As MouseEvent)
 End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
+	If bordClient.connected = True Then
 		Return
 	End If
 	
@@ -679,7 +679,7 @@ Sub showPromote
 End Sub
 
 Sub drawPromote(x As Double, y As Double)
-	pn_promote.SetLayoutAnimated(250, x, y, pn_promote.Width, pn_promote.Height)
+	pn_promote.SetLayoutAnimated(0, x, y, pn_promote.Width, pn_promote.Height)
 	Sleep(0)
 End Sub
 
@@ -1223,14 +1223,38 @@ Sub StartStopClientServer
 	End If
 	If enabled = "1" And server <> "0.0.0.0" Then
 		If bordClient.connected = False Then
+			'DISABLE SCREENSAVER
+			inactivecls.enableTime(False)
 			bordClient.ConnectTo(server, "cleint" & Rnd(1, 10000000))
+			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "mirror_scaled.png")
 		End If
 		Return
 	End If
 	If enabled = "0" And server <> "0.0.0.0" Then
 		If bordClient.connected Then
+			'ENABLE SCREENSAVER
+			inactivecls.enableTime(True)
 			bordClient.Disconnect
+			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
 		End If
 		Return
 	End If
+End Sub
+
+
+Sub pn_promote_MouseClicked (EventData As MouseEvent)
+	Try
+		If promoteRunning = True Then
+			pn_promote.Top = pn_promote_top
+			pn_promote.left = pn_promote_left
+			Sleep(0)
+			inactivecls.lastClick = DateTime.Now
+			inactivecls.enableTime(True)
+			inactivecls.enablePromote(False)
+			promoteRunning = False
+			Sleep(300)
+		End If
+	Catch
+		File.WriteString(File.DirApp,"lastErr.txt", LastException.Message)
+	End Try
 End Sub
