@@ -52,6 +52,7 @@ Sub Process_Globals
 
 	Dim bordServer As tableServer
 	Dim bordClient As tableReceiver
+	
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -93,13 +94,13 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
-	If 1=1 Then
+'	If 1=1 Then
 		bordServer.Initialize
-		bordServer.ConnectTo()
-	Else
+'		bordServer.ConnectTo()
+'	Else
 		bordClient.Initialize
-		bordClient.ConnectTo("192.168.1.41", "Client")
-	End If
+'		bordClient.ConnectTo("192.168.1.41", "Client")
+'	End If
 	
 	
 	
@@ -678,7 +679,7 @@ Sub showPromote
 End Sub
 
 Sub drawPromote(x As Double, y As Double)
-	pn_promote.SetLayoutAnimated(0, x, y, pn_promote.Width, pn_promote.Height)
+	pn_promote.SetLayoutAnimated(250, x, y, pn_promote.Width, pn_promote.Height)
 	Sleep(0)
 End Sub
 
@@ -1190,6 +1191,46 @@ End Sub
 
 Sub lbl_innings_MouseExited (EventData As MouseEvent)
 	lbl_innings.Style ="-fx-background-color: #000053; -fx-text-fill: yellow;"
-	
 End Sub
 
+
+Sub StartStopClientServer
+	'Log(strMqtt)
+	'Log(File.ReadString(func.appPath, "mqtt.conf"))
+	'Return
+	Dim parser As JSONParser
+	parser.Initialize(File.ReadString(func.appPath, "mqtt.conf"))
+	Dim root As Map = parser.NextObject
+	Dim mqttClients As Map = root.Get("mqttClients")
+	Dim server As String = mqttClients.Get("server")
+	Dim enabled As String = mqttClients.Get("enabled")
+	
+	server = server.Replace("_", ".")
+	If enabled = "1" And server = "0.0.0.0" Then
+		If bordServer.brokerStarted = False Then
+			bordServer.ConnectTo()
+			lbl_partij_duur.TextColor = fx.Colors.Yellow
+		End If
+		Return
+	End If
+	
+	If enabled = "0" And server = "0.0.0.0" Then
+		If bordServer.brokerStarted Then
+			bordServer.StopServer
+		End If
+		lbl_partij_duur.TextColor = fx.Colors.LightGray
+		Return
+	End If
+	If enabled = "1" And server <> "0.0.0.0" Then
+		If bordClient.connected = False Then
+			bordClient.ConnectTo(server, "cleint" & Rnd(1, 10000000))
+		End If
+		Return
+	End If
+	If enabled = "0" And server <> "0.0.0.0" Then
+		If bordClient.connected Then
+			bordClient.Disconnect
+		End If
+		Return
+	End If
+End Sub

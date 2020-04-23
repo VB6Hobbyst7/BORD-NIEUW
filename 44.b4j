@@ -7,15 +7,16 @@ File11=logo.png
 File12=main.bjl
 File13=Montserrat-Regular.ttf
 File14=mouse.png
-File15=n205.css
-File16=nieuwe_partij.bjl
-File17=ODT0.gif
-File18=players.bjl
-File19=retrobord.bjl
+File15=mqtt.conf
+File16=n205.css
+File17=nieuwe_partij.bjl
+File18=ODT0.gif
+File19=players.bjl
 File2=bord_leden.db
-File20=score.json
-File21=scorebord.bjl
-File22=share_score.json
+File20=retrobord.bjl
+File21=score.json
+File22=scorebord.bjl
+File23=share_score.json
 File3=ClubSpelers.bjl
 File4=cnf.44
 File5=currscore.json
@@ -38,6 +39,7 @@ FileGroup2=Default Group
 FileGroup20=Default Group
 FileGroup21=Default Group
 FileGroup22=Default Group
+FileGroup23=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -50,6 +52,7 @@ Library1=jcore
 Library10=jrandomaccessfile
 Library11=jmqtt
 Library12=jmqttbroker2
+Library13=jfilewatcher
 Library2=jfx
 Library3=jokhttputils2
 Library4=xui views
@@ -81,8 +84,8 @@ Module6=classUpdate
 Module7=einde_partij
 Module8=error_bord
 Module9=func
-NumberOfFiles=22
-NumberOfLibraries=12
+NumberOfFiles=23
+NumberOfLibraries=13
 NumberOfModules=23
 Version=8.1
 @EndOfDesignText@
@@ -105,6 +108,7 @@ Sub Process_Globals
 	Private result1 As Boolean = True
 	
 	Type Message (Body As String, From As String)
+	Dim fw As FileWatcher
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
@@ -117,6 +121,7 @@ Sub AppStart (Form1 As Form, Args() As String)
 	
 	func.GetAppPath
 	CheckNetwork
+	fw.Initialize("fw")
 	
 	Select os
 		Case "windows"
@@ -131,11 +136,18 @@ Sub AppStart (Form1 As Form, Args() As String)
 			#End if
 			
 	End Select
-	
+'	Log(func.appPath)
+'	Log(func.appPath & "mqtt.conf")
+'	Log(appFolder)
 	func.GetClubMembers
-	
+	fw.SetWatchList(Array As String(func.appPath))
+	fw.StartWatching
 	If result1 Then
-		LogDebug(func.appPath)
+'		LogDebug(func.appPath)
+		
+		If File.Exists(func.appPath, "mqtt.conf") = False Then
+			File.Copy(File.DirAssets, "mqtt.conf", func.appPath, "")
+		End If
 		If File.Exists(func.appPath, "cnf.44") = False Then
 			File.Copy(File.DirAssets, "cnf.44", func.appPath, "")
 		End If
@@ -186,5 +198,16 @@ End Sub
 
 Sub CheckNetwork
 	func.getIpNumber
-	
+End Sub
+
+Sub fw_ModificationDetected(FileName As String)
+'	Log($"$DateTime{DateTime.Now} - ${FileName}"$)
+	'Dim strMqtt As String
+	If FileName = "mqtt.conf" Then
+		Sleep(200)
+	'	strMqtt = File.ReadString(func.appPath, "mqtt.conf")
+	'	Log(strMqtt)
+		'CallSub2(scorebord, "StartStopClientServer", strMqtt)
+		CallSub(scorebord, "StartStopClientServer")
+	End If
 End Sub

@@ -23,7 +23,7 @@ End Sub
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
 	broker1.Initialize("", port) 'first parameter is the event name. It is currently not used.
-	broker1.DebugLog = True
+	broker1.DebugLog = False
 	users.Initialize
 '	isServer = True
 End Sub
@@ -77,7 +77,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 		'CallSubDelayed2(Chat, "NewUsers", newUsers) 'this will start the chat activity if it wasn't started yet.
 	Else
 		Dim m As Message = receivedObject
-		Log($"NEW MESSAGE : ${m}"$)
+		'Log($"NEW MESSAGE : ${m}"$)
 		'CallSub2(Chat, "NewMessage", m)
 	End If
 		
@@ -87,6 +87,12 @@ Public Sub SendMessage(Body As String)
 	If connected Then
 		client.Publish2("all", CreateMessage(Body), 0, False)
 	End If
+End Sub
+
+Public Sub StopServer
+	client.Close
+	broker1.Stop
+	brokerStarted = False
 End Sub
 
 Private Sub CreateMessage(Body As String) As Byte()
