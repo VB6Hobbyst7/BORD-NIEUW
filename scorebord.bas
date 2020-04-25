@@ -1222,6 +1222,7 @@ Sub StartStopClientServer
 		Return
 	End If
 	If enabled = "1" And server <> "0.0.0.0" Then
+		Log($"$DateTime{DateTime.Now} - CLIENT CONNECTED IS ${bordClient.connected}"$)
 		If bordClient.connected = False Then
 			'DISABLE SCREENSAVER
 			inactivecls.enableTime(False)

@@ -46,6 +46,7 @@ Sub Process_Globals
 	Private lbl_close As Label
 	
 	Public verDbExists As Boolean = False
+	
 End Sub
 
 
@@ -433,3 +434,4 @@ End Sub
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
 	ExitApplication
 End Sub
+

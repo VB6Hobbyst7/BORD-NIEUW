@@ -31,6 +31,8 @@ Public Sub ConnectTo(Host As String, Name As String)
 End Sub
 
 Private Sub client_Connected (Success As Boolean)
+	Try
+	
 	Log($"Connected: ${Success}"$)
 	If Success Then
 		connected = True
@@ -40,6 +42,9 @@ Private Sub client_Connected (Success As Boolean)
 	Else
 		Log("Error connecting: " & LastException)
 	End If
+	Catch 
+		Log($"FOUTJE ${LastException}"$)
+	End Try	
 End Sub
 
 Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
@@ -70,6 +75,7 @@ Public Sub Disconnect
 		connected = False
 		client.Publish2("all/disconnect", serializator.ConvertObjectToBytes(currentName), 0, False)
 		client.Close
+		Sleep(1000)
 	End If
 End Sub
 
