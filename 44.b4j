@@ -119,6 +119,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 	Dim os As String = parseConfig.DetectOS
 	Dim appFolder As String
 	
+	funcScorebord.isBordClient = False
+	
 	func.GetAppPath
 	CheckNetwork
 	fw.Initialize("fw")

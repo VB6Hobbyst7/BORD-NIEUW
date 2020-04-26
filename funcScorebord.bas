@@ -378,6 +378,12 @@ Sub calcMoyenne(mPlayerOne As Label, mPlayerTwo As Label)
 	mPlayerTwo.Text = NumberFormat2((scorePlayerTwo/innings),1,3,3,False)
 End Sub
 
+
+Public Sub SetProgressBarForMirror
+	setProgress(p1_progressBar, p1_progress)
+	setProgress(p2_progressBar, p2_progress)
+End Sub
+
 Public Sub PlayCrow(dir As String, fileName As String)
 	'Log(dir&fileName)
 	Dim js As  Shell

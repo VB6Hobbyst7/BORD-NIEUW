@@ -1079,6 +1079,9 @@ Sub UpdateBordWhenClient(data As String)
 	lbl_player_one_moyenne.Text = p1.Get("moyenne")
 	lbl_player_one_perc.Text = p1.Get("percentage")
 	
+	funcScorebord.p1_progress = ( p1.Get("caram")/p1.Get("maken"))*100
+	funcScorebord.p2_progress = ( p2.Get("caram")/p2.Get("maken"))*100
+	
 	lbl_player_two_name.Text = p2.Get("naam")
 	number = p2.Get("caram")
 	lbl_player_two_100.Text = number.SubString2(0,1)
@@ -1093,6 +1096,9 @@ Sub UpdateBordWhenClient(data As String)
 	
 	lbl_innings.Text = aantal'score.Get("beurten")
 	lbl_partij_duur.Text = tijd'score.Get("spelduur")
+	'setProgress(p1_progressBar, p1_progress)
+	
+	CallSub(funcScorebord, "SetProgressBarForMirror")
 	If speler = 1 Then
 		setP1Name
 	Else
@@ -1225,7 +1231,18 @@ Sub StartStopClientServer
 		Log($"$DateTime{DateTime.Now} - CLIENT CONNECTED IS ${bordClient.connected}"$)
 		If bordClient.connected = False Then
 			'DISABLE SCREENSAVER
+			If promoteRunning = True Then
+				pn_promote.Top = pn_promote_top
+				pn_promote.left = pn_promote_left
+				Sleep(0)
+				inactivecls.lastClick = DateTime.Now
+				inactivecls.enableTime(True)
+				inactivecls.enablePromote(False)
+				promoteRunning = False
+				Sleep(300)
+			End If
 			inactivecls.enableTime(False)
+			clsGameTime.tmrEnable(False)
 			bordClient.ConnectTo(server, "cleint" & Rnd(1, 10000000))
 			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "mirror_scaled.png")
 		End If
@@ -1235,6 +1252,7 @@ Sub StartStopClientServer
 		If bordClient.connected Then
 			'ENABLE SCREENSAVER
 			inactivecls.enableTime(True)
+			clsGameTime.tmrEnable(True)
 			bordClient.Disconnect
 			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
 		End If

@@ -72,6 +72,7 @@ End Sub
 
 Public Sub Disconnect
 	If connected Then
+		funcScorebord.isBordClient = False
 		connected = False
 		client.Publish2("all/disconnect", serializator.ConvertObjectToBytes(currentName), 0, False)
 		client.Close
