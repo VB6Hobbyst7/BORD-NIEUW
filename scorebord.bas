@@ -1067,6 +1067,10 @@ Sub UpdateBordWhenClient(data As String)
 	Dim beurten As Map = score.Get("beurten")
 	Dim aantal As String = beurten.Get("aantal")
 	
+	If clsCheckCfg.retroVisible Then
+		
+	End If
+	
 	lbl_player_one_name.Text = p1.Get("naam")
 	number = p1.Get("caram")
 	lbl_player_one_100.Text = number.SubString2(0,1)
@@ -1236,7 +1240,7 @@ Sub StartStopClientServer
 				pn_promote.left = pn_promote_left
 				Sleep(0)
 				inactivecls.lastClick = DateTime.Now
-				inactivecls.enableTime(True)
+				inactivecls.enableTime(False)
 				inactivecls.enablePromote(False)
 				promoteRunning = False
 				Sleep(300)
@@ -1255,6 +1259,7 @@ Sub StartStopClientServer
 			clsGameTime.tmrEnable(True)
 			bordClient.Disconnect
 			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+			CheckGameStop
 		End If
 		Return
 	End If
