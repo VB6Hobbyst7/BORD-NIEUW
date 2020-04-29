@@ -59,6 +59,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 		Dim m As Message = receivedObject
 	'	Main.NewMessage(m)
 	'Log($"LAST MESSAGE : ${m}"$)
+	Log($"RETRO BORD AKTIED = ${funcScorebord.bordIsRetro}"$)
 	CallSub2(scorebord, "UpdateBordWhenClient", m.Body)
 	End If
 		

@@ -39,14 +39,15 @@ Sub Process_Globals
 	Private lbl_player_one_1, lbl_player_one_10, lbl_player_one_100 As Label
 	Private lbl_message_1, lbl_message_2, lbl_message_3, lbl_message_4, lbl_message_5 As Label
 	Private lbl_game_text, lbl_ip, lbl_p1_inning, lbl_p2_inning, Label7, Label6, lbl_version As Label
-	Private lbl_img_sponsore As Label
-	Private lbl_date_time_dag As Label
-	Private lbl_date_time_date As Label
-	Private lbl_partij_duur As Label
-	Private lbl_spel_soort As Label
-	Private lbl_partij_duur_header As Label
-	Private lbl_has_inet As Label
-	Private lbl_beurten_header As Label
+	Private lbl_img_sponsore, lbl_date_time_dag, lbl_date_time_date, lbl_partij_duur As Label
+	Private lbl_spel_soort, lbl_partij_duur_header, lbl_has_inet, lbl_beurten_header As Label
+	
+	'Private lbl_date_time_dag As Label
+	'Private lbl_date_time_date As Label
+	'Private lbl_partij_duur As Label
+	'Private lbl_partij_duur_header As Label
+	'Private lbl_has_inet As Label
+	'Private lbl_beurten_header As Label
 '	Private lbl_kraai As Label
 '	Private ImageView2 As ImageView
 
@@ -94,15 +95,8 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
-'	If 1=1 Then
-		bordServer.Initialize
-'		bordServer.ConnectTo()
-'	Else
-		bordClient.Initialize
-'		bordClient.ConnectTo("192.168.1.41", "Client")
-'	End If
-	
-	
+	bordServer.Initialize
+	bordClient.Initialize
 	
 	lbl_version.Text = func.getVersion
 	funcScorebord.lblInnings = lbl_innings
@@ -1042,6 +1036,8 @@ End Sub
 Sub UpdateBordWhenClient(data As String)
 	Dim number As String
 	
+	Log($"RETRO BORD AKTIEF IS ${funcScorebord.bordIsRetro}"$)
+	
 	Dim parser As JSONParser
 	parser.Initialize(data)
 	Dim root As Map = parser.NextObject
@@ -1067,8 +1063,14 @@ Sub UpdateBordWhenClient(data As String)
 	Dim beurten As Map = score.Get("beurten")
 	Dim aantal As String = beurten.Get("aantal")
 	
-	If clsCheckCfg.retroVisible Then
-		
+	'PARSE DATA TO RETRO
+	If funcScorebord.bordIsRetro Then
+		Log($"RETRO BORD"$)
+		retroBord.caromP1R =p1.Get("caram")
+		retroBord.caromP2R = p2.Get("caram")
+		retroBord.inningR = beurten.Get("aantal")
+		CallSubDelayed(retroBord, "SetMirrorScore")
+		Return
 	End If
 	
 	lbl_player_one_name.Text = p1.Get("naam")
@@ -1247,7 +1249,7 @@ Sub StartStopClientServer
 			End If
 			inactivecls.enableTime(False)
 			clsGameTime.tmrEnable(False)
-			bordClient.ConnectTo(server, "cleint" & Rnd(1, 10000000))
+			bordClient.ConnectTo(server, "client" & Rnd(1, 10000000))
 			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "mirror_scaled.png")
 		End If
 		Return

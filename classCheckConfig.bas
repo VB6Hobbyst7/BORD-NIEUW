@@ -65,10 +65,12 @@ public Sub ProcessRetro(strRetro As String)
 	
 	
 	If active = "1" Then
+		funcScorebord.bordIsRetro = True
 		retroVisible = True
 		scorebord.frm.RootPane.Visible = False
 		retroBord.showBord
 	Else
+		funcScorebord.bordIsRetro = False
 		retroVisible = False
 		retroBord.frm.Close
 		scorebord.frm.RootPane.Visible = True

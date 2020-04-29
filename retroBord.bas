@@ -8,29 +8,16 @@ Version=8.1
 Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
-
-	Private p1_100 As Label
-	Private p1_10 As Label
-	Private p1_1 As Label
 	
-	Private p2_100 As Label
-	Private p2_10 As Label
-	Private p2_1 As Label
-	
-	Private Inning_10 As Label
-	Private Inning_1 As Label
-	
+	Private p1_100, p1_10, p1_1 As Label
+	Private p1_1_8,  p1_10_8,  p1_100_8 As Label
+	Private p2_100, p2_10, p2_1 As Label
+	Private p2_1_8,  p2_10_8,  p2_100_8 As Label
+	Private Inning_10, Inning_1 As Label
+	Private Inning_1_8, Inning_10_8 As Label
 	Private LblReset As B4XView
-	
 	Private lblCopyright As Label
-	Private p1_1_8 As Label
-	Private p1_10_8 As Label
-	Private p1_100_8 As Label
-	Private p2_1_8 As Label
-	Private p2_10_8 As Label
-	Private p2_100_8 As Label
-	Private Inning_1_8 As Label
-	Private Inning_10_8 As Label
+	Public caromP1R As String, caromP2R As String, inningR As String
 End Sub
 
 
@@ -272,3 +259,18 @@ Sub lblCopyright_MousePressed (EventData As MouseEvent)
 		ExitApplication
 	End If
 End Sub
+
+Public Sub SetMirrorScore()
+	Log($"RETRO SET MIRROR SCORE"$)
+	p1_100.Text = caromP1R.SubString2(0,1)
+	p1_10.Text = caromP1R.SubString2(1,2)
+	p1_1.Text = caromP1R.SubString2(2,3)
+	
+	p2_100.Text = caromP2R.SubString2(0,1)
+	p2_10.Text = caromP2R.SubString2(1,2)
+	p2_1.Text = caromP2R.SubString2(2,3)
+	
+	Inning_10.Text = inningR.SubString2(1,2)
+	Inning_1.Text = inningR.SubString2(2,3)
+End Sub
+
