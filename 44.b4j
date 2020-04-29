@@ -205,6 +205,8 @@ Sub CheckNetwork
 End Sub
 
 Sub fw_ModificationDetected(FileName As String)
+	Log($"$DateTime{DateTime.Now} - ${FileName}"$)
+	'Dim strMqtt As String
 	If FileName = "mqtt.conf" Then
 		Sleep(300)
 		CallSub(scorebord, "StartStopClientServer")
