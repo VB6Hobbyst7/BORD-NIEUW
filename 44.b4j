@@ -106,7 +106,7 @@ Sub Process_Globals
 	Private ext As String = ".conf"
 	Private ixt As String = "pi"
 	Private result1 As Boolean = True
-	Private fwName as String
+	Private fwName As String
 	
 	Type Message (Body As String, From As String)
 	Dim fw As FileWatcher
@@ -206,8 +206,8 @@ Sub CheckNetwork
 End Sub
 
 Sub fw_ModificationDetected(FileName As String)
-	Log($"$DateTime{DateTime.Now} - ${FileName}"$)
-	'Dim strMqtt As String
+	
+	Log($"$DateTime{DateTime.Now} -${func.appPath} ${FileName} CREATED ${fw.GetLastModifiedTime(File.Combine(func.appPath, FileName))}"$)
 	
 	If FileName = "mqtt.conf" Then
 		Sleep(300)
