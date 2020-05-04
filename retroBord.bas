@@ -60,26 +60,30 @@ End Sub
 
 Sub useDigitalFont(useDigital As Boolean)
 	Dim fsCarom, fsInnings As Int
+	Dim lst As List
 	
 	fsCarom = 300'350
 	fsInnings = 300'300
+	lst.Initialize
 	
-	func.setFontRetro(p1_100, fsCarom, useDigital)
-	func.setFontRetro(p1_10, fsCarom, useDigital)
-	func.setFontRetro(p1_1, fsCarom, useDigital)
-	func.setFontRetro(p1_1_8, fsCarom, useDigital)
-	func.setFontRetro(p1_10_8, fsCarom, useDigital)
-	func.setFontRetro(p1_100_8, fsCarom, useDigital)
-	func.setFontRetro(p2_1_8, fsCarom, useDigital)
-	func.setFontRetro(p2_10_8, fsCarom, useDigital)
-	func.setFontRetro(p2_100_8, fsCarom, useDigital)
-	func.setFontRetro(p2_1, fsCarom, useDigital)
-	func.setFontRetro(p2_10, fsCarom, useDigital)
-	func.setFontRetro(p2_100, fsCarom, useDigital)
-	func.setFontRetro(Inning_10, fsInnings, useDigital)
-	func.setFontRetro(Inning_1, fsInnings, useDigital)
-	func.setFontRetro(Inning_1_8, fsInnings, useDigital)
-	func.setFontRetro(Inning_10_8, fsInnings, useDigital)
+	lst.AddAll(Array As B4XView(p1_100, p1_10, p1_1, p1_100_8, p1_10_8, p1_1_8, p2_100, p2_10, p2_1, p2_100_8, p2_10_8, p2_1_8, Inning_10, Inning_1, Inning_10_8, Inning_1_8))
+	func.setFontRetroList(lst, fsCarom, useDigital)
+'	func.setFontRetro(p1_100, fsCarom, useDigital)
+'	func.setFontRetro(p1_10, fsCarom, useDigital)
+'	func.setFontRetro(p1_1, fsCarom, useDigital)
+'	func.setFontRetro(p1_1_8, fsCarom, useDigital)
+'	func.setFontRetro(p1_10_8, fsCarom, useDigital)
+'	func.setFontRetro(p1_100_8, fsCarom, useDigital)
+'	func.setFontRetro(p2_1_8, fsCarom, useDigital)
+'	func.setFontRetro(p2_10_8, fsCarom, useDigital)
+'	func.setFontRetro(p2_100_8, fsCarom, useDigital)
+'	func.setFontRetro(p2_1, fsCarom, useDigital)
+'	func.setFontRetro(p2_10, fsCarom, useDigital)
+'	func.setFontRetro(p2_100, fsCarom, useDigital)
+'	func.setFontRetro(Inning_10, fsInnings, useDigital)
+'	func.setFontRetro(Inning_1, fsInnings, useDigital)
+'	func.setFontRetro(Inning_1_8, fsInnings, useDigital)
+'	func.setFontRetro(Inning_10_8, fsInnings, useDigital)
 End Sub
 
 Sub lblCopyright_MouseReleased (EventData As MouseEvent)
@@ -87,14 +91,17 @@ Sub lblCopyright_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub LblReset_MouseReleased (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then Return
 	ResetPartij
 End Sub
 
 Sub LblReset_MouseEntered (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then Return
 	LblReset.Color = 0xFFFF0000
 End Sub
 
 Sub LblReset_MouseExited (EventData As MouseEvent)
+	If funcScorebord.isBordClient = True Then Return
 	LblReset.Color = 0xFF001317 '0xFF002529
 End Sub
 

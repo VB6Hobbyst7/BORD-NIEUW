@@ -68,6 +68,19 @@ Public Sub setFontRetro(lbl As Label, size As Int, digital As Boolean)
 	End If
 End Sub
 
+Public Sub setFontRetroList(lst As List, size As Int, digital As Boolean)
+	Dim lbl As B4XView
+	For i = 0 To lst.Size-1
+		lbl = lst.Get(i)
+		Dim jo As JavaObject=lbl'lst.Get(i)
+		If digital Then
+			jo.runMethod("setFont",Array(fx.LoadFont(File.DirAssets,"digital-7_italic.ttf", size)))
+		Else
+			'lbl.Style = $"-fx-font-family: Arial; -fx-font-size: ${size};"$
+		End If
+	Next
+End Sub
+
 Public Sub setFontColor(lbl As Label, yellow As Boolean)
 	If yellow Then
 		lbl.Style = "-fx-text-fill: #ffff00;" '= fx.Colors.From32Bit(0xFFFFFF00)

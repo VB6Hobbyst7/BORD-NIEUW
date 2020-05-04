@@ -1,7 +1,7 @@
 {
   "showPromote": {
     "active": "1",
-    "timeOut": "10"
+    "timeOut": "5"
   },
   "digitalFont": {
     "active": "1"
@@ -13,13 +13,19 @@
     "useLightSchema": "0"
   },
   "message": {
-    "line_1": "Dit is een test bericht",
-    "line_2": "",
-    "line_3": "Blijf kalm",
+    "line_1": "",
+    "line_2": "Tijdens het biljarten",
+    "line_3": "horloges af A.U.B.",
     "line_4": "",
-    "line_5": "Neem een versnapering van het huis"
+    "line_5": ""
   },
   "reclame": {
+    "active": "1"
+  },
+  "partijDuur": {
+    "active": "1"
+  },
+  "retroBord": {
     "active": "1"
   }
 }

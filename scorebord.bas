@@ -1114,7 +1114,7 @@ End Sub
 
 
 Sub CheckGameStop
-	Log($"PARTIJ FOLDER ${PartijFolder}"$)
+	'Log($"PARTIJ FOLDER ${PartijFolder}"$)
 	If File.Exists(PartijFolder, "currscore.json") Then
 		Dim Scr, maken, caram="" As String
 		Scr = File.ReadString(PartijFolder, "currscore.json")
@@ -1129,7 +1129,9 @@ Sub CheckGameStop
 		Dim beurten As Map = score.Get("beurten")
 		Dim spelduur As Map = score.Get("spelduur")
 		Dim autoInnings As Map = score.Get("autoinnings")
-		
+		If p1.Get("naam") = Null Then
+			Return
+		End If
 		funcScorebord.innings = beurten.Get("aantal")
 		
 		maken = p1.Get("maken")

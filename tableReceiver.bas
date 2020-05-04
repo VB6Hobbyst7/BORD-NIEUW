@@ -72,6 +72,7 @@ Public Sub SendMessage(Body As String)
 End Sub
 
 Public Sub Disconnect
+	Try
 	If connected Then
 		funcScorebord.isBordClient = False
 		connected = False
@@ -79,6 +80,9 @@ Public Sub Disconnect
 		client.Close
 		Sleep(1000)
 	End If
+	Catch
+		Log(LastException)
+		End Try
 End Sub
 
 Private Sub CreateMessage(Body As String) As Byte()

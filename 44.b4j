@@ -13,10 +13,11 @@ File17=nieuwe_partij.bjl
 File18=ODT0.gif
 File19=players.bjl
 File2=bord_leden.db
-File20=retrobord.bjl
-File21=score.json
-File22=scorebord.bjl
-File23=share_score.json
+File20=retro.cnf
+File21=retrobord.bjl
+File22=score.json
+File23=scorebord.bjl
+File24=share_score.json
 File3=ClubSpelers.bjl
 File4=cnf.44
 File5=currscore.json
@@ -40,6 +41,7 @@ FileGroup20=Default Group
 FileGroup21=Default Group
 FileGroup22=Default Group
 FileGroup23=Default Group
+FileGroup24=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -84,7 +86,7 @@ Module6=classUpdate
 Module7=einde_partij
 Module8=error_bord
 Module9=func
-NumberOfFiles=23
+NumberOfFiles=24
 NumberOfLibraries=13
 NumberOfModules=23
 Version=8.1
@@ -118,7 +120,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 	
 	Dim appPath As String = parseConfig.getAppPath
 	Dim os As String = parseConfig.DetectOS
-	Dim appFolder As String
+	
+'	Dim appFolder As String
 	
 	funcScorebord.isBordClient = False
 	
@@ -126,46 +129,33 @@ Sub AppStart (Form1 As Form, Args() As String)
 	CheckNetwork
 	fw.Initialize("fw")
 	
-	Select os
-		Case "windows"
-			appFolder = File.DirApp'&"\44\"
-			'	clsGen.general
-		Case "linux"
-			appFolder = File.DirApp'&"/44/"
-			
-			#If SALE
-			clsGen.Initialize
-			result1 = clsGen.validate
-			#End if
-			
-	End Select
+'	Select os
+'		Case "windows"
+'			appFolder = File.DirApp'&"\44\"
+'			'	clsGen.general
+'		Case "linux"
+'			appFolder = File.DirApp'&"/44/"
+'			
+'			#If SALE
+'			clsGen.Initialize
+'			result1 = clsGen.validate
+'			#End if
+'			
+'	End Select
 '	Log(func.appPath)
 '	Log(func.appPath & "mqtt.conf")
 '	Log(appFolder)
+	#If SALE
+	clsGen.Initialize
+	result1 = clsGen.validate
+	#End if
 	func.GetClubMembers
-
-		fw.SetWatchList(Array As String(func.appPath))
-		fw.StartWatching
 	
+	Log(func.appPath)
+	CopyCreateFilesFolders
+	fw.SetWatchList(Array As String(func.appPath))
+	fw.StartWatching
 	If result1 Then
-'		LogDebug(func.appPath)
-		
-		If File.Exists(func.appPath, "mqtt.conf") = False Then
-			File.Copy(File.DirAssets, "mqtt.conf", func.appPath, "")
-		End If
-		If File.Exists(func.appPath, "cnf.44") = False Then
-			File.Copy(File.DirAssets, "cnf.44", func.appPath, "")
-		End If
-		If File.IsDirectory(func.appPath, "media") = False Then
-			File.MakeDir(func.appPath, "media")
-		End If
-		If File.IsDirectory(func.appPath, "gepeelde_partijen") = False Then
-			File.MakeDir(func.appPath, "gespeelde_partijen")
-		End If
-		If File.IsDirectory(func.appPath, "vereniging_spelers") = False Then
-			File.MakeDir(func.appPath, "vereniging_spelers")
-		End If
-	
 		einde_partij.show
 		nieuwe_partij.show
 		If nieuwe_partij.verDbExists = True Then
@@ -212,5 +202,26 @@ Sub fw_ModificationDetected(FileName As String)
 	If FileName = "mqtt.conf" Then
 		Sleep(300)
 		CallSub(scorebord, "StartStopClientServer")
+	End If
+End Sub
+
+Sub CopyCreateFilesFolders
+	If File.Exists(func.appPath, "retro.cnf") = False Then
+		File.Copy(File.DirAssets, "retro.cnf", func.appPath, "retro.cnf")
+	End If
+	If File.Exists(func.appPath, "mqtt.conf") = False Then
+		File.Copy(File.DirAssets, "mqtt.conf", func.appPath, "mqtt.conf")
+	End If
+	If File.Exists(func.appPath, "cnf.44") = False Then
+		File.Copy(File.DirAssets, "cnf.44", func.appPath, "cnf.44")
+	End If
+	If File.IsDirectory(func.appPath, "media") = False Then
+		File.MakeDir(func.appPath, "media")
+	End If
+	If File.IsDirectory(func.appPath, "gepeelde_partijen") = False Then
+		File.MakeDir(func.appPath, "gespeelde_partijen")
+	End If
+	If File.IsDirectory(func.appPath, "vereniging_spelers") = False Then
+		File.MakeDir(func.appPath, "vereniging_spelers")
 	End If
 End Sub
