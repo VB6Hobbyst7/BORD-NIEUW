@@ -8,7 +8,13 @@ Sub Class_Globals
 '	Private fx As JFX
 	Private broker1 As MqttBroker
 	Private client As MqttClient
+	
 	Private const port As Int = 51042
+	Private const discoverPort As Int = 51049
+	Private autodiscover As UDPSocket
+	Private BroadcastTimer As Timer
+	Private server As ServerSocket 'ignore
+	
 	Private serializator As B4XSerializator
 	Public connected As Boolean
 	Public brokerStarted As Boolean
@@ -22,10 +28,26 @@ End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
+	autodiscover.Initialize("autodiscover",discoverPort , 9192)
+	BroadcastTimer.Initialize("BroadcastTimer", 1000)
+	
 	broker1.Initialize("", port) 'first parameter is the event name. It is currently not used.
 	broker1.DebugLog = False
 	users.Initialize
 '	isServer = True
+End Sub
+
+Private Sub BroadcastTimer_Tick
+	Dim address As String = GetBroadcastAddress
+	If address <> "" Then
+		Dim up As UDPPacket
+		up.Initialize(serializator.ConvertObjectToBytes(func.ipNumber), address, discoverPort)
+		autodiscover.Send(up)
+	End If
+End Sub
+
+Public Sub EnableBroadcastTimer(enable As Boolean)
+	BroadcastTimer.Enabled = enable
 End Sub
 
 Public Sub ConnectTo()
@@ -35,7 +57,6 @@ Public Sub ConnectTo()
 		If brokerStarted = False Then
 			broker1.Start
 			brokerStarted = True
-			
 		End If
 		users.Clear
 		host = "127.0.0.1"
@@ -101,4 +122,23 @@ Private Sub CreateMessage(Body As String) As Byte()
 	m.Body = Body
 	m.From = currentName
 	Return serializator.ConvertObjectToBytes(m)
+End Sub
+
+Private Sub GetBroadcastAddress As String
+	Dim niIterator As JavaObject
+	niIterator = niIterator.InitializeStatic("java.net.NetworkInterface").RunMethod("getNetworkInterfaces", Null)
+	Do While niIterator.RunMethod("hasMoreElements", Null)
+		Dim ni As JavaObject = niIterator.RunMethod("nextElement", Null)
+		If ni.RunMethod("isLoopback", Null) = False Then
+			Dim addresses As List = ni.RunMethod("getInterfaceAddresses", Null)
+			For Each ia As JavaObject In addresses
+				Dim broadcast As Object = ia.RunMethod("getBroadcast", Null)
+				If broadcast <> Null Then
+					Dim b As String = broadcast
+					Return b.SubString(1)
+				End If
+			Next
+		End If
+	Loop
+	Return ""
 End Sub

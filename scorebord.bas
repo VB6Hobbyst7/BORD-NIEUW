@@ -98,7 +98,7 @@ Public Sub show
 	bordServer.Initialize
 	bordClient.Initialize
 	
-	lbl_version.Text = func.getVersion
+'	lbl_version.Text = func.getVersion
 	funcScorebord.lblInnings = lbl_innings
 	funcScorebord.lbl_player_one_hs = lbl_player_one_hs
 	funcScorebord.lbl_player_two_hs = lbl_player_two_hs
@@ -135,7 +135,7 @@ Public Sub show
 	Dim strRetro As String = File.ReadString(func.appPath, "retro.cnf")
 	
 	clsCheckCfg.ProcessRetro(strRetro)
-	
+'	bordServer.Initialize
 '	clsNewGame.tmrEnable(True)
 End Sub
 
@@ -1231,6 +1231,7 @@ Sub StartStopClientServer
 	If enabled = "0" And server = "0.0.0.0" Then
 		If bordServer.brokerStarted Then
 			bordServer.StopServer
+			bordServer.EnableBroadcastTimer(False)
 		End If
 		lbl_partij_duur.TextColor = fx.Colors.LightGray
 		Return
@@ -1252,6 +1253,7 @@ Sub StartStopClientServer
 			inactivecls.enableTime(False)
 			clsGameTime.tmrEnable(False)
 			bordClient.ConnectTo(server, "client" & Rnd(1, 10000000))
+			bordServer.EnableBroadcastTimer(True)
 			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "mirror_scaled.png")
 		End If
 		Return
