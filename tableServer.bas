@@ -28,8 +28,8 @@ End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
-	autodiscover.Initialize("autodiscover",discoverPort , 9192)
-	BroadcastTimer.Initialize("BroadcastTimer", 1000)
+	autodiscover.Initialize("autodiscover",discoverPort , 8192)
+	BroadcastTimer.Initialize("BroadcastTimer", 5000)
 	
 	broker1.Initialize("", port) 'first parameter is the event name. It is currently not used.
 	broker1.DebugLog = False
