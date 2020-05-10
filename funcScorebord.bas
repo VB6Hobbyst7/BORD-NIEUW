@@ -14,7 +14,7 @@ Sub Process_Globals
 	Public kraai As Int = 0
 	Public useDigitalFont, isBordClient, bordIsRetro As Boolean
 	Public useYellowFont As Boolean
-	Public error As String
+	Public error, bordName As String
 	Public BordVersion As String = "v 1.1.0"
 	
 	Public newGameInitialized As Boolean = False

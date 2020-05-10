@@ -1218,7 +1218,9 @@ Sub StartStopClientServer
 	Dim mqttClients As Map = root.Get("mqttClients")
 	Dim server As String = mqttClients.Get("server")
 	Dim enabled As String = mqttClients.Get("enabled")
+	Dim name As String = mqttClients.Get("name")
 	
+	funcScorebord.bordName = name
 	server = server.Replace("_", ".")
 	If enabled = "1" And server = "0.0.0.0" Then
 		If bordServer.brokerStarted = False Then

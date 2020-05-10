@@ -41,7 +41,8 @@ Private Sub BroadcastTimer_Tick
 	Dim address As String = GetBroadcastAddress
 	If address <> "" Then
 		Dim up As UDPPacket
-		up.Initialize(serializator.ConvertObjectToBytes(func.ipNumber), address, discoverPort)
+		'up.Initialize(serializator.ConvertObjectToBytes(func.ipNumber), address, discoverPort)
+		up.Initialize(serializator.ConvertObjectToBytes(Array As String(func.ipNumber, funcScorebord.bordName)), address, discoverPort)
 		autodiscover.Send(up)
 	End If
 End Sub
@@ -51,7 +52,7 @@ Public Sub EnableBroadcastTimer(enable As Boolean)
 End Sub
 
 Public Sub ConnectTo()
-	currentName = name
+	currentName = funcScorebord.bordName'name
 	isServer = host = "127.0.0.1"
 	If isServer Then
 		If brokerStarted = False Then
@@ -98,6 +99,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 		'CallSubDelayed2(Chat, "NewUsers", newUsers) 'this will start the chat activity if it wasn't started yet.
 	Else
 		Dim m As Message = receivedObject
+		CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		'Log($"NEW MESSAGE : ${m}"$)
 		'CallSub2(Chat, "NewMessage", m)
 	End If
