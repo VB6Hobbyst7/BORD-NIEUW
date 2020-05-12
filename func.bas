@@ -14,6 +14,11 @@ Sub Process_Globals
 	Public appPath, ipNumber As String
 End Sub
 
+
+Public Sub PrepMqttTopic(topic As String) As String
+	Return topic.Replace(" ","")
+End Sub
+
 Public Sub setHs(hs As String, leftMouse As Boolean) As String
 	Dim value As Int = hs
 	

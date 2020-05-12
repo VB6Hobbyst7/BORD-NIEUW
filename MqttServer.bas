@@ -22,15 +22,18 @@ Sub Class_Globals
 	Private users As List
 	Private fx As JFX
 	Private currentName As String
-	Private host As String = "127.0.0.1"
-	Private name As String = funcScorebord.bordName'  "SomeTable"
+	Private host As String = "pdeg3005.mynetgear.com"
+	Private name As String = funcScorebord.bordName
 	Private topicName As String
+	Private pubName As String
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
+	pubName = PrepTopicName
+	name = funcScorebord.bordName
 	autodiscover.Initialize("autodiscover",discoverPort , 8192)
-	BroadcastTimer.Initialize("BroadcastTimer", 5000)
+	BroadcastTimer.Initialize("BroadcastTimer", 6000)
 	
 	broker1.Initialize("", port) 'first parameter is the event name. It is currently not used.
 	broker1.DebugLog = False
@@ -39,14 +42,28 @@ Public Sub Initialize
 End Sub
 
 
+Private Sub PrepTopicName As String
+	topicName = funcScorebord.bordName.Replace(" ", "")
+'	topicName = topicName.Replace(" ", "")
+'	Log("TOPIC NAME : " & topicName)
+	Return topicName
+End Sub
 
 Private Sub BroadcastTimer_Tick
+	
+'	Log($"PUBNAME : ${PrepTopicName}"$)
+	
 	Dim address As String = GetBroadcastAddress
 	If address <> "" Then
 		Dim up As UDPPacket
+		Dim bord() As Object = Array As String(func.ipNumber, funcScorebord.bordName)
+	'	Log(bord)
 		'up.Initialize(serializator.ConvertObjectToBytes(func.ipNumber), address, discoverPort)
 		up.Initialize(serializator.ConvertObjectToBytes(Array As String(func.ipNumber, funcScorebord.bordName)), address, discoverPort)
-		autodiscover.Send(up)
+		client.Publish2("pubBord",serializator.ConvertObjectToBytes(funcScorebord.bordName), 0, False)
+'		Log("DATA SEND")
+		'client.Publish2(funcScorebord.bordName, CreateMessage(Body), 0, False)
+		'autodiscover.Send(up)
 	End If
 End Sub
 
@@ -56,23 +73,22 @@ End Sub
 
 Public Sub ConnectTo()
 	currentName = funcScorebord.bordName'name
-	isServer = host = "127.0.0.1"
+	'isServer = host = "127.0.0.1"
 	If isServer Then
 		If brokerStarted = False Then
 			broker1.Start
-			
 			brokerStarted = True
 		End If
 		users.Clear
 		'host = "127.0.0.1"
 	End If
 	If connected Then client.Close
-	client.Initialize("client", $"tcp://${host}:${port}"$, "android" & Rnd(1, 10000000))
+	client.Initialize("client", $"tcp://${host}:${port}"$, PrepTopicName & Rnd(1, 10000000))
 	Dim mo As MqttConnectOptions
 	mo.Initialize("", "")
 	
 	'this message will be sent if the client is disconnected unexpectedly.
-	mo.SetLastWill("all/disconnect", serializator.ConvertObjectToBytes(currentName), 0, False)
+	mo.SetLastWill("all/disconnect", serializator.ConvertObjectToBytes(PrepTopicName), 0, False)
 	client.Connect2(mo)
 End Sub
 
@@ -81,7 +97,10 @@ Private Sub client_Connected (Success As Boolean)
 	If Success Then
 		connected = True
 		client.Subscribe("all/#", 0)
-		client.Publish2("all/connect", serializator.ConvertObjectToBytes(currentName), 0, False)
+		client.Subscribe(PrepTopicName&"/#", 0)
+		client.Publish(PrepTopicName, serializator.ConvertObjectToBytes(PrepTopicName))
+		client.Publish2(PrepTopicName, serializator.ConvertObjectToBytes(PrepTopicName), 0, False)
+		'client.Publish2("all/connect", serializator.ConvertObjectToBytes(currentName), 0, False)
 	Else
 		Log("Error connecting: " & LastException)
 	End If
@@ -103,7 +122,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 '		Dim newUsers As List = receivedObject
 		'CallSubDelayed2(Chat, "NewUsers", newUsers) 'this will start the chat activity if it wasn't started yet.
 	Else
-		Dim m As Message = receivedObject
+'		Dim m As Message = receivedObject
 		CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		'Log($"NEW MESSAGE : ${m}"$)
 		'CallSub2(Chat, "NewMessage", m)
@@ -113,7 +132,8 @@ End Sub
 
 Public Sub SendMessage(Body As String)
 	If connected Then
-		client.Publish2("all", CreateMessage(Body), 0, False)
+		'client.Publish2("all", CreateMessage(Body), 0, False)
+		client.Publish2(PrepTopicName, CreateMessage(Body), 0, False)
 	End If
 End Sub
 
@@ -127,7 +147,7 @@ Private Sub CreateMessage(Body As String) As Byte()
 	Dim m As Message
 	m.Initialize
 	m.Body = Body
-	m.From = currentName
+	m.From = PrepTopicName
 	Return serializator.ConvertObjectToBytes(m)
 End Sub
 

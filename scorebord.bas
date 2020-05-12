@@ -53,6 +53,7 @@ Sub Process_Globals
 
 	Dim bordServer As tableServer
 	Dim bordClient As tableReceiver
+	Dim mqttBord As MqttServer
 	
 End Sub
 
@@ -95,8 +96,9 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
-	bordServer.Initialize
+'	bordServer.Initialize
 	bordClient.Initialize
+	mqttBord.Initialize
 	
 '	lbl_version.Text = func.getVersion
 	funcScorebord.lblInnings = lbl_innings
@@ -327,7 +329,11 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
 	WriteScoreJson
-	If bordServer.brokerStarted = True Then
+'	If bordServer.brokerStarted = True Then
+'		CreateJsonFormMqttClient
+'	End If
+	
+	If mqttBord.connected Then
 		CreateJsonFormMqttClient
 	End If
 	
@@ -985,9 +991,12 @@ Sub WriteScoreJson
 	
 	File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
 	Sleep(100)
-	If bordServer.brokerStarted = True Then
+'	If bordServer.brokerStarted = True Then
+'		CreateJsonFormMqttClient
+'		'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
+'	End If
+	If mqttBord.connected Then
 		CreateJsonFormMqttClient
-		'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
 	End If
 End Sub
 
@@ -1029,7 +1038,8 @@ Sub CreateJsonFormMqttClient
 	Dim JSONGenerator As JSONGenerator
 	JSONGenerator.Initialize(root)
 	
-	bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
+	'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
+	mqttBord.SendMessage(JSONGenerator.ToPrettyString(2))
 	
 End Sub
 
@@ -1222,23 +1232,43 @@ Sub StartStopClientServer
 	
 	funcScorebord.bordName = name
 	server = server.Replace("_", ".")
+'	If enabled = "1" And server = "0.0.0.0" Then
+'		If bordServer.brokerStarted = False Then
+'			bordServer.EnableBroadcastTimer(True)
+'			bordServer.ConnectTo()
+'			lbl_partij_duur.TextColor = fx.Colors.Yellow
+'		End If
+'		Return
+'	End If
+	
 	If enabled = "1" And server = "0.0.0.0" Then
-		If bordServer.brokerStarted = False Then
-			bordServer.EnableBroadcastTimer(True)
-			bordServer.ConnectTo()
+		If mqttBord.brokerStarted = False Then
+			funcScorebord.bordName = name
+			mqttBord.EnableBroadcastTimer(True)
+			mqttBord.ConnectTo()
 			lbl_partij_duur.TextColor = fx.Colors.Yellow
 		End If
 		Return
 	End If
 	
+'	If enabled = "0" And server = "0.0.0.0" Then
+'		If bordServer.brokerStarted Then
+'			bordServer.StopServer
+'			bordServer.EnableBroadcastTimer(False)
+'		End If
+'		lbl_partij_duur.TextColor = fx.Colors.LightGray
+'		Return
+'	End If
+	
 	If enabled = "0" And server = "0.0.0.0" Then
-		If bordServer.brokerStarted Then
-			bordServer.StopServer
-			bordServer.EnableBroadcastTimer(False)
+		If mqttBord.brokerStarted Then
+			mqttBord.StopServer
+			mqttBord.EnableBroadcastTimer(False)
 		End If
 		lbl_partij_duur.TextColor = fx.Colors.LightGray
 		Return
 	End If
+	
 	If enabled = "1" And server <> "0.0.0.0" Then
 	'	Log($"$DateTime{DateTime.Now} - CLIENT CONNECTED IS ${bordClient.connected}"$)
 		If bordClient.connected = False Then
