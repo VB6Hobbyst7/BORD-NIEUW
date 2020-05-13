@@ -30,6 +30,7 @@ End Sub
 
 
 Sub tmr_Tick
+'	Log($"classGaeTimer - $Time{DateTime.Now}"$)
 	minutes = minutes + 1
 	If minutes > 59 Then
 		minutes = 0

@@ -54,6 +54,8 @@ Sub Process_Globals
 	Dim bordServer As tableServer
 	Dim bordClient As tableReceiver
 	Dim mqttBord As MqttServer
+	Dim mqttBordData As mqttPubData
+	dim mqttBordPub as mqttPubBord
 	
 End Sub
 
@@ -98,8 +100,9 @@ Public Sub show
 	clsUpdate.Initialize
 '	bordServer.Initialize
 	bordClient.Initialize
-	mqttBord.Initialize
-	
+'	mqttBord.Initialize
+	mqttBordData.Initialize
+	mqttBordPub.Initialize
 '	lbl_version.Text = func.getVersion
 	funcScorebord.lblInnings = lbl_innings
 	funcScorebord.lbl_player_one_hs = lbl_player_one_hs
@@ -1039,7 +1042,8 @@ Sub CreateJsonFormMqttClient
 	JSONGenerator.Initialize(root)
 	
 	'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
-	mqttBord.SendMessage(JSONGenerator.ToPrettyString(2))
+	mqttBord.SendMessageData(JSONGenerator.ToPrettyString(2))
+	'mqttBordData.SendMessage(JSONGenerator.ToPrettyString(2))
 	
 End Sub
 
@@ -1242,28 +1246,19 @@ Sub StartStopClientServer
 '	End If
 	
 	If enabled = "1" And server = "0.0.0.0" Then
-		If mqttBord.brokerStarted = False Then
-			funcScorebord.bordName = name
-			mqttBord.EnableBroadcastTimer(True)
-			mqttBord.ConnectTo()
+		If mqttBordPub.connected = False Then
+			mqttBordPub.ConnectTo()
+			mqttBordPub.PrepTopicName(name)
+			mqttBordPub.EnablePubTimer(True)
 			lbl_partij_duur.TextColor = fx.Colors.Yellow
 		End If
 		Return
 	End If
 	
-'	If enabled = "0" And server = "0.0.0.0" Then
-'		If bordServer.brokerStarted Then
-'			bordServer.StopServer
-'			bordServer.EnableBroadcastTimer(False)
-'		End If
-'		lbl_partij_duur.TextColor = fx.Colors.LightGray
-'		Return
-'	End If
-	
 	If enabled = "0" And server = "0.0.0.0" Then
-		If mqttBord.brokerStarted Then
-			mqttBord.StopServer
-			mqttBord.EnableBroadcastTimer(False)
+		If mqttBordPub.connected Then
+			mqttBordPub.StopServer
+			mqttBordPub.EnablePubTimer(False)
 		End If
 		lbl_partij_duur.TextColor = fx.Colors.LightGray
 		Return

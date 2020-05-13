@@ -70,17 +70,18 @@ Module12=GenDb
 Module13=getNode
 Module14=GetRot
 Module15=inactiveClass
-Module16=mqttPubData
-Module17=MqttServer
-Module18=nieuwe_partij
-Module19=parseConfig
+Module16=mqttPubBord
+Module17=mqttPubData
+Module18=MqttServer
+Module19=nieuwe_partij
 Module2=classCheckConfig
-Module20=retroBord
-Module21=scorebord
-Module22=selecteer_club
-Module23=tableReceiver
-Module24=tableServer
-Module25=timerClass
+Module20=parseConfig
+Module21=retroBord
+Module22=scorebord
+Module23=selecteer_club
+Module24=tableReceiver
+Module25=tableServer
+Module26=timerClass
 Module3=classGameTimer
 Module4=classGen
 Module5=classNewGame
@@ -90,7 +91,7 @@ Module8=error_bord
 Module9=func
 NumberOfFiles=24
 NumberOfLibraries=13
-NumberOfModules=25
+NumberOfModules=26
 Version=8.1
 @EndOfDesignText@
 #Region Project Attributes 
@@ -152,6 +153,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 	result1 = clsGen.validate
 	#End if
 	func.GetClubMembers
+	
+	Log($"IP NUMBER : ${func.ipNumber}"$)
 	
 	Log(func.appPath)
 	CopyCreateFilesFolders

@@ -74,14 +74,14 @@ End Sub
 Public Sub ConnectTo()
 	currentName = funcScorebord.bordName'name
 	'isServer = host = "127.0.0.1"
-	If isServer Then
+'	If isServer Then
 		If brokerStarted = False Then
 			broker1.Start
 			brokerStarted = True
 		End If
 		users.Clear
 		'host = "127.0.0.1"
-	End If
+'	End If
 	If connected Then client.Close
 	client.Initialize("client", $"tcp://${host}:${port}"$, PrepTopicName & Rnd(1, 10000000))
 	Dim mo As MqttConnectOptions
@@ -96,11 +96,19 @@ Private Sub client_Connected (Success As Boolean)
 	'Log($"Connected: ${Success}"$)
 	If Success Then
 		connected = True
-		client.Subscribe("all/#", 0)
+'		client.Subscribe("all/#", 0)
+
+'-----PUBLISH BORD NAME
 		client.Subscribe(PrepTopicName&"/#", 0)
 		client.Publish(PrepTopicName, serializator.ConvertObjectToBytes(PrepTopicName))
 		client.Publish2(PrepTopicName, serializator.ConvertObjectToBytes(PrepTopicName), 0, False)
-		'client.Publish2("all/connect", serializator.ConvertObjectToBytes(currentName), 0, False)
+'-----PUBLISH BORD NAME
+
+		'-----PUBLISH BORD DATA
+		client.Subscribe("pubdata"&"/#", 0)
+		'client.Publish("pubdata", serializator.ConvertObjectToBytes("pubdata"))
+		'client.Publish2("pubdata", serializator.ConvertObjectToBytes("pubdata"), 0, False)
+		'-----PUBLISH BORD DATA
 	Else
 		Log("Error connecting: " & LastException)
 	End If
@@ -132,12 +140,19 @@ End Sub
 
 Public Sub SendMessage(Body As String)
 	If connected Then
-		'client.Publish2("all", CreateMessage(Body), 0, False)
 		client.Publish2(PrepTopicName, CreateMessage(Body), 0, False)
 	End If
 End Sub
 
+Public Sub SendMessageData(Body As String)
+	Log($"SEND MESSAGE DATA $Time{DateTime.Now}"$)
+	If connected Then
+		client.Publish2("pubdata", CreateMessage(Body), 0, False)
+	End If
+End Sub
+
 Public Sub StopServer
+	connected = False
 	client.Close
 	broker1.Stop
 	brokerStarted = False
