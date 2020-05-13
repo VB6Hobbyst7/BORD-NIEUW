@@ -5,10 +5,66 @@ Type=Class
 Version=8.1
 @EndOfDesignText@
 Sub Class_Globals
-	
+	Private client As MqttClient
+	Private host As String = "pdeg3005.mynetgear.com"
+	Private const port As Int = 1883
+	Private serializator As B4XSerializator
+	Public connected As Boolean
+	Public pubName As String
 End Sub
 
 
 Public Sub Initialize
+End Sub
+
+Sub PrepPubName
+	pubName = funcScorebord.bordName.Replace(" ", "")
+End Sub
+
+Public Sub ConnectTo
+	If connected Then client.Close
 	
+	client.Initialize("client", $"tcp://${host}:${port}"$, pubName & Rnd(1, 10000000))
+	Dim mo As MqttConnectOptions
+	mo.Initialize("", "")
+	
+	'this message will be sent if the client is disconnected unexpectedly.
+	mo.SetLastWill(pubName, serializator.ConvertObjectToBytes(pubName&" DIED"), 0, False)
+	client.Connect2(mo)
+End Sub
+
+Private Sub client_Connected (Success As Boolean)
+	If Success Then
+		connected = True
+		client.Subscribe(pubName&"/#", 0)
+	Else
+		Log("Error connecting: " & LastException)
+	End If
+End Sub
+
+Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
+'	CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
+End Sub
+
+Public Sub StopServer
+	SendMessage("bord-died", pubName)
+	Sleep(1000)
+	connected = False
+	client.Close
+End Sub
+
+Public Sub SendMessage(Body As String, From As String)
+	Log("BODY " &Body)
+	If connected Then
+		'client.Publish2(pubName,serializator.ConvertObjectToBytes(Body), 0, False)
+		client.Publish2(pubName, CreateMessage(Body, From), 0, False)
+	End If
+End Sub
+
+Private Sub CreateMessage(Body As String, From As String) As Byte()
+	Dim m As Message
+	m.Initialize
+	m.Body = Body
+	m.From = From
+	Return serializator.ConvertObjectToBytes(m)
 End Sub

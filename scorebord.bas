@@ -55,7 +55,8 @@ Sub Process_Globals
 	Dim bordClient As tableReceiver
 	Dim mqttBord As MqttServer
 	Dim mqttBordData As mqttPubData
-	dim mqttBordPub as mqttPubBord
+	Dim mqttBordPub As mqttPubBord
+	Dim mqttPubDataBord As mqttPubData
 	
 End Sub
 
@@ -103,6 +104,7 @@ Public Sub show
 '	mqttBord.Initialize
 	mqttBordData.Initialize
 	mqttBordPub.Initialize
+	mqttPubDataBord.Initialize
 '	lbl_version.Text = func.getVersion
 	funcScorebord.lblInnings = lbl_innings
 	funcScorebord.lbl_player_one_hs = lbl_player_one_hs
@@ -261,6 +263,7 @@ Sub p1ToMake_MouseReleased (EventData As MouseEvent)
 	End If
 	Dim lbl As Label = Sender
 	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
+	WriteScoreJson
 End Sub
 
 'PROCESS P2 TO MAKE
@@ -270,6 +273,7 @@ Sub p2ToMake_MouseReleased (EventData As MouseEvent)
 	End If
 	Dim lbl As Label = Sender
 	funcScorebord.playerTwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
+	WriteScoreJson
 End Sub
 
 Sub lbl_innings_MouseReleased (EventData As MouseEvent)
@@ -312,9 +316,9 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	End If
 	funcScorebord.processHs("all")
 	WriteScoreJson
-	If bordServer.brokerStarted = True Then
-		CreateJsonFormMqttClient
-	End If
+'	If mqttPubDataBord.ConnectTo = True Then
+'		CreateJsonFormMqttClient
+'	End If
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
@@ -336,9 +340,9 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 '		CreateJsonFormMqttClient
 '	End If
 	
-	If mqttBord.connected Then
-		CreateJsonFormMqttClient
-	End If
+'	If mqttPubDataBord.connected Then
+'		CreateJsonFormMqttClient
+'	End If
 	
 End Sub
 
@@ -998,7 +1002,7 @@ Sub WriteScoreJson
 '		CreateJsonFormMqttClient
 '		'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
 '	End If
-	If mqttBord.connected Then
+	If mqttPubDataBord.connected Then
 		CreateJsonFormMqttClient
 	End If
 End Sub
@@ -1042,7 +1046,7 @@ Sub CreateJsonFormMqttClient
 	JSONGenerator.Initialize(root)
 	
 	'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
-	mqttBord.SendMessageData(JSONGenerator.ToPrettyString(2))
+	mqttPubDataBord.SendMessage(JSONGenerator.ToPrettyString(2), mqttPubDataBord.pubName)
 	'mqttBordData.SendMessage(JSONGenerator.ToPrettyString(2))
 	
 End Sub
@@ -1246,8 +1250,13 @@ Sub StartStopClientServer
 '	End If
 	
 	If enabled = "1" And server = "0.0.0.0" Then
+		If mqttPubDataBord.connected = False Then
+			funcScorebord.bordName =name
+			mqttPubDataBord.PrepPubName
+			mqttPubDataBord.ConnectTo
+		End If
 		If mqttBordPub.connected = False Then
-			mqttBordPub.ConnectTo()
+			mqttBordPub.ConnectTo
 			mqttBordPub.PrepTopicName(name)
 			mqttBordPub.EnablePubTimer(True)
 			lbl_partij_duur.TextColor = fx.Colors.Yellow
