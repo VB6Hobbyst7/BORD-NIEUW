@@ -43,7 +43,12 @@ Private Sub client_Connected (Success As Boolean)
 End Sub
 
 Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
-'	CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
+	Dim receivedObject As Object = serializator.ConvertBytesToObject(Payload)
+	Dim m As Message = receivedObject
+	If m.Body.IndexOf("data please") > -1 Then
+		Log("MESSAGE FROM "&m.Body)
+		CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
+	End If
 End Sub
 
 Public Sub StopServer
@@ -54,7 +59,7 @@ Public Sub StopServer
 End Sub
 
 Public Sub SendMessage(Body As String, From As String)
-	Log("BODY " &Body)
+	'Log("BODY " &Body)
 	If connected Then
 		'client.Publish2(pubName,serializator.ConvertObjectToBytes(Body), 0, False)
 		client.Publish2(pubName, CreateMessage(Body, From), 0, False)

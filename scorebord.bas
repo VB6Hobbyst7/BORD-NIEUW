@@ -675,6 +675,10 @@ Sub eindePartij
 		Sleep(300)
 	End If
 	disableControls
+	
+	If mqttPubDataBord.connected Then
+		mqttPubDataBord.SendMessage("", "game-ended")
+	End If
 End Sub
 
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
@@ -957,6 +961,8 @@ Sub lbl_player_two_moyenne_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub WriteScoreJson
+	If newGame Then Return
+	
 	Dim Scr, strAanStoot As String
 	If File.Exists(PartijFolder, "currscore.json") = False Then
 		File.Copy(File.DirAssets, "currscore.json", PartijFolder, "currscore.json")
