@@ -144,6 +144,9 @@ Public Sub show
 	clsCheckCfg.ProcessRetro(strRetro)
 '	bordServer.Initialize
 '	clsNewGame.tmrEnable(True)
+	If func.hasInternetAccess Then
+		PubBord
+	End If
 End Sub
 
 Sub GetPartijFolder
@@ -166,6 +169,26 @@ End Sub
 
 Public Sub setClearBoard(clear As Boolean)
 	funcScorebord.setNieuwePartij = clear
+End Sub
+
+
+Sub PubBord
+	StartStopClientServer
+	Sleep(200)
+	funcScorebord.bordName =func.bordName
+	If mqttPubDataBord.connected = False Then
+		Log("mqttPubDataBord")
+		mqttPubDataBord.PrepPubName
+		mqttPubDataBord.ConnectTo
+		Sleep(200)
+	End If
+	If mqttBordPub.connected = False Then
+		Log("mqttBordPub")
+		mqttBordPub.ConnectTo
+		mqttBordPub.EnablePubTimer(True)
+		Sleep(200)
+		lbl_partij_duur.TextColor = fx.Colors.Yellow
+	End If
 End Sub
 
 Sub initPanels
@@ -1244,7 +1267,10 @@ Sub StartStopClientServer
 	Dim enabled As String = mqttClients.Get("enabled")
 	Dim name As String = mqttClients.Get("name")
 	
+	func.bordName = name
+	
 	funcScorebord.bordName = name
+	return
 	server = server.Replace("_", ".")
 '	If enabled = "1" And server = "0.0.0.0" Then
 '		If bordServer.brokerStarted = False Then
@@ -1257,14 +1283,18 @@ Sub StartStopClientServer
 	
 	If enabled = "1" And server = "0.0.0.0" Then
 		If mqttPubDataBord.connected = False Then
+			Log("mqttPubDataBord")
 			funcScorebord.bordName =name
 			mqttPubDataBord.PrepPubName
 			mqttPubDataBord.ConnectTo
+			Sleep(200)
 		End If
 		If mqttBordPub.connected = False Then
+			Log("mqttBordPub")
 			mqttBordPub.ConnectTo
 			mqttBordPub.PrepTopicName(name)
 			mqttBordPub.EnablePubTimer(True)
+			Sleep(200)
 			lbl_partij_duur.TextColor = fx.Colors.Yellow
 		End If
 		Return

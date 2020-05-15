@@ -11,7 +11,8 @@ Sub Process_Globals
 	Private regexStr As StringBuilder
 	Public hasInternetAccess As Boolean = False
 	Public os As String
-	Public appPath, ipNumber As String
+	Public appPath, ipNumber, bordName As String
+	
 End Sub
 
 
@@ -189,6 +190,8 @@ Sub getIpNumber As String
 	ipNumber = Ip
 	If ipNumber = "127.0.0.1" Then
 		hasInternetAccess = False
+	Else 
+		hasInternetAccess = True	
 	End If
 	Return Ip
 	components.Initialize
