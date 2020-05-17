@@ -51,10 +51,10 @@ Sub Process_Globals
 '	Private lbl_kraai As Label
 '	Private ImageView2 As ImageView
 
-	Dim bordServer As tableServer
-	Dim bordClient As tableReceiver
-	Dim mqttBord As MqttServer
-	Dim mqttBordData As mqttPubData
+'	Dim bordServer As tableServer
+'	Dim bordClient As tableReceiver
+'	Dim mqttBord As MqttServer
+'	Dim mqttBordData As mqttPubData
 	Dim mqttBordPub As mqttPubBord
 	Dim mqttPubDataBord As mqttPubData
 	
@@ -100,9 +100,9 @@ Public Sub show
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
 '	bordServer.Initialize
-	bordClient.Initialize
+'	bordClient.Initialize
 '	mqttBord.Initialize
-	mqttBordData.Initialize
+'	mqttBordData.Initialize
 	mqttBordPub.Initialize
 	mqttPubDataBord.Initialize
 '	lbl_version.Text = func.getVersion
@@ -144,6 +144,8 @@ Public Sub show
 	clsCheckCfg.ProcessRetro(strRetro)
 '	bordServer.Initialize
 '	clsNewGame.tmrEnable(True)
+	
+	
 	If func.hasInternetAccess Then
 		PubBord
 	End If
@@ -173,17 +175,20 @@ End Sub
 
 
 Sub PubBord
+'	func.mqttbase = "bch/"
+	
 	StartStopClientServer
 	Sleep(200)
 	funcScorebord.bordName =func.bordName
 	If mqttPubDataBord.connected = False Then
-		Log("mqttPubDataBord")
+		'Log("mqttPubDataBord")
 		mqttPubDataBord.PrepPubName
 		mqttPubDataBord.ConnectTo
 		Sleep(200)
 	End If
 	If mqttBordPub.connected = False Then
-		Log("mqttBordPub")
+		'Log("mqttBordPub")
+		mqttBordPub.SetPub
 		mqttBordPub.ConnectTo
 		mqttBordPub.EnablePubTimer(True)
 		Sleep(200)
@@ -666,9 +671,9 @@ Sub lbl_reset_MouseExited (EventData As MouseEvent)
 End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
-	If bordClient.connected = True Then
-		Return
-	End If
+'	If bordClient.connected = True Then
+'		Return
+'	End If
 	
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
@@ -1266,82 +1271,83 @@ Sub StartStopClientServer
 	Dim server As String = mqttClients.Get("server")
 	Dim enabled As String = mqttClients.Get("enabled")
 	Dim name As String = mqttClients.Get("name")
+	Dim base As String = mqttClients.Get("base")
 	
-	func.bordName = name
-	
+	func.bordName = name.ToLowerCase
+	func.mqttbase = $"${base}/"$
 	funcScorebord.bordName = name
-	return
-	server = server.Replace("_", ".")
+	Return
+'	server = server.Replace("_", ".")
+''	If enabled = "1" And server = "0.0.0.0" Then
+''		If bordServer.brokerStarted = False Then
+''			bordServer.EnableBroadcastTimer(True)
+''			bordServer.ConnectTo()
+''			lbl_partij_duur.TextColor = fx.Colors.Yellow
+''		End If
+''		Return
+''	End If
+'	
 '	If enabled = "1" And server = "0.0.0.0" Then
-'		If bordServer.brokerStarted = False Then
-'			bordServer.EnableBroadcastTimer(True)
-'			bordServer.ConnectTo()
+'		If mqttPubDataBord.connected = False Then
+'			Log("mqttPubDataBord")
+'			funcScorebord.bordName =name
+'			mqttPubDataBord.PrepPubName
+'			mqttPubDataBord.ConnectTo
+'			Sleep(200)
+'		End If
+'		If mqttBordPub.connected = False Then
+'			Log("mqttBordPub")
+'			mqttBordPub.ConnectTo
+'			mqttBordPub.PrepTopicName(name)
+'			mqttBordPub.EnablePubTimer(True)
+'			Sleep(200)
 '			lbl_partij_duur.TextColor = fx.Colors.Yellow
 '		End If
 '		Return
 '	End If
-	
-	If enabled = "1" And server = "0.0.0.0" Then
-		If mqttPubDataBord.connected = False Then
-			Log("mqttPubDataBord")
-			funcScorebord.bordName =name
-			mqttPubDataBord.PrepPubName
-			mqttPubDataBord.ConnectTo
-			Sleep(200)
-		End If
-		If mqttBordPub.connected = False Then
-			Log("mqttBordPub")
-			mqttBordPub.ConnectTo
-			mqttBordPub.PrepTopicName(name)
-			mqttBordPub.EnablePubTimer(True)
-			Sleep(200)
-			lbl_partij_duur.TextColor = fx.Colors.Yellow
-		End If
-		Return
-	End If
-	
-	If enabled = "0" And server = "0.0.0.0" Then
-		If mqttBordPub.connected Then
-			mqttBordPub.StopServer
-			mqttBordPub.EnablePubTimer(False)
-		End If
-		lbl_partij_duur.TextColor = fx.Colors.LightGray
-		Return
-	End If
-	
-	If enabled = "1" And server <> "0.0.0.0" Then
-	'	Log($"$DateTime{DateTime.Now} - CLIENT CONNECTED IS ${bordClient.connected}"$)
-		If bordClient.connected = False Then
-			'DISABLE SCREENSAVER
-			If promoteRunning = True Then
-				pn_promote.Top = pn_promote_top
-				pn_promote.left = pn_promote_left
-				Sleep(0)
-				inactivecls.lastClick = DateTime.Now
-				inactivecls.enableTime(False)
-				inactivecls.enablePromote(False)
-				promoteRunning = False
-				Sleep(300)
-			End If
-			inactivecls.enableTime(False)
-			clsGameTime.tmrEnable(False)
-			bordClient.ConnectTo(server, "client" & Rnd(1, 10000000))
-			bordServer.EnableBroadcastTimer(True)
-			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "mirror_scaled.png")
-		End If
-		Return
-	End If
-	If enabled = "0" And server <> "0.0.0.0" Then
-		If bordClient.connected Then
-			'ENABLE SCREENSAVER
-			inactivecls.enableTime(True)
-			clsGameTime.tmrEnable(True)
-			bordClient.Disconnect
-			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
-			CheckGameStop
-		End If
-		Return
-	End If
+'	
+'	If enabled = "0" And server = "0.0.0.0" Then
+'		If mqttBordPub.connected Then
+'			mqttBordPub.StopServer
+'			mqttBordPub.EnablePubTimer(False)
+'		End If
+'		lbl_partij_duur.TextColor = fx.Colors.LightGray
+'		Return
+'	End If
+'	
+'	If enabled = "1" And server <> "0.0.0.0" Then
+'	'	Log($"$DateTime{DateTime.Now} - CLIENT CONNECTED IS ${bordClient.connected}"$)
+'		If bordClient.connected = False Then
+'			'DISABLE SCREENSAVER
+'			If promoteRunning = True Then
+'				pn_promote.Top = pn_promote_top
+'				pn_promote.left = pn_promote_left
+'				Sleep(0)
+'				inactivecls.lastClick = DateTime.Now
+'				inactivecls.enableTime(False)
+'				inactivecls.enablePromote(False)
+'				promoteRunning = False
+'				Sleep(300)
+'			End If
+'			inactivecls.enableTime(False)
+'			clsGameTime.tmrEnable(False)
+'			bordClient.ConnectTo(server, "client" & Rnd(1, 10000000))
+''			bordServer.EnableBroadcastTimer(True)
+'			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "mirror_scaled.png")
+'		End If
+'		Return
+'	End If
+'	If enabled = "0" And server <> "0.0.0.0" Then
+'		If bordClient.connected Then
+'			'ENABLE SCREENSAVER
+'			inactivecls.enableTime(True)
+'			clsGameTime.tmrEnable(True)
+'			bordClient.Disconnect
+'			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'			CheckGameStop
+'		End If
+'		Return
+'	End If
 End Sub
 
 

@@ -18,7 +18,7 @@ Public Sub Initialize
 End Sub
 
 Sub PrepPubName
-	pubName = funcScorebord.bordName.Replace(" ", "")
+	pubName = $"${func.mqttName}${func.mqttbase}${funcScorebord.bordName.Replace(" ", "")}"$  'funcScorebord.bordName.Replace(" ", "")
 End Sub
 
 Public Sub ConnectTo
@@ -36,7 +36,8 @@ End Sub
 Private Sub client_Connected (Success As Boolean)
 	If Success Then
 		connected = True
-		client.Subscribe(pubName&"/#", 0)
+		'client.Subscribe(pubName&"/#", 0)
+		client.Subscribe(pubName, 0)
 	Else
 		Log("Error connecting: " & LastException)
 	End If

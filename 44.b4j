@@ -130,7 +130,7 @@ Sub AppStart (Form1 As Form, Args() As String)
 	
 	func.GetAppPath
 	CheckNetwork
-	fw.Initialize("fw")
+'	fw.Initialize("fw")
 	
 '	Select os
 '		Case "windows"
@@ -158,8 +158,8 @@ Sub AppStart (Form1 As Form, Args() As String)
 	
 	Log(func.appPath)
 	CopyCreateFilesFolders
-	fw.SetWatchList(Array As String(func.appPath))
-	fw.StartWatching
+'	fw.SetWatchList(Array As String(func.appPath))
+'	fw.StartWatching
 	If result1 Then
 		einde_partij.show
 		nieuwe_partij.show

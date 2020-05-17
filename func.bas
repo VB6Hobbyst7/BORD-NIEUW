@@ -12,7 +12,8 @@ Sub Process_Globals
 	Public hasInternetAccess As Boolean = False
 	Public os As String
 	Public appPath, ipNumber, bordName As String
-	
+	Public mqttName As String = "pdeg/"
+	Public mqttbase As String
 End Sub
 
 

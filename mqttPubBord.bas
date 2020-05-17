@@ -13,13 +13,20 @@ Sub Class_Globals
 	Private serializator As B4XSerializator
 	Public connected As Boolean
 	Private topicName As String
-	Private pubName As String = "pubbord"
-	
+	Private pubName As String
+	Private pubNameAll As String
+	Private pubDisconnect As String
 	
 End Sub
 
 Public Sub Initialize
 	pubBordTimer.Initialize("pubBordTimer", 6000)
+End Sub
+
+public Sub SetPub
+	pubName = $"${func.mqttName}${func.mqttbase}"$
+	pubNameAll = $"${func.mqttName}${func.mqttbase}pubbord"$
+	pubDisconnect = $"${func.mqttName}${func.mqttbase}"$
 End Sub
 
 Public Sub PrepTopicName(name As String)
@@ -38,14 +45,15 @@ Public Sub ConnectTo()
 	mo.Initialize("", "")
 	
 	'this message will be sent if the client is disconnected unexpectedly.
-	mo.SetLastWill(pubName, serializator.ConvertObjectToBytes(topicName&" DIED"), 0, False)
+	mo.SetLastWill(pubDisconnect, serializator.ConvertObjectToBytes(topicName&" DIED"), 0, False)
 	client.Connect2(mo)
 End Sub
 
 Private Sub client_Connected (Success As Boolean)
 	If Success Then
 		connected = True
-		client.Subscribe(pubName&"/#", 0)
+		'client.Subscribe(func.mqttbase&pubName&"/#", 0)
+		client.Subscribe(pubNameAll, 0)
 	Else
 		Log("Error connecting: " & LastException)
 	End If
@@ -59,7 +67,7 @@ Public Sub StopServer
 End Sub
 
 Public Sub SendMessage(Body As String)
-	Log("BODY " &Body)
+	'Log("BODY " &Body)
 	If connected Then
 		client.Publish2(pubName,serializator.ConvertObjectToBytes(Body), 0, False)
 		'client.Publish2(pubName, CreateMessage(Body), 0, False)
@@ -76,6 +84,6 @@ End Sub
 
 
 Private Sub pubBordTimer_Tick
-'	Log($"PUBLISH NAME (${pubName}) $Time{DateTime.Now}"$)
-	client.Publish2(pubName,serializator.ConvertObjectToBytes(funcScorebord.bordName), 0, False)
+'	Log($"PUBLISH NAME (${pubNameAll}) $Time{DateTime.Now}"$)
+	client.Publish2(pubNameAll,serializator.ConvertObjectToBytes(funcScorebord.bordName), 0, False)
 End Sub
