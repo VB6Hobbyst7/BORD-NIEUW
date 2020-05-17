@@ -58,6 +58,8 @@ Sub Process_Globals
 	Dim mqttBordPub As mqttPubBord
 	Dim mqttPubDataBord As mqttPubData
 	
+	Private lblBroker As Label
+	Private lblBrokerDead As Label
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -1259,6 +1261,17 @@ Sub lbl_innings_MouseExited (EventData As MouseEvent)
 	lbl_innings.Style ="-fx-background-color: #000053; -fx-text-fill: yellow;"
 End Sub
 
+
+Sub SetBrokerIcon(brokerAlive As Boolean)
+	
+	If brokerAlive Then
+		lblBroker.Visible = True
+		lblBrokerDead.Visible = False
+	Else
+		lblBrokerDead.Visible = True
+		lblBroker.Visible = False	
+	End If
+End Sub
 
 Sub StartStopClientServer
 	'Log(strMqtt)

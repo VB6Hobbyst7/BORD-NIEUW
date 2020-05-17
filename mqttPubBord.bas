@@ -50,13 +50,17 @@ Public Sub ConnectTo()
 End Sub
 
 Private Sub client_Connected (Success As Boolean)
-	If Success Then
-		connected = True
-		'client.Subscribe(func.mqttbase&pubName&"/#", 0)
-		client.Subscribe(pubNameAll, 0)
-	Else
-		Log("Error connecting: " & LastException)
-	End If
+	Try
+		If Success Then
+			connected = True
+			'client.Subscribe(func.mqttbase&pubName&"/#", 0)
+			client.Subscribe(pubNameAll, 0)
+		Else
+			Log("Error connecting: " & LastException)
+		End If
+	Catch
+		Log("Mqtt disconnected")
+	End Try
 End Sub
 
 Public Sub StopServer
@@ -67,11 +71,14 @@ Public Sub StopServer
 End Sub
 
 Public Sub SendMessage(Body As String)
-	'Log("BODY " &Body)
-	If connected Then
-		client.Publish2(pubName,serializator.ConvertObjectToBytes(Body), 0, False)
-		'client.Publish2(pubName, CreateMessage(Body), 0, False)
-	End If
+	Try
+		If connected Then
+			CallSub2(scorebord, "SetBrokerIcon", True)
+			client.Publish2(pubName,serializator.ConvertObjectToBytes(Body), 0, False)
+		End If
+	Catch
+		Log("Mqtt broker lost")
+	End Try
 End Sub
 
 Private Sub CreateMessage(Body As String) As Byte()
@@ -84,6 +91,11 @@ End Sub
 
 
 Private Sub pubBordTimer_Tick
-'	Log($"PUBLISH NAME (${pubNameAll}) $Time{DateTime.Now}"$)
-	client.Publish2(pubNameAll,serializator.ConvertObjectToBytes(funcScorebord.bordName), 0, False)
+	Try
+		client.Publish2(pubNameAll,serializator.ConvertObjectToBytes(funcScorebord.bordName), 0, False)
+	Catch
+		pubBordTimer.Enabled = False
+		CallSub2(scorebord, "SetBrokerIcon", False)
+		Log("Broker lost")
+	End Try
 End Sub

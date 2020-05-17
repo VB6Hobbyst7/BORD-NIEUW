@@ -34,13 +34,19 @@ Public Sub ConnectTo
 End Sub
 
 Private Sub client_Connected (Success As Boolean)
-	If Success Then
-		connected = True
-		'client.Subscribe(pubName&"/#", 0)
-		client.Subscribe(pubName, 0)
-	Else
-		Log("Error connecting: " & LastException)
-	End If
+	Try
+		If Success Then
+			connected = True
+			CallSub2(scorebord, "SetBrokerIcon", True)
+			'client.Subscribe(pubName&"/#", 0)
+			client.Subscribe(pubName, 0)
+		Else
+			Log("Error connecting: " & LastException)
+		End If
+	Catch
+		CallSub2(scorebord, "SetBrokerIcon", False)
+		Log("Mqtt disconnected")
+	End Try
 End Sub
 
 Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
@@ -60,11 +66,14 @@ Public Sub StopServer
 End Sub
 
 Public Sub SendMessage(Body As String, From As String)
-	'Log("BODY " &Body)
-	If connected Then
-		'client.Publish2(pubName,serializator.ConvertObjectToBytes(Body), 0, False)
-		client.Publish2(pubName, CreateMessage(Body, From), 0, False)
-	End If
+	Try
+		If connected Then
+			client.Publish2(pubName, CreateMessage(Body, From), 0, False)
+		End If
+	Catch
+		Log("Mqtt broker lost")
+	End Try
+	
 End Sub
 
 Private Sub CreateMessage(Body As String, From As String) As Byte()
