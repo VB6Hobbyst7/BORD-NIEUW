@@ -41,20 +41,7 @@ Sub Process_Globals
 	Private lbl_game_text, lbl_ip, lbl_p1_inning, lbl_p2_inning, Label7, Label6, lbl_version As Label
 	Private lbl_img_sponsore, lbl_date_time_dag, lbl_date_time_date, lbl_partij_duur As Label
 	Private lbl_spel_soort, lbl_partij_duur_header, lbl_has_inet, lbl_beurten_header As Label
-	
-	'Private lbl_date_time_dag As Label
-	'Private lbl_date_time_date As Label
-	'Private lbl_partij_duur As Label
-	'Private lbl_partij_duur_header As Label
-	'Private lbl_has_inet As Label
-	'Private lbl_beurten_header As Label
-'	Private lbl_kraai As Label
-'	Private ImageView2 As ImageView
 
-'	Dim bordServer As tableServer
-'	Dim bordClient As tableReceiver
-'	Dim mqttBord As MqttServer
-'	Dim mqttBordData As mqttPubData
 	Dim mqttBordPub As mqttPubBord
 	Dim mqttPubDataBord As mqttPubData
 	
@@ -104,13 +91,8 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
-'	bordServer.Initialize
-'	bordClient.Initialize
-'	mqttBord.Initialize
-'	mqttBordData.Initialize
 	mqttBordPub.Initialize
 	mqttPubDataBord.Initialize
-'	lbl_version.Text = func.getVersion
 	funcScorebord.lblInnings = lbl_innings
 	funcScorebord.lbl_player_one_hs = lbl_player_one_hs
 	funcScorebord.lbl_player_two_hs = lbl_player_two_hs
@@ -147,9 +129,6 @@ Public Sub show
 	Dim strRetro As String = File.ReadString(func.appPath, "retro.cnf")
 	
 	clsCheckCfg.ProcessRetro(strRetro)
-'	bordServer.Initialize
-'	clsNewGame.tmrEnable(True)
-	
 	
 	If func.hasInternetAccess Then
 		PubBord
@@ -217,11 +196,8 @@ Sub MqttConnected()
 End Sub
 
 Sub PubBord
-'	func.mqttbase = "bch/"
-	
 	StartStopClientServer
 	funcScorebord.bordName =func.bordName
-
 End Sub
 
 Sub initPanels
@@ -230,21 +206,10 @@ Sub initPanels
 	
 	inactivecls.frm = frm
 	inactivecls.pn_promote = pn_promote
-	'inactivecls.pnlWidth = pn_promote.Width
-	'inactivecls.pnlHeight = pn_promote.Height
 End Sub
 
 
 Sub setFontStyle
-	'func.caromLabelCss(lbl_player_one_hs, "labelWhite")
-	'func.caromLabelCss(lbl_player_one_moyenne, "labelWhite")
-	'func.caromLabelCss(lbl_player_one_perc, "labelWhite")
-	'func.caromLabelCss(lbl_player_two_hs, "labelWhite")
-	'func.caromLabelCss(lbl_player_two_moyenne, "labelWhite")
-	'func.caromLabelCss(lbl_player_two_perc, "labelWhite")
-	
-'	func.caromLabelCss(lbl_innings, "labelCarom")
-	
 	func.caromLabelCss(lbl_player_one_100, "labelCarom")
 	func.caromLabelCss(lbl_player_one_10, "labelCarom")
 	func.caromLabelCss(lbl_player_one_1, "labelCarom")
@@ -260,10 +225,6 @@ Sub setFontStyle
 	func.caromLabelCss(lbl_player_two_make_100, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_10, "labelCarom")
 	func.caromLabelCss(lbl_player_two_make_1, "labelCarom")
-	
-	'func.caromLabelCss(lbl_player_two_name, "labelPlayer")
-	
-	
 	
 	resetBoard
 End Sub
@@ -307,9 +268,6 @@ Sub p2Points_MouseReleased (EventData As MouseEvent)
 	setP2Name
 	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
 	WriteScoreJson
-'	If bordServer.brokerStarted = True Then
-'		bordServer.SendMessage(lbl_player_two_name.Text)
-'	End If
 End Sub
 
 'PROCESS P1 TO MAKE
@@ -372,9 +330,6 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	End If
 	funcScorebord.processHs("all")
 	WriteScoreJson
-'	If mqttPubDataBord.ConnectTo = True Then
-'		CreateJsonFormMqttClient
-'	End If
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
@@ -383,23 +338,10 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	End If
 	
 	setP2Name
-'	If funcScorebord.autoInnings = True Then
-'		funcScorebord.inningSet = 1
-'		funcScorebord.innings = funcScorebord.innings+1
-'		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
-'	End If
 	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
 	WriteScoreJson
-'	If bordServer.brokerStarted = True Then
-'		CreateJsonFormMqttClient
-'	End If
-	
-'	If mqttPubDataBord.connected Then
-'		CreateJsonFormMqttClient
-'	End If
-	
 End Sub
 
 Sub playerOnePerc(perc As String)
@@ -467,14 +409,6 @@ Sub resetBoard
 	B4XProgressBarP2.Progress = 0
 	
 	clsCheckCfg.enabledTimer(True)
-	
-'	If newGame = False Then
-'		disableControls
-'	Else
-'		setP1Name
-'	End If
-
-	
 End Sub
 
 Sub setBeurten(beurten As String)
@@ -487,7 +421,6 @@ End Sub
 
 Sub setNewGame(set As Boolean)
 	If func.hasInternetAccess Then
-	'	clsUpdate.createStartLog
 	End If
 	
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
@@ -512,13 +445,6 @@ End Sub
 Sub disableControls
 	lbl_player_one_name.Enabled = False
 	lbl_player_two_name.Enabled = False
-	
-'	lbl_player_one_name.Color = 0xFF001A01'0xff3455db'0xFF69D79A
-'	lbl_player_one_name.TextColor = 0xFF81CFE0
-'	lbl_player_two_name.Color = 0xFF001A01
-'	lbl_player_two_name.TextColor = 0xFF81CFE0
-	
-	
 	
 	lbl_innings.Enabled = False
 	lbl_player_one_100.Enabled = False
@@ -652,16 +578,6 @@ Sub checkMatchWonP2
 		setP2Name
 		Sleep(4000)
 		pn_game.Top = 1650
-		
-'		Dim m As MediaPlayer
-'		
-'		Dim mv As JavaObject
-'		m.Initialize("m",File.GetUri(File.DirApp&"/44","win_vid.mp4"))
-'		mv.InitializeNewInstance("javafx.scene.media.MediaView",Array(m))
-'		pn_a.AddNode(mv, 0, 0, pn_a.Width, pn_a.Height)
-'		m.Play
-'		Sleep(5000)
-'		m.Stop
 	End If
 End Sub
 
@@ -699,13 +615,8 @@ Sub lbl_reset_MouseExited (EventData As MouseEvent)
 End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
-'	If bordClient.connected = True Then
-'		Return
-'	End If
-	
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
-'		clsCheckCfg.enabledTimer(False)
 		CallSub(nieuwe_partij, "showForm")
 		
 	else If lbl_reset.Text = "Partij Beëindigen" Then
@@ -714,9 +625,6 @@ Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 		Else
 			CallSub(einde_partij, "show")
 		End If
-		
-'		CallSub(einde_partij, "show")
-		'clsGameTime.tmrEnable(False)
 	End If
 	
 End Sub
@@ -866,9 +774,6 @@ End Sub
 
 Sub setSpelerData(data As List)
 	resetBoard
-'	lbl_innings.Text = "000"
-'	funcScorebord.inningSet = 0'1
-'	funcScorebord.innings = 0'1
 	
 	Dim teMaken As String
 	lbl_player_one_name.Text = data.Get(0)
@@ -953,8 +858,6 @@ Sub showHideGameTime(enable As Boolean)
 	Else
 		op = 0.0
 	End If
-'	lbl_partij_duur.Visible = enable
-'	lbl_partij_duur_header.Visible = enable
 	
 	lbl_partij_duur_header.SetAlphaAnimated(2500, op)
 	lbl_partij_duur.SetAlphaAnimated(2500, op)
@@ -1060,10 +963,7 @@ Sub WriteScoreJson
 	
 	File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
 	Sleep(100)
-'	If bordServer.brokerStarted = True Then
-'		CreateJsonFormMqttClient
-'		'bordServer.SendMessage(JSONGenerator.ToPrettyString(2))
-'	End If
+
 	If mqttPubDataBord.connected Then
 		CreateJsonFormMqttClient
 	End If
@@ -1113,84 +1013,84 @@ Sub CreateJsonFormMqttClient
 	
 End Sub
 
-Sub UpdateBordWhenClient(data As String)
-	Dim number As String
-	
-	Log($"RETRO BORD AKTIEF IS ${funcScorebord.bordIsRetro}"$)
-	
-	Dim parser As JSONParser
-	parser.Initialize(data)
-	Dim root As Map = parser.NextObject
-	Dim score As Map = root.Get("score")
-	Dim p1 As Map = score.Get("p1")
-'	Dim caram As String = p1.Get("caram")
-'	Dim percentage As String = p1.Get("percentage")
-'	Dim naam As String = p1.Get("naam")
-'	Dim maken As String = p1.Get("maken")
-'	Dim moyenne As String = p1.Get("moyenne")
-	Dim p2 As Map = score.Get("p2")
-'	Dim caram As String = p2.Get("caram")
-'	Dim percentage As String = p2.Get("percentage")
-'	Dim naam As String = p2.Get("naam")
-'	Dim maken As String = p2.Get("maken")
-	Dim moyenne As String = p2.Get("moyenne")
-	Dim aan_stoot As Map = score.Get("aan_stoot")
-	Dim speler As String = aan_stoot.Get("speler")
-	Dim spelduur As Map = score.Get("spelduur")
-	Dim tijd As String = spelduur.Get("tijd")
-'	Dim autoinnings As Map = score.Get("autoinnings")
-'	Dim value As String = autoinnings.Get("value")
-	Dim beurten As Map = score.Get("beurten")
-	Dim aantal As String = beurten.Get("aantal")
-	
-	'PARSE DATA TO RETRO
-	If funcScorebord.bordIsRetro Then
-		Log($"RETRO BORD"$)
-		retroBord.caromP1R =p1.Get("caram")
-		retroBord.caromP2R = p2.Get("caram")
-		retroBord.inningR = beurten.Get("aantal")
-		CallSubDelayed(retroBord, "SetMirrorScore")
-		Return
-	End If
-	
-	lbl_player_one_name.Text = p1.Get("naam")
-	number = p1.Get("caram")
-	lbl_player_one_100.Text = number.SubString2(0,1)
-	lbl_player_one_10.Text = number.SubString2(1,2)
-	lbl_player_one_1.Text = number.SubString2(2,3)
-	number = p1.Get("maken")
-	lbl_player_one_make_100.Text = number.SubString2(0,1)
-	lbl_player_one_make_10.Text = number.SubString2(1,2)
-	lbl_player_one_make_1.Text = number.SubString2(2,3)
-	lbl_player_one_moyenne.Text = p1.Get("moyenne")
-	lbl_player_one_perc.Text = p1.Get("percentage")
-	
-	funcScorebord.p1_progress = ( p1.Get("caram")/p1.Get("maken"))*100
-	funcScorebord.p2_progress = ( p2.Get("caram")/p2.Get("maken"))*100
-	
-	lbl_player_two_name.Text = p2.Get("naam")
-	number = p2.Get("caram")
-	lbl_player_two_100.Text = number.SubString2(0,1)
-	lbl_player_two_10.Text = number.SubString2(1,2)
-	lbl_player_two_1.Text = number.SubString2(2,3)
-	number = p2.Get("maken")
-	lbl_player_two_make_100.Text = number.SubString2(0,1)
-	lbl_player_two_make_10.Text = number.SubString2(1,2)
-	lbl_player_two_make_1.Text = number.SubString2(2,3)
-	lbl_player_two_moyenne.Text = p2.Get("moyenne")
-	lbl_player_two_perc.Text = p2.Get("percentage")
-	
-	lbl_innings.Text = aantal'score.Get("beurten")
-	lbl_partij_duur.Text = tijd'score.Get("spelduur")
-	'setProgress(p1_progressBar, p1_progress)
-	
-	CallSub(funcScorebord, "SetProgressBarForMirror")
-	If speler = 1 Then
-		setP1Name
-	Else
-		setP2Name
-	End If
-End Sub
+'Sub UpdateBordWhenClient(data As String)
+'	Dim number As String
+'	
+'	Log($"RETRO BORD AKTIEF IS ${funcScorebord.bordIsRetro}"$)
+'	
+'	Dim parser As JSONParser
+'	parser.Initialize(data)
+'	Dim root As Map = parser.NextObject
+'	Dim score As Map = root.Get("score")
+'	Dim p1 As Map = score.Get("p1")
+''	Dim caram As String = p1.Get("caram")
+''	Dim percentage As String = p1.Get("percentage")
+''	Dim naam As String = p1.Get("naam")
+''	Dim maken As String = p1.Get("maken")
+''	Dim moyenne As String = p1.Get("moyenne")
+'	Dim p2 As Map = score.Get("p2")
+''	Dim caram As String = p2.Get("caram")
+''	Dim percentage As String = p2.Get("percentage")
+''	Dim naam As String = p2.Get("naam")
+''	Dim maken As String = p2.Get("maken")
+'	Dim moyenne As String = p2.Get("moyenne")
+'	Dim aan_stoot As Map = score.Get("aan_stoot")
+'	Dim speler As String = aan_stoot.Get("speler")
+'	Dim spelduur As Map = score.Get("spelduur")
+'	Dim tijd As String = spelduur.Get("tijd")
+''	Dim autoinnings As Map = score.Get("autoinnings")
+''	Dim value As String = autoinnings.Get("value")
+'	Dim beurten As Map = score.Get("beurten")
+'	Dim aantal As String = beurten.Get("aantal")
+'	
+'	'PARSE DATA TO RETRO
+'	If funcScorebord.bordIsRetro Then
+'		Log($"RETRO BORD"$)
+'		retroBord.caromP1R =p1.Get("caram")
+'		retroBord.caromP2R = p2.Get("caram")
+'		retroBord.inningR = beurten.Get("aantal")
+'		CallSubDelayed(retroBord, "SetMirrorScore")
+'		Return
+'	End If
+'	
+'	lbl_player_one_name.Text = p1.Get("naam")
+'	number = p1.Get("caram")
+'	lbl_player_one_100.Text = number.SubString2(0,1)
+'	lbl_player_one_10.Text = number.SubString2(1,2)
+'	lbl_player_one_1.Text = number.SubString2(2,3)
+'	number = p1.Get("maken")
+'	lbl_player_one_make_100.Text = number.SubString2(0,1)
+'	lbl_player_one_make_10.Text = number.SubString2(1,2)
+'	lbl_player_one_make_1.Text = number.SubString2(2,3)
+'	lbl_player_one_moyenne.Text = p1.Get("moyenne")
+'	lbl_player_one_perc.Text = p1.Get("percentage")
+'	
+'	funcScorebord.p1_progress = ( p1.Get("caram")/p1.Get("maken"))*100
+'	funcScorebord.p2_progress = ( p2.Get("caram")/p2.Get("maken"))*100
+'	
+'	lbl_player_two_name.Text = p2.Get("naam")
+'	number = p2.Get("caram")
+'	lbl_player_two_100.Text = number.SubString2(0,1)
+'	lbl_player_two_10.Text = number.SubString2(1,2)
+'	lbl_player_two_1.Text = number.SubString2(2,3)
+'	number = p2.Get("maken")
+'	lbl_player_two_make_100.Text = number.SubString2(0,1)
+'	lbl_player_two_make_10.Text = number.SubString2(1,2)
+'	lbl_player_two_make_1.Text = number.SubString2(2,3)
+'	lbl_player_two_moyenne.Text = p2.Get("moyenne")
+'	lbl_player_two_perc.Text = p2.Get("percentage")
+'	
+'	lbl_innings.Text = aantal'score.Get("beurten")
+'	lbl_partij_duur.Text = tijd'score.Get("spelduur")
+'	'setProgress(p1_progressBar, p1_progress)
+'	
+'	CallSub(funcScorebord, "SetProgressBarForMirror")
+'	If speler = 1 Then
+'		setP1Name
+'	Else
+'		setP2Name
+'	End If
+'End Sub
 
 
 Sub CheckGameStop
@@ -1305,7 +1205,7 @@ Sub StartStopClientServer
 	parser.Initialize(File.ReadString(func.appPath, "mqtt.conf"))
 	Dim root As Map = parser.NextObject
 	Dim mqttClients As Map = root.Get("mqttClients")
-	Dim server As String = mqttClients.Get("server")
+'	Dim server As String = mqttClients.Get("server")
 	Dim enabled As String = mqttClients.Get("enabled")
 	Dim name As String = mqttClients.Get("name")
 	Dim base As String = mqttClients.Get("base")

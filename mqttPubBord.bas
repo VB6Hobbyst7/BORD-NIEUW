@@ -49,7 +49,7 @@ Public Sub ConnectTo
 		mo.SetLastWill(pubDisconnect, serializator.ConvertObjectToBytes(topicName&" DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
-		
+		Log("")
 	End Try
 End Sub
 

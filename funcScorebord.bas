@@ -15,7 +15,7 @@ Sub Process_Globals
 	Public useDigitalFont, isBordClient, bordIsRetro As Boolean
 	Public useYellowFont As Boolean
 	Public error, bordName As String
-	Public BordVersion As String = "v 1.1.0"
+	Public BordVersion As String = "v 1.5.0"
 	
 	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
