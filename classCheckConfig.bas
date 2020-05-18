@@ -9,7 +9,7 @@ Sub Class_Globals
 	Private fx As JFX
 	Dim tmr As Timer
 	Dim appPath As String
-	Dim cfgTimeStamp, cfgCurrTimeStamp, retroCurrTimeStamp, retroTimeStamp As Long
+	Dim cfgTimeStamp, cfgCurrTimeStamp, retroCurrTimeStamp, retroTimeStamp, mqttTimeStamp, mqttCurrTimeStamp As Long
 	Dim sh As Shell
 	
 	Dim retroVisible As Boolean = False
@@ -22,6 +22,7 @@ Public Sub Initialize
 	appPath = parseConfig.getAppPath
 	cfgTimeStamp = File.LastModified(appPath, "cnf.44")
 	retroTimeStamp = File.LastModified(appPath, "retro.cnf")
+	mqttTimeStamp = File.LastModified(appPath, "mqtt.conf")
 	
 	tmr.Initialize("chkConfig", 5000)
 	enabledTimer(True)
@@ -33,6 +34,10 @@ Public Sub enabledTimer(enable As Boolean)
 End Sub
 
 Sub chkConfig_Tick
+'	If func.mqttClientConnected = False Then
+'		CallSub(scorebord, "PubBord")
+'	End If
+	
 	cfgCurrTimeStamp = File.LastModified(appPath, "cnf.44")
 	
 	If cfgCurrTimeStamp <> cfgTimeStamp Then
@@ -46,8 +51,14 @@ Sub chkConfig_Tick
 	
 	If retroTimeStamp <> retroCurrTimeStamp Then
 		Dim strRetro As String = File.ReadString(appPath, "retro.cnf")
-		
 		ProcessRetro(strRetro)			
+	End If
+	
+	mqttCurrTimeStamp = File.LastModified(appPath, "mqtt.conf")
+	If mqttTimeStamp <> mqttCurrTimeStamp Then
+		mqttTimeStamp = mqttCurrTimeStamp
+		Log($"$Time{DateTime.Now} MQTT CHANGED"$)
+		CallSub(scorebord, "EnableMqtt")
 	End If
 End Sub
 

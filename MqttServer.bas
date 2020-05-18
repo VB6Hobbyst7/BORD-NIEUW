@@ -6,7 +6,7 @@ Version=8.1
 @EndOfDesignText@
 Sub Class_Globals
 '	Private fx As JFX
-	Private broker1 As MqttBroker
+'	Private broker1 As MqttBroker
 	Private client As MqttClient
 	
 	Private const port As Int = 1883    '51042
@@ -35,8 +35,8 @@ Public Sub Initialize
 	autodiscover.Initialize("autodiscover",discoverPort , 8192)
 	BroadcastTimer.Initialize("BroadcastTimer", 6000)
 	
-	broker1.Initialize("", port) 'first parameter is the event name. It is currently not used.
-	broker1.DebugLog = False
+'	broker1.Initialize("", port) 'first parameter is the event name. It is currently not used.
+'	broker1.DebugLog = False
 	users.Initialize
 '	isServer = True
 End Sub
@@ -76,7 +76,7 @@ Public Sub ConnectTo()
 	'isServer = host = "127.0.0.1"
 '	If isServer Then
 		If brokerStarted = False Then
-			broker1.Start
+		'	broker1.Start
 			brokerStarted = True
 		End If
 		users.Clear
@@ -154,7 +154,7 @@ End Sub
 Public Sub StopServer
 	connected = False
 	client.Close
-	broker1.Stop
+'	broker1.Stop
 	brokerStarted = False
 End Sub
 

@@ -55,8 +55,6 @@ Group=Default Group
 Library1=jcore
 Library10=jrandomaccessfile
 Library11=jmqtt
-Library12=jmqttbroker2
-Library13=jfilewatcher
 Library2=jfx
 Library3=jokhttputils2
 Library4=xui views
@@ -74,16 +72,14 @@ Module14=GetRot
 Module15=inactiveClass
 Module16=mqttPubBord
 Module17=mqttPubData
-Module18=MqttServer
-Module19=nieuwe_partij
+Module18=nieuwe_partij
+Module19=parseConfig
 Module2=classCheckConfig
-Module20=parseConfig
-Module21=retroBord
-Module22=scorebord
-Module23=selecteer_club
-Module24=tableReceiver
-Module25=tableServer
-Module26=timerClass
+Module20=retroBord
+Module21=scorebord
+Module22=selecteer_club
+Module23=Starter
+Module24=timerClass
 Module3=classGameTimer
 Module4=classGen
 Module5=classNewGame
@@ -92,8 +88,8 @@ Module7=einde_partij
 Module8=error_bord
 Module9=func
 NumberOfFiles=25
-NumberOfLibraries=13
-NumberOfModules=26
+NumberOfLibraries=11
+NumberOfModules=24
 Version=8.1
 @EndOfDesignText@
 #Region Project Attributes 
@@ -113,13 +109,15 @@ Sub Process_Globals
 	Private ext As String = ".conf"
 	Private ixt As String = "pi"
 	Private result1 As Boolean = True
-	Private fwName As String
+'	Private fwName As String
 	
 	Type Message (Body As String, From As String)
-	Dim fw As FileWatcher
+'	Dim fw As FileWatcher
+'	Dim starterMqttConnected As Starter
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
+'	starterMqttConnected.Initialize
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("main")
 	
@@ -132,6 +130,9 @@ Sub AppStart (Form1 As Form, Args() As String)
 	
 	func.GetAppPath
 	CheckNetwork
+	
+	
+	
 '	fw.Initialize("fw")
 	
 '	Select os
@@ -202,15 +203,15 @@ Sub CheckNetwork
 	func.getIpNumber
 End Sub
 
-Sub fw_ModificationDetected(FileName As String)
-	
-	Log($"$DateTime{DateTime.Now} -${func.appPath} ${FileName} CREATED ${fw.GetLastModifiedTime(File.Combine(func.appPath, FileName))}"$)
-	
-	If FileName = "mqtt.conf" Then
-		Sleep(300)
-		CallSub(scorebord, "StartStopClientServer")
-	End If
-End Sub
+'Sub fw_ModificationDetected(FileName As String)
+'	
+'	Log($"$DateTime{DateTime.Now} -${func.appPath} ${FileName} CREATED ${fw.GetLastModifiedTime(File.Combine(func.appPath, FileName))}"$)
+'	
+'	If FileName = "mqtt.conf" Then
+'		Sleep(300)
+'		CallSub(scorebord, "StartStopClientServer")
+'	End If
+'End Sub
 
 Sub CopyCreateFilesFolders
 	If File.Exists(func.appPath, "retro.cnf") = False Then

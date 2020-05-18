@@ -60,6 +60,9 @@ Sub Process_Globals
 	
 	Private lblBroker As Label
 	Private lblBrokerDead As Label
+	Dim starterMqttConnected As Starter
+	Private mqttEnabled As Boolean
+	Private brokerConnected As Boolean
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -82,7 +85,7 @@ Public Sub show
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
 	
 	#if debug
-	frm.SetFormStyle("UTILITY")
+	frm.SetFormStyle("DECORATED")
 	#Else
 	frm.SetFormStyle("UNDECORATED")
 	frm.Resizable = False
@@ -150,7 +153,13 @@ Public Sub show
 	
 	If func.hasInternetAccess Then
 		PubBord
+		starterMqttConnected.Initialize
 	End If
+End Sub
+
+
+Sub EnableMqtt
+	PubBord
 End Sub
 
 Sub GetPartijFolder
@@ -176,26 +185,43 @@ Public Sub setClearBoard(clear As Boolean)
 End Sub
 
 
+Sub SetBrokerStatus(status As Boolean)
+	brokerConnected = status
+End Sub
+
+Sub MqttConnected()
+	
+	Log($"BROKER CONNECT IS ${brokerConnected}"$)
+'	PubBord
+	If mqttEnabled = False Then
+		func.mqttClientConnected = False
+		SetBrokerIcon(False)
+		mqttBordPub.StopServer
+		mqttPubDataBord.StopServer
+		Return
+	End If
+	
+	If brokerConnected = False Or mqttEnabled = False Then
+		func.mqttClientConnected = False
+		SetBrokerIcon(False)
+		mqttBordPub.StopServer
+		mqttPubDataBord.StopServer
+	End If
+	
+	If brokerConnected And Not(func.mqttClientConnected) Then
+		func.mqttClientConnected = brokerConnected
+		SetBrokerIcon(True)
+		mqttBordPub.ConnectTo
+		mqttPubDataBord.ConnectTo
+	End If
+End Sub
+
 Sub PubBord
 '	func.mqttbase = "bch/"
 	
 	StartStopClientServer
-	Sleep(200)
 	funcScorebord.bordName =func.bordName
-	If mqttPubDataBord.connected = False Then
-		'Log("mqttPubDataBord")
-		mqttPubDataBord.PrepPubName
-		mqttPubDataBord.ConnectTo
-		Sleep(200)
-	End If
-	If mqttBordPub.connected = False Then
-		'Log("mqttBordPub")
-		mqttBordPub.SetPub
-		mqttBordPub.ConnectTo
-		mqttBordPub.EnablePubTimer(True)
-		Sleep(200)
-		lbl_partij_duur.TextColor = fx.Colors.Yellow
-	End If
+
 End Sub
 
 Sub initPanels
@@ -1274,9 +1300,7 @@ Sub SetBrokerIcon(brokerAlive As Boolean)
 End Sub
 
 Sub StartStopClientServer
-	'Log(strMqtt)
-	'Log(File.ReadString(func.appPath, "mqtt.conf"))
-	'Return
+	
 	Dim parser As JSONParser
 	parser.Initialize(File.ReadString(func.appPath, "mqtt.conf"))
 	Dim root As Map = parser.NextObject
@@ -1286,81 +1310,13 @@ Sub StartStopClientServer
 	Dim name As String = mqttClients.Get("name")
 	Dim base As String = mqttClients.Get("base")
 	
+	mqttEnabled = enabled = "1"
 	func.bordName = name.ToLowerCase
 	func.mqttbase = $"${base}/"$
-	funcScorebord.bordName = name
-	Return
-'	server = server.Replace("_", ".")
-''	If enabled = "1" And server = "0.0.0.0" Then
-''		If bordServer.brokerStarted = False Then
-''			bordServer.EnableBroadcastTimer(True)
-''			bordServer.ConnectTo()
-''			lbl_partij_duur.TextColor = fx.Colors.Yellow
-''		End If
-''		Return
-''	End If
-'	
-'	If enabled = "1" And server = "0.0.0.0" Then
-'		If mqttPubDataBord.connected = False Then
-'			Log("mqttPubDataBord")
-'			funcScorebord.bordName =name
-'			mqttPubDataBord.PrepPubName
-'			mqttPubDataBord.ConnectTo
-'			Sleep(200)
-'		End If
-'		If mqttBordPub.connected = False Then
-'			Log("mqttBordPub")
-'			mqttBordPub.ConnectTo
-'			mqttBordPub.PrepTopicName(name)
-'			mqttBordPub.EnablePubTimer(True)
-'			Sleep(200)
-'			lbl_partij_duur.TextColor = fx.Colors.Yellow
-'		End If
-'		Return
-'	End If
-'	
-'	If enabled = "0" And server = "0.0.0.0" Then
-'		If mqttBordPub.connected Then
-'			mqttBordPub.StopServer
-'			mqttBordPub.EnablePubTimer(False)
-'		End If
-'		lbl_partij_duur.TextColor = fx.Colors.LightGray
-'		Return
-'	End If
-'	
-'	If enabled = "1" And server <> "0.0.0.0" Then
-'	'	Log($"$DateTime{DateTime.Now} - CLIENT CONNECTED IS ${bordClient.connected}"$)
-'		If bordClient.connected = False Then
-'			'DISABLE SCREENSAVER
-'			If promoteRunning = True Then
-'				pn_promote.Top = pn_promote_top
-'				pn_promote.left = pn_promote_left
-'				Sleep(0)
-'				inactivecls.lastClick = DateTime.Now
-'				inactivecls.enableTime(False)
-'				inactivecls.enablePromote(False)
-'				promoteRunning = False
-'				Sleep(300)
-'			End If
-'			inactivecls.enableTime(False)
-'			clsGameTime.tmrEnable(False)
-'			bordClient.ConnectTo(server, "client" & Rnd(1, 10000000))
-''			bordServer.EnableBroadcastTimer(True)
-'			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "mirror_scaled.png")
-'		End If
-'		Return
-'	End If
-'	If enabled = "0" And server <> "0.0.0.0" Then
-'		If bordClient.connected Then
-'			'ENABLE SCREENSAVER
-'			inactivecls.enableTime(True)
-'			clsGameTime.tmrEnable(True)
-'			bordClient.Disconnect
-'			CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
-'			CheckGameStop
-'		End If
-'		Return
-'	End If
+	funcScorebord.bordName = name.ToLowerCase
+	mqttPubDataBord.PrepPubName
+	mqttBordPub.SetPub
+	MqttConnected
 End Sub
 
 

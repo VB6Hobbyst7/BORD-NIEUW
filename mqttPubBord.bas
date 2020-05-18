@@ -37,16 +37,20 @@ public Sub EnablePubTimer(enable As Boolean)
 	pubBordTimer.Enabled = enable
 End Sub
 
-Public Sub ConnectTo()
+Public Sub ConnectTo
 	If connected Then client.Close
 	
-	client.Initialize("client", $"tcp://${host}:${port}"$, topicName & Rnd(1, 10000000))
-	Dim mo As MqttConnectOptions
-	mo.Initialize("", "")
+	Try
+		client.Initialize("client", $"tcp://${host}:${port}"$, topicName & Rnd(1, 10000000))
+		Dim mo As MqttConnectOptions
+		mo.Initialize("", "")
 	
-	'this message will be sent if the client is disconnected unexpectedly.
-	mo.SetLastWill(pubDisconnect, serializator.ConvertObjectToBytes(topicName&" DIED"), 0, False)
-	client.Connect2(mo)
+		'this message will be sent if the client is disconnected unexpectedly.
+		mo.SetLastWill(pubDisconnect, serializator.ConvertObjectToBytes(topicName&" DIED"), 0, False)
+		client.Connect2(mo)
+	Catch
+		
+	End Try
 End Sub
 
 Private Sub client_Connected (Success As Boolean)
@@ -55,6 +59,7 @@ Private Sub client_Connected (Success As Boolean)
 			connected = True
 			'client.Subscribe(func.mqttbase&pubName&"/#", 0)
 			client.Subscribe(pubNameAll, 0)
+			EnablePubTimer(True)
 		Else
 			Log("Error connecting: " & LastException)
 		End If
@@ -64,10 +69,12 @@ Private Sub client_Connected (Success As Boolean)
 End Sub
 
 Public Sub StopServer
-	SendMessage("bord-died")
-	Sleep(1000)
-	connected = False
-	client.Close
+	If client.Connected Then
+		connected = False
+		EnablePubTimer(False)
+		client.Unsubscribe(pubName)
+		client.Close
+	End If
 End Sub
 
 Public Sub SendMessage(Body As String)
@@ -78,6 +85,7 @@ Public Sub SendMessage(Body As String)
 		End If
 	Catch
 		Log("Mqtt broker lost")
+		StopServer
 	End Try
 End Sub
 
@@ -91,11 +99,16 @@ End Sub
 
 
 Private Sub pubBordTimer_Tick
+	func.mqttClientConnected = client.Connected
 	Try
 		client.Publish2(pubNameAll,serializator.ConvertObjectToBytes(funcScorebord.bordName), 0, False)
 	Catch
 		pubBordTimer.Enabled = False
 		CallSub2(scorebord, "SetBrokerIcon", False)
-		Log("Broker lost")
+		'Log("Broker lost")
 	End Try
+End Sub
+
+Public Sub CLientConnected As Boolean
+	Return client.Connected
 End Sub
