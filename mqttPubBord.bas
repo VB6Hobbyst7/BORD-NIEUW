@@ -17,6 +17,7 @@ Sub Class_Globals
 	Private pubNameAll As String
 	Private pubDisconnect As String
 	
+	
 End Sub
 
 Public Sub Initialize
@@ -41,6 +42,8 @@ Public Sub ConnectTo
 	If connected Then client.Close
 	
 	Try
+'		Log($"SUBSCRIBE : ${pubDisconnect}"$)
+'		Log($"TOPICNAME : ${topicName}"$)
 		client.Initialize("client", $"tcp://${host}:${port}"$, topicName & Rnd(1, 10000000))
 		Dim mo As MqttConnectOptions
 		mo.Initialize("", "")
@@ -49,7 +52,8 @@ Public Sub ConnectTo
 		mo.SetLastWill(pubDisconnect, serializator.ConvertObjectToBytes(topicName&" DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
-		Log("")
+		Log(LastException)
+'		Log($"- $Time{DateTime.Now} LastException"$)
 	End Try
 End Sub
 
@@ -57,8 +61,10 @@ Private Sub client_Connected (Success As Boolean)
 	Try
 		If Success Then
 			connected = True
-			'client.Subscribe(func.mqttbase&pubName&"/#", 0)
+'			'client.Subscribe(func.mqttbase&pubName&"/#", 0)
+'			Log("CLIENT CONNECTED " & pubNameAll)
 			client.Subscribe(pubNameAll, 0)
+			
 			EnablePubTimer(True)
 		Else
 			Log("Error connecting: " & LastException)
@@ -69,6 +75,7 @@ Private Sub client_Connected (Success As Boolean)
 End Sub
 
 Public Sub StopServer
+'	Log("STOP SERVER")
 	If client.Connected Then
 		connected = False
 		EnablePubTimer(False)

@@ -131,8 +131,8 @@ Public Sub show
 	clsCheckCfg.ProcessRetro(strRetro)
 	
 	If func.hasInternetAccess Then
-		PubBord
 		starterMqttConnected.Initialize
+		PubBord
 	End If
 End Sub
 
@@ -168,9 +168,9 @@ Sub SetBrokerStatus(status As Boolean)
 	brokerConnected = status
 End Sub
 
-Sub MqttConnected()
+Sub MqttConnected
 	
-	Log($"BROKER CONNECT IS ${brokerConnected}"$)
+	Log($"SCOREBORD BROKER CONNECT IS ${brokerConnected}"$)
 '	PubBord
 	If mqttEnabled = False Then
 		func.mqttClientConnected = False
@@ -185,13 +185,18 @@ Sub MqttConnected()
 		SetBrokerIcon(False)
 		mqttBordPub.StopServer
 		mqttPubDataBord.StopServer
+		Return
 	End If
 	
 	If brokerConnected And Not(func.mqttClientConnected) Then
+'		Log($"BROKER CONNECT IS ${brokerConnected}"$)
 		func.mqttClientConnected = brokerConnected
 		SetBrokerIcon(True)
+		Sleep(1000)
 		mqttBordPub.ConnectTo
+'		Log($"NA mqttBordPub.ConnectTo $Time{DateTime.Now}"$)
 		mqttPubDataBord.ConnectTo
+		Sleep(1000)
 	End If
 End Sub
 
@@ -1216,7 +1221,9 @@ Sub StartStopClientServer
 	funcScorebord.bordName = name.ToLowerCase
 	mqttPubDataBord.PrepPubName
 	mqttBordPub.SetPub
-	MqttConnected
+	mqttBordPub.PrepTopicName(name.ToLowerCase)
+	
+'	MqttConnected
 End Sub
 
 

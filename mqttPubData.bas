@@ -33,7 +33,7 @@ Public Sub ConnectTo
 		mo.SetLastWill(pubName, serializator.ConvertObjectToBytes(pubName&" DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
-'		Log(LastException)
+		Log($"CONNECTTO PUBDATA ${LastException}"$)
 		func.mqttClientConnected = False
 	End Try
 End Sub
@@ -51,7 +51,7 @@ Private Sub client_Connected (Success As Boolean)
 		End If
 	Catch
 		CallSub2(scorebord, "SetBrokerIcon", False)
-		'Log("Mqtt disconnected")
+		Log($"CLIENTT CONNECTED PUBDATA ${LastException}"$)
 	End Try
 End Sub
 
