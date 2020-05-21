@@ -199,6 +199,8 @@ Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 	Dim naam1 As String = func.splitNaam(txt_speler_1.Text)
 	funcScorebord.autoInnings = chkAuto_innings.Checked
 	
+	chk_add_player.Checked = False
+	
 	lst.Initialize
 '	lst.AddAll(Array As String(txt_speler_1.Text, txt_maken_1.Text))
 	lst.AddAll(Array As String(func.splitNaam(txt_speler_1.Text), txt_maken_1.Text))
@@ -221,6 +223,8 @@ Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 		Return
 	End If
 	funcScorebord.autoInnings = chkAuto_innings.Checked
+	chk_add_player.Checked = False
+	
 	lst.Initialize
 '	lst.AddAll(Array As String(txt_speler_2.Text, txt_maken_2.Text))
 	lst.AddAll(Array As String(func.splitNaam(txt_speler_2.Text), txt_maken_2.Text))

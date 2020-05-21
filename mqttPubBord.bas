@@ -42,18 +42,16 @@ Public Sub ConnectTo
 	If connected Then client.Close
 	
 	Try
-'		Log($"SUBSCRIBE : ${pubDisconnect}"$)
-'		Log($"TOPICNAME : ${topicName}"$)
 		client.Initialize("client", $"tcp://${host}:${port}"$, topicName & Rnd(1, 10000000))
 		Dim mo As MqttConnectOptions
 		mo.Initialize("", "")
 	
 		'this message will be sent if the client is disconnected unexpectedly.
-		mo.SetLastWill(pubDisconnect, serializator.ConvertObjectToBytes(topicName&" DIED"), 0, False)
+		'mo.SetLastWill(pubDisconnect, serializator.ConvertObjectToBytes(topicName&"DIED"), 0, False)
+		mo.SetLastWill(pubDisconnect, CreateMessage(topicName&"DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
 		Log(LastException)
-'		Log($"- $Time{DateTime.Now} LastException"$)
 	End Try
 End Sub
 
@@ -61,8 +59,6 @@ Private Sub client_Connected (Success As Boolean)
 	Try
 		If Success Then
 			connected = True
-'			'client.Subscribe(func.mqttbase&pubName&"/#", 0)
-'			Log("CLIENT CONNECTED " & pubNameAll)
 			client.Subscribe(pubNameAll, 0)
 			
 			EnablePubTimer(True)
@@ -107,14 +103,18 @@ End Sub
 
 Private Sub pubBordTimer_Tick
 	func.mqttClientConnected = client.Connected
+'	Log(pubNameAll)
 	Try
-		client.Publish2(pubNameAll,serializator.ConvertObjectToBytes(funcScorebord.bordName), 0, False)
+		'client.Publish2(pubNameAll,serializator.ConvertObjectToBytes("", funcScorebord.bordName), 0, False)
+		client.Publish2(pubNameAll,CreateMessage(funcScorebord.bordName), 0, False)
 	Catch
 		pubBordTimer.Enabled = False
 		CallSub2(scorebord, "SetBrokerIcon", False)
 		'Log("Broker lost")
 	End Try
 End Sub
+
+
 
 Public Sub CLientConnected As Boolean
 	Return client.Connected

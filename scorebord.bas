@@ -646,7 +646,7 @@ Sub eindePartij
 	disableControls
 	
 	If mqttPubDataBord.connected Then
-		mqttPubDataBord.SendMessage("", "game-ended")
+		mqttPubDataBord.SendMessage("game-ended", "game-ended")
 	End If
 End Sub
 

@@ -18,7 +18,7 @@ Public Sub Initialize
 End Sub
 
 Sub PrepPubName
-	pubName = $"${func.mqttName}${func.mqttbase}recvdata_${funcScorebord.bordName.Replace(" ", "")}"$  'funcScorebord.bordName.Replace(" ", "")
+	pubName = $"${func.mqttName}${func.mqttbase}${funcScorebord.bordName.Replace(" ", "")}"$  'funcScorebord.bordName.Replace(" ", "")
 End Sub
 
 Public Sub ConnectTo
@@ -30,9 +30,7 @@ Public Sub ConnectTo
 		mo.Initialize("", "")
 	
 		'this message will be sent if the client is disconnected unexpectedly.
-		'mo.SetLastWill(pubName, serializator.ConvertObjectToBytes(pubName&" DIED"), 0, False)
-		mo.SetLastWill(pubName, CreateMessage(pubName, "recvdied"), 0, False)
-		
+		mo.SetLastWill(pubName, serializator.ConvertObjectToBytes(pubName&" DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
 		Log($"CONNECTTO PUBDATA ${LastException}"$)
@@ -63,7 +61,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 		Dim receivedObject As Object = serializator.ConvertBytesToObject(Payload)
 		Dim m As Message = receivedObject
 		If m.Body.IndexOf("data please") > -1 Then
-		'	Log("DATA PLEASE")
+			'	Log("MESSAGE FROM "&m.Body)
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
 	Catch
