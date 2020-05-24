@@ -432,9 +432,6 @@ Sub TestResponse As String
 	Return "1"
 End Sub
 
-
-
-
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
 	ExitApplication
 End Sub

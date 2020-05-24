@@ -127,9 +127,9 @@ Sub AppStart (Form1 As Form, Args() As String)
 	#End if
 	func.GetClubMembers
 	
-	Log($"IP NUMBER : ${func.ipNumber}"$)
+'	Log($"IP NUMBER : ${func.ipNumber}"$)
 	
-	Log(func.appPath)
+'	Log(func.appPath)
 	CopyCreateFilesFolders
 
 	If result1 Then

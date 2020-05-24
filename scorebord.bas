@@ -101,6 +101,9 @@ Public Sub show
 	funcScorebord.setP2CaromLables(lstPlayerTwoScoreLbl)
 
 	lbl_has_inet.Visible = False
+	lblBrokerDead.Visible = False
+	lblBroker.Visible = False
+	
 	If func.ipNumber <> "127.0.0.1" Then
 		Wait For (funcInet.testInet) Complete (result As Boolean)
 		If result Then
@@ -109,6 +112,8 @@ Public Sub show
 		Else
 			func.hasInternetAccess = False
 		End If
+		lblBroker.Visible = result
+		lblBrokerDead.Visible = result
 		lbl_has_inet.Visible = result
 	End If
 	
@@ -131,6 +136,7 @@ Public Sub show
 	clsCheckCfg.ProcessRetro(strRetro)
 	
 	If func.hasInternetAccess Then
+		Log("Has internet")
 		starterMqttConnected.Initialize
 		PubBord
 	End If
@@ -170,7 +176,7 @@ End Sub
 
 Sub MqttConnected
 	
-	Log($"SCOREBORD BROKER CONNECT IS ${brokerConnected}"$)
+'	Log($"SCOREBORD BROKER CONNECT IS ${brokerConnected}"$)
 '	PubBord
 	If mqttEnabled = False Then
 		func.mqttClientConnected = False
@@ -201,8 +207,10 @@ Sub MqttConnected
 End Sub
 
 Sub PubBord
-	StartStopClientServer
-	funcScorebord.bordName =func.bordName
+	If func.hasInternetAccess Then
+		StartStopClientServer
+		funcScorebord.bordName =func.bordName
+	End If
 End Sub
 
 Sub initPanels
@@ -1205,6 +1213,7 @@ Sub SetBrokerIcon(brokerAlive As Boolean)
 End Sub
 
 Sub StartStopClientServer
+	
 	
 	Dim parser As JSONParser
 	parser.Initialize(File.ReadString(func.appPath, "mqtt.conf"))

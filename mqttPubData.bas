@@ -37,6 +37,7 @@ Public Sub ConnectTo
 	Catch
 		Log($"CONNECTTO PUBDATA ${LastException}"$)
 		func.mqttClientConnected = False
+		CallSub2(scorebord, "SetBrokerIcon", False)
 	End Try
 End Sub
 
