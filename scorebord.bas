@@ -1263,3 +1263,11 @@ Sub pn_promote_MouseClicked (EventData As MouseEvent)
 		File.WriteString(File.DirApp,"lastErr.txt", LastException.Message)
 	End Try
 End Sub
+
+Sub mqttGetPlayers As List
+	Dim lstPlayer As List
+	lstPlayer.Initialize
+	
+	lstPlayer.AddAll(Array As String(lbl_player_one_name.Text, lbl_player_two_name.Text))
+	Return lstPlayer
+End Sub

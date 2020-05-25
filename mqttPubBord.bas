@@ -93,10 +93,28 @@ Public Sub SendMessage(Body As String)
 End Sub
 
 Private Sub CreateMessage(Body As String) As Byte()
+	Dim lstData As List = scorebord.mqttGetPlayers
+	Dim p1Name, p2Name, strBody, bordName As String
+	
+	bordName = funcScorebord.bordName.Replace(" ", "").ToLowerCase
+	p1Name = lstData.Get(0)
+	p2Name = lstData.Get(1)
+	
+	p1Name = p1Name.Replace(CRLF, "")
+	p2Name = p2Name.Replace(CRLF, "")
+	strBody = $"${Body}|${p1Name}|${p2Name}"$
+	
+	'Log(topicName)
+	
 	Dim m As Message
 	m.Initialize
-	m.Body = Body
-	m.From = topicName
+	If topicName = bordName Then
+		m.Body = strBody
+	Else
+		m.Body = Body
+	End If
+	m.from = topicName
+	
 	Return serializator.ConvertObjectToBytes(m)
 End Sub
 
