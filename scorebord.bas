@@ -136,7 +136,7 @@ Public Sub show
 	clsCheckCfg.ProcessRetro(strRetro)
 	
 	If func.hasInternetAccess Then
-		Log("Has internet")
+		'Log("Has internet")
 		starterMqttConnected.Initialize
 		PubBord
 	End If
@@ -207,6 +207,7 @@ Sub MqttConnected
 End Sub
 
 Sub PubBord
+		'Log("PB " & func.hasInternetAccess)
 	If func.hasInternetAccess Then
 		StartStopClientServer
 		funcScorebord.bordName =func.bordName
@@ -1217,22 +1218,32 @@ Sub StartStopClientServer
 	
 	Dim parser As JSONParser
 	parser.Initialize(File.ReadString(func.appPath, "mqtt.conf"))
+'	Dim root As Map = parser.NextObject
+'	Dim mqttClients As Map = root.Get("mqttClients")
+''	Dim server As String = mqttClients.Get("server")
+'	Dim enabled As String = mqttClients.Get("enabled")
+'	Dim name As String = mqttClients.Get("name")
+'	Dim base As String = mqttClients.Get("base")
+	
 	Dim root As Map = parser.NextObject
-	Dim mqttClients As Map = root.Get("mqttClients")
-'	Dim server As String = mqttClients.Get("server")
-	Dim enabled As String = mqttClients.Get("enabled")
-	Dim name As String = mqttClients.Get("name")
-	Dim base As String = mqttClients.Get("base")
+	Dim mqttClients As List = root.Get("mqttClients")
+	For Each colmqttClients As Map In mqttClients
+		Dim server As String = colmqttClients.Get("server")
+		Dim name As String = colmqttClients.Get("name")
+		Dim enabled As String = colmqttClients.Get("enabled")
+		Dim base As String = colmqttClients.Get("base")
+	Next
 	
 	mqttEnabled = enabled = "1"
 	func.bordName = name.ToLowerCase
 	func.mqttbase = $"${base}/"$
 	funcScorebord.bordName = name.ToLowerCase
+	funcScorebord.bordDisplayName = name
 	mqttPubDataBord.PrepPubName
 	mqttBordPub.SetPub
 	mqttBordPub.PrepTopicName(name.ToLowerCase)
 	
-'	MqttConnected
+	MqttConnected
 End Sub
 
 

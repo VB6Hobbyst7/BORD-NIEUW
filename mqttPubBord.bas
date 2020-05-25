@@ -106,7 +106,7 @@ Private Sub pubBordTimer_Tick
 '	Log(pubNameAll)
 	Try
 		'client.Publish2(pubNameAll,serializator.ConvertObjectToBytes("", funcScorebord.bordName), 0, False)
-		client.Publish2(pubNameAll,CreateMessage(funcScorebord.bordName), 0, False)
+		client.Publish2(pubNameAll,CreateMessage(funcScorebord.bordDisplayName), 0, False)
 	Catch
 		pubBordTimer.Enabled = False
 		CallSub2(scorebord, "SetBrokerIcon", False)

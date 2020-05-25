@@ -57,7 +57,7 @@ Sub chkConfig_Tick
 	mqttCurrTimeStamp = File.LastModified(appPath, "mqtt.conf")
 	If mqttTimeStamp <> mqttCurrTimeStamp Then
 		mqttTimeStamp = mqttCurrTimeStamp
-		Log($"$Time{DateTime.Now} MQTT CHANGED"$)
+		'Log($"$Time{DateTime.Now} MQTT CHANGED"$)
 		CallSub(scorebord, "EnableMqtt")
 	End If
 End Sub
@@ -103,7 +103,7 @@ Sub checkIfUpdated
 	End Select
 	If File.Exists(appFolder, "upd.pdg") Then
 	
-		Log("UPDATING")
+		'Log("UPDATING")
 		File.Delete(appFolder, "upd.pdg")
 		'sh.Initialize("sh /home/pi/44/restart_bord.sh", Null, Null)
 		'sh.Initialize("sh", "sh", Array("/home/pi/44/restart_bord.sh"))

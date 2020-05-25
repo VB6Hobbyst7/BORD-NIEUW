@@ -268,7 +268,7 @@ Sub lblCopyright_MousePressed (EventData As MouseEvent)
 End Sub
 
 Public Sub SetMirrorScore()
-	Log($"RETRO SET MIRROR SCORE"$)
+	'Log($"RETRO SET MIRROR SCORE"$)
 	p1_100.Text = caromP1R.SubString2(0,1)
 	p1_10.Text = caromP1R.SubString2(1,2)
 	p1_1.Text = caromP1R.SubString2(2,3)
