@@ -1271,6 +1271,6 @@ Sub mqttGetPlayers As List
 	
 	lstPlayer.Initialize
 	
-	lstPlayer.AddAll(Array As String(lbl_player_one_name.Text, lbl_player_two_name.Text, p1Carom, p2Carom))
+	lstPlayer.AddAll(Array As String(lbl_player_one_name.Text, lbl_player_two_name.Text, p1Carom, p2Carom, aanStoot))
 	Return lstPlayer
 End Sub
