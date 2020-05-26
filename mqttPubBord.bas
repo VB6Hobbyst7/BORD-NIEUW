@@ -102,7 +102,7 @@ Private Sub CreateMessage(Body As String) As Byte()
 	
 	p1Name = p1Name.Replace(CRLF, "")
 	p2Name = p2Name.Replace(CRLF, "")
-	strBody = $"${Body}|${p1Name}|${p2Name}"$
+	strBody = $"${Body}|${p1Name}|${p2Name}|${lstData.Get(2)}|${lstData.Get(3)}"$
 	
 	'Log(topicName)
 	

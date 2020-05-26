@@ -107,7 +107,7 @@ Sub Process_Globals
 	Private ixt As String = "pi"
 	Private result1 As Boolean = True
 	Type Message (Body As String, From As String)
-	type pubBordData(data as List, from as String)
+	Type pubBordData(data As List, from As String)
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)

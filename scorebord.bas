@@ -1266,8 +1266,11 @@ End Sub
 
 Sub mqttGetPlayers As List
 	Dim lstPlayer As List
+	Dim p1Carom As String = $"${lbl_player_one_100.Text}${lbl_player_one_10.Text}${lbl_player_one_1.Text}"$
+	Dim p2Carom As String = $"${lbl_player_two_100.Text}${lbl_player_two_10.Text}${lbl_player_two_1.Text}"$
+	
 	lstPlayer.Initialize
 	
-	lstPlayer.AddAll(Array As String(lbl_player_one_name.Text, lbl_player_two_name.Text))
+	lstPlayer.AddAll(Array As String(lbl_player_one_name.Text, lbl_player_two_name.Text, p1Carom, p2Carom))
 	Return lstPlayer
 End Sub
