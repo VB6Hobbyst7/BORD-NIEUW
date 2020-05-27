@@ -14,7 +14,7 @@ Sub Process_Globals
 	Public appPath, ipNumber, bordName As String
 	Public mqttName As String = "pdeg/"
 	Public mqttbase As String
-	Public mqttClientConnected as Boolean
+	Public mqttClientConnected As Boolean
 End Sub
 
 

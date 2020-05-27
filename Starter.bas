@@ -13,7 +13,9 @@ End Sub
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
 	working = True
-	ConnectAndReconnect
+	If File.Exists(func.appPath, "mqtt.conf") Then
+		ConnectAndReconnect
+	End If
 End Sub
 
 Sub ConnectAndReconnect

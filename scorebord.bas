@@ -209,8 +209,8 @@ End Sub
 Sub PubBord
 		'Log("PB " & func.hasInternetAccess)
 	If func.hasInternetAccess Then
-		StartStopClientServer
-		funcScorebord.bordName =func.bordName
+		'StartStopClientServer
+		'funcScorebord.bordName =func.bordName
 	End If
 End Sub
 
@@ -1273,4 +1273,28 @@ Sub mqttGetPlayers As List
 	
 	lstPlayer.AddAll(Array As String(lbl_player_one_name.Text, lbl_player_two_name.Text, p1Carom, p2Carom, aanStoot))
 	Return lstPlayer
+End Sub
+
+Sub SetPlayerNames
+	Dim ser As B4XSerializator
+	Dim playerData As String =ser.ConvertBytesToObject(File.ReadBytes(parseConfig.getAppPath, "player-config"))
+	Dim parser As JSONParser
+	parser.Initialize(playerData)
+	Dim root As Map = parser.NextObject
+	Dim player As Map = root.Get("player")
+	Dim p2Make As String = player.Get("p2Make")
+	Dim p2Name As String = player.Get("p2Name")
+	Dim p1Name As String = player.Get("p1Name")
+	Dim p1Make As String = player.Get("p1Make")
+	
+	lbl_player_one_name.Text = func.splitNaam(p1Name)
+	lbl_player_two_name.Text = func.splitNaam(p2Name)
+	
+	lbl_player_one_make_100.Text = p1Make.SubString2(0,1)
+	lbl_player_one_make_10.Text = p1Make.SubString2(1,2)
+	lbl_player_one_make_1.Text = p1Make.SubString2(2,3)
+	
+	lbl_player_two_make_100.Text = p2Make.SubString2(0,1)
+	lbl_player_two_make_10.Text = p2Make.SubString2(1,2)
+	lbl_player_two_make_1.Text = p2Make.SubString2(2,3)
 End Sub

@@ -10,6 +10,7 @@ Sub Class_Globals
 	Dim tmr As Timer
 	Dim appPath As String
 	Dim cfgTimeStamp, cfgCurrTimeStamp, retroCurrTimeStamp, retroTimeStamp, mqttTimeStamp, mqttCurrTimeStamp As Long
+	Dim playerconfig, currPlayerconfig As Long
 	Dim sh As Shell
 	
 	Dim retroVisible As Boolean = False
@@ -23,7 +24,7 @@ Public Sub Initialize
 	cfgTimeStamp = File.LastModified(appPath, "cnf.44")
 	retroTimeStamp = File.LastModified(appPath, "retro.cnf")
 	mqttTimeStamp = File.LastModified(appPath, "mqtt.conf")
-	
+	playerconfig = File.LastModified(appPath, "player-config")
 	tmr.Initialize("chkConfig", 5000)
 	enabledTimer(True)
 End Sub
@@ -51,14 +52,22 @@ Sub chkConfig_Tick
 	
 	If retroTimeStamp <> retroCurrTimeStamp Then
 		Dim strRetro As String = File.ReadString(appPath, "retro.cnf")
-		ProcessRetro(strRetro)			
+		ProcessRetro(strRetro)
 	End If
 	
-	mqttCurrTimeStamp = File.LastModified(appPath, "mqtt.conf")
-	If mqttTimeStamp <> mqttCurrTimeStamp Then
-		mqttTimeStamp = mqttCurrTimeStamp
-		'Log($"$Time{DateTime.Now} MQTT CHANGED"$)
-		CallSub(scorebord, "EnableMqtt")
+	If File.Exists(appPath, "mqtt.conf") Then
+		mqttCurrTimeStamp = File.LastModified(appPath, "mqtt.conf")
+		If mqttTimeStamp <> mqttCurrTimeStamp Then
+			mqttTimeStamp = mqttCurrTimeStamp
+			'Log($"$Time{DateTime.Now} MQTT CHANGED"$)
+			CallSub(scorebord, "EnableMqtt")
+		End If
+	End If
+	If File.Exists(appPath, "player-config") Then
+		currPlayerconfig = File.LastModified(appPath, "player-config")
+		If playerconfig <> currPlayerconfig Then
+			CallSub(scorebord, "SetPlayerNames")
+		End If
 	End If
 End Sub
 
