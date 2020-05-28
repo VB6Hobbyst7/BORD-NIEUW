@@ -63,6 +63,7 @@ Sub chkConfig_Tick
 			CallSub(scorebord, "EnableMqtt")
 		End If
 	End If
+	
 	If File.Exists(appPath, "player-config") Then
 		currPlayerconfig = File.LastModified(appPath, "player-config")
 		If playerconfig <> currPlayerconfig Then

@@ -209,7 +209,7 @@ End Sub
 Sub PubBord
 		'Log("PB " & func.hasInternetAccess)
 	If func.hasInternetAccess Then
-		'StartStopClientServer
+		StartStopClientServer
 		'funcScorebord.bordName =func.bordName
 	End If
 End Sub
@@ -1297,4 +1297,15 @@ Sub SetPlayerNames
 	lbl_player_two_make_100.Text = p2Make.SubString2(0,1)
 	lbl_player_two_make_10.Text = p2Make.SubString2(1,2)
 	lbl_player_two_make_1.Text = p2Make.SubString2(2,3)
+End Sub
+
+Sub GetCurrentPlayerNames As String
+	Dim p1Name, p2Name, p1Make, p2Make
+	
+	p1Name = lbl_player_one_name.Text.Replace(CRLF, " ")
+	p2Name =  lbl_player_two_name.Text.Replace(CRLF, " ")
+	
+	p1Make = $"${lbl_player_one_make_100.Text}${lbl_player_one_make_10.Text}${lbl_player_one_make_1.Text}"$
+	p2Make = $"${lbl_player_two_make_100.Text}${lbl_player_two_make_10.Text}${lbl_player_two_make_1.Text}"$
+	mqttPubDataBord.SendMessage("requestPlayerData", $"${p1Name}|${p1Make}|${p2Name}|${p2Make}"$) 
 End Sub

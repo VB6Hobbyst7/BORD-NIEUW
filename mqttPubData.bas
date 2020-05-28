@@ -67,6 +67,9 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 		'	Log("DATA PLEASE")
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
+		If m.Body.IndexOf("players please") > -1 Then
+			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
+		End If
 	Catch
 		Log("")
 	End Try
