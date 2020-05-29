@@ -35,7 +35,7 @@ Public Sub ConnectTo
 		
 		client.Connect2(mo)
 	Catch
-		Log($"CONNECTTO PUBDATA ${LastException}"$)
+		Log($"CONNECT TO PUBDATA ${LastException}"$)
 		func.mqttClientConnected = False
 		CallSub2(scorebord, "SetBrokerIcon", False)
 	End Try
@@ -76,9 +76,9 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 End Sub
 
 Public Sub StopServer
+	connected = False
 	If client.Connected Then
-		connected = False
-		client.Unsubscribe(pubName)
+	'	client.Unsubscribe(pubName)
 		client.Close
 	End If
 End Sub

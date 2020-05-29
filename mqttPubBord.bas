@@ -51,7 +51,7 @@ Public Sub ConnectTo
 		mo.SetLastWill(pubDisconnect, CreateMessage(topicName&"DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
-		Log(LastException)
+		Log("CONNECT TO " & LastException)
 	End Try
 End Sub
 
@@ -72,8 +72,8 @@ End Sub
 
 Public Sub StopServer
 '	Log("STOP SERVER")
+	connected = False
 	If client.Connected Then
-		connected = False
 		EnablePubTimer(False)
 		client.Unsubscribe(pubName)
 		client.Close

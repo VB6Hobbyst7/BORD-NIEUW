@@ -144,6 +144,7 @@ End Sub
 
 
 Sub EnableMqtt
+'	Log("ENABLE MQTT")
 	PubBord
 End Sub
 
@@ -174,10 +175,27 @@ Sub SetBrokerStatus(status As Boolean)
 	brokerConnected = status
 End Sub
 
+Sub DisconnectMqtt
+	CallSubDelayed(mqttBordPub, "StopServer")
+	CallSubDelayed(mqttPubDataBord, "StopServer")
+End Sub
+
+
 Sub MqttConnected
 	
 '	Log($"SCOREBORD BROKER CONNECT IS ${brokerConnected}"$)
 '	PubBord
+'	If brokerConnected = True Then
+'		Log($"BROKER CONNECT IS ${brokerConnected}"$)
+'		func.mqttClientConnected = brokerConnected
+'		SetBrokerIcon(True)
+'		mqttBordPub.ConnectTo
+'		mqttPubDataBord.ConnectTo
+'		Sleep(1000)
+'		Return
+'	End If
+	
+
 	If mqttEnabled = False Then
 		func.mqttClientConnected = False
 		SetBrokerIcon(False)
@@ -194,15 +212,18 @@ Sub MqttConnected
 		Return
 	End If
 	
-	If brokerConnected And Not(func.mqttClientConnected) Then
+	If brokerConnected Then 'And Not(func.mqttClientConnected) Then
 '		Log($"BROKER CONNECT IS ${brokerConnected}"$)
 		func.mqttClientConnected = brokerConnected
 		SetBrokerIcon(True)
-		Sleep(1000)
-		mqttBordPub.ConnectTo
+		'Sleep(1000)
+''		mqttBordPub.ConnectTo
+''		mqttPubDataBord.ConnectTo
+		
+		CallSubDelayed(mqttBordPub, "ConnectTo")
+		CallSubDelayed(mqttPubDataBord, "ConnectTo")
 '		Log($"NA mqttBordPub.ConnectTo $Time{DateTime.Now}"$)
-		mqttPubDataBord.ConnectTo
-		Sleep(1000)
+		'Sleep(1000)
 	End If
 End Sub
 
