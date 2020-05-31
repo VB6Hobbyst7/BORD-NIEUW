@@ -54,20 +54,20 @@ Private Sub client_Connected (Success As Boolean)
 		End If
 	Catch
 		CallSub2(scorebord, "SetBrokerIcon", False)
-		Log($"CLIENTT CONNECTED PUBDATA ${LastException}"$)
+		Log($"CLIENT CONNECTED PUBDATA ${LastException}"$)
 	End Try
 End Sub
 
 Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
-	
 	Try
 		Dim receivedObject As Object = serializator.ConvertBytesToObject(Payload)
 		Dim m As Message = receivedObject
+'	Log(m.Body)	
 		If m.Body.IndexOf("data please") > -1 Then
-		'	Log("DATA PLEASE")
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
 		If m.Body.IndexOf("players please") > -1 Then
+			LogDebug("players please")
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
 	Catch
