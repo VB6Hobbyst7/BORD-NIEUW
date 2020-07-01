@@ -1320,8 +1320,8 @@ Sub SetPlayerNames
 	lbl_player_two_make_1.Text = p2Make.SubString2(2,3)
 End Sub
 
-Sub GetCurrentPlayerNames As String
-	Dim p1Name, p2Name, p1Make, p2Make
+Sub GetCurrentPlayerNames
+	Dim p1Name, p2Name, p1Make, p2Make As String
 	
 	p1Name = lbl_player_one_name.Text.Replace(CRLF, " ")
 	p2Name =  lbl_player_two_name.Text.Replace(CRLF, " ")

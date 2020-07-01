@@ -62,7 +62,7 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 	Try
 		Dim receivedObject As Object = serializator.ConvertBytesToObject(Payload)
 		Dim m As Message = receivedObject
-'	Log(m.Body)	
+	'Log(m.Body)	
 		If m.Body.IndexOf("data please") > -1 Then
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
