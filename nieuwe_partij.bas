@@ -104,7 +104,7 @@ End Sub
 
 Sub dummyShow
 	frm.Show
-	Sleep(1000)
+'	Sleep(1000)
 	frm.Close
 End Sub
 
@@ -145,7 +145,7 @@ Sub chk_add_player_CheckedChange(Checked As Boolean)
 	btn_p1_begint.SetAlphaAnimated(speed,op)
 	btn_p2_begint.SetAlphaAnimated(speed,op)
 	lbl_max_tekens.SetAlphaAnimated(speed,op)
-	txt_speler_1.RequestFocus
+	'txt_speler_1.RequestFocus
 End Sub
 
 
@@ -312,6 +312,7 @@ End Sub
 
 Sub chk_beurten_partij_CheckedChange(Checked As Boolean)
 	If chk_beurten_partij.Checked Then
+		UncheckVereniging
 		selecteer_club.ShowForm
 	End If
 End Sub
@@ -433,6 +434,7 @@ Sub TestResponse As String
 End Sub
 
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
+	If EventData.ClickCount <> 2 Then Return
 	ExitApplication
 End Sub
 

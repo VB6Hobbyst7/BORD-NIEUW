@@ -867,7 +867,9 @@ Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 		'File.Copy(PartijFolder,"currscore.json", PartijFolder,$"${DateTime.Now}.json"$)
 		File.Delete(PartijFolder, "currscore.json")
 	End If
+'PETER	
 	File.Copy(File.DirAssets, "score.json", PartijFolder, "currscore.json")
+	
 	Sleep(200)
 	WriteScoreJson
 End Sub
@@ -958,50 +960,57 @@ Sub WriteScoreJson
 	If newGame Then Return
 	
 	Dim Scr, strAanStoot As String
-	If File.Exists(PartijFolder, "currscore.json") = False Then
-		File.Copy(File.DirAssets, "currscore.json", PartijFolder, "currscore.json")
-	End If
-	Scr = File.ReadString(PartijFolder, "currscore.json")
+	Try
 	
-	strAanStoot = aanStoot
-	parser.Initialize(Scr)
+		If File.Exists(PartijFolder, "currscore.json") = False Then
+			File.Copy(File.DirAssets, "score.json", PartijFolder, "currscore.json")
+			Sleep(300)
+		End If
+		Scr = File.ReadString(PartijFolder, "currscore.json")
+	
+		strAanStoot = aanStoot
+		parser.Initialize(Scr)
 
-	Dim root As Map = parser.NextObject
-	Dim score As Map = root.Get("score")
-	Dim p1 As Map = score.Get("p1")
-	Dim p2 As Map = score.Get("p2")
-	Dim aan_stoot As Map = score.Get("aan_stoot")
-	Dim beurten As Map = score.Get("beurten")
-	Dim spelduur As Map = score.Get("spelduur")
-	Dim autoInnings As Map = score.Get("autoinnings")
+		Dim root As Map = parser.NextObject
+		Dim score As Map = root.Get("score")
+		Dim p1 As Map = score.Get("p1")
+		Dim p2 As Map = score.Get("p2")
+		Dim aan_stoot As Map = score.Get("aan_stoot")
+		Dim beurten As Map = score.Get("beurten")
+		Dim spelduur As Map = score.Get("spelduur")
+		Dim autoInnings As Map = score.Get("autoinnings")
 	
 	
-	p1.Put("caram", $"${lbl_player_one_100.Text}${lbl_player_one_10.Text}${lbl_player_one_1.Text}"$)
-	p1.Put("naam", lbl_player_one_name.Text)
-	p1.Put("maken", $"${lbl_player_one_make_100.Text}${lbl_player_one_make_10.Text}${lbl_player_one_make_1.Text}"$)
+		p1.Put("caram", $"${lbl_player_one_100.Text}${lbl_player_one_10.Text}${lbl_player_one_1.Text}"$)
+		p1.Put("naam", lbl_player_one_name.Text)
+		p1.Put("maken", $"${lbl_player_one_make_100.Text}${lbl_player_one_make_10.Text}${lbl_player_one_make_1.Text}"$)
 	
-	p2.Put("caram", $"${lbl_player_two_100.Text}${lbl_player_two_10.Text}${lbl_player_two_1.Text}"$)
-	p2.Put("naam", lbl_player_two_name.Text)
-	p2.Put("maken", $"${lbl_player_two_make_100.Text}${lbl_player_two_make_10.Text}${lbl_player_two_make_1.Text}"$)
+		p2.Put("caram", $"${lbl_player_two_100.Text}${lbl_player_two_10.Text}${lbl_player_two_1.Text}"$)
+		p2.Put("naam", lbl_player_two_name.Text)
+		p2.Put("maken", $"${lbl_player_two_make_100.Text}${lbl_player_two_make_10.Text}${lbl_player_two_make_1.Text}"$)
 	
-	beurten.Put("aantal", lbl_innings.Text)
-	aan_stoot.Put("speler", strAanStoot)
-	spelduur.Put("tijd", lbl_partij_duur.Text)
-	If funcScorebord.autoInnings = True Then
-		autoInnings.Put("value", "1")
-	Else
-		autoInnings.Put("value", "0")
-	End If
+		beurten.Put("aantal", lbl_innings.Text)
+		aan_stoot.Put("speler", strAanStoot)
+		spelduur.Put("tijd", lbl_partij_duur.Text)
+		If funcScorebord.autoInnings = True Then
+			autoInnings.Put("value", "1")
+		Else
+			autoInnings.Put("value", "0")
+		End If
 	
-	Dim JSONGenerator As JSONGenerator
-	JSONGenerator.Initialize(root)
+		Dim JSONGenerator As JSONGenerator
+		JSONGenerator.Initialize(root)
 	
-	File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
-	Sleep(100)
+		File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
+		Sleep(100)
 
-	If mqttPubDataBord.connected Then
-		CreateJsonFormMqttClient
-	End If
+		If mqttPubDataBord.connected Then
+			CreateJsonFormMqttClient
+		End If
+	
+	Catch
+		File.WriteString(File.DirApp, "errLastException.txt", LastException)
+	End Try
 End Sub
 
 
@@ -1144,6 +1153,8 @@ Sub CheckGameStop
 		Dim beurten As Map = score.Get("beurten")
 		Dim spelduur As Map = score.Get("spelduur")
 		Dim autoInnings As Map = score.Get("autoinnings")
+		Dim nName As String = p1.Get("naam")
+		LogDebug("NAAM " & nName)
 		If p1.Get("naam") = Null Then
 			Return
 		End If

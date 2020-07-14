@@ -264,5 +264,11 @@ Public Sub GetClubMembers
 	
 End Sub
 
-
+Sub SortListWithDeviceLocale(l1 As List)
+	Dim collator As JavaObject
+	collator = collator.InitializeStatic("java.text.Collator").RunMethod("getInstance", Null)
+	collator.RunMethod("setStrength", Array (0))
+	Dim jo As JavaObject
+	jo.InitializeStatic("java.util.Collections").RunMethod("sort", Array(l1, collator))
+End Sub
 

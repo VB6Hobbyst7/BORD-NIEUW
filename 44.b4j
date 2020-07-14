@@ -11,12 +11,13 @@ File15=n205.css
 File16=nieuwe_partij.bjl
 File17=ODT0.gif
 File18=players.bjl
-File19=retro.cnf
+File19=pnPlayer.bjl
 File2=ClubSpelers.bjl
-File20=retrobord.bjl
-File21=score.json
-File22=scorebord.bjl
-File23=share_score.json
+File20=retro.cnf
+File21=retrobord.bjl
+File22=score.json
+File23=scorebord.bjl
+File24=share_score.json
 File3=cnf.44
 File4=currscore.json
 File5=digital-7.ttf
@@ -40,6 +41,7 @@ FileGroup20=Default Group
 FileGroup21=Default Group
 FileGroup22=Default Group
 FileGroup23=Default Group
+FileGroup24=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -84,10 +86,10 @@ Module6=classUpdate
 Module7=einde_partij
 Module8=error_bord
 Module9=func
-NumberOfFiles=23
+NumberOfFiles=24
 NumberOfLibraries=11
 NumberOfModules=25
-Version=8.31
+Version=8.5
 @EndOfDesignText@
 #Region Project Attributes 
 	#MainFormWidth: 1920
@@ -108,6 +110,7 @@ Sub Process_Globals
 	Private result1 As Boolean = True
 	Type Message (Body As String, From As String)
 	Type pubBordData(data As List, from As String)
+	Type MemberList(name As String)
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
@@ -128,7 +131,7 @@ Sub AppStart (Form1 As Form, Args() As String)
 	#End if
 	func.GetClubMembers
 	
-	Log($"IP NUMBER : ${func.ipNumber}"$)
+	LogDebug($"IP NUMBER : ${func.ipNumber}"$)
 	
 '	Log(func.appPath)
 	CopyCreateFilesFolders

@@ -9,14 +9,15 @@ Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
 	Private parser As JSONParser
-	Private lstClubId As List
-	Private lvSpelers As ListView
 	Private lblP1 As Label
 	Private lblP2 As Label
 	Private BtnP1Start As Button
 	Private Btn2Start As Button
 	Private BtnCancel As Button
 	Private cmbClub As ComboBox
+	Private spPlayer As ScrollPane
+	Private playerNameSelected As String
+	
 End Sub
 
 
@@ -25,13 +26,14 @@ Sub Show
 	frm.RootPane.LoadLayout("ClubSpelers")
 	frm.SetFormStyle("UNDECORATED")
 	frm.Resizable = False
-	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
+	func.SetCustomCursor1(File.DirAssets, "mouse.png", 0, 0, frm.RootPane)
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
-'	func.caromLabelCss(lvSpelers, "listview")
 	func.caromLabelCss(lblP1, "labelClubPlayer")
 	func.caromLabelCss(lblP2, "labelClubPlayer")
 	BuildCombo
+	
+	spPlayer.LoadLayout("pnPlayer", 300, 0)
 	
 End Sub
 
@@ -46,7 +48,6 @@ End Sub
 
 Sub ShowForm
 	frm.Show
-	
 End Sub
 
 Private Sub BuildCombo
@@ -54,6 +55,7 @@ Private Sub BuildCombo
 	lst.Initialize
 	
 	lst = File.ListFiles($"${func.appPath}vereniging_spelers"$)
+	lst.Sort(True)
 	If lst.Size > 0 Then
 		GetClubList(lst)
 		nieuwe_partij.verDbExists = True
@@ -77,6 +79,7 @@ End Sub
 Sub CheckClubHasMembers(club As String) As Int
 	Dim Member As String = File.ReadString(func.appPath&"vereniging_spelers", club)
 	
+	
 	Dim parser As JSONParser
 	parser.Initialize(Member)
 	
@@ -86,43 +89,66 @@ Sub CheckClubHasMembers(club As String) As Int
 	Return LedenLijst.Size
 End Sub
 
-Sub GetMembers(club As String)
-'	lvSpelers.Initialize("")
-	lvSpelers.Items.Clear
+Sub PlayerScrollPane(club As String)
 	club = $"${club}.json"$
 	Dim Member As String = File.ReadString(func.appPath&"vereniging_spelers", club)
-		
-	
-	
+	Dim lbl As Button
+	Dim top As Int = 0
 	Dim parser As JSONParser
+	
+	Dim p As Pane= spPlayer.InnerNode
+	
+	p.RemoveAllNodes
+	
 	parser.Initialize(Member)
 	
 	Dim root As Map = parser.NextObject
 	Dim LedenLijst As List = root.Get("LedenLijst")
+	Dim lst As List
+
+	lst.Initialize
 	For Each colLedenLijst As Map In LedenLijst
-'		Dim name As String = colLedenLijst.Get("name")
-		lvSpelers.Items.Add(colLedenLijst.Get("name"))
+		lst.AddAll(Array As String(colLedenLijst.Get("name")))
+	Next
+	func.SortListWithDeviceLocale(lst)
+	
+	For i = 0 To lst.Size - 1
+		lbl.Initialize("spLabel")
+		lbl.Text = lst.Get(i)&" "&i
+		lbl.TextSize = 59
+		lbl.Id = "plyer"
+		lbl.Alignment = "CENTER_LEFT"
+		lbl.Style = "-fx-padding: 0 10 0 0;"
+		p.AddNode(lbl , 0, top, spPlayer.Width-30, 30)
+		top = top+100
 	Next
 	
+	spPlayer.InnerNode.PrefHeight = lst.Size * 101
+	
+End Sub
 
+Sub spLabel_MouseReleased (EventData As MouseEvent)
+	Dim lbl As B4XView = Sender
+	
+	playerNameSelected = lbl.Text
 End Sub
 
 Sub cmbClub_SelectedIndexChanged(Index As Int, Value As Object)
 	lblP1.Text = "Speler"
 	lblP2.Text = "Speler"
-	GetMembers(cmbClub.Items.Get(Index))
+	PlayerScrollPane(cmbClub.Items.Get(Index))
 End Sub
 
 Sub SelectP1_MouseReleased (EventData As MouseEvent)
-	If lvSpelers.Items.Size = 0  Or lvSpelers.SelectedItem = Null Then Return
-	If lblP2.Text = lvSpelers.SelectedItem Then Return
-	lblP1.Text = lvSpelers.SelectedItem
+	If playerNameSelected = "" Then Return
+	If lblP2.Text = playerNameSelected Then Return
+	lblP1.Text = playerNameSelected
 End Sub
 
 Sub SelectP2_MouseReleased (EventData As MouseEvent)
-	If lvSpelers.Items.Size = 0  Or lvSpelers.SelectedItem = Null Then Return
-	If lblP1.Text = lvSpelers.SelectedItem Then Return
-	lblP2.Text = lvSpelers.SelectedItem
+	If playerNameSelected = "" Then Return
+	If lblP1.Text = playerNameSelected Then Return
+	lblP2.Text = playerNameSelected
 End Sub
 
 
