@@ -51,7 +51,8 @@ Public Sub ConnectTo
 		mo.SetLastWill(pubDisconnect, CreateMessage(topicName&"DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
-		Log("CONNECT TO " & LastException)
+		func.WriteErrorToFile("mqttconnectto.txt", LastException)
+		'Log("CONNECT TO " & LastException)
 	End Try
 End Sub
 
@@ -63,10 +64,12 @@ Private Sub client_Connected (Success As Boolean)
 			
 			EnablePubTimer(True)
 		Else
+			func.WriteErrorToFile("clientconnected.txt", LastException)
 			Log("Error connecting: " & LastException)
 		End If
 	Catch
-		Log("Mqtt disconnected")
+		func.WriteErrorToFile("clientconnected.txt", LastException)
+		'Log("Mqtt disconnected")
 	End Try
 End Sub
 
@@ -87,6 +90,7 @@ Public Sub SendMessage(Body As String)
 			client.Publish2(pubName,serializator.ConvertObjectToBytes(Body), 0, False)
 		End If
 	Catch
+		func.WriteErrorToFile("brokerlost.txt", LastException)
 		Log("Mqtt broker lost")
 		StopServer
 	End Try
@@ -126,6 +130,7 @@ Private Sub pubBordTimer_Tick
 		'client.Publish2(pubNameAll,serializator.ConvertObjectToBytes("", funcScorebord.bordName), 0, False)
 		client.Publish2(pubNameAll,CreateMessage(funcScorebord.bordDisplayName), 0, False)
 	Catch
+		func.WriteErrorToFile("pubBordTimer.txt", LastException)
 		pubBordTimer.Enabled = False
 		CallSub2(scorebord, "SetBrokerIcon", False)
 		'Log("Broker lost")

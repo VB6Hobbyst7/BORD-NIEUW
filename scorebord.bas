@@ -143,6 +143,10 @@ Public Sub show
 End Sub
 
 
+Sub ShowScoreBord
+	frm.Show
+End Sub
+
 Sub EnableMqtt
 '	Log("ENABLE MQTT")
 	PubBord
@@ -364,6 +368,7 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
 	End If
 	funcScorebord.processHs("all")
+	Sleep(100)
 	WriteScoreJson
 End Sub
 
@@ -376,6 +381,7 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
+	Sleep(100)
 	WriteScoreJson
 End Sub
 
@@ -652,13 +658,15 @@ End Sub
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
-		CallSub(nieuwe_partij, "showForm")
-		
+		nieuwe_partij.showForm
+		'frm.Close
 	else If lbl_reset.Text = "Partij Beëindigen" Then
 		If CallSub(nieuwe_partij, "TestResponse") = "1" Then
-			CallSub(einde_partij, "show")
+			'CallSub(einde_partij, "show")
+			einde_partij.show
 		Else
-			CallSub(einde_partij, "show")
+			einde_partij.show
+			'CallSub(einde_partij, "show")
 		End If
 	End If
 	
@@ -710,6 +718,7 @@ private Sub mouseIn_Event(m As String,args() As Object)
 			Sleep(300)
 		End If
 	Catch
+		func.WriteErrorToFile("lastErr.txt", LastException)
 		File.WriteString(File.DirApp,"lastErr.txt", LastException.Message)
 	End Try
 End Sub
@@ -866,6 +875,7 @@ Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 	If File.Exists(PartijFolder, "currscore.json")  Then
 		'File.Copy(PartijFolder,"currscore.json", PartijFolder,$"${DateTime.Now}.json"$)
 		File.Delete(PartijFolder, "currscore.json")
+		Sleep(200)
 	End If
 'PETER	
 	File.Copy(File.DirAssets, "score.json", PartijFolder, "currscore.json")
@@ -1001,7 +1011,10 @@ Sub WriteScoreJson
 		Dim JSONGenerator As JSONGenerator
 		JSONGenerator.Initialize(root)
 	
+'		Log($"currscore : $Time{DateTime.Now}"$)
 		File.WriteString(PartijFolder, "currscore.json", JSONGenerator.ToPrettyString(2))
+'		Log($"currscore : $Time{DateTime.Now}"$)
+		
 		Sleep(100)
 
 		If mqttPubDataBord.connected Then
@@ -1009,7 +1022,8 @@ Sub WriteScoreJson
 		End If
 	
 	Catch
-		File.WriteString(File.DirApp, "errLastException.txt", LastException)
+		func.WriteErrorToFile("errLastException.txt", LastException)
+	'	File.WriteString(File.DirApp, "errLastException.txt", LastException)
 	End Try
 End Sub
 
@@ -1057,86 +1071,6 @@ Sub CreateJsonFormMqttClient
 	
 End Sub
 
-'Sub UpdateBordWhenClient(data As String)
-'	Dim number As String
-'	
-'	Log($"RETRO BORD AKTIEF IS ${funcScorebord.bordIsRetro}"$)
-'	
-'	Dim parser As JSONParser
-'	parser.Initialize(data)
-'	Dim root As Map = parser.NextObject
-'	Dim score As Map = root.Get("score")
-'	Dim p1 As Map = score.Get("p1")
-''	Dim caram As String = p1.Get("caram")
-''	Dim percentage As String = p1.Get("percentage")
-''	Dim naam As String = p1.Get("naam")
-''	Dim maken As String = p1.Get("maken")
-''	Dim moyenne As String = p1.Get("moyenne")
-'	Dim p2 As Map = score.Get("p2")
-''	Dim caram As String = p2.Get("caram")
-''	Dim percentage As String = p2.Get("percentage")
-''	Dim naam As String = p2.Get("naam")
-''	Dim maken As String = p2.Get("maken")
-'	Dim moyenne As String = p2.Get("moyenne")
-'	Dim aan_stoot As Map = score.Get("aan_stoot")
-'	Dim speler As String = aan_stoot.Get("speler")
-'	Dim spelduur As Map = score.Get("spelduur")
-'	Dim tijd As String = spelduur.Get("tijd")
-''	Dim autoinnings As Map = score.Get("autoinnings")
-''	Dim value As String = autoinnings.Get("value")
-'	Dim beurten As Map = score.Get("beurten")
-'	Dim aantal As String = beurten.Get("aantal")
-'	
-'	'PARSE DATA TO RETRO
-'	If funcScorebord.bordIsRetro Then
-'		Log($"RETRO BORD"$)
-'		retroBord.caromP1R =p1.Get("caram")
-'		retroBord.caromP2R = p2.Get("caram")
-'		retroBord.inningR = beurten.Get("aantal")
-'		CallSubDelayed(retroBord, "SetMirrorScore")
-'		Return
-'	End If
-'	
-'	lbl_player_one_name.Text = p1.Get("naam")
-'	number = p1.Get("caram")
-'	lbl_player_one_100.Text = number.SubString2(0,1)
-'	lbl_player_one_10.Text = number.SubString2(1,2)
-'	lbl_player_one_1.Text = number.SubString2(2,3)
-'	number = p1.Get("maken")
-'	lbl_player_one_make_100.Text = number.SubString2(0,1)
-'	lbl_player_one_make_10.Text = number.SubString2(1,2)
-'	lbl_player_one_make_1.Text = number.SubString2(2,3)
-'	lbl_player_one_moyenne.Text = p1.Get("moyenne")
-'	lbl_player_one_perc.Text = p1.Get("percentage")
-'	
-'	funcScorebord.p1_progress = ( p1.Get("caram")/p1.Get("maken"))*100
-'	funcScorebord.p2_progress = ( p2.Get("caram")/p2.Get("maken"))*100
-'	
-'	lbl_player_two_name.Text = p2.Get("naam")
-'	number = p2.Get("caram")
-'	lbl_player_two_100.Text = number.SubString2(0,1)
-'	lbl_player_two_10.Text = number.SubString2(1,2)
-'	lbl_player_two_1.Text = number.SubString2(2,3)
-'	number = p2.Get("maken")
-'	lbl_player_two_make_100.Text = number.SubString2(0,1)
-'	lbl_player_two_make_10.Text = number.SubString2(1,2)
-'	lbl_player_two_make_1.Text = number.SubString2(2,3)
-'	lbl_player_two_moyenne.Text = p2.Get("moyenne")
-'	lbl_player_two_perc.Text = p2.Get("percentage")
-'	
-'	lbl_innings.Text = aantal'score.Get("beurten")
-'	lbl_partij_duur.Text = tijd'score.Get("spelduur")
-'	'setProgress(p1_progressBar, p1_progress)
-'	
-'	CallSub(funcScorebord, "SetProgressBarForMirror")
-'	If speler = 1 Then
-'		setP1Name
-'	Else
-'		setP2Name
-'	End If
-'End Sub
-
-
 Sub CheckGameStop
 	'Log($"PARTIJ FOLDER ${PartijFolder}"$)
 	If File.Exists(PartijFolder, "currscore.json") Then
@@ -1154,7 +1088,7 @@ Sub CheckGameStop
 		Dim spelduur As Map = score.Get("spelduur")
 		Dim autoInnings As Map = score.Get("autoinnings")
 		Dim nName As String = p1.Get("naam")
-		LogDebug("NAAM " & nName)
+		'LogDebug("NAAM " & nName)
 		If p1.Get("naam") = Null Then
 			Return
 		End If

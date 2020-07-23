@@ -10,14 +10,15 @@ File14=mqtt.conf
 File15=n205.css
 File16=nieuwe_partij.bjl
 File17=ODT0.gif
-File18=players.bjl
-File19=pnPlayer.bjl
+File18=playerClv.bjl
+File19=players.bjl
 File2=ClubSpelers.bjl
-File20=retro.cnf
-File21=retrobord.bjl
-File22=score.json
-File23=scorebord.bjl
-File24=share_score.json
+File20=pnPlayer.bjl
+File21=retro.cnf
+File22=retrobord.bjl
+File23=score.json
+File24=scorebord.bjl
+File25=share_score.json
 File3=cnf.44
 File4=currscore.json
 File5=digital-7.ttf
@@ -42,6 +43,7 @@ FileGroup21=Default Group
 FileGroup22=Default Group
 FileGroup23=Default Group
 FileGroup24=Default Group
+FileGroup25=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
@@ -86,7 +88,7 @@ Module6=classUpdate
 Module7=einde_partij
 Module8=error_bord
 Module9=func
-NumberOfFiles=24
+NumberOfFiles=25
 NumberOfLibraries=11
 NumberOfModules=25
 Version=8.5
@@ -131,7 +133,7 @@ Sub AppStart (Form1 As Form, Args() As String)
 	#End if
 	func.GetClubMembers
 	
-	LogDebug($"IP NUMBER : ${func.ipNumber}"$)
+	'LogDebug($"IP NUMBER : ${func.ipNumber}"$)
 	
 '	Log(func.appPath)
 	CopyCreateFilesFolders

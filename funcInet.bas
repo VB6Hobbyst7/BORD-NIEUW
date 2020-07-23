@@ -27,6 +27,7 @@ Sub testInet As ResumableSub
 		Wait For (j) JobDone(j As HttpJob)
 	Catch
 		'Log("No Internet")
+		func.WriteErrorToFile("nointernet.txt", LastException)
 		Return False
 	End Try
 	

@@ -35,7 +35,8 @@ Public Sub ConnectTo
 		
 		client.Connect2(mo)
 	Catch
-		Log($"CONNECT TO PUBDATA ${LastException}"$)
+		'Log($"CONNECT TO PUBDATA ${LastException}"$)
+		func.WriteErrorToFile("connecttopubdata.txt", LastException)
 		func.mqttClientConnected = False
 		CallSub2(scorebord, "SetBrokerIcon", False)
 	End Try
@@ -54,7 +55,8 @@ Private Sub client_Connected (Success As Boolean)
 		End If
 	Catch
 		CallSub2(scorebord, "SetBrokerIcon", False)
-		Log($"CLIENT CONNECTED PUBDATA ${LastException}"$)
+		func.WriteErrorToFile("clientconnectedpubdata.txt", LastException)
+		'Log($"CLIENT CONNECTED PUBDATA ${LastException}"$)
 	End Try
 End Sub
 
@@ -62,16 +64,17 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 	Try
 		Dim receivedObject As Object = serializator.ConvertBytesToObject(Payload)
 		Dim m As Message = receivedObject
-	'Log(m.Body)	
+'	Log(m.Body)	
 		If m.Body.IndexOf("data please") > -1 Then
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
 		If m.Body.IndexOf("players please") > -1 Then
-			LogDebug("players please")
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
 	Catch
-		Log("")
+		'm
+		func.WriteErrorToFile("mqttLastException.txt", LastException)
+		'File.WriteString(File.DirApp, "mqttLastException.txt", LastException)
 	End Try
 End Sub
 
@@ -90,6 +93,7 @@ Public Sub SendMessage(Body As String, From As String)
 			client.Publish2(pubName, CreateMessage(Body, From), 0, False)
 		End If
 	Catch
+		func.WriteErrorToFile("pubdatasendmessage.txt", LastException)
 		StopServer
 		'Log("Mqtt broker lost")
 	End Try

@@ -261,7 +261,7 @@ End Sub
 
 
 Sub lblCopyright_MousePressed (EventData As MouseEvent)
-	Log(EventData.ClickCount)
+	'Log(EventData.ClickCount)
 	If EventData.ClickCount >= 3 Then
 		ExitApplication
 	End If

@@ -163,6 +163,7 @@ End Sub
 
 Sub btn_annuleer_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	frm.Close
+'	scorebord.ShowScoreBord
 End Sub
 
 Sub txt_maken_1_TextChanged (Old As String, New As String)

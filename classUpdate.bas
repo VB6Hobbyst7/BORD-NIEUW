@@ -82,6 +82,7 @@ Sub createStartLog
 			ftp.Close
 		End If
 	Catch
+		func.WriteErrorToFile("classupdate.txt", LastException)
 		Log("..")
 	End Try
 		
@@ -116,6 +117,7 @@ Sub checkUpdate As ResumableSub
 	ftp.List("/")
 	wait for FTP_ListCompleted(ServerPath As String, Success As Boolean, Folders() As FTPEntry, fileS() As FTPEntry)
 	If Success = False Then
+		func.WriteErrorToFile("checkupdate.txt", LastException)
 		Log(LastException)
 		ftp.Close
 	Else
@@ -145,6 +147,7 @@ End Sub
 Sub FTP_DownloadCompleted (ServerPath As String, Success As Boolean)
 '	Log(ServerPath & ", Success= " & Success)
 	If Success = False Then
+		func.WriteErrorToFile("ftpdlcompleted.txt", LastException)
 		Log(LastException.Message)
 	Else
 		

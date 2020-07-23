@@ -43,7 +43,8 @@ Sub general
 	
 		callGetNode = callGetNode.Replace("-", "")
 	Catch
-		Log("")
+		func.WriteErrorToFile("classgen.txt", LastException)
+		'Log("")
 	End Try
 End Sub
 

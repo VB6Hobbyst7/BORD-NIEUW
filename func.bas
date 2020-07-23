@@ -272,3 +272,6 @@ Sub SortListWithDeviceLocale(l1 As List)
 	jo.InitializeStatic("java.util.Collections").RunMethod("sort", Array(l1, collator))
 End Sub
 
+Sub WriteErrorToFile(filename As String, error As Exception)
+	File.WriteString(File.DirApp, filename, error.Message)
+End Sub

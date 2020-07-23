@@ -33,7 +33,8 @@ Public Sub ConnectTo
 		mo.SetLastWill(pubName, serializator.ConvertObjectToBytes(pubName&" DIED"), 0, False)
 		client.Connect2(mo)
 	Catch
-		Log($"CONNECTTO PUBDATA ${LastException}"$)
+		func.WriteErrorToFile("connectpubdata.txt", LastException)
+	'	Log($"CONNECTTO PUBDATA ${LastException}"$)
 		func.mqttClientConnected = False
 	End Try
 End Sub
@@ -51,7 +52,8 @@ Private Sub client_Connected (Success As Boolean)
 		End If
 	Catch
 		CallSub2(scorebord, "SetBrokerIcon", False)
-		Log($"CLIENTT CONNECTED PUBDATA ${LastException}"$)
+		func.WriteErrorToFile("clientconnectedpubdata.txt", LastException)
+		'Log($"CLIENT CONNECTED PUBDATA ${LastException}"$)
 	End Try
 End Sub
 
@@ -65,7 +67,8 @@ Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 			CallSubDelayed(scorebord, "CreateJsonFormMqttClient")
 		End If
 	Catch
-		Log("")
+		func.WriteErrorToFile("msgarrived.txt", LastException)
+		'Log("")
 	End Try
 End Sub
 
@@ -84,6 +87,7 @@ Public Sub SendMessage(Body As String, From As String)
 			client.Publish2(pubName, CreateMessage(Body, From), 0, False)
 		End If
 	Catch
+		func.WriteErrorToFile("sendmessage.txt", LastException)
 		StopServer
 		'Log("Mqtt broker lost")
 	End Try
