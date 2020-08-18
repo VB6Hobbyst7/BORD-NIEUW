@@ -31,7 +31,7 @@ Sub Process_Globals
 
 	Private lbl_player_one_name, lbl_player_two_name As B4XView
 	Private lbl_player_one_perc, lbl_player_two_perc As Label
-	Private lbl_reset, lbl_clock, lbl_close As B4XView
+	Private lbl_reset, lbl_clock, lbl_close, lbl_clearBord As B4XView
 	Private lbl_player_one_hs, lbl_player_two_hs, lbl_innings As Label
 	Private B4XProgressBarP1, B4XProgressBarP2 As B4XProgressBar
 	Private pn_p1_carom, pn_promote, pn_sponsore, pn_game As Pane
@@ -50,6 +50,7 @@ Sub Process_Globals
 	Dim starterMqttConnected As Starter
 	Private mqttEnabled As Boolean
 	Private brokerConnected As Boolean
+	
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -124,7 +125,8 @@ Public Sub show
 	setFontStyle
 	disableControls
 	GetPartijFolder
-	disabeClockFunction(func.hasInternetAccess)
+	'disabeClockFunction(func.hasInternetAccess)
+	disabeClockFunction(False)
 	func.alignLabelCenter(lbl_player_one_name)
 	func.alignLabelCenter(lbl_player_two_name)
 	func.alignLabelCenter(lbl_game_text)
@@ -448,7 +450,7 @@ Sub resetBoard
 	funcScorebord.p2HsTemp = 0
 	B4XProgressBarP1.Progress = 0
 	B4XProgressBarP2.Progress = 0
-	
+	'u
 	clsCheckCfg.enabledTimer(True)
 End Sub
 
@@ -631,12 +633,21 @@ Public Sub HideMainForRetro(showForm As Boolean)
 	frm.RootPane.Visible = showForm
 End Sub
 
+
 Sub nieuwePartij
 	If funcScorebord.newGameInitialized = False Then
 		nieuwe_partij.show
 	Else
 		CallSub(nieuwe_partij, "showForm")
 	End If
+End Sub
+
+Sub lbl_clearBord_MouseEntered (EventData As MouseEvent)
+	lbl_clearBord.Color = 0xFFFF0000
+End Sub
+
+Sub lbl_clearBord_MouseExited (EventData As MouseEvent)
+	lbl_clearBord.Color = 0xFF088F00
 End Sub
 
 Sub lbl_reset_MouseEntered (EventData As MouseEvent)
@@ -1274,4 +1285,11 @@ Sub GetCurrentPlayerNames
 	p1Make = $"${lbl_player_one_make_100.Text}${lbl_player_one_make_10.Text}${lbl_player_one_make_1.Text}"$
 	p2Make = $"${lbl_player_two_make_100.Text}${lbl_player_two_make_10.Text}${lbl_player_two_make_1.Text}"$
 	mqttPubDataBord.SendMessage("requestPlayerData", $"${p1Name}|${p1Make}|${p2Name}|${p2Make}"$) 
+End Sub
+
+Sub lbl_clearBord_MouseReleased (EventData As MouseEvent)
+	clsGameTime.hours = 0
+	clsGameTime.minutes = 0
+	resetBoard
+	setNewGame(True)
 End Sub

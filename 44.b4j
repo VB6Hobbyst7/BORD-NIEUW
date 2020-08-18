@@ -2,23 +2,24 @@
 Build1=Marcel,nl.pdeg.bord
 Build2=sale,nl.pdeg.bord,SALE
 File1=bal.png
-File10=logo.png
-File11=main.bjl
-File12=Montserrat-Regular.ttf
-File13=mouse.png
-File14=mqtt.conf
-File15=n205.css
-File16=nieuwe_partij.bjl
-File17=ODT0.gif
-File18=playerClv.bjl
-File19=players.bjl
+File10=johanbord.bjl
+File11=logo.png
+File12=main.bjl
+File13=Montserrat-Regular.ttf
+File14=mouse.png
+File15=mqtt.conf
+File16=n205.css
+File17=nieuwe_partij.bjl
+File18=ODT0.gif
+File19=playerClv.bjl
 File2=ClubSpelers.bjl
-File20=pnPlayer.bjl
-File21=retro.cnf
-File22=retrobord.bjl
-File23=score.json
-File24=scorebord.bjl
-File25=share_score.json
+File20=players.bjl
+File21=pnPlayer.bjl
+File22=retro.cnf
+File23=retrobord.bjl
+File24=score.json
+File25=scorebord.bjl
+File26=share_score.json
 File3=cnf.44
 File4=currscore.json
 File5=digital-7.ttf
@@ -27,30 +28,31 @@ File7=eenvreselijkekraai1.png
 File8=einde_partij.bjl
 File9=error_bord.bjl
 FileGroup1=Default Group
-FileGroup10=Default Group
+FileGroup10=forms
 FileGroup11=Default Group
-FileGroup12=Default Group
+FileGroup12=forms
 FileGroup13=Default Group
 FileGroup14=Default Group
 FileGroup15=Default Group
 FileGroup16=Default Group
-FileGroup17=Default Group
+FileGroup17=forms
 FileGroup18=Default Group
-FileGroup19=Default Group
-FileGroup2=Default Group
-FileGroup20=Default Group
-FileGroup21=Default Group
+FileGroup19=forms
+FileGroup2=forms
+FileGroup20=forms
+FileGroup21=forms
 FileGroup22=Default Group
-FileGroup23=Default Group
+FileGroup23=forms
 FileGroup24=Default Group
-FileGroup25=Default Group
+FileGroup25=forms
+FileGroup26=Default Group
 FileGroup3=Default Group
 FileGroup4=Default Group
 FileGroup5=Default Group
 FileGroup6=Default Group
 FileGroup7=Default Group
-FileGroup8=Default Group
-FileGroup9=Default Group
+FileGroup8=forms
+FileGroup9=forms
 Group=Default Group
 Library1=jcore
 Library10=jrandomaccessfile
@@ -70,17 +72,18 @@ Module12=GenDb
 Module13=getNode
 Module14=GetRot
 Module15=inactiveClass
-Module16=mqttPubBord
-Module17=mqttPubData
-Module18=MqttSubPub
-Module19=nieuwe_partij
+Module16=johanbord
+Module17=mqttPubBord
+Module18=mqttPubData
+Module19=MqttSubPub
 Module2=classCheckConfig
-Module20=parseConfig
-Module21=retroBord
-Module22=scorebord
-Module23=selecteer_club
-Module24=Starter
-Module25=timerClass
+Module20=nieuwe_partij
+Module21=parseConfig
+Module22=retroBord
+Module23=scorebord
+Module24=selecteer_club
+Module25=Starter
+Module26=timerClass
 Module3=classGameTimer
 Module4=classGen
 Module5=classNewGame
@@ -88,9 +91,9 @@ Module6=classUpdate
 Module7=einde_partij
 Module8=error_bord
 Module9=func
-NumberOfFiles=25
+NumberOfFiles=26
 NumberOfLibraries=11
-NumberOfModules=25
+NumberOfModules=26
 Version=8.5
 @EndOfDesignText@
 #Region Project Attributes 
@@ -99,7 +102,7 @@ Version=8.5
 #End Region
 
 #IgnoreWarnings: 16,9, 10
-
+#VirtualMachineArgs: -Djavafx.platform=monocle -Dmonocle.platform=Headless -Dprism.order=sw
 
 Sub Process_Globals
 	Private fx As JFX
@@ -116,6 +119,7 @@ Sub Process_Globals
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
+	
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("main")
 	
