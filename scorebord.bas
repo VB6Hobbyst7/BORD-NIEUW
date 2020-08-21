@@ -51,6 +51,9 @@ Sub Process_Globals
 	Private mqttEnabled As Boolean
 	Private brokerConnected As Boolean
 	
+	Private pn_a As Pane
+	Private btnResetGameCancel As Button
+	Private btnResetGameReset As Button
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -717,6 +720,7 @@ Sub setPromoteRunning(running As Boolean)
 End Sub
 
 private Sub mouseIn_Event(m As String,args() As Object)
+	
 	Try
 		If promoteRunning = True Then
 			pn_promote.Top = pn_promote_top
@@ -735,7 +739,6 @@ private Sub mouseIn_Event(m As String,args() As Object)
 End Sub
 
 private Sub MouseOver(n1 As Node)
-	
 	setHandler(n1,"setOnMouseMoved","mouseIn")
 	setHandler(n1,"setOnMouseExited","mouseOut")
 End Sub
@@ -1288,8 +1291,21 @@ Sub GetCurrentPlayerNames
 End Sub
 
 Sub lbl_clearBord_MouseReleased (EventData As MouseEvent)
+	pn_a.SetLayoutAnimated(0, 343, 200, pn_a.Width, pn_a.Height)
+End Sub
+
+Sub btnResetGameCancel_MouseReleased (EventData As MouseEvent)
+	HideResetPanel
+End Sub
+
+Sub btnResetGameReset_MouseReleased (EventData As MouseEvent)
+	HideResetPanel
 	clsGameTime.hours = 0
 	clsGameTime.minutes = 0
 	resetBoard
 	setNewGame(True)
+End Sub
+
+Sub HideResetPanel
+	pn_a.SetLayoutAnimated(0, 940, 1150, pn_a.Width, pn_a.Height)
 End Sub

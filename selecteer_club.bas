@@ -119,7 +119,7 @@ Sub SetClvPlayer(club As String)
 		Dim newItemPane As B4XView = xui.CreatePanel("")
 		newItemPane.SetLayoutAnimated(0, 0, 0, clvPlayerMain.AsView.Width,110)
 		newItemPane.LoadLayout("playerClv")
-		lblPlayer.Text = $"${lst.Get(i)} ${i}"$
+		lblPlayer.Text = $"${lst.Get(i)}"$
 		lblPlayer.Style = "-fx-padding: 0 30 0 0; -fx-font: 59 arial;"
 	'	lblPlayer.TextSize = 59
 		clvPlayerMain.Add(newItemPane, lst.Get(i))
