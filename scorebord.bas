@@ -11,6 +11,9 @@ Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
 	
+	
+	Private p1Timer As ClassBallTime
+	Private p2Timer As ClassBallTime
 	Private parser As JSONParser
 	Private PartijFolder As String
 	Private inactivecls As inactiveClass
@@ -54,6 +57,8 @@ Sub Process_Globals
 	Private pn_a As Pane
 	Private btnResetGameCancel As Button
 	Private btnResetGameReset As Button
+	Private lblTmpTimer As Label
+	Private pBarTimeP1 As B4XProgressBar
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -73,13 +78,24 @@ Public Sub show
 	lbl_ip.Text = func.getIpNumber
 	
 '	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
-	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'	Dim img As String
+'	
+'	If File.Exists(parseConfig.getAppImagePath, "reclame.png") Then
+'		img = "reclame.png"
+'	Else
+'		img = "biljarter.png"
+'	End If
+'	'CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & img)
+	
+	SetSponsorImg
 	
 	#if debug
 	frm.SetFormStyle("DECORATED")
 	#Else
 	frm.SetFormStyle("UNDECORATED")
 	frm.Resizable = False
+	lblTmpTimer.Visible = False
 	#End If
 	
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
@@ -95,6 +111,7 @@ Public Sub show
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
+	
 	mqttBordPub.Initialize
 	mqttPubDataBord.Initialize
 	funcScorebord.lblInnings = lbl_innings
@@ -135,6 +152,8 @@ Public Sub show
 	func.alignLabelCenter(lbl_game_text)
 	lbl_version.Text = funcScorebord.BordVersion
 	CheckGameStop
+'	p1Timer.Initialize("p1")
+'	p2Timer.Initialize("p2")
 	
 	Dim strRetro As String = File.ReadString(func.appPath, "retro.cnf")
 	
@@ -145,8 +164,19 @@ Public Sub show
 		starterMqttConnected.Initialize
 		PubBord
 	End If
+	
 End Sub
 
+
+Sub setp1Time(timePerc As Double)
+'	lblTmpTimer.Text = time
+	pBarTimeP1.Progress=timePerc
+	Sleep(0)
+End Sub
+
+Sub GetPartijTimer As String
+	Return lbl_partij_duur.Text
+End Sub
 
 Sub ShowScoreBord
 	frm.Show
@@ -373,6 +403,8 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
 	End If
 	funcScorebord.processHs("all")
+'	p2Timer.enableTime(False)
+'	p1Timer.enableTime(True)
 	Sleep(100)
 	WriteScoreJson
 End Sub
@@ -386,6 +418,8 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
 	funcScorebord.processHs("all")
+'	p1Timer.enableTime(False)
+'	p2Timer.enableTime(True)
 	Sleep(100)
 	WriteScoreJson
 End Sub
@@ -542,6 +576,9 @@ Sub setP1Name
 	lbl_p1_inning.Visible = True
 	lbl_p2_inning.Visible = False
 	aanStoot = 1
+'	p1Timer.enableTime(True)
+'	p2Timer.enableTime(False)
+'	p1Timer.enableGameTime(True)	
 End Sub
 
 Sub setP2Name
@@ -862,8 +899,20 @@ End Sub
 
 Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 	If newGame = False Then Return
+'	Dim img As String
+'	
+'	If File.Exists(parseConfig.getAppImagePath, "reclame.png") Then
+'		img = "reclame.png"
+'	Else 
+'		img = "biljarter.png"
+'	End If
+'	
+'	
+'	'CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & img)
 	
-	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+	SetSponsorImg
+	
 	lbl_player_two_name.Enabled = True
 	lbl_player_one_name.Enabled = True
 	lbl_innings.Enabled = True
@@ -878,7 +927,9 @@ Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 	If lbl_player_two_make_1.Text+lbl_player_two_make_10.Text+lbl_player_two_make_100.Text = 0 Then
 		lbl_player_two_perc.Text = "n.v.t."
 	End If
-	
+
+'	p1Timer.ResetTime	
+'	p2Timer.ResetTime	
 	
 '	enableScoreAndMake
 	setP1Name
@@ -968,7 +1019,16 @@ Sub lbl_partij_duur_MouseReleased (EventData As MouseEvent)
 
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, File.DirAssets, "ODT0.gif")
 	Sleep(3000)
-	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'	Dim img As String
+'	
+'	If File.Exists(parseConfig.getAppImagePath, "reclame.png") Then
+'		img = "reclame.png"
+'	Else
+'		img = "biljarter.png"
+'	End If
+'	'CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "biljarter.png")
+'	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & img)
+	SetSponsorImg
 End Sub
 
 Sub lbl_player_two_moyenne_MouseReleased (EventData As MouseEvent)
@@ -1142,6 +1202,8 @@ Sub CheckGameStop
 		
 		clsGameTime.hours = duurHrs 'lbl_partij_duur.Text.SubString2(0,2)
 		clsGameTime.minutes = duurMin 'lbl_partij_duur.Text.SubString2(3,5)
+'		p1Timer.Initialize("p1")
+'		p2Timer.Initialize("p2")
 		If aan_stoot.Get("speler") = "1" Then
 			setP1Name
 		Else
@@ -1249,6 +1311,8 @@ Sub mqttGetPlayers As List
 	Dim p1Carom As String = $"${lbl_player_one_100.Text}${lbl_player_one_10.Text}${lbl_player_one_1.Text}"$
 	Dim p2Carom As String = $"${lbl_player_two_100.Text}${lbl_player_two_10.Text}${lbl_player_two_1.Text}"$
 	
+	
+	
 	lstPlayer.Initialize
 	
 	lstPlayer.AddAll(Array As String(lbl_player_one_name.Text, lbl_player_two_name.Text, p1Carom, p2Carom, aanStoot))
@@ -1277,6 +1341,9 @@ Sub SetPlayerNames
 	lbl_player_two_make_100.Text = p2Make.SubString2(0,1)
 	lbl_player_two_make_10.Text = p2Make.SubString2(1,2)
 	lbl_player_two_make_1.Text = p2Make.SubString2(2,3)
+	If File.Exists(parseConfig.getAppPath, "player-config") Then
+		File.Delete(parseConfig.getAppPath, "player-config")
+	End If
 End Sub
 
 Sub GetCurrentPlayerNames
@@ -1308,4 +1375,16 @@ End Sub
 
 Sub HideResetPanel
 	pn_a.SetLayoutAnimated(0, 940, 1150, pn_a.Width, pn_a.Height)
+End Sub
+
+Sub SetSponsorImg
+	Dim img As String
+	
+	If File.Exists(parseConfig.getAppImagePath, "reclame.png") Then
+		img = "reclame.png"
+	Else
+		img = "biljarter.png"
+	End If
+	
+	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & img)
 End Sub

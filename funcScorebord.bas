@@ -15,7 +15,7 @@ Sub Process_Globals
 	Public useDigitalFont, isBordClient, bordIsRetro As Boolean
 	Public useYellowFont As Boolean
 	Public error, bordName, bordDisplayName As String
-	Public BordVersion As String = "v1.6.0-082020"
+	Public BordVersion As String = "v1.6.2"
 	
 	Public newGameInitialized As Boolean = False
 	Public scorePlayerOne, scorePlayerTwo As Int
@@ -33,6 +33,7 @@ Sub Process_Globals
 	Public ext As String = ".conf"
 	Public ixt As String = "pi"
 	Dim txtScore As String
+	Public gameTimeSeconds As Double
 End Sub
 
 
