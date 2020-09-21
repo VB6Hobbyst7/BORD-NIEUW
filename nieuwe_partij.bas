@@ -79,16 +79,34 @@ Sub show
 	func.caromLabelCss(lbl_auto_innings, "labelCarom")
 	func.caromLabelCss(lbl_beurten_partij, "labelCarom")
 	
-	chk_beurten_partij.Visible = verDbExists
-	lbl_beurten_partij.Visible = verDbExists
+'	chk_beurten_partij.Visible = verDbExists
+'	lbl_beurten_partij.Visible = verDbExists
+
+	CheckIfClubMembersExist
 	enablePlayerInput
 	setPlayerName
 	useDigitalFont
 	useFontYellow
-	setPlayerName
+'	setPlayerName
 '	frm.Show
 	funcScorebord.newGameInitialized = True
 		
+End Sub
+
+
+Private Sub CheckIfClubMembersExist
+	Dim lst As List
+	lst.Initialize
+	
+	lst = File.ListFiles($"${func.appPath}vereniging_spelers"$)
+	lst.Sort(True)
+	If lst.Size > 0 Then
+		verDbExists = True
+	Else
+		verDbExists = False
+	End If
+	chk_beurten_partij.Visible = verDbExists
+	lbl_beurten_partij.Visible = verDbExists
 End Sub
 
 

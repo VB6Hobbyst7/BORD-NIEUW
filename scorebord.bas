@@ -22,6 +22,7 @@ Sub Process_Globals
 	Private clsTmr As timerClass
 	Private clsNewGame As classNewGame
 	Private clsGameTime As classGameTimer
+	Private clsP1HoogsteSerie As ClassHoogsteSerie
 	Private aanStoot As Int
 	
 	Private newGame As Boolean = False
@@ -146,10 +147,10 @@ Public Sub show
 	disableControls
 	GetPartijFolder
 	'disabeClockFunction(func.hasInternetAccess)
-	disabeClockFunction(False)
+	EnableClockFunction(False)
 	func.alignLabelCenter(lbl_player_one_name)
 	func.alignLabelCenter(lbl_player_two_name)
-	func.alignLabelCenter(lbl_game_text)
+'	func.alignLabelCenter(lbl_game_text)
 	lbl_version.Text = funcScorebord.BordVersion
 	CheckGameStop
 '	p1Timer.Initialize("p1")
@@ -324,20 +325,21 @@ End Sub
 
 'PROCESS SCORE P1
 Sub p1Points_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
-		Return
-	End If
+'	If funcScorebord.isBordClient = True Then
+'		Return
+'	End If
 	Dim lbl As Label = Sender
 	setP1Name
 	funcScorebord.calcScorePlayerOne(lbl.Tag, EventData.PrimaryButtonPressed)
+'	clsP1HoogsteSerie.AddPoint(lbl.Tag, EventData.PrimaryButtonPressed)
 	WriteScoreJson
 End Sub
 
 'PROCESS SCORE P2
 Sub p2Points_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
-		Return
-	End If
+'	If funcScorebord.isBordClient = True Then
+'		Return
+'	End If
 	Dim lbl As Label = Sender
 	setP2Name
 	funcScorebord.calcScorePlayertwo(lbl.Tag, EventData.PrimaryButtonPressed)
@@ -346,9 +348,9 @@ End Sub
 
 'PROCESS P1 TO MAKE
 Sub p1ToMake_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
-		Return
-	End If
+'	If funcScorebord.isBordClient = True Then
+'		Return
+'	End If
 	Dim lbl As Label = Sender
 	funcScorebord.playerOneMake(lbl_player_one_make_100, lbl_player_one_make_10, lbl_player_one_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
 	WriteScoreJson
@@ -356,18 +358,18 @@ End Sub
 
 'PROCESS P2 TO MAKE
 Sub p2ToMake_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
-		Return
-	End If
+'	If funcScorebord.isBordClient = True Then
+'		Return
+'	End If
 	Dim lbl As Label = Sender
 	funcScorebord.playerTwoMake(lbl_player_two_make_100, lbl_player_two_make_10, lbl_player_two_make_1, EventData.PrimaryButtonPressed, lbl.Tag)
 	WriteScoreJson
 End Sub
 
 Sub lbl_innings_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
-		Return
-	End If
+'	If funcScorebord.isBordClient = True Then
+'		Return
+'	End If
 	
 	Dim points As Int = lbl_innings.Text
 		
@@ -384,17 +386,13 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 	funcScorebord.prevInnings = funcScorebord.prevInnings+1'points
 	lbl_innings.Text = func.padString(points, "0", 0, 3)
 	funcScorebord.calcMoyenne(lbl_player_one_moyenne, lbl_player_two_moyenne)
-	funcScorebord.processHs("all")
+'	funcScorebord.processHs("all")
 	funcScorebord.inningSet = 1
 	WriteScoreJson
 	
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
-		Return
-	End If
-	
 	funcScorebord.calcMoyenneP2
 	setP1Name
 	If funcScorebord.inningSet = 0 And funcScorebord.autoInnings = True Then
@@ -402,25 +400,18 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 		funcScorebord.innings = funcScorebord.innings+1
 		lbl_innings.Text = func.padString(funcScorebord.innings, "0", 0, 3)
 	End If
-	funcScorebord.processHs("all")
-'	p2Timer.enableTime(False)
-'	p1Timer.enableTime(True)
+'	funcScorebord.processHs("all")
 	Sleep(100)
 	WriteScoreJson
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then
-		Return
-	End If
-	
 	setP2Name
 	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
-	funcScorebord.processHs("all")
-'	p1Timer.enableTime(False)
-'	p2Timer.enableTime(True)
+'	funcScorebord.processHs("all")
 	Sleep(100)
+'	clsP1HoogsteSerie.ResetPlayingHS
 	WriteScoreJson
 End Sub
 
@@ -489,6 +480,7 @@ Sub resetBoard
 	B4XProgressBarP2.Progress = 0
 	'u
 	clsCheckCfg.enabledTimer(True)
+'	clsP1HoogsteSerie.Initialize
 End Sub
 
 Sub setBeurten(beurten As String)
@@ -608,61 +600,61 @@ Sub setP2Name
 	aanStoot = 2
 End Sub
 
-Sub checkMatchWonP1
-	Dim caroms, make As Int
-	Dim player As String
-	
-	caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
-	make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
-	
-	If make = 0 Then Return
-	
-	If caroms >= make And funcScorebord.beurtenPartij = False Then
-		player = lbl_player_two_name.Text.Replace(CRLF, " ")
-		
-		funcScorebord.calcMoyenneP2
-		lbl_game_text.Text = $"Gelijkmakende beurt voor ${player}"$
-		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
-		setP2Name
-		Sleep(4000)
-		pn_game.Top = 1650
-	End If
-		
-	
-End Sub
+'Sub checkMatchWonP1
+'	Dim caroms, make As Int
+'	Dim player As String
+'	
+'	caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
+'	make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
+'	
+'	If make = 0 Then Return
+'	
+'	If caroms >= make And funcScorebord.beurtenPartij = False Then
+'		player = lbl_player_two_name.Text.Replace(CRLF, " ")
+'		
+'		funcScorebord.calcMoyenneP2
+'		lbl_game_text.Text = $"Gelijkmakende beurt voor ${player}"$
+'		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
+'		setP2Name
+'		Sleep(4000)
+'		pn_game.Top = 1650
+'	End If
+'		
+'	
+'End Sub
 
-Sub checkMatchWonP2
-	Dim p2caroms, p2make As Int
-	Dim p1caroms, p1Make As Int
-	Dim player As String
-	
-	p2caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
-	p2make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
-	
-	If p2make = 0 Then Return
-	
-	p1caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
-	p1Make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
-	
-	If p2caroms >= p2make And p1Make = p1caroms Then
-		lbl_game_text.Text = $"Remise partij"$
-		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
-		setP2Name
-		Sleep(4000)
-		pn_game.Top = 1650
-		Return
-	End If
-	
-	
-	If p2caroms >= p2make Then
-		player = lbl_player_two_name.Text.Replace(CRLF, " ")
-		lbl_game_text.Text = $"${player} heeft de partij gewonnen"$
-		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
-		setP2Name
-		Sleep(4000)
-		pn_game.Top = 1650
-	End If
-End Sub
+'Sub checkMatchWonP2
+'	Dim p2caroms, p2make As Int
+'	Dim p1caroms, p1Make As Int
+'	Dim player As String
+'	
+'	p2caroms = lbl_player_two_100.Text&lbl_player_two_10.Text&lbl_player_two_1.Text
+'	p2make = lbl_player_two_make_100.text&lbl_player_two_make_10.text&lbl_player_two_make_1.text
+'	
+'	If p2make = 0 Then Return
+'	
+'	p1caroms = lbl_player_one_100.Text&lbl_player_one_10.Text&lbl_player_one_1.Text
+'	p1Make = lbl_player_one_make_100.text&lbl_player_one_make_10.text&lbl_player_one_make_1.text
+'	
+'	If p2caroms >= p2make And p1Make = p1caroms Then
+'		lbl_game_text.Text = $"Remise partij"$
+'		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
+'		setP2Name
+'		Sleep(4000)
+'		pn_game.Top = 1650
+'		Return
+'	End If
+'	
+'	
+'	If p2caroms >= p2make Then
+'		player = lbl_player_two_name.Text.Replace(CRLF, " ")
+'		lbl_game_text.Text = $"${player} heeft de partij gewonnen"$
+'		pn_game.Top = (frm.RootPane.Height/2)-(pn_game.Height/2)
+'		setP2Name
+'		Sleep(4000)
+'		pn_game.Top = 1650
+'	End If
+'End Sub
 
 Sub hideForm(Hide As Boolean)
 	'frm.rootpane.Visible = hide
@@ -999,7 +991,7 @@ Sub lbl_player_two_name_MouseExited (EventData As MouseEvent)
 	lbl_player_two_name.SetColorAndBorder(lbl_player_two_name.Color, 0dip, 0xFFFF0000, 0dip)
 End Sub
 
-Sub disabeClockFunction(enable As Boolean)
+Sub EnableClockFunction(enable As Boolean)
 	lbl_clock.Visible = enable
 	lbl_date_time_dag.Visible = enable
 	lbl_date_time_date.Visible = enable

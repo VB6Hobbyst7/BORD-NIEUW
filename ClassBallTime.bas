@@ -63,7 +63,7 @@ Sub ConvertTimeToSeconds(strTime As String)
 	'timePerc = (ballTime/totTime)*100
 	timePerc = (ballTime/funcScorebord.gameTimeSeconds)*100
 	CallSub2(scorebord, "setp1Time", timePerc)
-	Log($"${NumberFormat2(timePerc, 1,2,2, False)}%"$)
+'	Log($"${NumberFormat2(timePerc, 1,2,2, False)}%"$)
 End Sub
 
 Sub GetGameTime

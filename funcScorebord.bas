@@ -90,9 +90,9 @@ Sub calcScorePlayerOne(points As Int, leftMouse As Boolean)
 	p1HsTemp	= p1HsTemp + points
 	
 	'TEST CODE
-	If p1HsTemp > p1Hs Then
-		lbl_player_one_hs.Text = func.padString(p1HsTemp, "0", 0, 3)
-	End If
+'	If p1HsTemp > p1Hs Then
+'		lbl_player_one_hs.Text = func.padString(p1HsTemp, "0", 0, 3)
+'	End If
 	'TEST CODE
 	
 '	If lblInnings.Text = "000" And autoInnings Then
@@ -139,6 +139,7 @@ Sub calcMoyenneP1
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
 		p1_progress = (scorePlayerOne/p1ToMake)*100
 	End If
+
 	setProgress(p1_progressBar, p1_progress)
 End Sub
 
@@ -215,9 +216,9 @@ Sub calcScorePlayerTwo(points As Int, leftMouse As Boolean)
 	p2HsTemp	= p2HsTemp + points
 	
 	'TEST CODE
-	If p2HsTemp > p2Hs Then
-		lbl_player_two_hs.Text = func.padString(p2HsTemp, "0", 0, 3)
-	End If
+'	If p2HsTemp > p2Hs Then
+'		lbl_player_two_hs.Text = func.padString(p2HsTemp, "0", 0, 3)
+'	End If
 	'TEST CODE
 	
 	If lblInnings.Text = "000" And autoInnings = True Then
@@ -301,7 +302,7 @@ Sub playerTwoMake(lbl100 As Label, lbl10 As Label, lbl1 As Label, leftButton As 
 End Sub
 'P2 MAKE
 
-'PROCESS HIGHSCORE
+'PROCESS HIGHSCORE, not used anymore
 Sub processHs(player As String)
 	If player = "p1" Then
 		If p1HsTemp > 0 And p1HsTemp > p1Hs Then
@@ -347,7 +348,7 @@ Sub processHs(player As String)
 End Sub
 'PROCESS HIGHSCORE
 
-'WINNER
+'WINNER, not used anymore
 Sub checkMatchWon(player As String)
 	If player = "p1" Then
 		CallSub(scorebord, "checkMatchWonP1")

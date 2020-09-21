@@ -91,17 +91,17 @@ Sub lblCopyright_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub LblReset_MouseReleased (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then Return
+'	If funcScorebord.isBordClient = True Then Return
 	ResetPartij
 End Sub
 
 Sub LblReset_MouseEntered (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then Return
+'	If funcScorebord.isBordClient = True Then Return
 	LblReset.Color = 0xFFFF0000
 End Sub
 
 Sub LblReset_MouseExited (EventData As MouseEvent)
-	If funcScorebord.isBordClient = True Then Return
+'	If funcScorebord.isBordClient = True Then Return
 	LblReset.Color = 0xFF001317 '0xFF002529
 End Sub
 

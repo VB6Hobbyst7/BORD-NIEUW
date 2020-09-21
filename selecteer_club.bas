@@ -33,7 +33,7 @@ Sub Show
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	func.caromLabelCss(lblP1, "labelClubPlayer")
 	func.caromLabelCss(lblP2, "labelClubPlayer")
-	BuildCombo
+	'BuildCombo
 	
 	spPlayer.LoadLayout("pnPlayer", 300, 0)
 	
@@ -50,7 +50,9 @@ End Sub
 
 Sub ShowForm
 	frm.Show
+	BuildCombo
 End Sub
+
 
 Private Sub BuildCombo
 	Dim lst As List
@@ -65,6 +67,8 @@ Private Sub BuildCombo
 		nieuwe_partij.verDbExists = False
 	End If
 End Sub
+
+
 
 Sub GetClubList(lstClub As List)
 	Dim clbName As String
