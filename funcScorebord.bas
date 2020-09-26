@@ -133,7 +133,7 @@ Sub calcMoyenneP1
 		p1_moyenne.Text = "0.000"
 		Return
 	End If
-	
+
 	p1_moyenne.Text = func.getUnroundedMoyenne(NumberFormat2((scorePlayerOne/innings),1,4,4,False))
 	If p1ToMake > 0 Then
 		CallSub2(scorebord, "playerOnePerc", NumberFormat2((scorePlayerOne/p1ToMake)*100,1,2,2,False)&"%")
@@ -349,16 +349,16 @@ End Sub
 'PROCESS HIGHSCORE
 
 'WINNER, not used anymore
-Sub checkMatchWon(player As String)
-	If player = "p1" Then
-		CallSub(scorebord, "checkMatchWonP1")
-	End If
-	
-	If player = "p2" Then
-		'processHs("p2")
-		CallSub(scorebord, "checkMatchWonP2")
-	End If
-End Sub
+'Sub checkMatchWon(player As String)
+'	If player = "p1" Then
+'		CallSub(scorebord, "checkMatchWonP1")
+'	End If
+'	
+'	If player = "p2" Then
+'		'processHs("p2")
+'		CallSub(scorebord, "checkMatchWonP2")
+'	End If
+'End Sub
 'WINNER
 
 'SET PLAYER PROGRESSBAR

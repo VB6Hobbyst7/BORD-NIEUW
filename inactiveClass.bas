@@ -16,10 +16,13 @@ Sub Class_Globals
 	Private currentX = 10, currentY = 10 As Double
 	Public vx = 200, vy = 100 As Double
 	Public pnlWidth, pnlHeight As Double
+	Private activityName As Object
+'	Private frm As Form
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
-Public Sub Initialize(promoteWidth As Double, promoteHeight As Double)
+Public Sub Initialize(passedForm As Object, promoteWidth As Double, promoteHeight As Double)
+	activityName = passedForm
 	pnlWidth = promoteWidth
 	pnlHeight = promoteHeight
 	
@@ -33,15 +36,18 @@ End Sub
 
 
 Sub timeOut_Tick()
+'	Log($"$Time{DateTime.Now}"$)
 	timeDiff = DateTime.Now - lastClick
 	If timeDiff > timeOutPeriode Then
 		enableTime(False)
-		CallSubDelayed(scorebord, "showPromote")
+		'CallSubDelayed(scorebord, "showPromote")
+		CallSubDelayed(activityName, "showPromote")
 '		Log($"TIMEOUT DETECTED"$)
 		vx = 50
 		vy = 50
 		enablePromote(True)
-		CallSub2(scorebord, "setPromoteRunning", True)
+		'CallSub2(scorebord, "setPromoteRunning", True)
+		CallSub2(activityName, "setPromoteRunning", True)
 	End If
 	
 
@@ -79,7 +85,8 @@ Sub getBounds
 	currentX = currentX + vx
 	currentY = currentY + vy
 	
-	CallSubDelayed3(scorebord, "drawPromote", currentX, currentY)
+	'CallSubDelayed3(scorebord, "drawPromote", currentX, currentY)
+	CallSubDelayed3(activityName, "drawPromote", currentX, currentY)
 End Sub
 
 
@@ -91,6 +98,7 @@ Sub updatePromote
 	tmr.Enabled = True
 	If parseConfig.useDigitalFont Then
 '		Log($"useDigitalFont ${parseConfig.useDigitalFont}"$)
-		CallSub2(scorebord, "useDigitalFont", parseConfig.useDigitalFont)	
+		'CallSub2(scorebord, "useDigitalFont", parseConfig.useDigitalFont)	
+		CallSub2(activityName, "useDigitalFont", parseConfig.useDigitalFont)	
 	End If
 End Sub

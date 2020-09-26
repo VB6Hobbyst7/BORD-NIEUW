@@ -71,14 +71,18 @@ End Sub
 
 
 Sub GetClubList(lstClub As List)
-	Dim clbName As String
+	Dim clbName, clbNameClean As String
 	
 	For i = 0 To lstClub.Size - 1
 		clbName = lstClub.Get(i)
 		If CheckClubHasMembers(clbName) < 1 Then
 			Continue
 		End If
-		cmbClub.Items.Add(clbName.Replace(".json", ""))
+		clbNameClean = clbName.Replace(".json", "")
+		If cmbClub.Items.IndexOf(clbNameClean) <> -1 Then
+			Continue
+		End If
+		cmbClub.Items.Add(clbNameClean)
 	Next
 End Sub
 
@@ -228,7 +232,7 @@ Sub StartGame(lst As List)
 	CallSub2(scorebord, "setSpelerData", lst)
 	nieuwe_partij.CloseForm
 	frm.Close
-	CallSub2(scorebord, "hideForm", True)
+	CallSub(scorebord, "hideForm")
 End Sub
 
 Sub BtnCancel_MouseReleased (EventData As MouseEvent)

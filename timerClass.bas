@@ -25,7 +25,7 @@ Public Sub Initialize(label As Label, date As Label, dag As Label)
 End Sub
 
 Private Sub tmr_Tick
-	Log($"time $Time{DateTime.Now}"$)
+'	Log($"time $Time{DateTime.Now}"$)
 	Dim time As String
 	'DateTime.DateFormat="EEEE, dd MMMM yyyy HH:mm"
 	DateTime.DateFormat="HH:mm"

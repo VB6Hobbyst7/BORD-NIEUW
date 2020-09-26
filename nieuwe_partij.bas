@@ -173,6 +173,7 @@ Sub btn_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	CallSub2(scorebord, "setSpelSoort", cmbSpelSoort.GetItem(cmbSpelSoort.SelectedIndex))
 	CallSub2(scorebord, "setNewGame", True)
 	frm.Close
+	'CallSub(scorebord, "FormVisible")
 End Sub
 
 Sub CloseForm
@@ -181,6 +182,7 @@ End Sub
 
 Sub btn_annuleer_nieuwe_partij_MouseReleased (EventData As MouseEvent)
 	frm.Close
+'	CallSub(scorebord, "FormVisible")
 '	scorebord.ShowScoreBord
 End Sub
 
@@ -231,7 +233,7 @@ Sub btn_p1_begint_MouseReleased (EventData As MouseEvent)
 	tmr.Enabled = False
 	frm.close
 	'frm.RootPane.Visible = False
-	CallSub2(scorebord, "hideForm", True)
+	CallSub(scorebord, "hideForm")
 End Sub
 
 Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
@@ -255,7 +257,7 @@ Sub btn_p2_begint_MouseReleased (EventData As MouseEvent)
 	tmr.Enabled = False
 	frm.Close
 	'frm.RootPane.Visible = False
-	CallSub2(scorebord, "hideForm", True)
+	CallSub(scorebord, "hideForm")
 End Sub
 
 Sub chkSpelerData As Boolean

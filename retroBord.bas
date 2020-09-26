@@ -18,13 +18,29 @@ Sub Process_Globals
 	Private LblReset As B4XView
 	Private lblCopyright As Label
 	Public caromP1R As String, caromP2R As String, inningR As String
+	Private pn_promote As Pane
+	Private ImageView1 As ImageView
+	Private pn_message As Pane
+	Private lbl_message_1 As Label
+	Private lbl_message_2 As Label
+	Private lbl_message_3 As Label
+	Private lbl_message_4 As Label
+	Private lbl_message_5 As Label
 End Sub
 
 
 Public Sub show
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("retrobord")
+'	frm.SetFormStyle("UNDECORATED")
+	#if debug
+	frm.SetFormStyle("DECORATED")
+	#Else
 	frm.SetFormStyle("UNDECORATED")
+	frm.Resizable = False
+'	lblTmpTimer.Visible = False
+	#End If
+	
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 	frm.Resizable = False
 	useDigitalFont(True)

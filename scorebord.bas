@@ -23,6 +23,7 @@ Sub Process_Globals
 	Private clsNewGame As classNewGame
 	Private clsGameTime As classGameTimer
 	Private clsP1HoogsteSerie As ClassHoogsteSerie
+	Private clsTextResetButton As ClassButtonNieuwPartij
 	Private aanStoot As Int
 	
 	Private newGame As Boolean = False
@@ -54,12 +55,14 @@ Sub Process_Globals
 	Dim starterMqttConnected As Starter
 	Private mqttEnabled As Boolean
 	Private brokerConnected As Boolean
+	Private resetBordVisible as Boolean
 	
 	Private pn_a As Pane
 	Private btnResetGameCancel As Button
 	Private btnResetGameReset As Button
 	Private lblTmpTimer As Label
 	Private pBarTimeP1 As B4XProgressBar
+	Private pnBlockReset As Pane
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -107,11 +110,12 @@ Public Sub show
 	func.SetCustomCursor1(File.DirAssets, "mouse.png", 370, 370, frm.RootPane)
 	
 	clsTmr.Initialize(lbl_clock, lbl_date_time_date, lbl_date_time_dag)
-	inactivecls.Initialize(870, 510)
+	inactivecls.Initialize(Me,870, 510)
 	clsCheckCfg.Initialize
 	clsNewGame.Initialize(lbl_reset)
 	clsGameTime.Initialize(lbl_partij_duur)
 	clsUpdate.Initialize
+'	clsTextResetButton.Initialize(lbl_reset)
 	
 	mqttBordPub.Initialize
 	mqttPubDataBord.Initialize
@@ -325,6 +329,10 @@ End Sub
 
 'PROCESS SCORE P1
 Sub p1Points_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then 
+		Sleep(500)
+		Return
+	End If
 '	If funcScorebord.isBordClient = True Then
 '		Return
 '	End If
@@ -337,6 +345,10 @@ End Sub
 
 'PROCESS SCORE P2
 Sub p2Points_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then 
+		Sleep(500)
+		Return
+	End If
 '	If funcScorebord.isBordClient = True Then
 '		Return
 '	End If
@@ -348,6 +360,10 @@ End Sub
 
 'PROCESS P1 TO MAKE
 Sub p1ToMake_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then 
+		Sleep(500)
+		Return
+	End If
 '	If funcScorebord.isBordClient = True Then
 '		Return
 '	End If
@@ -358,6 +374,10 @@ End Sub
 
 'PROCESS P2 TO MAKE
 Sub p2ToMake_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then
+		Sleep(500)
+		 Return
+	End If
 '	If funcScorebord.isBordClient = True Then
 '		Return
 '	End If
@@ -367,6 +387,10 @@ Sub p2ToMake_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_innings_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then 
+		Sleep(500)
+		Return
+	End If
 '	If funcScorebord.isBordClient = True Then
 '		Return
 '	End If
@@ -393,6 +417,10 @@ Sub lbl_innings_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then
+		sleep(500)
+		 Return
+	End If
 	funcScorebord.calcMoyenneP2
 	setP1Name
 	If funcScorebord.inningSet = 0 And funcScorebord.autoInnings = True Then
@@ -406,6 +434,10 @@ Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then 
+		Sleep(500)
+		Return
+	End If
 	setP2Name
 	funcScorebord.inningSet = 0
 	funcScorebord.calcMoyenneP1
@@ -416,6 +448,7 @@ Sub lbl_player_two_name_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub playerOnePerc(perc As String)
+	
 	lbl_player_one_perc.Text = perc
 End Sub
 
@@ -656,8 +689,7 @@ End Sub
 '	End If
 'End Sub
 
-Sub hideForm(Hide As Boolean)
-	'frm.rootpane.Visible = hide
+Sub hideForm
 	frm.show
 End Sub
 
@@ -699,20 +731,38 @@ Sub lbl_reset_MouseExited (EventData As MouseEvent)
 End Sub
 
 Sub lbl_reset_MouseReleased (EventData As MouseEvent)
+	If resetBordVisible Then 
+		Sleep(500)
+		Return
+	End If
 	inactivecls.lastClick = DateTime.Now
 	If lbl_reset.Text = "Nieuwe Partij" Then
+		If nieuwe_partij = Null Then
+			nieuwe_partij.show
+		End If
 		nieuwe_partij.showForm
-		'frm.Close
+'		frm.Close
 	else If lbl_reset.Text = "Partij Beëindigen" Then
+		If einde_partij = Null Then
+			einde_partij.show
+		End If
+	
 		If CallSub(nieuwe_partij, "TestResponse") = "1" Then
 			'CallSub(einde_partij, "show")
-			einde_partij.show
+			'einde_partij.show
+			einde_partij.showForm
 		Else
-			einde_partij.show
+			'einde_partij.show
+			einde_partij.showForm
 			'CallSub(einde_partij, "show")
 		End If
 	End If
 	
+End Sub
+
+Sub FormVisible
+	Dim mf As JavaObject = frm.RootPane
+	mf.RunMethodJO("getScene",Null).RunMethodJO("getWindow",Null).RunMethod("show",Null)
 End Sub
 
 Sub eindePartij
@@ -1153,7 +1203,6 @@ Sub CheckGameStop
 		Dim beurten As Map = score.Get("beurten")
 		Dim spelduur As Map = score.Get("spelduur")
 		Dim autoInnings As Map = score.Get("autoinnings")
-		Dim nName As String = p1.Get("naam")
 		'LogDebug("NAAM " & nName)
 		If p1.Get("naam") = Null Then
 			Return
@@ -1248,7 +1297,7 @@ Sub SetBrokerIcon(brokerAlive As Boolean)
 End Sub
 
 Sub StartStopClientServer
-	
+'	Log($"$Time{DateTime.Now}"$)
 	
 	Dim parser As JSONParser
 	parser.Initialize(File.ReadString(func.appPath, "mqtt.conf"))
@@ -1262,7 +1311,7 @@ Sub StartStopClientServer
 	Dim root As Map = parser.NextObject
 	Dim mqttClients As List = root.Get("mqttClients")
 	For Each colmqttClients As Map In mqttClients
-		Dim server As String = colmqttClients.Get("server")
+'		Dim server As String = colmqttClients.Get("server")
 		Dim name As String = colmqttClients.Get("name")
 		Dim enabled As String = colmqttClients.Get("enabled")
 		Dim base As String = colmqttClients.Get("base")
@@ -1350,14 +1399,22 @@ Sub GetCurrentPlayerNames
 End Sub
 
 Sub lbl_clearBord_MouseReleased (EventData As MouseEvent)
-	pn_a.SetLayoutAnimated(0, 343, 200, pn_a.Width, pn_a.Height)
+	If resetBordVisible Then 
+		Sleep(500)
+		Return
+	End If
+	resetBordVisible = True
+	'pn_a.SetLayoutAnimated(0, 343, 200, pn_a.Width, pn_a.Height)
+	pnBlockReset.SetLayoutAnimated(0, 0, 0, pnBlockReset.Width, pnBlockReset.Height)
 End Sub
 
 Sub btnResetGameCancel_MouseReleased (EventData As MouseEvent)
+	resetBordVisible = False
 	HideResetPanel
 End Sub
 
 Sub btnResetGameReset_MouseReleased (EventData As MouseEvent)
+	resetBordVisible = False
 	HideResetPanel
 	clsGameTime.hours = 0
 	clsGameTime.minutes = 0
@@ -1366,7 +1423,7 @@ Sub btnResetGameReset_MouseReleased (EventData As MouseEvent)
 End Sub
 
 Sub HideResetPanel
-	pn_a.SetLayoutAnimated(0, 940, 1150, pn_a.Width, pn_a.Height)
+	pnBlockReset.SetLayoutAnimated(0, 0, 2200, pnBlockReset.Width, pnBlockReset.Height)
 End Sub
 
 Sub SetSponsorImg
@@ -1379,4 +1436,26 @@ Sub SetSponsorImg
 	End If
 	
 	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & img)
+End Sub
+
+'TEST IF THE RESET BUTTON TEXT IS Nieuwe Partij
+Sub TestResetButton As Boolean
+	If lbl_reset.Text = "Nieuwe Partij" Then
+		Return True
+	Else 
+		Return False	
+	End If
+	
+End Sub
+
+Sub CheckResetVisible As Boolean
+	If resetBordVisible Then 
+		
+		Return True
+	End If
+	Return False
+End Sub
+
+Sub Pane1_MouseClicked (EventData As MouseEvent)
+	
 End Sub

@@ -18,10 +18,10 @@ End Sub
 
 
 Sub show
-	If frmInitialized = True Then 
-		showForm
-		Return
-	End If
+'	If frmInitialized = True Then 
+'		showForm
+'		Return
+'	End If
 	
 	frm.Initialize("frm", 1920, 1080)
 	frm.RootPane.LoadLayout("einde_partij")

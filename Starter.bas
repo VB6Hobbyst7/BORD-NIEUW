@@ -7,7 +7,7 @@ Version=8.1
 Sub Class_Globals
 	Dim mqtt As MqttClient
 	Dim working As Boolean
-	Dim brokerConnected As Boolean
+'	Dim brokerConnected As Boolean
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
