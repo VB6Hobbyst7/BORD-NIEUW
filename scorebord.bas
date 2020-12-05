@@ -10,7 +10,7 @@ Version=8
 Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
-	Private xui as XUI
+	Private xui As XUI
 	
 	
 	Private p1Timer As ClassBallTime
