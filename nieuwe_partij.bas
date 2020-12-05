@@ -79,10 +79,10 @@ Sub show
 	func.caromLabelCss(lbl_auto_innings, "labelCarom")
 	func.caromLabelCss(lbl_beurten_partij, "labelCarom")
 	
-'	chk_beurten_partij.Visible = verDbExists
-'	lbl_beurten_partij.Visible = verDbExists
+	chk_beurten_partij.Visible = False
+	lbl_beurten_partij.Visible = False
 
-	CheckIfClubMembersExist
+'	CheckIfClubMembersExist
 	enablePlayerInput
 	setPlayerName
 	useDigitalFont
@@ -95,6 +95,8 @@ End Sub
 
 
 Private Sub CheckIfClubMembersExist
+	chk_beurten_partij.Visible = False
+	lbl_beurten_partij.Visible = False
 	Dim lst As List
 	lst.Initialize
 	

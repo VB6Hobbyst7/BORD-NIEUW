@@ -10,6 +10,7 @@ Version=8
 Sub Process_Globals
 	Private fx As JFX
 	Public frm As Form
+	Private xui as XUI
 	
 	
 	Private p1Timer As ClassBallTime
@@ -55,7 +56,7 @@ Sub Process_Globals
 	Dim starterMqttConnected As Starter
 	Private mqttEnabled As Boolean
 	Private brokerConnected As Boolean
-	Private resetBordVisible as Boolean
+	Private resetBordVisible As Boolean
 	
 	Private pn_a As Pane
 	Private btnResetGameCancel As Button
@@ -63,6 +64,7 @@ Sub Process_Globals
 	Private lblTmpTimer As Label
 	Private pBarTimeP1 As B4XProgressBar
 	Private pnBlockReset As Pane
+	Private imgScreenSaverLogo As ImageView
 End Sub
 
 'Return true to allow the default exceptions handler to handle the uncaught exception.
@@ -80,7 +82,7 @@ Public Sub show
 	frm.RootPane.LoadLayout("scorebord")
 	frm.BackColor  =   fx.Colors.From32Bit(0xFF001A01)
 	lbl_ip.Text = func.getIpNumber
-	
+	Dim bmpLogo As B4XBitmap = xui.LoadBitmap(parseConfig.getAppImagePath, "logo.png")
 '	CSSUtils.SetBackgroundImage(lbl_img_sponsore, "",parseConfig.getAppImagePath & "start_partij.png")
 '	Dim img As String
 '	
@@ -101,7 +103,7 @@ Public Sub show
 	frm.Resizable = False
 	lblTmpTimer.Visible = False
 	#End If
-	
+	imgScreenSaverLogo.SetImage(bmpLogo)
 	frm.Stylesheets.Add(File.GetUri(File.DirAssets, "n205.css"))
 	parseConfig.pullConfig
 	MouseOver(frm.RootPane)
@@ -418,7 +420,7 @@ End Sub
 
 Sub lbl_player_one_name_MouseReleased (EventData As MouseEvent)
 	If resetBordVisible Then
-		sleep(500)
+		Sleep(500)
 		 Return
 	End If
 	funcScorebord.calcMoyenneP2
