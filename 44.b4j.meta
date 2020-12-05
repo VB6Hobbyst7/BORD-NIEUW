@@ -88,6 +88,6 @@ ModuleClosedNodes6=
 ModuleClosedNodes7=
 ModuleClosedNodes8=
 ModuleClosedNodes9=
-NavigationStack=nieuwe_partij,CheckIfClubMembersExist,91,2,nieuwe_partij,show,75,2,Visual Designer,scorebord.bjl,-100,6,scorebord,btnResetGameReset_MouseReleased,1410,0,scorebord,SetSponsorImg,1432,0,parseConfig,DetectOS,131,0,scorebord,Process_Globals,6,4,scorebord,Application_Error,72,0,scorebord,show,78,6,parseConfig,getAppImagePath,23,0
+NavigationStack=nieuwe_partij,CheckIfClubMembersExist,91,2,nieuwe_partij,show,75,2,Visual Designer,scorebord.bjl,-100,6,scorebord,btnResetGameReset_MouseReleased,1410,0,scorebord,SetSponsorImg,1432,0,parseConfig,DetectOS,131,0,scorebord,Process_Globals,6,4,scorebord,Application_Error,72,0,scorebord,show,78,6,parseConfig,getAppImagePath,23,0,funcScorebord,Process_Globals,11,0
 SelectedBuild=0
 VisibleModules=26,3,14,23,10,2,18,24
