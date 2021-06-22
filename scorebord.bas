@@ -513,7 +513,6 @@ Sub resetBoard
 	funcScorebord.p2HsTemp = 0
 	B4XProgressBarP1.Progress = 0
 	B4XProgressBarP2.Progress = 0
-	'u
 	clsCheckCfg.enabledTimer(True)
 '	clsP1HoogsteSerie.Initialize
 End Sub
@@ -986,7 +985,7 @@ Sub lbl_img_sponsore_MouseReleased (EventData As MouseEvent)
 		File.Delete(PartijFolder, "currscore.json")
 		Sleep(200)
 	End If
-'PETER	
+	
 	File.Copy(File.DirAssets, "score.json", PartijFolder, "currscore.json")
 	
 	Sleep(200)
@@ -1191,84 +1190,94 @@ End Sub
 
 Sub CheckGameStop
 	'Log($"PARTIJ FOLDER ${PartijFolder}"$)
-	If File.Exists(PartijFolder, "currscore.json") Then
-		Dim Scr, maken, caram="" As String
-		Scr = File.ReadString(PartijFolder, "currscore.json")
+	Dim CsJValid As Boolean = func.TestCurrScoreJsonExists
+	If File.Exists(PartijFolder, "currscore.json") And CsJValid Then
+		Try
+			Dim Scr, maken, caram="" As String
+			Scr = File.ReadString(PartijFolder, "currscore.json")
 	
-		parser.Initialize(Scr)
+			Log(Scr.Length)
+		
+			parser.Initialize(Scr)
 
-		Dim root As Map = parser.NextObject
-		Dim score As Map = root.Get("score")
-		Dim p1 As Map = score.Get("p1")
-		Dim p2 As Map = score.Get("p2")
-		Dim aan_stoot As Map = score.Get("aan_stoot")
-		Dim beurten As Map = score.Get("beurten")
-		Dim spelduur As Map = score.Get("spelduur")
-		Dim autoInnings As Map = score.Get("autoinnings")
-		'LogDebug("NAAM " & nName)
-		If p1.Get("naam") = Null Then
-			Return
-		End If
-		funcScorebord.innings = beurten.Get("aantal")
+			Dim root As Map = parser.NextObject
+			Dim score As Map = root.Get("score")
+			Dim p1 As Map = score.Get("p1")
+			Dim p2 As Map = score.Get("p2")
+			Dim aan_stoot As Map = score.Get("aan_stoot")
+			Dim beurten As Map = score.Get("beurten")
+			Dim spelduur As Map = score.Get("spelduur")
+			Dim autoInnings As Map = score.Get("autoinnings")
+			'LogDebug("NAAM " & nName)
+			If p1.Get("naam") = Null Then
+				Return
+			End If
+			
+			funcScorebord.innings = beurten.Get("aantal")
 		
-		maken = p1.Get("maken")
-		caram = p1.Get("caram")
-		funcScorebord.scorePlayerOne = caram
-		funcScorebord.p1ToMake = maken
-		lbl_player_one_name.Text = p1.Get("naam")
-		lbl_player_one_make_100.Text = maken.SubString2(0,1)
-		lbl_player_one_make_10.Text = maken.SubString2(1,2)
-		lbl_player_one_make_1.Text = maken.SubString2(2,3)
-		lbl_player_one_100.Text = caram.SubString2(0,1)
-		lbl_player_one_10.Text = caram.SubString2(1,2)
-		lbl_player_one_1.Text = caram.SubString2(2,3)
+			maken = p1.Get("maken")
+			caram = p1.Get("caram")
+			funcScorebord.scorePlayerOne = caram
+			funcScorebord.p1ToMake = maken
+			lbl_player_one_name.Text = p1.Get("naam")
+			lbl_player_one_make_100.Text = maken.SubString2(0,1)
+			lbl_player_one_make_10.Text = maken.SubString2(1,2)
+			lbl_player_one_make_1.Text = maken.SubString2(2,3)
+			lbl_player_one_100.Text = caram.SubString2(0,1)
+			lbl_player_one_10.Text = caram.SubString2(1,2)
+			lbl_player_one_1.Text = caram.SubString2(2,3)
 		
-		maken = p2.Get("maken")
-		caram = p2.Get("caram")
-		funcScorebord.scorePlayerTwo = caram
-		funcScorebord.p2ToMake = maken
-		lbl_player_two_name.Text = p2.Get("naam")
-		lbl_player_two_make_100.Text = maken.SubString2(0,1)
-		lbl_player_two_make_10.Text = maken.SubString2(1,2)
-		lbl_player_two_make_1.Text = maken.SubString2(2,3)
-		lbl_player_two_100.Text = caram.SubString2(0,1)
-		lbl_player_two_10.Text = caram.SubString2(1,2)
-		lbl_player_two_1.Text = caram.SubString2(2,3)
+			maken = p2.Get("maken")
+			caram = p2.Get("caram")
+			funcScorebord.scorePlayerTwo = caram
+			funcScorebord.p2ToMake = maken
+			lbl_player_two_name.Text = p2.Get("naam")
+			lbl_player_two_make_100.Text = maken.SubString2(0,1)
+			lbl_player_two_make_10.Text = maken.SubString2(1,2)
+			lbl_player_two_make_1.Text = maken.SubString2(2,3)
+			lbl_player_two_100.Text = caram.SubString2(0,1)
+			lbl_player_two_10.Text = caram.SubString2(1,2)
+			lbl_player_two_1.Text = caram.SubString2(2,3)
 		
-		lbl_innings.Text = beurten.Get("aantal")
-		lbl_partij_duur.Text = spelduur.Get("tijd")
+			lbl_innings.Text = beurten.Get("aantal")
+			lbl_partij_duur.Text = spelduur.Get("tijd")
 		
-		'SPLIT DUUR AT : !!!!
-		Dim splitDuur() As String = Regex.Split(":", lbl_partij_duur.Text)
-		Dim duurHrs As String = splitDuur(0)
-		Dim duurMin As String = splitDuur(1)
+			'SPLIT DUUR AT : !!!!
+			Dim splitDuur() As String = Regex.Split(":", lbl_partij_duur.Text)
+			Dim duurHrs As String = splitDuur(0)
+			Dim duurMin As String = splitDuur(1)
 		
-		clsGameTime.hours = duurHrs 'lbl_partij_duur.Text.SubString2(0,2)
-		clsGameTime.minutes = duurMin 'lbl_partij_duur.Text.SubString2(3,5)
+			clsGameTime.hours = duurHrs 'lbl_partij_duur.Text.SubString2(0,2)
+			clsGameTime.minutes = duurMin 'lbl_partij_duur.Text.SubString2(3,5)
 '		p1Timer.Initialize("p1")
 '		p2Timer.Initialize("p2")
-		If aan_stoot.Get("speler") = "1" Then
-			setP1Name
-		Else
-			setP2Name
-		End If
-		funcScorebord.inningSet = 0
-		lbl_player_one_name.Enabled = True
-		lbl_player_two_name.Enabled = True
-		lbl_innings.Enabled = True
+			If aan_stoot.Get("speler") = "1" Then
+				setP1Name
+			Else
+				setP2Name
+			End If
+			funcScorebord.inningSet = 0
+			lbl_player_one_name.Enabled = True
+			lbl_player_two_name.Enabled = True
+			lbl_innings.Enabled = True
 		
-		If autoInnings.Get("value") = "1" Then
-			funcScorebord.autoInnings = True
-		Else
-			funcScorebord.autoInnings = False
-		End If
+			If autoInnings.Get("value") = "1" Then
+				funcScorebord.autoInnings = True
+			Else
+				funcScorebord.autoInnings = False
+			End If
 		
-		funcScorebord.calcScorePlayerOne(0, True)
-		funcScorebord.calcScorePlayerTwo(0, True)
-		lbl_reset.Text = "Partij Beëindigen"
-		lbl_reset.Color = 0xFFFF0000
-		lbl_reset.TextColor = 0xFFFFFFFF
-		clsGameTime.tmrEnable(True)
+			funcScorebord.calcScorePlayerOne(0, True)
+			funcScorebord.calcScorePlayerTwo(0, True)
+			lbl_reset.Text = "Partij Beëindigen"
+			lbl_reset.Color = 0xFFFF0000
+			lbl_reset.TextColor = 0xFFFFFFFF
+			clsGameTime.tmrEnable(True)
+			'end try
+		Catch
+			Log(LastException)
+			resetBoard
+		End Try
 	Else
 		resetBoard
 	End If

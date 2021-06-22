@@ -11,7 +11,7 @@ Sub Process_Globals
 	Private regexStr As StringBuilder
 	Public hasInternetAccess As Boolean = False
 	Public os As String
-	Public appPath, ipNumber, bordName As String
+	Public appPath, ipNumber, bordName, partijFolder As String
 	Public mqttName As String = "pdeg/"
 	Public mqttbase As String
 	Public mqttClientConnected As Boolean
@@ -274,4 +274,40 @@ End Sub
 
 Sub WriteErrorToFile(filename As String, error As Exception)
 	File.WriteString(File.DirApp, filename, error.Message)
+End Sub
+
+Public Sub TestCurrScoreJsonExists As Boolean
+	Dim Scr As String
+	
+	GetPartijFolder
+	If File.Exists(partijFolder, "currscore.json") = False Then
+		File.Copy(File.DirAssets, "score.json", partijFolder, "currscore.json")
+		Return False
+	End If
+	
+	Scr = File.ReadString(partijFolder, "currscore.json")
+	
+	If Scr.Length = 0 Then
+		File.Copy(File.DirAssets, "score.json", partijFolder, "currscore.json")
+		Return False
+	End If
+	Return True
+End Sub
+
+Sub GetPartijFolder
+	Dim os As String = parseConfig.DetectOS
+	Dim appFolder As String
+			
+	Select os
+		Case "windows"
+			appFolder = File.DirApp'&"\44\"
+			partijFolder = $"${appFolder}\gespeelde_partijen"$
+			'	clsGen.general
+		Case "linux"
+			appFolder = File.DirApp'&"/44/"
+			partijFolder = $"${appFolder}/44/gespeelde_partijen"$
+	End Select
+	If File.IsDirectory("",partijFolder) = False Then
+		File.MakeDir("", partijFolder)
+	End If
 End Sub

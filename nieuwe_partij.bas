@@ -457,7 +457,7 @@ Sub TestResponse As String
 End Sub
 
 Sub lbl_close_MouseReleased (EventData As MouseEvent)
-	If EventData.ClickCount <> 2 Then Return
+	If EventData.ClickCount <> 3 Then Return
 	ExitApplication
 End Sub
 
