@@ -62,6 +62,7 @@ End Sub
 
 Private Sub client_MessageArrived (Topic As String, Payload() As Byte)
 	Try
+'		Log(Topic)
 		Dim receivedObject As Object = serializator.ConvertBytesToObject(Payload)
 		Dim m As Message = receivedObject
 '	Log(m.Body)	
