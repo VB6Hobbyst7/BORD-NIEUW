@@ -26,6 +26,8 @@ Sub Process_Globals
 	Private lbl_message_3 As Label
 	Private lbl_message_4 As Label
 	Private lbl_message_5 As Label
+	Private Lbl_Beurten As Label
+	Private lbl_kraai As Label
 End Sub
 
 
@@ -297,3 +299,14 @@ Public Sub SetMirrorScore()
 	Inning_1.Text = inningR.SubString2(2,3)
 End Sub
 
+
+
+Private Sub Lbl_Beurten_MouseReleased (EventData As MouseEvent)
+	If EventData.ClickCount >= 4 Then
+		Log($"CLICKS ${EventData.ClickCount}"$)
+		lbl_kraai.Visible = True
+		CSSUtils.SetBackgroundImage(lbl_kraai, File.DirAssets, "ODT0.gif")
+		Sleep(3000)
+		lbl_kraai.Visible = false
+	End If
+End Sub
