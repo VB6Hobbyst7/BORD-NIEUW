@@ -18,16 +18,17 @@ Sub Process_Globals
 	Private LblReset As B4XView
 	Private lblCopyright As Label
 	Public caromP1R As String, caromP2R As String, inningR As String
-	Private pn_promote As Pane
-	Private ImageView1 As ImageView
-	Private pn_message As Pane
-	Private lbl_message_1 As Label
-	Private lbl_message_2 As Label
-	Private lbl_message_3 As Label
-	Private lbl_message_4 As Label
-	Private lbl_message_5 As Label
+'	Private pn_promote As Pane
+'	Private ImageView1 As ImageView
+'	Private pn_message As Pane
+'	Private lbl_message_1 As Label
+'	Private lbl_message_2 As Label
+'	Private lbl_message_3 As Label
+'	Private lbl_message_4 As Label
+'	Private lbl_message_5 As Label
 	Private Lbl_Beurten As Label
 	Private lbl_kraai As Label
+	Private lblIpNr As Label
 End Sub
 
 
@@ -50,7 +51,7 @@ Public Sub show
 	lblCopyright.Text = $"©2004 BC Heerhugowaard Electronics"$
 	setFontStyle
 	'frm.Show
-
+	lblIpNr.Text = func.ipNumber
 End Sub
 
 
@@ -135,9 +136,16 @@ Sub ResetPartij
 	p2_100.Text = 8
 	Inning_1.Text = 8
 	Inning_10.Text = 8
-	Sleep(10)
+	p1_100.Text = "B"
+	p1_10.Text = "I"
+	p1_1.Text = "E"
+	p2_100.Text = "R"
+	p2_10.Text = "T"
+	p2_1.Text = "J"
+	Inning_10.Text = "E"
+	Inning_1.Text = "?"
 	
-	Sleep(300)
+	Sleep(500)
 	
 	AnimatedReset(p1_100,st)
 	Sleep(st)
@@ -303,10 +311,10 @@ End Sub
 
 Private Sub Lbl_Beurten_MouseReleased (EventData As MouseEvent)
 	If EventData.ClickCount >= 4 Then
-		Log($"CLICKS ${EventData.ClickCount}"$)
+'		Log($"CLICKS ${EventData.ClickCount}"$)
 		lbl_kraai.Visible = True
 		CSSUtils.SetBackgroundImage(lbl_kraai, File.DirAssets, "ODT0.gif")
 		Sleep(3000)
-		lbl_kraai.Visible = false
+		lbl_kraai.Visible = False
 	End If
 End Sub
